@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import sys
 from pathlib import Path
 from typing import Any
@@ -40,7 +41,8 @@ def inspect_raster(path: Path) -> dict[str, Any]:
                 "count": ds.count,
                 "dtypes": list(ds.dtypes),
                 "transform": list(ds.transform),
-                "nodata": ds.nodata,
+                "nodata": (None if ds.nodata is None else
+                           (float(ds.nodata) if math.isfinite(ds.nodata) else str(ds.nodata))),
             })
     except Exception as exc:  # inventory malformed local files; don't crash report
         result.update({"readable": False, "error": f"{type(exc).__name__}: {exc}"})
@@ -81,7 +83,7 @@ def inspect_data(data_dir: Path) -> dict[str, Any]:
                 "transform": sample.get("transform"),
                 "count": sample.get("count"),
                 "dtypes": sample.get("dtypes"),
-                "origin_verified": True,
+                "origin_verified": False,
             }
             if sample.get("present") and sample.get("readable")
             else {"source": None, "origin_verified": False, "status": "NO READABLE SAMPLE TEMPLATE"}

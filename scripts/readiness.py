@@ -10,12 +10,12 @@ from typing import Any
 REQUIRED = (
     "data/sample_submission.tif",
     "data/labels.tif",
-    ".cache/gems_work/feature_stack.npy",
+    ".cache/shared/.cache/training_features.tif",
     "registry/rasters.json",
     "registry/lane.txt",
-    # These locations are for the canonical runtime, not root demo scripts.
-    "src/gems32/evaluate_holdout.py",
-    "src/gems32/submission_writer.py",
+    # These locations are for the restored shared runtime, not root demo scripts.
+    ".cache/upstream57/src/gems57/evaluate_holdout.py",
+    ".cache/upstream57/src/gems57/submission_writer.py",
 )
 
 
@@ -30,11 +30,12 @@ def inspect(root: Path) -> dict[str, Any]:
         "lane_present": lane_present,
         "all_required_paths_present": all_paths_present,
         "ready_for_experiment": False,
-        "ready_for_template_validation": (root / "data/sample_submission.tif").is_file(),
+        "ready_for_template_validation": ((root / "data/sample_submission.tif").is_file()
+                                          and (root / "data/candidate.tif").is_file()),
         "submission_authorized": False,
         "reason": (
-            "File presence is not provenance or protocol validation. A human must authenticate the "
-            "lane, official data/template, canonical runtime, registry, and experiment design; a "
+            "File presence is not provenance or protocol validation. Independently authenticate the "
+            "lane, official data/template, shared runtime, registry, and experiment design; a "
             "separate selector must authorize any submission slot."
         ),
     }

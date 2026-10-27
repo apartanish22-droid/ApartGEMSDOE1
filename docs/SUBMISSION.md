@@ -2,26 +2,20 @@
 
 ## Current readiness
 
-# **DO NOT SUBMIT.**
+**No approved submission file is available. Do not submit an unverified file.** A parallel synthetic demo exists but fails the pinned mirrored grid; it is for research only. The mirror is not organizer-authenticated. See the [current executive summary](executive-summary.html) and [demo validation receipt](../evidence/parallel_demo_audit.json). Format validation alone does not establish scientific quality, uniqueness, or score.
 
-A synthetic research-demo GeoTIFF exists in `docs/assets/`, but it is not a competition prediction. It was generated from artificial blobs/traces, has no verified official-template origin, and has not passed holdout-DTI, leakage, or registry novelty gates. The official sample/template and authorized competition labels/features are absent. There is therefore no approved submission file available. Format validation alone cannot establish scientific quality, uniqueness, or score.
+## When a candidate and official template exist
 
-## Release gates
+1. Review current [competition rules](https://www.drivendata.org/competitions/306/competition-doe-gems/) and the official [data page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/). Confirm the acceptable submission format, template geometry, and current weekly submission allowance.
+2. Run the shared holdout evaluator on the candidate before selecting a real submission slot. Preserve evaluator version, withheld-positive count, pooled DTI, 95% CI, leakage canary results, and registry correlation/overlap.
+3. Generate with the shared submission writer; validate against the official template with the included command:
 
-When authentic competition inputs and the canonical runtime are recovered:
+   ```bash
+   python scripts/validate_submission.py path/to/candidate.tif --template path/to/sample_submission.tif
+   ```
 
-1. Review current [competition rules](https://www.drivendata.org/competitions/306/competition-doe-gems/) and official [data page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/). Authenticate the template, grid, source files, licenses, and current weekly submission allowance; record SHA-256 hashes and provenance.
-2. Recover the assigned method lane and shared cached feature stack, evaluator, writer, and complete registry. Do not use the current root `scripts/evaluate_holdout.py` as a substitute; its custom implementation does not meet the protocol.
-3. Run the required leakage canaries and segment-buffered hide-and-recover evaluation. Preserve the evaluator version, withheld-positive count, pooled DTI, spatial 95% CI, and registry correlation/overlap. Compare both candidate surface and final dots.
-4. Generate only with the canonical writer and validate the saved bytes against the official sample. Require one float32 band, exact CRS/shape/transform, predictions in [0,1] with no NaN/Inf inside the footprint, and null/NaN outside it.
-5. Submit only if both format and scientific promotion gates pass and a separate weekly-slot selector authorizes the slot. On DrivenData's New submission form, choose the `.tif`, enter the run-card note (maximum 140 characters), then retain the receipt. Do not automate account actions or claim an organizer-confirmed score without that receipt.
+4. Submit the resulting single-band GeoTIFF only if both the format gate and scientific promotion gates pass. On the competition's New submission form, choose the `.tif`, enter the short note from the run card (maximum 140 characters), and review the receipt. Do not automate account actions or claim an organizer-confirmed score until the receipt reports it.
 
-## Format validator scope
+## Validator scope
 
-Run the local software check with:
-
-```bash
-python scripts/validate_submission.py path/to/candidate.tif --template path/to/sample_submission.tif
-```
-
-The validator checks one band, float32 dtype, raster dimensions, CRS, affine transform, finite in-range [0,1] predictions throughout the template footprint, and null/NaN outside it. It fails closed when the template has no usable footprint or the grids differ. It prints the candidate SHA-256 for audit. The supplied sample must be the authoritative official template; a synthetic substitute proves only code behavior. The validator does not inspect scientific leakage, DTI, dot placement/uniqueness, ZIP contents, competition authentication, or leaderboard score. Requires `rasterio` and `numpy`; run synthetic regression tests with `python -m unittest discover -s tests -v`.
+The script checks one float32 band, dimensions, CRS, affine transform, finite unmasked values in the supplied template's valid footprint, range [0,1], and null outside that footprint. It prints the candidate's SHA-256 and fails closed when a template is absent or the grid differs. The official null-outside wording versus a previous portal range rejection remains unresolved; neither local format success nor the supplied template's provenance is organizer acceptance. It does not inspect scientific leakage, DTI, dot placement/uniqueness, zip contents, competition authentication, or leaderboard score.

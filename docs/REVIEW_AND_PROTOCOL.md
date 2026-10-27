@@ -1,3 +1,5 @@
+> **Parallel historical snapshot, superseded by later measurements.** The synthetic demo fails the pinned mirror grid, the owner mirror and shared modules were restored, and nine historical rasters were compared; the mirror is not organizer-authenticated. See the [current decision](research/decision-2026-10-27.md), [executive summary](executive-summary.html), and [demo audit](../evidence/parallel_demo_audit.json). No proposal or planning bracket is a measured score.
+
 # Review and protocol status
 
 **Review date:** 2026-10-27 UTC. **Repository:** `apartanish22-droid/ApartGEMSDOE1`, working branch `arena/b1713cdf-apartgemsdoe1`. This review reconciles the branch with `origin/main`; it does not claim an experiment, competition upload, or submission receipt.

@@ -33,5 +33,6 @@
   "ready_for_training_inputs": false,
   "ready_for_template_validation": false,
   "submission_authorized": false,
-  "submission_blocker": "A file inventory never establishes scientific validity, registry novelty, or weekly-slot authorization."
+  "submission_blocker": "A file inventory never establishes scientific validity, registry novelty, or weekly-slot authorization.",
+  "historical_snapshot": "Inventory from before this branch restored its owner mirror; local data/ placements only."
 }

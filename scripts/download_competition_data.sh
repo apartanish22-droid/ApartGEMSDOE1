@@ -1,20 +1,9 @@
 #!/usr/bin/env bash
-# Fail-closed data preflight. This script does not attempt unauthenticated
-# downloads or use owner-supplied mirrors as organizer-authenticated inputs.
+# Hash-checked owner mirrors for research ONLY. This does not fetch or
+# authenticate the login-gated organizer files or establish redistribution rights.
 set -euo pipefail
-
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-DATA_DIR="$ROOT/data"
-mkdir -p "$DATA_DIR"
-
-cat <<EOF
-Competition data are not downloaded by this script.
-The DrivenData data tab is login-gated. On an authorized machine, obtain the
-official sample_submission.tif, labels/features, and required catalogue files
-from the competition page; verify provenance and hashes, then place them in:
-  $DATA_DIR
-No public mirror is treated as organizer-authenticated here.
-EOF
-
-cd "$ROOT"
-python scripts/prepare_data.py
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+DEST="${1:-$ROOT/.cache/audit-inputs}"
+echo "Fetching SHA-256-pinned owner-mirror audit inputs, not organizer-authenticated files."
+echo "Competition data: https://www.drivendata.org/competitions/306/competition-doe-gems/data/"
+python3 "$ROOT/scripts/download_audit_inputs.py" --directory "$DEST"

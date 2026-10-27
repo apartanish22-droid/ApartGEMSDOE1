@@ -1,11 +1,12 @@
-/.venv/
-__pycache__/
+# Restorable scientific inputs, large arrays, and local environments
 .cache/
 data/
-outputs/
+.venv/
+__pycache__/
+.pytest_cache/
 *.py[cod]
+# Do not accidentally commit generated rasters or array caches.
+outputs/
+*.tif
 *.npy
 *.npz
-
-# Keep explicitly approved GeoTIFF deliverables trackable. Never commit raw
-# competition inputs under data/; that directory is ignored above.

@@ -1,3 +1,5 @@
+> **Parallel historical snapshot, superseded by later measurements.** The synthetic demo fails the pinned mirror grid, the owner mirror and shared modules were restored, and nine historical rasters were compared; the mirror is not organizer-authenticated. See the [current decision](docs/research/decision-2026-10-27.md), [executive summary](docs/executive-summary.html), and [demo audit](evidence/parallel_demo_audit.json). No proposal or planning bracket is a measured score.
+
 # Provisional research hypotheses — proposals only
 
 **No candidate in this document has been implemented or evaluated.** The assigned method lane is missing, the official competition rasters and shared feature cache are unavailable, and the complete prior-raster registry is absent. “Novelty” below means a possible distinction from methods described in the pinned site snapshots—not a passed raster correlation/overlap test. No numeric DTI gain or leaderboard-score projection is supportable yet.

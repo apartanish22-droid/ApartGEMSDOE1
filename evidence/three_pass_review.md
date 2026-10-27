@@ -1,5 +1,7 @@
 # Three-pass repository review — 2026-10-27
 
+> Historical parallel review before later integration. The synthetic demo was subsequently compared with a pinned, unauthenticated mirror and failed its transform; the mirror/cache and nine peer comparisons were restored. See [the current review receipt](review_passes.json) and [decision record](../docs/research/decision-2026-10-27.md) for the latest state.
+
 ## Pass 1 — repository and evidence inventory
 
 - Reconciled the active branch with the main-branch additions rather than overwriting their source snapshots and site inventory. The repository contains research/site scaffolding, not an executable competition pipeline.

@@ -13,7 +13,7 @@ import sys
 
 def main() -> int:
     print(
-        "BLOCKED: no competition prediction generated. The previous generator "
+        "BLOCKED: STOP: no competition prediction generated. The previous generator "
         "was synthetic-only and has been disabled; no authorized feature stack, "
         "canonical writer, official template, or holdout is available.",
         file=sys.stderr,
