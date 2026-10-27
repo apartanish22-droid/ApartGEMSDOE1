@@ -1,0 +1,9 @@
+[project]
+name = "apartgemsdoe1"
+version = "1.0.0"
+description = "DOE GEMS Geothermal Subsurface Fault Discovery — Updip Phase-Tilt, Drainage-Orthogonal 3DEP Scarp & Hydrothermal Upflow Submodular Synthesis"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

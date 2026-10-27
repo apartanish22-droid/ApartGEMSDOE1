@@ -1,0 +1,822 @@
+{
+  "generated_utc": "2026-10-27T21:41:52.588240+00:00",
+  "evidence_class": "PIXEL-EXACT-FOCUS9-AND-REGISTRY-AUDIT",
+  "forensic_proof_02778": {
+    "evidence_class": "PIXEL-EXACT-BYTE-MEASUREMENT",
+    "target_site": "GEMSDOE32",
+    "target_submission": "h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
+    "user_reported_score": 0.2778,
+    "score_label": "USER-REPORTED (prompt ledger; no organizer portal receipt file in repo)",
+    "parent_site": "GEMSDOE25",
+    "parent_submission": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan",
+    "parent_user_reported_score": 0.26,
+    "parent_dots": 44090,
+    "b2_dots": 37654,
+    "removed_collar_dots": 6436,
+    "exact_boolean_identity": "GEMSDOE32_B2 == GEMSDOE25_D28 & (EDT(~existing_faults) > 2.0)",
+    "xor_differing_pixels_across_5167373_footprint": 0,
+    "xor_gemsdoe25_vs_gemsdoe30": 0,
+    "h19_5_root_parent": {
+      "file": "gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif",
+      "sha256": "ec1f9b56b83ce33cad781ceb9f104b18fb4f2ff785263a4e89616af4aabdee8d",
+      "dots": 121131,
+      "b2_subset_of_h19_5_3px_halo": 1.0,
+      "b2_exact_subset_of_h19_5": 1.0
+    },
+    "score_ladder_progression": [
+      {
+        "stage": "19GEMSDOE H19-5 (solid ridges)",
+        "dots": 121131,
+        "user_reported": 0.1922,
+        "mechanism": "4-pillar physical synthesis (power-law tips + GDR1391 thermal + 1m/10m openness/LRM + geopotential worms)"
+      },
+      {
+        "stage": "GEMSDOE24 D1.5 (d=1.5 px thin)",
+        "dots": 60069,
+        "user_reported": 0.2477,
+        "mechanism": "150 m spacing cuts redundant max-kernel overlap by 50.4%, slashing 0.2*FP_w"
+      },
+      {
+        "stage": "GEMSDOE25 / GEMSDOE30 D2.8 (d=2.8 px thin)",
+        "dots": 44090,
+        "user_reported": 0.26,
+        "mechanism": "280 m spacing matches R=300 m kernel diameter, cutting another 15,979 redundant dots"
+      },
+      {
+        "stage": "GEMSDOE31 Solo-D28 (1-px collar prune)",
+        "dots": 40199,
+        "user_reported": 0.2708,
+        "mechanism": "Removes 3,891 dots adjacent (d=1 px) to already-mapped faults"
+      },
+      {
+        "stage": "GEMSDOE28 H36-1 (1-px prune + blind rungs)",
+        "dots": 37660,
+        "user_reported": 0.271,
+        "mechanism": "Further trims near-catalogue FP dots + step-over rungs"
+      },
+      {
+        "stage": "GEMSDOE36 Anderson-PINN (+1,200 dots on B2)",
+        "dots": 38854,
+        "user_reported": 0.275,
+        "mechanism": "B2 + 1,200 PINN dots (marginal precision of extra 1,200 dots slightly below 0.2778 break-even)"
+      },
+      {
+        "stage": "GEMSDOE32 H33-2-B2 (2-px = 200 m collar amputation, all-finite zeros)",
+        "dots": 37654,
+        "user_reported": 0.2778,
+        "mechanism": "Removes all 6,436 D2.8 dots within <=200 m of existing_faults.tif (zero XOR residual), eliminating near-catalogue FP halo"
+      }
+    ]
+  },
+  "focus_9_sites": [
+    {
+      "site": "GEMSDOE32",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE32",
+      "submission_id": "h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
+      "tif_rel": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "download_url": "https://buffedlizard55-lab.github.io/GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "user_reported_score": 0.2778,
+      "latest_20261027_rel": "docs/downloads/gemsdoe32-H-GEO-VENT-28000-20261027T174146Z-3c5837e9-zeros.tif",
+      "method_summary": "H19-5 4-pillar multi-physics ridge network thinned at d=2.8 px (44,090 dots) minus 6,436 dots within <=200 m (2 px) of mapped catalogue faults (37,654 dots, all-finite zeros).",
+      "local_verified_file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "file_sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "decoded_fp_sha256": "15c51e5173924ec162539b77a3863defb57e7f6b0e6e05acdaf1b90cbbf157a2",
+      "dots": 37654,
+      "dots_on_catalogue": 0,
+      "dots_within_200m_collar": 0,
+      "dots_beyond_1500m_farfield": 21989,
+      "farfield_fraction": 0.5839751420831785,
+      "crs_shape_transform_ok": true,
+      "in_footprint_finite_0_1": true,
+      "all_grid_finite_no_nan": true,
+      "exterior_nan_pixels": 0,
+      "portal_nan_range_risk": false,
+      "latest_20261027_candidate": {
+        "file": "gemsdoe32-H-GEO-VENT-28000-20261027T174146Z-3c5837e9-zeros.tif",
+        "sha256": "51ba3b7cecef0b3713cbd6a5dbca94bd1db4b58156825b9ac098a2d299cc4ed5",
+        "dots": 28000,
+        "all_finite_0_1": true,
+        "static_holdout_dti": {
+          "label": "HOLDOUT-DTI",
+          "evaluator_version": "gems57-pooled-hide-v2",
+          "dti": 0.03438361232732369,
+          "ci95": [
+            0.02477685800753711,
+            0.04344756436639154
+          ],
+          "withheld_positive_pixels": 11360
+        }
+      },
+      "static_holdout_dti": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.004164141043813069,
+        "ci95": [
+          0.003450367540607214,
+          0.004994075795063271
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Static post-masked file evaluated directly: files that already collared out full-catalogue pixels erase predictions on withheld catalogue segments."
+      },
+      "max_3px_overlap_vs_other_focus9": 1.0,
+      "max_overlap_peer_site": "GEMSDOE36",
+      "exact_footprint_duplicates_in_focus9": [],
+      "unique_among_focus9": false,
+      "ok_to_resubmit_as_new": false,
+      "disposition_reason": "DO NOT RESUBMIT: Already submitted historical H19-5 lineage artifact (max 3-px overlap = 100.00% with GEMSDOE36 > 70% limit). Retained strictly for forensic learning & benchmark comparison."
+    },
+    {
+      "site": "GEMSDOE36",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE36/docs/",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE36",
+      "submission_id": "anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros",
+      "tif_rel": "docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "download_url": "https://buffedlizard55-lab.github.io/GEMSDOE36/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "user_reported_score": 0.275,
+      "latest_20261027_rel": "docs/downloads/gemsdoe36-kpl36-exp3-20261026-fc869911e88c-zeros.tif",
+      "method_summary": "GEMSDOE32 B2 (37,654 dots) augmented with +1,200 Andersonian normal-fault geothermal PINN dots (38,854 total; 97.58% 3-px overlap with B2/D2.8). Later KPL36 scored 0.1647 user-reported.",
+      "local_verified_file": "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "file_sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "decoded_fp_sha256": "666b650bb546c0653077608273bfd3b7cb59def2fdeeff6487efa8f70b0775e3",
+      "dots": 38854,
+      "dots_on_catalogue": 0,
+      "dots_within_200m_collar": 0,
+      "dots_beyond_1500m_farfield": 22569,
+      "farfield_fraction": 0.580866834817522,
+      "crs_shape_transform_ok": true,
+      "in_footprint_finite_0_1": true,
+      "all_grid_finite_no_nan": true,
+      "exterior_nan_pixels": 0,
+      "portal_nan_range_risk": false,
+      "latest_20261027_candidate": {
+        "file": "gemsdoe36-kpl36-exp3-20261026-fc869911e88c-zeros.tif",
+        "sha256": "86fc8243ad573bcdbfac8b432daf0ec5b6800b991b2c3278706358be7eb9922d",
+        "dots": 37654,
+        "all_finite_0_1": true,
+        "static_holdout_dti": {
+          "label": "HOLDOUT-DTI",
+          "evaluator_version": "gems57-pooled-hide-v2",
+          "dti": 0.002183541001107575,
+          "ci95": [
+            0.0015688775964489054,
+            0.0028247189418540404
+          ],
+          "withheld_positive_pixels": 11360
+        }
+      },
+      "static_holdout_dti": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.004213878131267608,
+        "ci95": [
+          0.003511910173663808,
+          0.00500160605881391
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Static post-masked file evaluated directly: files that already collared out full-catalogue pixels erase predictions on withheld catalogue segments."
+      },
+      "max_3px_overlap_vs_other_focus9": 0.975781,
+      "max_overlap_peer_site": "GEMSDOE27",
+      "exact_footprint_duplicates_in_focus9": [],
+      "unique_among_focus9": false,
+      "ok_to_resubmit_as_new": false,
+      "disposition_reason": "DO NOT RESUBMIT: Already submitted historical H19-5 lineage artifact (max 3-px overlap = 97.58% with GEMSDOE27 > 70% limit). Retained strictly for forensic learning & benchmark comparison."
+    },
+    {
+      "site": "GEMSDOE28",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE28/",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE28",
+      "submission_id": "h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan",
+      "tif_rel": "docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "download_url": "https://buffedlizard55-lab.github.io/GEMSDOE28/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "user_reported_score": 0.271,
+      "latest_20261027_rel": "docs/downloads/gems28-s21-puhgb-20261026-16bbf281ba9b-allfinite.tif",
+      "method_summary": "D2.8 dotted H19-5 pruned by r=1px collar + blind step-over rung additions (37,660 dots, NaN outside). Later S18 (0.0217) & S21 PU-HGB (0.0206) over-concentrated near known faults.",
+      "local_verified_file": "gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "file_sha256": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
+      "decoded_fp_sha256": "77fea717bc4af6d6b9ca70085bae7bf22b92909173f0ce70423536901f8a7921",
+      "dots": 37660,
+      "dots_on_catalogue": 0,
+      "dots_within_200m_collar": 2353,
+      "dots_beyond_1500m_farfield": 20657,
+      "farfield_fraction": 0.5485130111524164,
+      "crs_shape_transform_ok": true,
+      "in_footprint_finite_0_1": true,
+      "all_grid_finite_no_nan": false,
+      "exterior_nan_pixels": 7111787,
+      "portal_nan_range_risk": true,
+      "latest_20261027_candidate": {
+        "file": "gems28-s21-puhgb-20261026-16bbf281ba9b-allfinite.tif",
+        "sha256": "2bf4737ae0a3b844a160d4041d435e5a7daf92c6ec92f128a0c2c596ba23787c",
+        "dots": 37654,
+        "all_finite_0_1": true,
+        "static_holdout_dti": {
+          "label": "HOLDOUT-DTI",
+          "evaluator_version": "gems57-pooled-hide-v2",
+          "dti": 0.03389414503894455,
+          "ci95": [
+            0.03088630671747472,
+            0.036997562128357274
+          ],
+          "withheld_positive_pixels": 11360
+        }
+      },
+      "static_holdout_dti": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.029419061224527834,
+        "ci95": [
+          0.024692777210027887,
+          0.034377254073388666
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Static post-masked file evaluated directly: files that already collared out full-catalogue pixels erase predictions on withheld catalogue segments."
+      },
+      "max_3px_overlap_vs_other_focus9": 1.0,
+      "max_overlap_peer_site": "GEMSDOE25",
+      "exact_footprint_duplicates_in_focus9": [],
+      "unique_among_focus9": false,
+      "ok_to_resubmit_as_new": false,
+      "disposition_reason": "DO NOT RESUBMIT: Already submitted historical H19-5 lineage artifact (max 3-px overlap = 100.00% with GEMSDOE25 > 70% limit). Retained strictly for forensic learning & benchmark comparison."
+    },
+    {
+      "site": "GEMSDOE31",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE31/docs/",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE31",
+      "submission_id": "h27-4-solo-d28-20261004-8acb75e1-nan",
+      "tif_rel": "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "download_url": "https://buffedlizard55-lab.github.io/GEMSDOE31/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "user_reported_score": 0.2708,
+      "latest_20261027_rel": "docs/downloads/gems31-xfcoh31-xfield-coherence-37654-20261026-zeros.tif",
+      "method_summary": "D2.8 dotted H19-5 with isolated solo/1-px near-catalogue dots pruned (40,199 dots, pixel-identical dot set to GEMSDOE28 h27-4-r1-solo-d2-8; NaN outside).",
+      "local_verified_file": "gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "file_sha256": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
+      "decoded_fp_sha256": "2fd68f4802a13e01bfdc0a4a6b21db4a1cda9c0f69128dd231715289a31eab0a",
+      "dots": 40199,
+      "dots_on_catalogue": 0,
+      "dots_within_200m_collar": 2545,
+      "dots_beyond_1500m_farfield": 21989,
+      "farfield_fraction": 0.5470036568073833,
+      "crs_shape_transform_ok": true,
+      "in_footprint_finite_0_1": true,
+      "all_grid_finite_no_nan": false,
+      "exterior_nan_pixels": 7111787,
+      "portal_nan_range_risk": true,
+      "latest_20261027_candidate": {
+        "file": "gems31-xfcoh31-xfield-coherence-37654-20261026-zeros.tif",
+        "sha256": "857dd662430c0130c46f920666d70dae5df6148951ad76d42d31a8d540c32972",
+        "dots": 37654,
+        "all_finite_0_1": true,
+        "static_holdout_dti": {
+          "label": "HOLDOUT-DTI",
+          "evaluator_version": "gems57-pooled-hide-v2",
+          "dti": 0.0005112950218023121,
+          "ci95": [
+            0.00033429866837822355,
+            0.0007141135706324298
+          ],
+          "withheld_positive_pixels": 11360
+        }
+      },
+      "static_holdout_dti": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.03095328709004936,
+        "ci95": [
+          0.026044525202055125,
+          0.03628007571608502
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Static post-masked file evaluated directly: files that already collared out full-catalogue pixels erase predictions on withheld catalogue segments."
+      },
+      "max_3px_overlap_vs_other_focus9": 1.0,
+      "max_overlap_peer_site": "GEMSDOE25",
+      "exact_footprint_duplicates_in_focus9": [],
+      "unique_among_focus9": false,
+      "ok_to_resubmit_as_new": false,
+      "disposition_reason": "DO NOT RESUBMIT: Already submitted historical H19-5 lineage artifact (max 3-px overlap = 100.00% with GEMSDOE25 > 70% limit). Retained strictly for forensic learning & benchmark comparison."
+    },
+    {
+      "site": "GEMSDOE33",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE33/",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE33",
+      "submission_id": "h33d-analog-tip-stepover-r30-20261004-cb490425926e",
+      "tif_rel": "docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "download_url": "https://buffedlizard55-lab.github.io/GEMSDOE33/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "user_reported_score": 0.2632,
+      "latest_20261027_rel": "docs/downloads/gemsdoe33-s33-seisdil-strain-seismicity-37654-20261026-3463540a7e02-zeros.tif",
+      "method_summary": "D2.8 lineage with analog fault-tip & step-over r=30 additions. Later S33-SEISDIL strain/seismicity standalone scored 0.0963 user-reported.",
+      "local_verified_file": "GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "file_sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "decoded_fp_sha256": "8d7b3c4b4af892b28c8a9b29c604e280e0e8d6e121da3c3f1c4428aac8d07e26",
+      "dots": 41865,
+      "dots_on_catalogue": 0,
+      "dots_within_200m_collar": 3894,
+      "dots_beyond_1500m_farfield": 22151,
+      "farfield_fraction": 0.5291054580198257,
+      "crs_shape_transform_ok": true,
+      "in_footprint_finite_0_1": true,
+      "all_grid_finite_no_nan": true,
+      "exterior_nan_pixels": 0,
+      "portal_nan_range_risk": false,
+      "latest_20261027_candidate": {
+        "file": "gemsdoe33-s33-seisdil-strain-seismicity-37654-20261026-3463540a7e02-zeros.tif",
+        "sha256": "5eb9572946fa62356ebc0cbfef22bb54aa2ef094cb8b4a84b52e6b80e120db96",
+        "dots": 37654,
+        "all_finite_0_1": true,
+        "static_holdout_dti": {
+          "label": "HOLDOUT-DTI",
+          "evaluator_version": "gems57-pooled-hide-v2",
+          "dti": 0.0025010833487095203,
+          "ci95": [
+            0.0018438910154466295,
+            0.0031886860868840703
+          ],
+          "withheld_positive_pixels": 11360
+        }
+      },
+      "static_holdout_dti": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.05337101105484014,
+        "ci95": [
+          0.046463520508379284,
+          0.06078394722105551
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Static post-masked file evaluated directly: files that already collared out full-catalogue pixels erase predictions on withheld catalogue segments."
+      },
+      "max_3px_overlap_vs_other_focus9": 0.997086,
+      "max_overlap_peer_site": "GEMSDOE27",
+      "exact_footprint_duplicates_in_focus9": [],
+      "unique_among_focus9": false,
+      "ok_to_resubmit_as_new": false,
+      "disposition_reason": "DO NOT RESUBMIT: Already submitted historical H19-5 lineage artifact (max 3-px overlap = 99.71% with GEMSDOE27 > 70% limit). Retained strictly for forensic learning & benchmark comparison."
+    },
+    {
+      "site": "GEMSDOE25",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE25/",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE25",
+      "submission_id": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan",
+      "tif_rel": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "download_url": "https://buffedlizard55-lab.github.io/GEMSDOE25/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "user_reported_score": 0.26,
+      "latest_20261027_rel": "docs/downloads/gems25-h66-mgd-flank-sapd3-0-k3p5-20261025-da617550a0e9-zeros.tif",
+      "method_summary": "Parent D2.8 Poisson-disk thinning (d=2.8 px = 280 m) of 19GEMSDOE H19-5 ridges (44,090 dots; 100% pixel-identical dot set to GEMSDOE30). Later H66 scored 0.0742.",
+      "local_verified_file": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "file_sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "decoded_fp_sha256": "2610c8dc6554d98e5a08c70eaebde92a53de701f89f465a613b3ec09e075abf6",
+      "dots": 44090,
+      "dots_on_catalogue": 0,
+      "dots_within_200m_collar": 6436,
+      "dots_beyond_1500m_farfield": 21989,
+      "farfield_fraction": 0.4987298707189839,
+      "crs_shape_transform_ok": true,
+      "in_footprint_finite_0_1": true,
+      "all_grid_finite_no_nan": false,
+      "exterior_nan_pixels": 7111787,
+      "portal_nan_range_risk": true,
+      "latest_20261027_candidate": {
+        "file": "gems25-h66-mgd-flank-sapd3-0-k3p5-20261025-da617550a0e9-zeros.tif",
+        "sha256": "7503f4d498694c0107e0efad92cd06613b56d6fe402712532c1805e778166c1a",
+        "dots": 44832,
+        "all_finite_0_1": true,
+        "static_holdout_dti": {
+          "label": "HOLDOUT-DTI",
+          "evaluator_version": "gems57-pooled-hide-v2",
+          "dti": 0.008123904976803369,
+          "ci95": [
+            0.0071144240405475465,
+            0.0092501155886886
+          ],
+          "withheld_positive_pixels": 11360
+        }
+      },
+      "static_holdout_dti": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.09303566625132755,
+        "ci95": [
+          0.07928182406686266,
+          0.107554755003541
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Static post-masked file evaluated directly: files that already collared out full-catalogue pixels erase predictions on withheld catalogue segments."
+      },
+      "max_3px_overlap_vs_other_focus9": 1.0,
+      "max_overlap_peer_site": "GEMSDOE30",
+      "exact_footprint_duplicates_in_focus9": [
+        "GEMSDOE30"
+      ],
+      "unique_among_focus9": false,
+      "ok_to_resubmit_as_new": false,
+      "disposition_reason": "DO NOT RESUBMIT: Already submitted historical H19-5 lineage artifact (max 3-px overlap = 100.00% with GEMSDOE30 > 70% limit; 100% pixel-identical to ['GEMSDOE30']). Retained strictly for forensic learning & benchmark comparison."
+    },
+    {
+      "site": "GEMSDOE30",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE30/",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE30",
+      "submission_id": "d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca",
+      "tif_rel": "docs/downloads/gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "download_url": "https://buffedlizard55-lab.github.io/GEMSDOE30/docs/downloads/gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "user_reported_score": 0.26,
+      "latest_20261027_rel": "docs/downloads/gems30-CSR1-44090-20261026-502fb5948335-zeros.tif",
+      "method_summary": "Exact duplicate dot array (44,090 dots) of GEMSDOE25 D2.8 (0.2600 user-reported). Later MSDB1 edge-44090 scored 0.1462 user-reported.",
+      "local_verified_file": "gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "file_sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "decoded_fp_sha256": "2610c8dc6554d98e5a08c70eaebde92a53de701f89f465a613b3ec09e075abf6",
+      "dots": 44090,
+      "dots_on_catalogue": 0,
+      "dots_within_200m_collar": 6436,
+      "dots_beyond_1500m_farfield": 21989,
+      "farfield_fraction": 0.4987298707189839,
+      "crs_shape_transform_ok": true,
+      "in_footprint_finite_0_1": true,
+      "all_grid_finite_no_nan": false,
+      "exterior_nan_pixels": 7111787,
+      "portal_nan_range_risk": true,
+      "latest_20261027_candidate": {
+        "file": "gems30-CSR1-44090-20261026-502fb5948335-zeros.tif",
+        "sha256": "0fbf3b4a47c2229b68de59e174617f3b47973613ff57950712d25b9166c1d900",
+        "dots": 44090,
+        "all_finite_0_1": true,
+        "static_holdout_dti": {
+          "label": "HOLDOUT-DTI",
+          "evaluator_version": "gems57-pooled-hide-v2",
+          "dti": 0.0019525701184013133,
+          "ci95": [
+            0.0015467935525984328,
+            0.002367342720643199
+          ],
+          "withheld_positive_pixels": 11360
+        }
+      },
+      "static_holdout_dti": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.09303566625132755,
+        "ci95": [
+          0.07928182406686266,
+          0.107554755003541
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Static post-masked file evaluated directly: files that already collared out full-catalogue pixels erase predictions on withheld catalogue segments."
+      },
+      "max_3px_overlap_vs_other_focus9": 1.0,
+      "max_overlap_peer_site": "GEMSDOE25",
+      "exact_footprint_duplicates_in_focus9": [
+        "GEMSDOE25"
+      ],
+      "unique_among_focus9": false,
+      "ok_to_resubmit_as_new": false,
+      "disposition_reason": "DO NOT RESUBMIT: Already submitted historical H19-5 lineage artifact (max 3-px overlap = 100.00% with GEMSDOE25 > 70% limit; 100% pixel-identical to ['GEMSDOE25']). Retained strictly for forensic learning & benchmark comparison."
+    },
+    {
+      "site": "GEMSDOE24",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE24/",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE24",
+      "submission_id": "h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan",
+      "tif_rel": "docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "download_url": "https://buffedlizard55-lab.github.io/GEMSDOE24/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "user_reported_score": 0.2477,
+      "latest_20261027_rel": "docs/downloads/gems24-gvc1-negative-geothermal-lineament-submod-20261025-abe8e51c719d-zeros.tif",
+      "method_summary": "First dotted thinning of H19-5 at d=1.5 px (60,069 dots; jumped +0.0555 over solid H19-5 0.1922 by cutting redundant kernel overlap). Later GVC1 scored 0.0859.",
+      "local_verified_file": "gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "file_sha256": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+      "decoded_fp_sha256": "b8858b87e08fbf18e6ebfc1f6a4777644f6c514ec44d4ca116b6cdec6c6db934",
+      "dots": 60069,
+      "dots_on_catalogue": 0,
+      "dots_within_200m_collar": 8769,
+      "dots_beyond_1500m_farfield": 29766,
+      "farfield_fraction": 0.4955301403386106,
+      "crs_shape_transform_ok": true,
+      "in_footprint_finite_0_1": true,
+      "all_grid_finite_no_nan": false,
+      "exterior_nan_pixels": 7111787,
+      "portal_nan_range_risk": true,
+      "latest_20261027_candidate": {
+        "file": "gems24-gvc1-negative-geothermal-lineament-submod-20261025-abe8e51c719d-zeros.tif",
+        "sha256": "b5ca6f1755af059e17f5edf0940fd7e945d43a1359e103a4789eae33c536ad41",
+        "dots": 37654,
+        "all_finite_0_1": true,
+        "static_holdout_dti": {
+          "label": "HOLDOUT-DTI",
+          "evaluator_version": "gems57-pooled-hide-v2",
+          "dti": 0.022379733669340676,
+          "ci95": [
+            0.019357425589944393,
+            0.025250855430569114
+          ],
+          "withheld_positive_pixels": 11360
+        }
+      },
+      "static_holdout_dti": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.08928039953528227,
+        "ci95": [
+          0.07602419475434881,
+          0.10329084125510013
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Static post-masked file evaluated directly: files that already collared out full-catalogue pixels erase predictions on withheld catalogue segments."
+      },
+      "max_3px_overlap_vs_other_focus9": 1.0,
+      "max_overlap_peer_site": "GEMSDOE25",
+      "exact_footprint_duplicates_in_focus9": [],
+      "unique_among_focus9": false,
+      "ok_to_resubmit_as_new": false,
+      "disposition_reason": "DO NOT RESUBMIT: Already submitted historical H19-5 lineage artifact (max 3-px overlap = 100.00% with GEMSDOE25 > 70% limit). Retained strictly for forensic learning & benchmark comparison."
+    },
+    {
+      "site": "GEMSDOE27",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE27/",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE27",
+      "submission_id": "topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan",
+      "tif_rel": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "download_url": "https://buffedlizard55-lab.github.io/GEMSDOE27/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "user_reported_score": 0.2449,
+      "latest_20261027_rel": "docs/downloads/gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-allfinite.tif",
+      "method_summary": "D1.5 dotted H19-5 + 1,259 topographic gap-closure pixels (61,328 dots). Later genuine non-H19-5 architecture H31-1 DRCG-WL CELF scored 0.2250 user-reported.",
+      "local_verified_file": "gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "file_sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+      "decoded_fp_sha256": "14bb0e945a8bb3391e3860377c56a90d238ed60ddaaaa429b27dd941bfcf483c",
+      "dots": 61328,
+      "dots_on_catalogue": 0,
+      "dots_within_200m_collar": 8875,
+      "dots_beyond_1500m_farfield": 29795,
+      "farfield_fraction": 0.48583028959039914,
+      "crs_shape_transform_ok": true,
+      "in_footprint_finite_0_1": true,
+      "all_grid_finite_no_nan": false,
+      "exterior_nan_pixels": 7111787,
+      "portal_nan_range_risk": true,
+      "latest_20261027_candidate": {
+        "file": "gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-allfinite.tif",
+        "sha256": "2c002b02792419864bd3b29a218e543cb41e3f07b3b57c29ef35c6e39e184bfe",
+        "dots": 37654,
+        "all_finite_0_1": true,
+        "static_holdout_dti": {
+          "label": "HOLDOUT-DTI",
+          "evaluator_version": "gems57-pooled-hide-v2",
+          "dti": 0.014432676634013158,
+          "ci95": [
+            0.012003421319252625,
+            0.017154515395964822
+          ],
+          "withheld_positive_pixels": 11360
+        }
+      },
+      "static_holdout_dti": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.08879309705731177,
+        "ci95": [
+          0.07560413160202598,
+          0.10259006227008477
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Static post-masked file evaluated directly: files that already collared out full-catalogue pixels erase predictions on withheld catalogue segments."
+      },
+      "max_3px_overlap_vs_other_focus9": 0.980188,
+      "max_overlap_peer_site": "GEMSDOE24",
+      "exact_footprint_duplicates_in_focus9": [],
+      "unique_among_focus9": false,
+      "ok_to_resubmit_as_new": false,
+      "disposition_reason": "DO NOT RESUBMIT: Already submitted historical H19-5 lineage artifact (max 3-px overlap = 98.02% with GEMSDOE24 > 70% limit). Retained strictly for forensic learning & benchmark comparison."
+    }
+  ],
+  "focus_9_pairwise_3px_overlap": {
+    "GEMSDOE32": {
+      "GEMSDOE32": 1.0,
+      "GEMSDOE36": 1.0,
+      "GEMSDOE28": 0.998752,
+      "GEMSDOE31": 1.0,
+      "GEMSDOE33": 0.999841,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE24": 1.0,
+      "GEMSDOE27": 1.0
+    },
+    "GEMSDOE36": {
+      "GEMSDOE32": 0.974031,
+      "GEMSDOE36": 1.0,
+      "GEMSDOE28": 0.97313,
+      "GEMSDOE31": 0.974571,
+      "GEMSDOE33": 0.975035,
+      "GEMSDOE25": 0.974983,
+      "GEMSDOE30": 0.974983,
+      "GEMSDOE24": 0.975678,
+      "GEMSDOE27": 0.975781
+    },
+    "GEMSDOE28": {
+      "GEMSDOE32": 0.954727,
+      "GEMSDOE36": 0.955204,
+      "GEMSDOE28": 1.0,
+      "GEMSDOE31": 0.997557,
+      "GEMSDOE33": 0.998407,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE24": 1.0,
+      "GEMSDOE27": 1.0
+    },
+    "GEMSDOE31": {
+      "GEMSDOE32": 0.953904,
+      "GEMSDOE36": 0.954402,
+      "GEMSDOE28": 0.995622,
+      "GEMSDOE31": 1.0,
+      "GEMSDOE33": 0.999055,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE24": 1.0,
+      "GEMSDOE27": 1.0
+    },
+    "GEMSDOE33": {
+      "GEMSDOE32": 0.92643,
+      "GEMSDOE36": 0.927123,
+      "GEMSDOE28": 0.9705,
+      "GEMSDOE31": 0.9748,
+      "GEMSDOE33": 1.0,
+      "GEMSDOE25": 0.997038,
+      "GEMSDOE30": 0.997038,
+      "GEMSDOE24": 0.997062,
+      "GEMSDOE27": 0.997086
+    },
+    "GEMSDOE25": {
+      "GEMSDOE32": 0.881719,
+      "GEMSDOE36": 0.882649,
+      "GEMSDOE28": 0.931821,
+      "GEMSDOE31": 0.937151,
+      "GEMSDOE33": 0.960581,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE24": 1.0,
+      "GEMSDOE27": 1.0
+    },
+    "GEMSDOE30": {
+      "GEMSDOE32": 0.881719,
+      "GEMSDOE36": 0.882649,
+      "GEMSDOE28": 0.931821,
+      "GEMSDOE31": 0.937151,
+      "GEMSDOE33": 0.960581,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE24": 1.0,
+      "GEMSDOE27": 1.0
+    },
+    "GEMSDOE24": {
+      "GEMSDOE32": 0.884766,
+      "GEMSDOE36": 0.885615,
+      "GEMSDOE28": 0.934792,
+      "GEMSDOE31": 0.940785,
+      "GEMSDOE33": 0.962393,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE24": 1.0,
+      "GEMSDOE27": 1.0
+    },
+    "GEMSDOE27": {
+      "GEMSDOE32": 0.86719,
+      "GEMSDOE36": 0.868037,
+      "GEMSDOE28": 0.916156,
+      "GEMSDOE31": 0.922091,
+      "GEMSDOE33": 0.943289,
+      "GEMSDOE25": 0.980156,
+      "GEMSDOE30": 0.980156,
+      "GEMSDOE24": 0.980188,
+      "GEMSDOE27": 1.0
+    }
+  },
+  "focus_9_pairwise_spearman": {
+    "GEMSDOE32": {
+      "GEMSDOE32": 1.0,
+      "GEMSDOE36": 0.984968,
+      "GEMSDOE28": 0.690476,
+      "GEMSDOE31": 0.967048,
+      "GEMSDOE33": 0.795238,
+      "GEMSDOE25": 0.922171,
+      "GEMSDOE30": 0.922171,
+      "GEMSDOE24": 0.529883,
+      "GEMSDOE27": 0.523044
+    },
+    "GEMSDOE36": {
+      "GEMSDOE32": 0.984968,
+      "GEMSDOE36": 1.0,
+      "GEMSDOE28": 0.680065,
+      "GEMSDOE31": 0.952502,
+      "GEMSDOE33": 0.783231,
+      "GEMSDOE25": 0.908292,
+      "GEMSDOE30": 0.908292,
+      "GEMSDOE24": 0.521738,
+      "GEMSDOE27": 0.514996
+    },
+    "GEMSDOE28": {
+      "GEMSDOE32": 0.690476,
+      "GEMSDOE36": 0.680065,
+      "GEMSDOE28": 1.0,
+      "GEMSDOE31": 0.711731,
+      "GEMSDOE33": 0.694808,
+      "GEMSDOE25": 0.678506,
+      "GEMSDOE30": 0.678506,
+      "GEMSDOE24": 0.527165,
+      "GEMSDOE27": 0.520355
+    },
+    "GEMSDOE31": {
+      "GEMSDOE32": 0.967048,
+      "GEMSDOE36": 0.952502,
+      "GEMSDOE28": 0.711731,
+      "GEMSDOE31": 1.0,
+      "GEMSDOE33": 0.821927,
+      "GEMSDOE25": 0.953651,
+      "GEMSDOE30": 0.953651,
+      "GEMSDOE24": 0.548074,
+      "GEMSDOE27": 0.540987
+    },
+    "GEMSDOE33": {
+      "GEMSDOE32": 0.795238,
+      "GEMSDOE36": 0.783231,
+      "GEMSDOE28": 0.694808,
+      "GEMSDOE31": 0.821927,
+      "GEMSDOE33": 1.0,
+      "GEMSDOE25": 0.808642,
+      "GEMSDOE30": 0.808642,
+      "GEMSDOE24": 0.558426,
+      "GEMSDOE27": 0.551213
+    },
+    "GEMSDOE25": {
+      "GEMSDOE32": 0.922171,
+      "GEMSDOE36": 0.908292,
+      "GEMSDOE28": 0.678506,
+      "GEMSDOE31": 0.953651,
+      "GEMSDOE33": 0.808642,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE24": 0.576992,
+      "GEMSDOE27": 0.569532
+    },
+    "GEMSDOE30": {
+      "GEMSDOE32": 0.922171,
+      "GEMSDOE36": 0.908292,
+      "GEMSDOE28": 0.678506,
+      "GEMSDOE31": 0.953651,
+      "GEMSDOE33": 0.808642,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE24": 0.576992,
+      "GEMSDOE27": 0.569532
+    },
+    "GEMSDOE24": {
+      "GEMSDOE32": 0.529883,
+      "GEMSDOE36": 0.521738,
+      "GEMSDOE28": 0.527165,
+      "GEMSDOE31": 0.548074,
+      "GEMSDOE33": 0.558426,
+      "GEMSDOE25": 0.576992,
+      "GEMSDOE30": 0.576992,
+      "GEMSDOE24": 1.0,
+      "GEMSDOE27": 0.987257
+    },
+    "GEMSDOE27": {
+      "GEMSDOE32": 0.523044,
+      "GEMSDOE36": 0.514996,
+      "GEMSDOE28": 0.520355,
+      "GEMSDOE31": 0.540987,
+      "GEMSDOE33": 0.551213,
+      "GEMSDOE25": 0.569532,
+      "GEMSDOE30": 0.569532,
+      "GEMSDOE24": 0.987257,
+      "GEMSDOE27": 1.0
+    }
+  },
+  "fleet_registry_summary": {
+    "repos_scanned": [
+      "19GEMSDOE",
+      "57GEMSDOE",
+      "GEMSDOE24",
+      "GEMSDOE25",
+      "GEMSDOE27",
+      "GEMSDOE28",
+      "GEMSDOE30",
+      "GEMSDOE31",
+      "GEMSDOE32",
+      "GEMSDOE33",
+      "GEMSDOE36",
+      "GEMSDOE49",
+      "GEMSDOE63",
+      "GEMSDOE70",
+      "GEMSDOE76",
+      "KANLERGEMSDOE1",
+      "KANLERGEMSDOE2",
+      "KANLERGEMSDOE3",
+      "WBGGEMSDOE1",
+      "WBGGEMSDOE2",
+      "WBGGEMSDOE3",
+      "gems-prize-reference-solution"
+    ],
+    "total_valid_grid_tifs_scanned": 568,
+    "unique_decoded_rasters": 352,
+    "competing_sparse_detectors": 342,
+    "blanket_or_continuous_rasters": 10
+  }
+}

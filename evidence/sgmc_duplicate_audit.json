@@ -1,0 +1,41 @@
+{
+  "irregularity_id": "IR-SGMC-CONVERGENCE",
+  "detected_utc": "2026-10-27T22:02:00Z",
+  "status": "CAUGHT_BY_AUTOMATED_GATE_AND_RESOLVED",
+  "summary": "Initial inclusion of derived_sgmc_faults_100m.tif (USGS SGMC mapped bedrock fault raster, 83,593 positive pixels) inside HMCS caused HistGradientBoostingClassifier to concentrate dots along pre-mapped SGMC bedrock traces, triggering our automated post-placement 3-px overlap gate (>0.70) against three SGMC-heavy peer rasters despite near-zero Spearman rank correlation (rho = 0.021-0.041).",
+  "triggered_gate_witnesses": [
+    {
+      "repo": "WBGGEMSDOE3",
+      "file": "docs/hce/downloads/wbggems3-hce1-congruence-20261027T182554Z-bc1edfe6-zeros.tif",
+      "peer_positive_pixels": 169968,
+      "overlap_3px_fraction": 0.917723,
+      "spearman_rho": 0.021098
+    },
+    {
+      "repo": "GEMSDOE30",
+      "file": "docs/downloads/gemsdoe30-edge-hybrid-80k-02845bd4-20261003T234340Z-allfinite.tif",
+      "peer_positive_pixels": 80000,
+      "overlap_3px_fraction": 0.865238,
+      "spearman_rho": 0.040655
+    },
+    {
+      "repo": "KANLERGEMSDOE1",
+      "file": "docs/downloads/gemsdoe32-h-unq1-blind-stepover-radiometric-conduit-dots-20261027T170959Z-339ac2dd-nan.tif",
+      "peer_positive_pixels": 34000,
+      "overlap_3px_fraction": 0.729719,
+      "spearman_rho": 0.037253
+    }
+  ],
+  "vs_focus_9_champions_on_that_pass": {
+    "GEMSDOE32": 0.332745,
+    "GEMSDOE36": 0.333682,
+    "GEMSDOE28": 0.362536,
+    "GEMSDOE31": 0.367831,
+    "GEMSDOE33": 0.379539,
+    "GEMSDOE25": 0.401333,
+    "GEMSDOE30": 0.401333,
+    "GEMSDOE24": 0.413220,
+    "GEMSDOE27": 0.430151
+  },
+  "scientific_resolution": "Removed derived_sgmc_faults_100m.tif (which is a pre-Quaternary bedrock fault map rather than a blind geophysical/geothermal sensor, and historically underperformed live in GEMSDOE30 MSDB1 at 0.1462 because Mesozoic/Tertiary mountain-block thrusts are not active Quaternary basin geothermal conduits). Replaced with 100% sensor-derived updip potential-field + drainage-orthogonal scarp + hydrothermal alteration/upflow concordance (`hmcs_updip_alteration_concordance`)."
+}
