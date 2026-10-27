@@ -1,0 +1,9 @@
+.venv/
+.cache/
+__pycache__/
+.pytest_cache/
+*.pyc
+/data/
+!docs/data/
+artifacts/
+node_modules/

@@ -1,0 +1,134 @@
+{
+  "schema": "apartgems-source-ledger-v1",
+  "verified_date_utc": "2026-10-27",
+  "verification_method": "Pages read through the web page retrieval tool in this session; scientific interpretations are separated from source statements. Exact binary data provenance is recorded separately in data manifests.",
+  "sources": [
+    {
+      "id": "DD-PROBLEM",
+      "publisher": "DrivenData / GEMS challenge organizers",
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "status": "READ, both returned chunks",
+      "claims_supported": [
+        "The target is geological faults indicative of geothermal resources, not a vent/no-vent classification task.",
+        "The initial test labels are expert-identified faults absent from the current public USGS database.",
+        "Distance-weighted Tversky uses alpha 0.2, beta 0.8, a linear triangular kernel with 300 m support.",
+        "Submission is single-band float32 confidence in [0,1], UTM zone 11N EPSG:32611, at 100 m resolution and matching bounds; exterior data should be null or NaN.",
+        "External data require rights permitting challenge use and sharing with sponsors."
+      ],
+      "does_not_support": ["An expected leaderboard score for this project", "The exact organizer provenance of local mirrored bytes", "A causal explanation of a historical score change"]
+    },
+    {
+      "id": "DD-MASK",
+      "publisher": "DrivenData staff (chrisk-dd)",
+      "url": "https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516/4",
+      "status": "READ staff answers",
+      "claims_supported": [
+        "Known faults are excluded in both rounds.",
+        "The mask is pixel-exact and identical to the provided training fault labels.",
+        "Predictions merely near known faults are penalized normally against the new-fault truth.",
+        "A new-fault truth pixel can lie within 300 m of a known trace."
+      ],
+      "does_not_support": ["A universal 200 m exclusion buffer is always beneficial"]
+    },
+    {
+      "id": "DOE-RULES",
+      "publisher": "U.S. Department of Energy / National Laboratory of the Rockies",
+      "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "status": "READ relevant extracted sections 3.3–3.6, not a claim of full legal review",
+      "claims_supported": [
+        "Up to three automated-scoring submissions per week per participating entity, as specified on the competition website.",
+        "One final submission must be chosen for both prize rounds.",
+        "Reproducible complete code assets and documentation are required for finalists."
+      ],
+      "does_not_support": ["The authenticated account's remaining weekly quota", "An extra quota per repository or parallel run"]
+    },
+    {
+      "id": "DD-RULES-INDEX",
+      "publisher": "DrivenData",
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/rules/",
+      "status": "READ",
+      "claims_supported": ["The rules page points to the official rules at HeroX resource 2274."],
+      "does_not_support": ["A local candidate is approved"]
+    },
+    {
+      "id": "DD-BOARD",
+      "publisher": "DrivenData",
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "status": "READ public leaderboard first returned chunk",
+      "observation": {"label": "OFFICIAL PUBLIC-PAGE OBSERVATION — NOT AN EXACT-FILE RECEIPT", "displayed_top_value": "0.4544", "displayed_participant": "xiaofanhu", "observed_date_utc": "2026-10-27"},
+      "claims_supported": ["The retrieved public page displayed that top row at observation time."],
+      "does_not_support": ["The historical 0.2778 report is organizer-confirmed", "Any local TIFF has that displayed public result", "The board remains unchanged after this snapshot"]
+    },
+    {
+      "id": "DD-ACCOUNT",
+      "publisher": "DrivenData",
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/",
+      "status": "REDIRECTED TO LOGIN",
+      "resolved_url": "https://www.drivendata.org/accounts/login/?next=/competitions/306/competition-doe-gems/submissions/",
+      "claims_supported": ["No account receipts or remaining weekly slots were available to this session."],
+      "does_not_support": ["A receipt-to-file pairing", "Upload authorization"]
+    },
+    {
+      "id": "USGS-GEODAWN",
+      "publisher": "U.S. Geological Survey, Glen and Earney",
+      "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+      "doi": "10.5066/P93LGLVQ",
+      "license": "CC0 1.0 Universal as displayed on the official release page",
+      "status": "READ",
+      "claims_supported": [
+        "Radiometric data describe surface geology and soil composition; magnetic data inform subsurface structure and geology.",
+        "Area 1 and Area 2 have different flight specifications; acquisition blocks and terrain clearance differences matter.",
+        "GeoDAWN was coordinated with 3DEP lidar collection.",
+        "Official deliverables include geophysical GeoTIFF grids and contractor metadata."
+      ],
+      "does_not_support": ["All radiometric anomalies are geothermal faults", "Quantized mirror byte differences are physical concentrations"]
+    },
+    {
+      "id": "GDR-1391",
+      "publisher": "DOE Geothermal Data Repository / INGENIOUS contributors",
+      "url": "https://gdr.openei.org/submissions/1391",
+      "doi": "10.15121/1881483",
+      "license": "CC BY 4.0 with attribution; data provided as is",
+      "status": "READ public resource catalogue and download links",
+      "claims_supported": [
+        "The public compilation includes temperature probes, faults, geodetics, conductivity, gravity, magnetics, seismicity, springs/wells and paleogeothermal features.",
+        "The dataset page supplies public resource URLs and an attribution license."
+      ],
+      "does_not_support": ["Local data mirror independently matches organizer data", "An unused external dataset has been downloaded and tested"]
+    },
+    {
+      "id": "INGENIOUS",
+      "publisher": "Great Basin Center for Geothermal Energy / University of Nevada, Reno",
+      "url": "https://gbcge.org/current-projects/ingenious/",
+      "status": "READ project and publications information",
+      "claims_supported": ["The project's goal is discovery of commercially viable hidden geothermal systems and reduced exploration risk."],
+      "does_not_support": ["Fault mapping alone proves a commercially viable geothermal resource"]
+    },
+    {
+      "id": "USGS-KTH",
+      "publisher": "U.S. Geological Survey / Moxham, Foote, Bunker",
+      "url": "https://www.usgs.gov/publications/gamma-ray-spectrometer-studies-hydro-thermally-altered-rocks",
+      "doi": "10.2113/gsecongeo.60.4.653",
+      "status": "READ official abstract",
+      "claims_supported": ["In the studied mineral deposits, potassium increased in more intensely altered rocks without a corresponding thorium increase; the authors discuss K/Th as a discriminant."],
+      "does_not_support": ["The same response universally identifies faults in GeoDAWN", "The proposed SNRC contrast has already been validated"]
+    },
+    {
+      "id": "DD-REFERENCE",
+      "publisher": "DrivenData / John Lipor",
+      "url": "https://github.com/drivendataorg/gems-prize-reference-solution",
+      "status": "READ README and relevant notebook code through GitHub API, with Git blob inventory retained",
+      "claims_supported": ["The reference uses U-Net, Monte Carlo cross-validation and Tversky loss; its training-loss weights are alpha 0.2 and beta 0.8."],
+      "does_not_support": ["Random-patch validation is sufficient for the user's whole-segment hide-and-recover protocol", "A GPU is required for the lightweight CPU method used here"]
+    },
+    {
+      "id": "USGS-3DEP-URL",
+      "publisher": "U.S. Geological Survey",
+      "url": "https://www.usgs.gov/3d-elevation-program/data-tools",
+      "status": "RETURNED PAGE NOT FOUND in this session",
+      "claims_supported": ["This particular supplied/discovered catalogue URL is not currently a verified working download path."],
+      "does_not_support": ["USGS 3DEP itself is unavailable", "Specific raw DEM tiles have been restored"]
+    }
+  ],
+  "source_integrity_rule": "Source statements, historical user claims, local HOLDOUT-DTI measurements, and hypotheses are separate evidence classes. No historical report is relabeled ORGANIZER-CONFIRMED without a submission-page receipt tied to exact TIFF bytes."
+}

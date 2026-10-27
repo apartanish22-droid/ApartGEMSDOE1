@@ -1,0 +1,93 @@
+{
+  "status": "DO NOT SUBMIT",
+  "ok_to_submit": false,
+  "artifact": {
+    "path": "docs/downloads/apartgems1-snrc-e1-20000-20261027-735ea04bc35d-DO-NOT-SUBMIT.tif",
+    "filename": "apartgems1-snrc-e1-20000-20261027-735ea04bc35d-DO-NOT-SUBMIT.tif",
+    "sha256": "73fa21b7c558cd48dea20d1d63ddd43efd2ea8b9e57bbc98972153212625987a",
+    "footprint_sha256": "735ea04bc35d91ab01c492d5d0936835afe8d9a7642cd979478d775894940be2",
+    "bytes": 915864,
+    "dots": 20000
+  },
+  "holdout": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "gems-segment-pooled-v1",
+    "TP_w": 2420.9094285724777,
+    "FP_w": 19059.831584874242,
+    "FN_w": 58567.09057142753,
+    "n_truth": 60988.0,
+    "n_emitted": 19999.0,
+    "dti": 0.04560306726526391,
+    "n_withheld_positive_pixels": 60988,
+    "n_unique_withheld_components": 3199,
+    "ci95": {
+      "level": 0.95,
+      "interval": [
+        0.039300845754966195,
+        0.05238619794057768
+      ],
+      "method": "percentile spatial-block bootstrap of pooled TPw/FPw/FNw",
+      "block_pixels": 100,
+      "block_size_m": 10000,
+      "n_blocks": 583,
+      "resamples": 1999,
+      "seed": 20261025,
+      "limitation": "Internal-validation uncertainty; geologic structures may cross blocks. Not a hidden-score interval."
+    },
+    "folds": [
+      {
+        "fold": "NW",
+        "TP_w": 520.613404918787,
+        "FP_w": 4260.903031524792,
+        "FN_w": 9644.386595081212,
+        "n_truth": 10165,
+        "n_emitted": 4469,
+        "dti": 0.057283894304144795,
+        "coverage": 0.05121627200381573
+      },
+      {
+        "fold": "NE_LidarGapHeavy",
+        "TP_w": 418.84685083891634,
+        "FP_w": 5357.699319736811,
+        "FN_w": 12092.153149161084,
+        "n_truth": 12511,
+        "n_emitted": 5526,
+        "dti": 0.0375172655562396,
+        "coverage": 0.03347828717439984
+      },
+      {
+        "fold": "SW",
+        "TP_w": 846.8642359469957,
+        "FP_w": 5201.556014725869,
+        "FN_w": 19687.135764053004,
+        "n_truth": 20534,
+        "n_emitted": 5529,
+        "dti": 0.04801665835840953,
+        "coverage": 0.041242049086733984
+      },
+      {
+        "fold": "SE",
+        "TP_w": 634.5849368677784,
+        "FP_w": 4239.673218886772,
+        "FN_w": 17143.415063132223,
+        "n_truth": 17778,
+        "n_emitted": 4475,
+        "dti": 0.04175655916381932,
+        "coverage": 0.03569495651185614
+      }
+    ],
+    "protocol": {
+      "aggregation": "pooled TPw/FPw/FNw, not mean fold DTI",
+      "buffer_m": 1500,
+      "whole_components_hidden_everywhere": true,
+      "visible_fault_mask": "pixel-exact, applied before credit and FP calculation",
+      "catalogue_features": "must be constructed from fold.visible only",
+      "alpha": 0.2,
+      "beta": 0.8,
+      "triangular_kernel_radius_m": 300
+    }
+  },
+  "leaderboard_estimate": null,
+  "historical_reports_authenticated": false,
+  "generated_utc": "2026-10-27T21:33:44.960312+00:00"
+}

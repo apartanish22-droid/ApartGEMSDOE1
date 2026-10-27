@@ -1,0 +1,10 @@
+[project]
+name = "apartgemsdoe1"
+version = "0.1.0"
+requires-python = ">=3.11"
+description = "Auditable GEMS fault-discovery experiments and fail-closed submission readiness"
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "scripts"]
+testpaths = ["tests"]
+addopts = "-ra"

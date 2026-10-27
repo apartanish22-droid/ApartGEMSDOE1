@@ -1,0 +1,4072 @@
+{
+  "sha": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+  "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/4f34228a9f39e99da592aa34fd835c96d1b693f5",
+  "tree": [
+    {
+      "path": ".github",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "184cb1288d63ebbb9e2547d0a33a118a44767692",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/184cb1288d63ebbb9e2547d0a33a118a44767692"
+    },
+    {
+      "path": ".github/workflows",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "bd492b3f0f828b7801477f89bd3fcace41fb1ecb",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/bd492b3f0f828b7801477f89bd3fcace41fb1ecb"
+    },
+    {
+      "path": ".github/workflows/build-site.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7f3ac9afe79a23171c9e69b576d719cd79e76b7",
+      "size": 1216,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/a7f3ac9afe79a23171c9e69b576d719cd79e76b7"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "badf74ec51fb9d2f1ce45b0de7ba12840d1d505b",
+      "size": 636,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/badf74ec51fb9d2f1ce45b0de7ba12840d1d505b"
+    },
+    {
+      "path": ".github/workflows/fetch-gdr-external-layers.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff3cc2a9111b7bbf1d2a7a4298d5f0e9cec143f3",
+      "size": 5653,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ff3cc2a9111b7bbf1d2a7a4298d5f0e9cec143f3"
+    },
+    {
+      "path": ".github/workflows/fetch-vector-faults.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "676534ff196980283db4d20e35a3443c63ceb1ab",
+      "size": 1201,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/676534ff196980283db4d20e35a3443c63ceb1ab"
+    },
+    {
+      "path": ".github/workflows/source-feed.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4263fe4915491ae4129bb6c0111deefeffa37de8",
+      "size": 1667,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4263fe4915491ae4129bb6c0111deefeffa37de8"
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "24d1ee39e40e3c411538e79ea717f96c653b3957",
+      "size": 215,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/24d1ee39e40e3c411538e79ea717f96c653b3957"
+    },
+    {
+      "path": ".nojekyll",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "AGENTS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5550f41ccfc7f2cbf8e4bcf5154844bfad670421",
+      "size": 4983,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5550f41ccfc7f2cbf8e4bcf5154844bfad670421"
+    },
+    {
+      "path": "AI_DISCLOSURE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ccfbb5ac932d4f94003940ddf3c50bc2a063c2a5",
+      "size": 1019,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ccfbb5ac932d4f94003940ddf3c50bc2a063c2a5"
+    },
+    {
+      "path": "EXECUTIVE_SUMMARY.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cc9e6bfce6846586b8863fe7d9a69f58081da648",
+      "size": 9824,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/cc9e6bfce6846586b8863fe7d9a69f58081da648"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49a8e3b10e5b2c970e8259ce8e00e281a7065d2a",
+      "size": 12737,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/49a8e3b10e5b2c970e8259ce8e00e281a7065d2a"
+    },
+    {
+      "path": "data",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f6b03138e8901c108ceca6cb14fe7c595c441f31",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/f6b03138e8901c108ceca6cb14fe7c595c441f31"
+    },
+    {
+      "path": "data/manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c57e167ab9e58deeae84a903876b6b8149d3b316",
+      "size": 6356,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c57e167ab9e58deeae84a903876b6b8149d3b316"
+    },
+    {
+      "path": "docs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a73a48d490fa385a7f9a97cf7804c4bc89af95cd",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/a73a48d490fa385a7f9a97cf7804c4bc89af95cd"
+    },
+    {
+      "path": "docs/.nojekyll",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "docs/assets",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2aff702101a8063f9c75601f5055d5e15172ec60",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/2aff702101a8063f9c75601f5055d5e15172ec60"
+    },
+    {
+      "path": "docs/assets/app.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1d677582d63a1fc621c0bce244e4b3200f9c6d51",
+      "size": 3633,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1d677582d63a1fc621c0bce244e4b3200f9c6d51"
+    },
+    {
+      "path": "docs/assets/fig_connectivity.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1c052f846d3ad7ea3582046533911fadf72d1dc6",
+      "size": 95503,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1c052f846d3ad7ea3582046533911fadf72d1dc6"
+    },
+    {
+      "path": "docs/assets/fig_examples.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5918f53d5dbeb1eab06c496716fdfa6b538a9c6f",
+      "size": 68931,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5918f53d5dbeb1eab06c496716fdfa6b538a9c6f"
+    },
+    {
+      "path": "docs/assets/fig_map_h27_5b_priority.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd19dadc0c06de312355149926f2d68d845b1026",
+      "size": 125298,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/dd19dadc0c06de312355149926f2d68d845b1026"
+    },
+    {
+      "path": "docs/assets/fig_map_overview.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "257733935c58ee553b30b9c4a4156176ef149274",
+      "size": 133038,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/257733935c58ee553b30b9c4a4156176ef149274"
+    },
+    {
+      "path": "docs/assets/fig_validation.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7806ad1d7b43801581bd10093e5cbded1d4f75a4",
+      "size": 59369,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7806ad1d7b43801581bd10093e5cbded1d4f75a4"
+    },
+    {
+      "path": "docs/assets/style.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c27434c2c9a14eeb5e3aa1bb26d3759d00157ec8",
+      "size": 4353,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c27434c2c9a14eeb5e3aa1bb26d3759d00157ec8"
+    },
+    {
+      "path": "docs/data",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "537dbfb1ee5c5a33a4f2223bd3b937cf2472e1b5",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/537dbfb1ee5c5a33a4f2223bd3b937cf2472e1b5"
+    },
+    {
+      "path": "docs/data/feed.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b11d11432760e79bada06af1dfe011827a7878eb",
+      "size": 6416,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b11d11432760e79bada06af1dfe011827a7878eb"
+    },
+    {
+      "path": "docs/data/feed_history.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee1faedb17c6406c61ce049facf664dd0ebef5e3",
+      "size": 3540,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ee1faedb17c6406c61ce049facf664dd0ebef5e3"
+    },
+    {
+      "path": "docs/data/sources.csv",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "25a0c4b2e64d0030cdcb3e9f92196e763e925e6e",
+      "size": 11746,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/25a0c4b2e64d0030cdcb3e9f92196e763e925e6e"
+    },
+    {
+      "path": "docs/data/submission_readiness_audit.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cd1c980e46186540bc8ae3c57118fe9adfacd840",
+      "size": 29396,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/cd1c980e46186540bc8ae3c57118fe9adfacd840"
+    },
+    {
+      "path": "docs/data/topology_links.csv",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe151e6679723d30a8d01d272358a47d93cfd4c5",
+      "size": 206445,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/fe151e6679723d30a8d01d272358a47d93cfd4c5"
+    },
+    {
+      "path": "docs/data/topology_links.geojson",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "97a461d9c7303800befb5bf4ed5b8637c1b0f74a",
+      "size": 1136018,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/97a461d9c7303800befb5bf4ed5b8637c1b0f74a"
+    },
+    {
+      "path": "docs/data/topology_priority_h27_5b.csv",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5fc162088d228faacfcd99a677a30415c5a21040",
+      "size": 226838,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5fc162088d228faacfcd99a677a30415c5a21040"
+    },
+    {
+      "path": "docs/data/topology_priority_h27_5b.geojson",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b7b3b39595b00d4592a4e772d3a31bb02980832",
+      "size": 279607,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4b7b3b39595b00d4592a4e772d3a31bb02980832"
+    },
+    {
+      "path": "docs/data/topology_review_classes.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d350114ea345c5489d41e694ce81b73c67b8e8f7",
+      "size": 3390,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d350114ea345c5489d41e694ce81b73c67b8e8f7"
+    },
+    {
+      "path": "docs/data/vector_faults_status.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b0c052e45640a4b79657374bd8a2467e40e990e7",
+      "size": 777,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b0c052e45640a4b79657374bd8a2467e40e990e7"
+    },
+    {
+      "path": "docs/downloads",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2ef6a16cdbaa9606d22dca0dae57f8a58a545997",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/2ef6a16cdbaa9606d22dca0dae57f8a58a545997"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-all-increments-d2-8-h27-4-r1-t-v2-20261002-23ad46a4d7ba-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1331f86812a66ec371e71774bfa07d9bed83b2c8",
+      "size": 5235,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1331f86812a66ec371e71774bfa07d9bed83b2c8"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-farfield-swap-augmented-detector-probe-20261002-a34b0799df59-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "56e319407992b0a6689bb15ea1331f1e1af108c7",
+      "size": 6105,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/56e319407992b0a6689bb15ea1331f1e1af108c7"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-h28-1-edge-coherence-plus-t-v2-h27-4-20261002-1113fba5f6cb-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0fb784b72a421fae351d0d15808f6cb6d83a28ba",
+      "size": 8802,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0fb784b72a421fae351d0d15808f6cb6d83a28ba"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-h29-hydrothermal-piedmont-celf-20261025-511898747886-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d98cee5a68847a4d8393670dea0c8184116e4174",
+      "size": 1531,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d98cee5a68847a4d8393670dea0c8184116e4174"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-h29-hydrothermal-piedmont-celf-20261025-511898747886-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "645aa4ccd1bbf0e5fcfe3665b9a920af0aea9da4",
+      "size": 2082,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/645aa4ccd1bbf0e5fcfe3665b9a920af0aea9da4"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-h30-1-updip-hydrothermal-b2-35k-20261025-801dff07541d-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7eadfe5732ea4ae3984266eb73040a7208924fa",
+      "size": 1532,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b7eadfe5732ea4ae3984266eb73040a7208924fa"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-h30-1-updip-hydrothermal-b2-35k-20261025-801dff07541d-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "86b248312c56d3d5aa7f33969721fc1534db9e35",
+      "size": 2083,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/86b248312c56d3d5aa7f33969721fc1534db9e35"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f6350038e732684547bec52ef308b27d949cd94c",
+      "size": 1519,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f6350038e732684547bec52ef308b27d949cd94c"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5a4a65048a45252932836facc2d4f33402ca1cac",
+      "size": 2070,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5a4a65048a45252932836facc2d4f33402ca1cac"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd3e6b22355276f3613dfc99bacb3554e94b17b1",
+      "size": 4868,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/dd3e6b22355276f3613dfc99bacb3554e94b17b1"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-topo-gap-closure-t-v2-on-d2-8-20261002-3ebd51534bb1-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "141f6af7cb607e678cf0460257870f34cacbf6fa",
+      "size": 4837,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/141f6af7cb607e678cf0460257870f34cacbf6fa"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-topo-gap-closure-t-v2-plus-h27-4-r1-on-d1-5-20261002-d466b251f309-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b306f9b50d474d4c17c5b5499384414bf3798d5",
+      "size": 4893,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6b306f9b50d474d4c17c5b5499384414bf3798d5"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-unique-20261026-20261026-6c2790d67dc6-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "10eb631971154157aca9d8f51e7c664f21d67a87",
+      "size": 6357,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/10eb631971154157aca9d8f51e7c664f21d67a87"
+    },
+    {
+      "path": "docs/downloads/checks-gems27-unique-scatter-farfield-20261025-98e59bf8e3ce-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72dc4b4bb3d2341a8a8ae443da065cae1bcc757b",
+      "size": 4111,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/72dc4b4bb3d2341a8a8ae443da065cae1bcc757b"
+    },
+    {
+      "path": "docs/downloads/dconfirm_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9286873346df04c5122501db38794dca7a7da8f9",
+      "size": 27640,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9286873346df04c5122501db38794dca7a7da8f9"
+    },
+    {
+      "path": "docs/downloads/gems27-all-increments-d2-8-h27-4-r1-t-v2-20261002-23ad46a4d7ba-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ed39dc9d45f32b58665a07000166605812e8c3c",
+      "size": 832396,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4ed39dc9d45f32b58665a07000166605812e8c3c"
+    },
+    {
+      "path": "docs/downloads/gems27-all-increments-d2-8-h27-4-r1-t-v2-20261002-23ad46a4d7ba-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5193683671986d56b802229bd21a2eaa256bc3f3",
+      "size": 1598402,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5193683671986d56b802229bd21a2eaa256bc3f3"
+    },
+    {
+      "path": "docs/downloads/gems27-all-increments-d2-8-h27-4-r1-t-v2-20261002-23ad46a4d7ba-nan.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9bb90167a8d2d06fd6aa34a09f391f1ef5bad08",
+      "size": 310496,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/a9bb90167a8d2d06fd6aa34a09f391f1ef5bad08"
+    },
+    {
+      "path": "docs/downloads/gems27-farfield-swap-augmented-detector-probe-20261002-a34b0799df59-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5fec72ffc3329b5ad3445c18893f05d9967ca388",
+      "size": 863870,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5fec72ffc3329b5ad3445c18893f05d9967ca388"
+    },
+    {
+      "path": "docs/downloads/gems27-farfield-swap-augmented-detector-probe-20261002-a34b0799df59-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5a764746641b52681efb1b220a327f0d3e94cfa3",
+      "size": 1632158,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5a764746641b52681efb1b220a327f0d3e94cfa3"
+    },
+    {
+      "path": "docs/downloads/gems27-farfield-swap-augmented-detector-probe-20261002-a34b0799df59-nan.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cfee14538ca327234cd331e6d0602b04ff2b4f32",
+      "size": 369962,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/cfee14538ca327234cd331e6d0602b04ff2b4f32"
+    },
+    {
+      "path": "docs/downloads/gems27-h28-1-edge-coherence-plus-t-v2-h27-4-20261002-1113fba5f6cb-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0d409af9b3bc43d2063bef5d097c4e321cd2bae6",
+      "size": 863814,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0d409af9b3bc43d2063bef5d097c4e321cd2bae6"
+    },
+    {
+      "path": "docs/downloads/gems27-h28-1-edge-coherence-plus-t-v2-h27-4-20261002-1113fba5f6cb-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ef40acdb0232d453abf83519637303ee87cc42c4",
+      "size": 1630604,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ef40acdb0232d453abf83519637303ee87cc42c4"
+    },
+    {
+      "path": "docs/downloads/gems27-h28-1-edge-coherence-plus-t-v2-h27-4-20261002-1113fba5f6cb-nan.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b6ace38047dd420b09fb3e6d354de2054eb56e46",
+      "size": 355484,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b6ace38047dd420b09fb3e6d354de2054eb56e46"
+    },
+    {
+      "path": "docs/downloads/gems27-h29-hydrothermal-piedmont-celf-20261025-511898747886-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf1c1bb264dea82fcee1ad0b8610675a15814445",
+      "size": 825276,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/cf1c1bb264dea82fcee1ad0b8610675a15814445"
+    },
+    {
+      "path": "docs/downloads/gems27-h29-hydrothermal-piedmont-celf-20261025-511898747886-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db8cfd006cc4e3396b51ab51c4c17f61f27f121f",
+      "size": 174419,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/db8cfd006cc4e3396b51ab51c4c17f61f27f121f"
+    },
+    {
+      "path": "docs/downloads/gems27-h29-hydrothermal-piedmont-celf-20261025-511898747886-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd7db3b860436559a3bb80379659543d763ba6db",
+      "size": 1590668,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/fd7db3b860436559a3bb80379659543d763ba6db"
+    },
+    {
+      "path": "docs/downloads/gems27-h30-1-updip-hydrothermal-b2-35k-20261025-801dff07541d-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "737a0aba8029f0746edb08eb164ef87e29321b2a",
+      "size": 821530,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/737a0aba8029f0746edb08eb164ef87e29321b2a"
+    },
+    {
+      "path": "docs/downloads/gems27-h30-1-updip-hydrothermal-b2-35k-20261025-801dff07541d-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "57dee2b7539641694ca3b41fad8db084f5870419",
+      "size": 171841,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/57dee2b7539641694ca3b41fad8db084f5870419"
+    },
+    {
+      "path": "docs/downloads/gems27-h30-1-updip-hydrothermal-b2-35k-20261025-801dff07541d-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae78de5b4e544344114325f202e5cc0ea9045f01",
+      "size": 1585378,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ae78de5b4e544344114325f202e5cc0ea9045f01"
+    },
+    {
+      "path": "docs/downloads/gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b6d4e55739b982d2a2486b97886637b61b141767",
+      "size": 825820,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b6d4e55739b982d2a2486b97886637b61b141767"
+    },
+    {
+      "path": "docs/downloads/gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e5718f1c30e9596444473f9cc4a186bf872e665",
+      "size": 184837,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1e5718f1c30e9596444473f9cc4a186bf872e665"
+    },
+    {
+      "path": "docs/downloads/gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a7bda790910756f0a7e9002f39880d15f49dbb1",
+      "size": 1590948,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7a7bda790910756f0a7e9002f39880d15f49dbb1"
+    },
+    {
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49ad427035b2267dcd3e8acee10bdc85d5dbe322",
+      "size": 866160,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/49ad427035b2267dcd3e8acee10bdc85d5dbe322"
+    },
+    {
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c64e48b8bece14391fb59c1969c42c7efd718d39",
+      "size": 1635084,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c64e48b8bece14391fb59c1969c42c7efd718d39"
+    },
+    {
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b47c6610ce6e902259aab018633602fb61bcdc7",
+      "size": 378425,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1b47c6610ce6e902259aab018633602fb61bcdc7"
+    },
+    {
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d2-8-20261002-3ebd51534bb1-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7498bef5d58d01fc1350e7b28921804d4d289538",
+      "size": 839304,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7498bef5d58d01fc1350e7b28921804d4d289538"
+    },
+    {
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d2-8-20261002-3ebd51534bb1-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f939bed1c16739e22131b4958814ee0ac6bff849",
+      "size": 1605928,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f939bed1c16739e22131b4958814ee0ac6bff849"
+    },
+    {
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d2-8-20261002-3ebd51534bb1-nan.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf0d32068f25fcb4d5d2adf2aaf2d237ae710927",
+      "size": 327580,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/bf0d32068f25fcb4d5d2adf2aaf2d237ae710927"
+    },
+    {
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-plus-h27-4-r1-on-d1-5-20261002-d466b251f309-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a37ea19fe818fe35723545fe58b58c28d8ec8bd",
+      "size": 857108,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6a37ea19fe818fe35723545fe58b58c28d8ec8bd"
+    },
+    {
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-plus-h27-4-r1-on-d1-5-20261002-d466b251f309-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37f2c6589937206835661ea5664d79cfc8281173",
+      "size": 1625248,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/37f2c6589937206835661ea5664d79cfc8281173"
+    },
+    {
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-plus-h27-4-r1-on-d1-5-20261002-d466b251f309-nan.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "044360cfabf6e6a828d728537206b68e121edc43",
+      "size": 357881,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/044360cfabf6e6a828d728537206b68e121edc43"
+    },
+    {
+      "path": "docs/downloads/gems27-unique-20261026-20261026-6c2790d67dc6-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b3fd643893f74f89e1c9f2d9b89134e1c2b71f0d",
+      "size": 795564,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b3fd643893f74f89e1c9f2d9b89134e1c2b71f0d"
+    },
+    {
+      "path": "docs/downloads/gems27-unique-20261026-20261026-6c2790d67dc6-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "32244561f20e2ae23d4c150d2566eae8b4402377",
+      "size": 120523,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/32244561f20e2ae23d4c150d2566eae8b4402377"
+    },
+    {
+      "path": "docs/downloads/gems27-unique-scatter-farfield-20261025-98e59bf8e3ce-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f11ac8aa6e91c7da8f90e59231e06cbf3d77c4a9",
+      "size": 801574,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f11ac8aa6e91c7da8f90e59231e06cbf3d77c4a9"
+    },
+    {
+      "path": "docs/downloads/gems27-unique-scatter-farfield-20261025-98e59bf8e3ce-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65fc53a6d1a021f165bd52dd36acbf6e4b05aff4",
+      "size": 129579,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/65fc53a6d1a021f165bd52dd36acbf6e4b05aff4"
+    },
+    {
+      "path": "docs/downloads/h28_1_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6715cba854f8cc389be63a82e34dd226775f6a83",
+      "size": 1122,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6715cba854f8cc389be63a82e34dd226775f6a83"
+    },
+    {
+      "path": "docs/downloads/h29_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ead3f28635d79b8b629160c3a521fdf4df5d25fe",
+      "size": 1582,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ead3f28635d79b8b629160c3a521fdf4df5d25fe"
+    },
+    {
+      "path": "docs/downloads/h30_1_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "935fba499c5e2459d2877f2479967c87ff36d278",
+      "size": 11596,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/935fba499c5e2459d2877f2479967c87ff36d278"
+    },
+    {
+      "path": "docs/downloads/h31_3_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b3fbabd71e18c205a46b0a9d09391ab751b2e0a",
+      "size": 953,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8b3fbabd71e18c205a46b0a9d09391ab751b2e0a"
+    },
+    {
+      "path": "docs/downloads/h31_s10_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f31abede3ce1c210a180f02a7b6dc06117f8b29",
+      "size": 1561,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0f31abede3ce1c210a180f02a7b6dc06117f8b29"
+    },
+    {
+      "path": "docs/downloads/h32_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "617cf50ec531e283ba44fe17df5da0b164f1dde2",
+      "size": 815,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/617cf50ec531e283ba44fe17df5da0b164f1dde2"
+    },
+    {
+      "path": "docs/downloads/lane_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1453a1b978e4d02c1e0020ad7e8783db87a8b990",
+      "size": 5201,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1453a1b978e4d02c1e0020ad7e8783db87a8b990"
+    },
+    {
+      "path": "docs/downloads/manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "114afc7cdecbdf46d121fcafa90e35a61c2cb2e2",
+      "size": 8185,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/114afc7cdecbdf46d121fcafa90e35a61c2cb2e2"
+    },
+    {
+      "path": "docs/downloads/note-gems27-all-increments-d2-8-h27-4-r1-t-v2-20261002-23ad46a4d7ba-nan.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "10b8e7e6363020d560923dfd18f26602e08c28cc",
+      "size": 173,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/10b8e7e6363020d560923dfd18f26602e08c28cc"
+    },
+    {
+      "path": "docs/downloads/note-gems27-farfield-swap-augmented-detector-probe-20261002-a34b0799df59-nan.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6dae46a5811d9b23fc290144e8d26619fafaab51",
+      "size": 195,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6dae46a5811d9b23fc290144e8d26619fafaab51"
+    },
+    {
+      "path": "docs/downloads/note-gems27-h28-1-edge-coherence-plus-t-v2-h27-4-20261002-1113fba5f6cb-nan.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de932d6adc636c778966225daf637906b147b33c",
+      "size": 143,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/de932d6adc636c778966225daf637906b147b33c"
+    },
+    {
+      "path": "docs/downloads/note-gems27-h29-hydrothermal-piedmont-celf-20261025-511898747886-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b666da8d18c04b5f5c9ed8765923980dca7609c0",
+      "size": 105,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b666da8d18c04b5f5c9ed8765923980dca7609c0"
+    },
+    {
+      "path": "docs/downloads/note-gems27-h30-1-updip-hydrothermal-b2-35k-20261025-801dff07541d-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "573727c656d1a4f2dce2611cef1043bec8b561f4",
+      "size": 114,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/573727c656d1a4f2dce2611cef1043bec8b561f4"
+    },
+    {
+      "path": "docs/downloads/note-gems27-h30-1-updip-hydrothermal-b2-35k-20261025-801dff07541d-nan.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "573727c656d1a4f2dce2611cef1043bec8b561f4",
+      "size": 114,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/573727c656d1a4f2dce2611cef1043bec8b561f4"
+    },
+    {
+      "path": "docs/downloads/note-gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1cca728b37b5ab1b128805b6fc6ac751b7deea74",
+      "size": 105,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1cca728b37b5ab1b128805b6fc6ac751b7deea74"
+    },
+    {
+      "path": "docs/downloads/note-gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b2c958c1803a4abd03f11afb0420d623acc4612b",
+      "size": 152,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b2c958c1803a4abd03f11afb0420d623acc4612b"
+    },
+    {
+      "path": "docs/downloads/note-gems27-topo-gap-closure-t-v2-on-d2-8-20261002-3ebd51534bb1-nan.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ddd2b1b2ba0b614b48720cd477d7a75f104df3fb",
+      "size": 163,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ddd2b1b2ba0b614b48720cd477d7a75f104df3fb"
+    },
+    {
+      "path": "docs/downloads/note-gems27-topo-gap-closure-t-v2-plus-h27-4-r1-on-d1-5-20261002-d466b251f309-nan.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c38c9224958b8acd0efa6c95f790316eb43f6d16",
+      "size": 155,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c38c9224958b8acd0efa6c95f790316eb43f6d16"
+    },
+    {
+      "path": "docs/downloads/note-gems27-unique-20261026-20261026-6c2790d67dc6-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "251495c23b39d2d5cfc0538ee5f0b108cc7c6f87",
+      "size": 201,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/251495c23b39d2d5cfc0538ee5f0b108cc7c6f87"
+    },
+    {
+      "path": "docs/downloads/note-gems27-unique-scatter-farfield-20261025-98e59bf8e3ce-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "32f03a947ae8e4550efa0481df00ee32d90ee21d",
+      "size": 201,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/32f03a947ae8e4550efa0481df00ee32d90ee21d"
+    },
+    {
+      "path": "docs/downloads/research",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "cc0c29bda39b793f364d19019660225b9a88ca8e",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/cc0c29bda39b793f364d19019660225b9a88ca8e"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-dconfirm-hybrid-armd-b2-38k-20261025-5ea0385b7e70-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "edd7cea83e7dc67910245790b0d39225a547bf6e",
+      "size": 1528,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/edd7cea83e7dc67910245790b0d39225a547bf6e"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-dconfirm-hybrid-armd-b2-38k-20261025-5ea0385b7e70-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c44b055b7649131b37ba5d9d28af4beb9382d13",
+      "size": 2079,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9c44b055b7649131b37ba5d9d28af4beb9382d13"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h28-3-strain-conductivity-negative-research-20261025-27d6875f3b22-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "981357d1d8b1506ef27d5baa120675fda43ee41d",
+      "size": 3934,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/981357d1d8b1506ef27d5baa120675fda43ee41d"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h29-1-drefill-b2-38k-20261025-c24b6371179c-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c69a7aa3ff45fc8a7c3120797a7ea4d0c9b4c51",
+      "size": 1521,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/3c69a7aa3ff45fc8a7c3120797a7ea4d0c9b4c51"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h29-1-drefill-b2-38k-20261025-c24b6371179c-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26567a23e59052230037e20329f20896687a11d6",
+      "size": 2072,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/26567a23e59052230037e20329f20896687a11d6"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h29-1b-drefill-deconf-b2-38k-20261025-14e416a1a380-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "51990c7c2806ef75b788e636fda8e1c8076d9a0f",
+      "size": 1529,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/51990c7c2806ef75b788e636fda8e1c8076d9a0f"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h29-1b-drefill-deconf-b2-38k-20261025-14e416a1a380-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d51981a6e9e105405c55a1af2393df250a2a22d6",
+      "size": 2080,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d51981a6e9e105405c55a1af2393df250a2a22d6"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h30-chem-deconf-b2-38k-20261025-ad5a68bb0535-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d6ace3f2a9d9f14665511a2ff2f0eead8d1b51fe",
+      "size": 1523,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d6ace3f2a9d9f14665511a2ff2f0eead8d1b51fe"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h30-chem-deconf-b2-38k-20261025-ad5a68bb0535-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b5359cb33569790ce1e0e8260b23f6bfec473caf",
+      "size": 2074,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b5359cb33569790ce1e0e8260b23f6bfec473caf"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h30-gapflank-b2-38k-20261025-3107a3007b77-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9d7e70236d9b449b8855ec7ab3584a31e2ff2cc",
+      "size": 1520,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f9d7e70236d9b449b8855ec7ab3584a31e2ff2cc"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h30-gapflank-b2-38k-20261025-3107a3007b77-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee4e85768c25aac0eaafe3435e08bd8b3c9cbb1a",
+      "size": 2071,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ee4e85768c25aac0eaafe3435e08bd8b3c9cbb1a"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h31-3-mt-graben-celf28-20261026-0f397db36baf-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bcbf8a673b6fdc24e980a01299b7b26f893235dd",
+      "size": 1523,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/bcbf8a673b6fdc24e980a01299b7b26f893235dd"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h31-3-mt-graben-celf28-20261026-0f397db36baf-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "89565fb5c13a7c074a8ffa233d6ed86c8a7e2198",
+      "size": 2074,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/89565fb5c13a7c074a8ffa233d6ed86c8a7e2198"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h31-rankens-celf-b2-20261026-93c8af046660-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fce39fd17d7c98a212770f52b0a0a32b166a3490",
+      "size": 1520,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/fce39fd17d7c98a212770f52b0a0a32b166a3490"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h31-rankens-celf-b2-20261026-93c8af046660-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "efac39db10e87ab59c44274128b82fc0fd4e6d2e",
+      "size": 2071,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/efac39db10e87ab59c44274128b82fc0fd4e6d2e"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h32-poisson-demag-b2-20261026-1ac69a77008d-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "95b01b293009843885527d2cdaf73925541ba83b",
+      "size": 1521,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/95b01b293009843885527d2cdaf73925541ba83b"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h32-poisson-demag-b2-20261026-1ac69a77008d-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "044d614acba08567851bcc1592f59748de223e2a",
+      "size": 2072,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/044d614acba08567851bcc1592f59748de223e2a"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-h33-bss-complement-20261027-9ba8480691ed-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "859f3e6b7e4cac4cd222363d21d8403681ae7136",
+      "size": 1519,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/859f3e6b7e4cac4cd222363d21d8403681ae7136"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-lane-subsurface-buried-fault-20261025-fc6d8c3acf6c-allfinite.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4eba6460a8e0db75bc753cdc240f6676fe2aa694",
+      "size": 1529,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4eba6460a8e0db75bc753cdc240f6676fe2aa694"
+    },
+    {
+      "path": "docs/downloads/research/checks-gems27-lane-subsurface-buried-fault-20261025-fc6d8c3acf6c-nan.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c28c24b3f63ab9dfb53c05f5f519da1e4894976d",
+      "size": 2080,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c28c24b3f63ab9dfb53c05f5f519da1e4894976d"
+    },
+    {
+      "path": "docs/downloads/research/gems27-dconfirm-hybrid-armd-b2-38k-20261025-5ea0385b7e70-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "474f09aa16fe71eafd6c447ff7029c41f43779c2",
+      "size": 826788,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/474f09aa16fe71eafd6c447ff7029c41f43779c2"
+    },
+    {
+      "path": "docs/downloads/research/gems27-dconfirm-hybrid-armd-b2-38k-20261025-5ea0385b7e70-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5ef8984ac8e0dbab0f9600fb3da8a2fe5c5aa6a7",
+      "size": 178900,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5ef8984ac8e0dbab0f9600fb3da8a2fe5c5aa6a7"
+    },
+    {
+      "path": "docs/downloads/research/gems27-dconfirm-hybrid-armd-b2-38k-20261025-5ea0385b7e70-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee567f8075f175e3f27cb8cdcc29b40a217db743",
+      "size": 1591074,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ee567f8075f175e3f27cb8cdcc29b40a217db743"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h28-3-strain-conductivity-negative-research-20261025-27d6875f3b22-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "137a898e10865cac77d9ce46eb859b9a572bacbc",
+      "size": 864136,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/137a898e10865cac77d9ce46eb859b9a572bacbc"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h28-3-strain-conductivity-negative-research-20261025-27d6875f3b22-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6fc0dbb3f8b7715607b8b39283c4d6a8ca1f372b",
+      "size": 234313,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6fc0dbb3f8b7715607b8b39283c4d6a8ca1f372b"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h28-3-strain-conductivity-negative-research-20261025-27d6875f3b22-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c892feb5ac4f86f20e5154621fe2840b77f42da7",
+      "size": 1631084,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c892feb5ac4f86f20e5154621fe2840b77f42da7"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h29-1-drefill-b2-38k-20261025-c24b6371179c-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "baca39952fd67ed492871ed4e09f05e87df8597d",
+      "size": 826752,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/baca39952fd67ed492871ed4e09f05e87df8597d"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h29-1-drefill-b2-38k-20261025-c24b6371179c-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1f5f4891ec0d8625b1f90c52c4c85e06bf35e4a0",
+      "size": 178721,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1f5f4891ec0d8625b1f90c52c4c85e06bf35e4a0"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h29-1-drefill-b2-38k-20261025-c24b6371179c-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c4e95b9b266ec28df881fc057f032336d563826",
+      "size": 1591100,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9c4e95b9b266ec28df881fc057f032336d563826"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h29-1b-drefill-deconf-b2-38k-20261025-14e416a1a380-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ca629091d00d0d14f9a9fa7aa598d3f5b71e79a",
+      "size": 826586,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1ca629091d00d0d14f9a9fa7aa598d3f5b71e79a"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h29-1b-drefill-deconf-b2-38k-20261025-14e416a1a380-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c868a3646052b40147b6c92ecd8dd58a4d319ed3",
+      "size": 180662,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c868a3646052b40147b6c92ecd8dd58a4d319ed3"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h29-1b-drefill-deconf-b2-38k-20261025-14e416a1a380-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d07628ac56ab43259ba182521adbec96e57d73aa",
+      "size": 1590936,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d07628ac56ab43259ba182521adbec96e57d73aa"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h30-chem-deconf-b2-38k-20261025-ad5a68bb0535-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5a8f118baf4aa64a138c6a52ce7052a8967e2f1b",
+      "size": 826444,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5a8f118baf4aa64a138c6a52ce7052a8967e2f1b"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h30-chem-deconf-b2-38k-20261025-ad5a68bb0535-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fda5d3b1d05177024514d2263b6c39411d7e3844",
+      "size": 185145,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/fda5d3b1d05177024514d2263b6c39411d7e3844"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h30-chem-deconf-b2-38k-20261025-ad5a68bb0535-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39176ce6064afcba5d1eb7febd39d3f23039a7ae",
+      "size": 1590954,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/39176ce6064afcba5d1eb7febd39d3f23039a7ae"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h30-gapflank-b2-38k-20261025-3107a3007b77-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65d115c6d261ad29571e6b660e3dec528ba6b6be",
+      "size": 826824,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/65d115c6d261ad29571e6b660e3dec528ba6b6be"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h30-gapflank-b2-38k-20261025-3107a3007b77-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "273333c8abf94b4fec2ea545160da88f8b59e5c2",
+      "size": 179526,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/273333c8abf94b4fec2ea545160da88f8b59e5c2"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h30-gapflank-b2-38k-20261025-3107a3007b77-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "672d7de2813b19cb0d78c0163b7efc8f8f0f937d",
+      "size": 1591142,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/672d7de2813b19cb0d78c0163b7efc8f8f0f937d"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h31-3-mt-graben-celf28-20261026-0f397db36baf-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "24c743563c50196b785e634d09b69cc5da2e7903",
+      "size": 825936,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/24c743563c50196b785e634d09b69cc5da2e7903"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h31-3-mt-graben-celf28-20261026-0f397db36baf-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "109ee294c1341004335dfbaf534d2738af80047b",
+      "size": 184473,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/109ee294c1341004335dfbaf534d2738af80047b"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h31-3-mt-graben-celf28-20261026-0f397db36baf-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e32519c185300440bc6b38f3215ad2f42d3c6e7f",
+      "size": 1590940,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e32519c185300440bc6b38f3215ad2f42d3c6e7f"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h31-rankens-celf-b2-20261026-93c8af046660-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4032fd705d10fd21d1a5b1f7a9dde2fd6bf068c9",
+      "size": 827132,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4032fd705d10fd21d1a5b1f7a9dde2fd6bf068c9"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h31-rankens-celf-b2-20261026-93c8af046660-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab3e7dff4a56cc1982ccd82cfc0bbf98c2b39591",
+      "size": 168686,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ab3e7dff4a56cc1982ccd82cfc0bbf98c2b39591"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h31-rankens-celf-b2-20261026-93c8af046660-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0ec6dfb85493267039fa3c6d352438e5bb434ab7",
+      "size": 1591384,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0ec6dfb85493267039fa3c6d352438e5bb434ab7"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h32-poisson-demag-b2-20261026-1ac69a77008d-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "35693eff19d46ba65c262fb0b68e144f5aeff3d7",
+      "size": 826116,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/35693eff19d46ba65c262fb0b68e144f5aeff3d7"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h32-poisson-demag-b2-20261026-1ac69a77008d-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93fc3211399579065b057130d2671e3ffdc0e629",
+      "size": 177774,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/93fc3211399579065b057130d2671e3ffdc0e629"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h32-poisson-demag-b2-20261026-1ac69a77008d-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9e54bc198ab4725d5f442b14e181987473b0bdb",
+      "size": 1590486,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e9e54bc198ab4725d5f442b14e181987473b0bdb"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h33-bss-complement-20261027-9ba8480691ed-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9229a2a28201759ed30b9932c2b2276a1d16be7d",
+      "size": 825910,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9229a2a28201759ed30b9932c2b2276a1d16be7d"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h33-bss-complement-20261027-9ba8480691ed-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58a419ba91ec28be5521b31a8ba26a010381d94b",
+      "size": 178774,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/58a419ba91ec28be5521b31a8ba26a010381d94b"
+    },
+    {
+      "path": "docs/downloads/research/gems27-h33-bss-complement-20261027-9ba8480691ed-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c6ad4a3634d667d557c31bcde7e23efb2811e7df",
+      "size": 1590036,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c6ad4a3634d667d557c31bcde7e23efb2811e7df"
+    },
+    {
+      "path": "docs/downloads/research/gems27-lane-subsurface-buried-fault-20261025-fc6d8c3acf6c-allfinite.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e9f1f6c53a1791fc2d7ede55b0d564426d98555",
+      "size": 827016,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0e9f1f6c53a1791fc2d7ede55b0d564426d98555"
+    },
+    {
+      "path": "docs/downloads/research/gems27-lane-subsurface-buried-fault-20261025-fc6d8c3acf6c-allfinite.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93df104f758b22d2d4b9c588fdf77b79b83d60fe",
+      "size": 173960,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/93df104f758b22d2d4b9c588fdf77b79b83d60fe"
+    },
+    {
+      "path": "docs/downloads/research/gems27-lane-subsurface-buried-fault-20261025-fc6d8c3acf6c-nan.tif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "587f47d6c65a4a9572ba507210e45ff3c25b5ddd",
+      "size": 1591096,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/587f47d6c65a4a9572ba507210e45ff3c25b5ddd"
+    },
+    {
+      "path": "docs/downloads/research/h28_3_negative_research_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c8defa4df349d2c563d437504d07006053cba76d",
+      "size": 9222,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c8defa4df349d2c563d437504d07006053cba76d"
+    },
+    {
+      "path": "docs/downloads/research/h29_1_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6eb63032de85de69ac76628078a06733b1707d90",
+      "size": 5070,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6eb63032de85de69ac76628078a06733b1707d90"
+    },
+    {
+      "path": "docs/downloads/research/h29_1b_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f1728419ca079374b17a9343ae0c55320457439",
+      "size": 9060,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9f1728419ca079374b17a9343ae0c55320457439"
+    },
+    {
+      "path": "docs/downloads/research/h30_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebac260e00630d76c6d5c07a262a81cf5b454a46",
+      "size": 9542,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ebac260e00630d76c6d5c07a262a81cf5b454a46"
+    },
+    {
+      "path": "docs/downloads/research/h30_negative_research_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b53ec0b0c1b6f9b6372a389a393fd83755e19edc",
+      "size": 7960,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b53ec0b0c1b6f9b6372a389a393fd83755e19edc"
+    },
+    {
+      "path": "docs/downloads/research/h31_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f3aa652fd33c9e60c9098b29c8d5fcba0f9297f",
+      "size": 9335,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0f3aa652fd33c9e60c9098b29c8d5fcba0f9297f"
+    },
+    {
+      "path": "docs/downloads/research/h33_candidate_manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee621d99a7f0e12cd5e7bd04b190b42e53617a0d",
+      "size": 780,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ee621d99a7f0e12cd5e7bd04b190b42e53617a0d"
+    },
+    {
+      "path": "docs/downloads/research/note-gems27-dconfirm-hybrid-armd-b2-38k-20261025-5ea0385b7e70-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2e6318d732067fafece0ceaef34f3ddaa7a3f7e4",
+      "size": 98,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2e6318d732067fafece0ceaef34f3ddaa7a3f7e4"
+    },
+    {
+      "path": "docs/downloads/research/note-gems27-h28-3-strain-conductivity-negative-research-20261025-27d6875f3b22-nan.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7215cfadc538cb69f6aa8a754b7eef12f51245a1",
+      "size": 158,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7215cfadc538cb69f6aa8a754b7eef12f51245a1"
+    },
+    {
+      "path": "docs/downloads/research/note-gems27-h29-1-drefill-b2-38k-20261025-c24b6371179c-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "684a311737017cd46234ae2f8756cbe6be1181df",
+      "size": 92,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/684a311737017cd46234ae2f8756cbe6be1181df"
+    },
+    {
+      "path": "docs/downloads/research/note-gems27-h29-1b-drefill-deconf-b2-38k-20261025-14e416a1a380-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e06c5ad757dae5013e4c65278f75b39f184ea0a",
+      "size": 100,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8e06c5ad757dae5013e4c65278f75b39f184ea0a"
+    },
+    {
+      "path": "docs/downloads/research/note-gems27-h30-chem-deconf-b2-38k-20261025-ad5a68bb0535-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "67592aca2eb9ee0cad4dbd08baf5e40f71fade7c",
+      "size": 93,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/67592aca2eb9ee0cad4dbd08baf5e40f71fade7c"
+    },
+    {
+      "path": "docs/downloads/research/note-gems27-h30-gapflank-b2-38k-20261025-3107a3007b77-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e21cd7e18cf1d58e74e4e60be0d404bba5055061",
+      "size": 99,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e21cd7e18cf1d58e74e4e60be0d404bba5055061"
+    },
+    {
+      "path": "docs/downloads/research/note-gems27-h31-3-mt-graben-celf28-20261026-0f397db36baf-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb039138b7094f8355464e3fbcb5dced4b4e4532",
+      "size": 96,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/cb039138b7094f8355464e3fbcb5dced4b4e4532"
+    },
+    {
+      "path": "docs/downloads/research/note-gems27-h31-rankens-celf-b2-20261026-93c8af046660-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f313d473052a74df7a864c8d9bab051b76f5e3a0",
+      "size": 131,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f313d473052a74df7a864c8d9bab051b76f5e3a0"
+    },
+    {
+      "path": "docs/downloads/research/note-gems27-h32-poisson-demag-b2-20261026-1ac69a77008d-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f07f0a920453720097edf2353a03594484410335",
+      "size": 114,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f07f0a920453720097edf2353a03594484410335"
+    },
+    {
+      "path": "docs/downloads/research/note-gems27-h33-bss-complement-20261027-9ba8480691ed-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d019f83dea6302767dc9aa49e869c11505a7b73f",
+      "size": 93,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d019f83dea6302767dc9aa49e869c11505a7b73f"
+    },
+    {
+      "path": "docs/downloads/research/note-gems27-lane-subsurface-buried-fault-20261025-fc6d8c3acf6c-allfinite.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b3e2ddb6a83dc6dc0f5827888b21464a41f7a660",
+      "size": 132,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b3e2ddb6a83dc6dc0f5827888b21464a41f7a660"
+    },
+    {
+      "path": "docs/executive-summary.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14a680e99d9b5212569e1cb080395dbf6f0e3d4f",
+      "size": 13214,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/14a680e99d9b5212569e1cb080395dbf6f0e3d4f"
+    },
+    {
+      "path": "docs/how-to-submit.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4bbb9c8dc771cad1f16e97ea10d9eb5923209c45",
+      "size": 6161,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4bbb9c8dc771cad1f16e97ea10d9eb5923209c45"
+    },
+    {
+      "path": "docs/index.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7714ca9e5e6aa202e3ee9f9ebe5d6155741ec667",
+      "size": 7483,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7714ca9e5e6aa202e3ee9f9ebe5d6155741ec667"
+    },
+    {
+      "path": "docs/research.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77564cfcf78fc8d3b94d75f7fdc157bad52e35f4",
+      "size": 8680,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/77564cfcf78fc8d3b94d75f7fdc157bad52e35f4"
+    },
+    {
+      "path": "docs/sources.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "852e1e07ab81ff497b700834400ada2e8be2fc3e",
+      "size": 12054,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/852e1e07ab81ff497b700834400ada2e8be2fc3e"
+    },
+    {
+      "path": "docs/topology.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "53d5897c76343c2c3d1bcc61f954da6e55d98415",
+      "size": 3179,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/53d5897c76343c2c3d1bcc61f954da6e55d98415"
+    },
+    {
+      "path": "evidence",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3bc0d904c9aafead9eb1ef38a55a62a8231b8713",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/3bc0d904c9aafead9eb1ef38a55a62a8231b8713"
+    },
+    {
+      "path": "evidence/addendum_d_gates.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "62871ad57635fcc9ba480dad7edbbc0fbb11fa3d",
+      "size": 170743,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/62871ad57635fcc9ba480dad7edbbc0fbb11fa3d"
+    },
+    {
+      "path": "evidence/arm_habitat_decomposition.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93ad81b1ce081637ed87514fc837533c271725b9",
+      "size": 10058,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/93ad81b1ce081637ed87514fc837533c271725b9"
+    },
+    {
+      "path": "evidence/audit_98e59bf8e3ce_uniqueness.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9538167e8d9dfea6d4f5e8391bd8f45abacca27f",
+      "size": 3518,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9538167e8d9dfea6d4f5e8391bd8f45abacca27f"
+    },
+    {
+      "path": "evidence/budget_optimum.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f57560339f2b53590634e693a10f5c975c1a8d83",
+      "size": 8821,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f57560339f2b53590634e693a10f5c975c1a8d83"
+    },
+    {
+      "path": "evidence/candidate_model_scores.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0dbc6e1805676c80195e78a1987d5e70d87c831e",
+      "size": 3775,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0dbc6e1805676c80195e78a1987d5e70d87c831e"
+    },
+    {
+      "path": "evidence/candidate_summary.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "807bc52fd0b06b62f8a8a29064d1a875e04eacc5",
+      "size": 9548,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/807bc52fd0b06b62f8a8a29064d1a875e04eacc5"
+    },
+    {
+      "path": "evidence/channel_auc.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e274d0ce61bcf9d50a85dcf6acf4db359d6c5aa4",
+      "size": 8975,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e274d0ce61bcf9d50a85dcf6acf4db359d6c5aa4"
+    },
+    {
+      "path": "evidence/data_preparation.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b8352643dc425f97865ea7b875a343c272f5ebbd",
+      "size": 2148,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b8352643dc425f97865ea7b875a343c272f5ebbd"
+    },
+    {
+      "path": "evidence/dconfirm_cross_session_overlap.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c8e3aeaaa65b7450968b2d78aed7dc37b3a12b2",
+      "size": 792,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7c8e3aeaaa65b7450968b2d78aed7dc37b3a12b2"
+    },
+    {
+      "path": "evidence/dconfirm_holdout_2026-10-25.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a6ba48a5003ccd4805b3f3dfbee6401a9ae6467",
+      "size": 36633,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1a6ba48a5003ccd4805b3f3dfbee6401a9ae6467"
+    },
+    {
+      "path": "evidence/dconfirm_holdout_run.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "451463fd7dc013284ccc24fbc7ab509dccb95d99",
+      "size": 4751,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/451463fd7dc013284ccc24fbc7ab509dccb95d99"
+    },
+    {
+      "path": "evidence/dconfirm_run_card_2026-10-25.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c050fc9b706dfb99f177199a501079b6dd53daa4",
+      "size": 27513,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c050fc9b706dfb99f177199a501079b6dd53daa4"
+    },
+    {
+      "path": "evidence/example_links.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3dd1efe78e996ba70d5ce1620ca2c60f0406ae6c",
+      "size": 72,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/3dd1efe78e996ba70d5ce1620ca2c60f0406ae6c"
+    },
+    {
+      "path": "evidence/exploratory_seeds_0_2.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e5f885725daf6ee987b747a1a6059a849fca3ab",
+      "size": 767,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8e5f885725daf6ee987b747a1a6059a849fca3ab"
+    },
+    {
+      "path": "evidence/focus_geometry_recheck_20261027.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "57d70336088ab553eda4ee3157d68d988dfebf30",
+      "size": 1102,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/57d70336088ab553eda4ee3157d68d988dfebf30"
+    },
+    {
+      "path": "evidence/focus_inventory_20261027.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30733c03cf0e1bf8862a55b5d0cec1d7e471f3aa",
+      "size": 180764,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/30733c03cf0e1bf8862a55b5d0cec1d7e471f3aa"
+    },
+    {
+      "path": "evidence/focus_sites_executive_summary_20261026.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f4d2b8e8c0508d2d702e4c4f1632f28caea0ff22",
+      "size": 25450,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f4d2b8e8c0508d2d702e4c4f1632f28caea0ff22"
+    },
+    {
+      "path": "evidence/graph_report.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26c064c6cd33945e07831b7251501675f3da4c64",
+      "size": 37629,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/26c064c6cd33945e07831b7251501675f3da4c64"
+    },
+    {
+      "path": "evidence/h27_10_annulus_holdout.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a0ec5f949bba9301ce16724b958d03f0812d60d",
+      "size": 49837,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6a0ec5f949bba9301ce16724b958d03f0812d60d"
+    },
+    {
+      "path": "evidence/h27_10_annulus_holdout_initial.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "640d178bbcacd19fa0f168beb180fc2de48fb2a4",
+      "size": 49879,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/640d178bbcacd19fa0f168beb180fc2de48fb2a4"
+    },
+    {
+      "path": "evidence/h28_1_edge_holdout.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "10531b3b4b01bf38d86eaad36680904fef3198b9",
+      "size": 61274,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/10531b3b4b01bf38d86eaad36680904fef3198b9"
+    },
+    {
+      "path": "evidence/h28_3_negative_uniqueness.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb25dccc4d955b83aedcafa6ab44f28ba078fdfe",
+      "size": 3611,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/cb25dccc4d955b83aedcafa6ab44f28ba078fdfe"
+    },
+    {
+      "path": "evidence/h28_3_strain_holdout.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f3a39db314a2ed3130b945e541a07d3b386babe",
+      "size": 34699,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5f3a39db314a2ed3130b945e541a07d3b386babe"
+    },
+    {
+      "path": "evidence/h29_1_holdout.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8f15661c361cd2a6e3869c7974455bff0f1c6dd",
+      "size": 10747,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e8f15661c361cd2a6e3869c7974455bff0f1c6dd"
+    },
+    {
+      "path": "evidence/h29_1_run_card.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7123bf3d28ffaf0b50588f96d0ef31192c0e279d",
+      "size": 5007,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7123bf3d28ffaf0b50588f96d0ef31192c0e279d"
+    },
+    {
+      "path": "evidence/h29_1b_run_card.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "814a0a6d419345932b16a2105f39d3ecf459f646",
+      "size": 8989,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/814a0a6d419345932b16a2105f39d3ecf459f646"
+    },
+    {
+      "path": "evidence/h29_2_holdout_2026-10-25.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "81362d6d4f4f568fe3cdee0d5bf1f41c3a31a299",
+      "size": 92446,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/81362d6d4f4f568fe3cdee0d5bf1f41c3a31a299"
+    },
+    {
+      "path": "evidence/h29_2_run_card_2026-10-25.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d144cd055771a2e40f6717ce2f6a1114a1ad1d09",
+      "size": 55779,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d144cd055771a2e40f6717ce2f6a1114a1ad1d09"
+    },
+    {
+      "path": "evidence/h29_e1_canary_and_surface.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93d480c84f7182086255e1413e3137b460728aca",
+      "size": 5222,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/93d480c84f7182086255e1413e3137b460728aca"
+    },
+    {
+      "path": "evidence/h29_e2_holdout_210_219.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b2f3664002e7ec92b7d981e96b6a3281d676dc8",
+      "size": 7380,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9b2f3664002e7ec92b7d981e96b6a3281d676dc8"
+    },
+    {
+      "path": "evidence/h29_run_card_2026-10-25.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2aee4bb679adee24ed39ad7807035549051385a9",
+      "size": 14193,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2aee4bb679adee24ed39ad7807035549051385a9"
+    },
+    {
+      "path": "evidence/h29_uniqueness_vs_peers.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "895f2e664ba0899c812d99c36066eaa5de1b0ead",
+      "size": 3597,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/895f2e664ba0899c812d99c36066eaa5de1b0ead"
+    },
+    {
+      "path": "evidence/h30_1_holdout.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff5648a8407192600d3ab9d53ad910374c186e77",
+      "size": 62376,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ff5648a8407192600d3ab9d53ad910374c186e77"
+    },
+    {
+      "path": "evidence/h30_1_run_card.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b96729caf7f1c3874070718b3aa524f751ef794",
+      "size": 11522,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/3b96729caf7f1c3874070718b3aa524f751ef794"
+    },
+    {
+      "path": "evidence/h30_dipgap_holdout.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1559b7487be89f87261fe6bd1ff255909355cc02",
+      "size": 24197,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1559b7487be89f87261fe6bd1ff255909355cc02"
+    },
+    {
+      "path": "evidence/h30_dipgap_holdout_run.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00ab18759f71c618ee4046b4b5364d8bab70cdb7",
+      "size": 5515,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/00ab18759f71c618ee4046b4b5364d8bab70cdb7"
+    },
+    {
+      "path": "evidence/h30_dipgap_run_card.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f4e99e2ccfc6fce3ccae38ba403a7be9e180c40",
+      "size": 7898,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0f4e99e2ccfc6fce3ccae38ba403a7be9e180c40"
+    },
+    {
+      "path": "evidence/h30_dipgap_uniqueness_check.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a1781513e8e3a08ae0d333f4ebc95af587a9aac",
+      "size": 3592,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0a1781513e8e3a08ae0d333f4ebc95af587a9aac"
+    },
+    {
+      "path": "evidence/h30_holdout.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "461f156e9bb437645fc7db87e69630faf6daabc2",
+      "size": 21850,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/461f156e9bb437645fc7db87e69630faf6daabc2"
+    },
+    {
+      "path": "evidence/h30_run_card.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44cba499dff603cde9a61dc621f6592705fd23f8",
+      "size": 9939,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/44cba499dff603cde9a61dc621f6592705fd23f8"
+    },
+    {
+      "path": "evidence/h31_3_e1_canary_and_surface_510_519.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a54fadd2ba81e6c9e552fcdc112e6cf6bcac31ec",
+      "size": 2349,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/a54fadd2ba81e6c9e552fcdc112e6cf6bcac31ec"
+    },
+    {
+      "path": "evidence/h31_3_e2_holdout_510_519.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab3de73a0ceeae6f9abe4a1930e3ca3d77634e47",
+      "size": 2534,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ab3de73a0ceeae6f9abe4a1930e3ca3d77634e47"
+    },
+    {
+      "path": "evidence/h31_3_run_card_2026-10-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "52e5545f0ce2971950429b05d840f5284888aaa2",
+      "size": 14500,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/52e5545f0ce2971950429b05d840f5284888aaa2"
+    },
+    {
+      "path": "evidence/h31_3_uniqueness_vs_registry.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19d3cd7671faa8df8346571bf4966695d60efe72",
+      "size": 3583,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/19d3cd7671faa8df8346571bf4966695d60efe72"
+    },
+    {
+      "path": "evidence/h31_build_run.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "52241734e04e5694bcecf99b31260b64414a3ffa",
+      "size": 323,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/52241734e04e5694bcecf99b31260b64414a3ffa"
+    },
+    {
+      "path": "evidence/h31_cross_session_overlap.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb4d829c1569677a1290190cd73f206219f86041",
+      "size": 531,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/fb4d829c1569677a1290190cd73f206219f86041"
+    },
+    {
+      "path": "evidence/h31_e1_canary_and_surface.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "912f735fec010a03864d2be4760f24ab777a5f21",
+      "size": 2484,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/912f735fec010a03864d2be4760f24ab777a5f21"
+    },
+    {
+      "path": "evidence/h31_e2_holdout_260_269.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "09703372d43d398599611f621f215d7f157d7ac9",
+      "size": 4217,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/09703372d43d398599611f621f215d7f157d7ac9"
+    },
+    {
+      "path": "evidence/h31_holdout_run.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d57b0eb8174bf79abc22bb1964d14db784888298",
+      "size": 1931,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d57b0eb8174bf79abc22bb1964d14db784888298"
+    },
+    {
+      "path": "evidence/h31_holdout_run_attempt1_failed.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7cbaebd39fab9e9e53fa546c537dc2f1f6be6417",
+      "size": 1562,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7cbaebd39fab9e9e53fa546c537dc2f1f6be6417"
+    },
+    {
+      "path": "evidence/h31_run_card.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b519490508cfa0cb507000491dbddb7d94951b81",
+      "size": 9273,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b519490508cfa0cb507000491dbddb7d94951b81"
+    },
+    {
+      "path": "evidence/h31_s10_e1_canary_and_surface.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a2cb7f0275cc3144cc24f7ac351aede2013b8a4",
+      "size": 5021,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2a2cb7f0275cc3144cc24f7ac351aede2013b8a4"
+    },
+    {
+      "path": "evidence/h31_s10_e2_holdout_400_409.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee6ce586af103d14cb4fc0ed5119061a15ba3798",
+      "size": 9426,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ee6ce586af103d14cb4fc0ed5119061a15ba3798"
+    },
+    {
+      "path": "evidence/h31_s10_run_card_2026-10-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ac6af1c7622cdc55675dfae89b18bec152384653",
+      "size": 19243,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ac6af1c7622cdc55675dfae89b18bec152384653"
+    },
+    {
+      "path": "evidence/h31_s10_uniqueness_vs_peers.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "289b0bad11845d9143fe0ec3acd47f7553821ddb",
+      "size": 3583,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/289b0bad11845d9143fe0ec3acd47f7553821ddb"
+    },
+    {
+      "path": "evidence/h31_uniqueness_check.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8c4b30083baf048926a0a98da046ccf3f93fa818",
+      "size": 3586,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8c4b30083baf048926a0a98da046ccf3f93fa818"
+    },
+    {
+      "path": "evidence/h32_e2_holdout_500_509.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71ab4580ed9dd571fb05c6c235acd0b97b2d958f",
+      "size": 30936,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/71ab4580ed9dd571fb05c6c235acd0b97b2d958f"
+    },
+    {
+      "path": "evidence/h32_holdout_run.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02356152b59961fc44d562512b01ab2c5c72efc1",
+      "size": 3406,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/02356152b59961fc44d562512b01ab2c5c72efc1"
+    },
+    {
+      "path": "evidence/h32_run_card_2026-10-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "382adcae5dab1d2a05a8e4df2c5ae72563e1ec1d",
+      "size": 7718,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/382adcae5dab1d2a05a8e4df2c5ae72563e1ec1d"
+    },
+    {
+      "path": "evidence/h32_uniqueness_vs_registry.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3e3d25758264f072a9ca6b1d11d4fede5bd1a8d3",
+      "size": 11112,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/3e3d25758264f072a9ca6b1d11d4fede5bd1a8d3"
+    },
+    {
+      "path": "evidence/h33_e1_canary_and_surface_520_529.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "147c7c1cb3ea8acdc55964874c09e535f9c120d4",
+      "size": 2307,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/147c7c1cb3ea8acdc55964874c09e535f9c120d4"
+    },
+    {
+      "path": "evidence/h33_e2_holdout_520_529.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d21981e27ed5d9202e2313cae1d0246ab28c7490",
+      "size": 5893,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d21981e27ed5d9202e2313cae1d0246ab28c7490"
+    },
+    {
+      "path": "evidence/h33_run_card_2026-10-27.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db236271bad5adb2a1cd18d9943c2bf35c25a912",
+      "size": 5853,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/db236271bad5adb2a1cd18d9943c2bf35c25a912"
+    },
+    {
+      "path": "evidence/h33_uniqueness_vs_registry.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5ca193a84c4173aee43bfd09c24ba92f75776c88",
+      "size": 3425,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5ca193a84c4173aee43bfd09c24ba92f75776c88"
+    },
+    {
+      "path": "evidence/lane_holdout_2026-10-25.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0c2699ec41d85d3dd770beb48b23dd5669d4bb8c",
+      "size": 18494,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0c2699ec41d85d3dd770beb48b23dd5669d4bb8c"
+    },
+    {
+      "path": "evidence/lane_run_card_2026-10-25.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af462ba3abd37afffad39c78fb51c4bd7ba9ad6d",
+      "size": 5087,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/af462ba3abd37afffad39c78fb51c4bd7ba9ad6d"
+    },
+    {
+      "path": "evidence/link_graph_value.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1de7bb06c1d9d2db8d17177545b24d35581c44b7",
+      "size": 140821,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1de7bb06c1d9d2db8d17177545b24d35581c44b7"
+    },
+    {
+      "path": "evidence/live_inversion.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "736db49d1c15952b0825d7e3216da17876053472",
+      "size": 20088,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/736db49d1c15952b0825d7e3216da17876053472"
+    },
+    {
+      "path": "evidence/live_truth_partition_radial.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00e1e879afdcb309b1a765a05f03e24dc7fb2d88",
+      "size": 6390,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/00e1e879afdcb309b1a765a05f03e24dc7fb2d88"
+    },
+    {
+      "path": "evidence/live_truth_tomography.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f04326182f318b997ef34193b2c190e8b4d2824a",
+      "size": 7461,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f04326182f318b997ef34193b2c190e8b4d2824a"
+    },
+    {
+      "path": "evidence/missed_catalogue_diagnostic_20261027.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3fe9c78c89a3f40e89ca40ae42f57d1a2f94a0bc",
+      "size": 836,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/3fe9c78c89a3f40e89ca40ae42f57d1a2f94a0bc"
+    },
+    {
+      "path": "evidence/official_reference_readme_20261025.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a8814f99c395d12a8e1c3731c738e61d7dca06b5",
+      "size": 2367,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/a8814f99c395d12a8e1c3731c738e61d7dca06b5"
+    },
+    {
+      "path": "evidence/oof_hypothesis_gates.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c7c3c6c91510e53335e9034f1600e23ccf4e940",
+      "size": 4009,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/3c7c3c6c91510e53335e9034f1600e23ccf4e940"
+    },
+    {
+      "path": "evidence/operating_point_model.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1f0423144951dc90c4a046582e993df78ef9482b",
+      "size": 1807,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1f0423144951dc90c4a046582e993df78ef9482b"
+    },
+    {
+      "path": "evidence/peer_h33_2_raster_recheck_2026-10-25.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dde796df2fa81758d0aa9e4c3cc95661677cb6f4",
+      "size": 4428,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/dde796df2fa81758d0aa9e4c3cc95661677cb6f4"
+    },
+    {
+      "path": "evidence/readiness_audit_execution.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f14a8afff85d156fcb0e01318c551b6587d40306",
+      "size": 3331,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f14a8afff85d156fcb0e01318c551b6587d40306"
+    },
+    {
+      "path": "evidence/readiness_audit_run_card_2026-10-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "83a7dc41ed9b7ea799a43e89e6bad5d67de3fb51",
+      "size": 18762,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/83a7dc41ed9b7ea799a43e89e6bad5d67de3fb51"
+    },
+    {
+      "path": "evidence/readiness_download_verification.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d709c69445fce31f038f605ab991ed2dcdf5b70",
+      "size": 9583,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8d709c69445fce31f038f605ab991ed2dcdf5b70"
+    },
+    {
+      "path": "evidence/relief_profile_canary_20261027.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4101a6ef18e90fd0f35756512b9659fe6825947f",
+      "size": 39704,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4101a6ef18e90fd0f35756512b9659fe6825947f"
+    },
+    {
+      "path": "evidence/relief_profile_holdout_20261027.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58b6259d2a4ca4191aa1fd8daffff259e9c62c98",
+      "size": 4118,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/58b6259d2a4ca4191aa1fd8daffff259e9c62c98"
+    },
+    {
+      "path": "evidence/relief_profile_inventory_audit_20261027.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4df512dc418bda68ce49d31f06ea8959006ceadc",
+      "size": 1542,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4df512dc418bda68ce49d31f06ea8959006ceadc"
+    },
+    {
+      "path": "evidence/relief_profile_registry_20261027.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f061b30d759e2eb93b3c3d6b2afcb9a60a7d8d85",
+      "size": 139334,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f061b30d759e2eb93b3c3d6b2afcb9a60a7d8d85"
+    },
+    {
+      "path": "evidence/relief_profile_run_card_20261027.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c40f22fa77294cf419ab87fa4e466e202ac3d2c2",
+      "size": 3121,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c40f22fa77294cf419ab87fa4e466e202ac3d2c2"
+    },
+    {
+      "path": "evidence/research_format_reaudit_20261025.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "684d6a7392d76fed6ddeb3507027a9f396fedebb",
+      "size": 8640,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/684d6a7392d76fed6ddeb3507027a9f396fedebb"
+    },
+    {
+      "path": "evidence/review_20261027.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "59900d85e7455ba6ece555c2f7804fc35df8a5af",
+      "size": 5150,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/59900d85e7455ba6ece555c2f7804fc35df8a5af"
+    },
+    {
+      "path": "evidence/review_passes.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d56bbc60a1764a699b67abed5d80329bbf4940f",
+      "size": 65181,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2d56bbc60a1764a699b67abed5d80329bbf4940f"
+    },
+    {
+      "path": "evidence/run_card_unique_20261026.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a5182e69146ceb3addcda484d81a33d07c232b0",
+      "size": 2725,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6a5182e69146ceb3addcda484d81a33d07c232b0"
+    },
+    {
+      "path": "evidence/run_card_unique_scatter_farfield.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed289fb861537b02ffdba8e48bc1faf111a931b4",
+      "size": 5685,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ed289fb861537b02ffdba8e48bc1faf111a931b4"
+    },
+    {
+      "path": "evidence/run_card_unique_scatter_farfield_20261025.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1af19fe45f6e19b8b4f09745b3d311f6d0254bf8",
+      "size": 4849,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1af19fe45f6e19b8b4f09745b3d311f6d0254bf8"
+    },
+    {
+      "path": "evidence/scored_corpus.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b1c9e8f1b8c1b1b9543801be2a7cf185ad2172e",
+      "size": 11283,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1b1c9e8f1b8c1b1b9543801be2a7cf185ad2172e"
+    },
+    {
+      "path": "evidence/session11_reaudit.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c65f222f5e7352988b55c85aa52de30e699a9eeb",
+      "size": 10502,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c65f222f5e7352988b55c85aa52de30e699a9eeb"
+    },
+    {
+      "path": "evidence/session12_run_card_2026-10-27.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b925a0338914a6531e5a69148e27a16d3d03a813",
+      "size": 1289,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b925a0338914a6531e5a69148e27a16d3d03a813"
+    },
+    {
+      "path": "evidence/session13_run_card_2026-10-27.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1fd0ba42152f6e09031658d2354834733ed50629",
+      "size": 3158,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1fd0ba42152f6e09031658d2354834733ed50629"
+    },
+    {
+      "path": "evidence/session14_raster_recheck_20261027.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4707d2aece4bdba1deb51cabde042f1ab39c1f83",
+      "size": 3032,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4707d2aece4bdba1deb51cabde042f1ab39c1f83"
+    },
+    {
+      "path": "evidence/session14_run_card_20261027.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "22fc3fecbe067d474f8bed77785c8d29c477b0ae",
+      "size": 7451,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/22fc3fecbe067d474f8bed77785c8d29c477b0ae"
+    },
+    {
+      "path": "evidence/sgmc_gap_inversion.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b95c85a7089d127f7d960883d74de35ce3551db",
+      "size": 10846,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0b95c85a7089d127f7d960883d74de35ce3551db"
+    },
+    {
+      "path": "evidence/sgmc_lidar_response.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f4e859ca7d00ed18ec1c09a7e4cd7d7f5ef538bc",
+      "size": 5142,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f4e859ca7d00ed18ec1c09a7e4cd7d7f5ef538bc"
+    },
+    {
+      "path": "evidence/slot1_live_ab_inversion.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "98502c75d43325bee5710049232d8f42337815f5",
+      "size": 2461,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/98502c75d43325bee5710049232d8f42337815f5"
+    },
+    {
+      "path": "evidence/structural_relay_classes.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d350114ea345c5489d41e694ce81b73c67b8e8f7",
+      "size": 3390,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d350114ea345c5489d41e694ce81b73c67b8e8f7"
+    },
+    {
+      "path": "evidence/topology_confirmation_v2.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "525078d3f4af10ccfb890345094e426b4b4271ec",
+      "size": 121750,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/525078d3f4af10ccfb890345094e426b4b4271ec"
+    },
+    {
+      "path": "evidence/topology_link_feature_analysis.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1f866bac494440c1be5d9772ad89c40735813f60",
+      "size": 3979,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1f866bac494440c1be5d9772ad89c40735813f60"
+    },
+    {
+      "path": "evidence/topology_validation.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2b6a7630d0baf8eec9ae4fee1c13581a0a78c103",
+      "size": 41956,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2b6a7630d0baf8eec9ae4fee1c13581a0a78c103"
+    },
+    {
+      "path": "evidence/topology_validation_runA_partial_log.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c2ba2b1d67999e664fa56af95a796534449e814",
+      "size": 1683,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7c2ba2b1d67999e664fa56af95a796534449e814"
+    },
+    {
+      "path": "evidence/unique_scatter_holdout.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72a0441f381e47235315d8a12e8a006c73971fd4",
+      "size": 1895,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/72a0441f381e47235315d8a12e8a006c73971fd4"
+    },
+    {
+      "path": "evidence/uniqueness_cli_selfcheck_20261027.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e834dec5ef371d65c5f51c4a61a5a851b7c1d080",
+      "size": 3816,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e834dec5ef371d65c5f51c4a61a5a851b7c1d080"
+    },
+    {
+      "path": "evidence/vector_topology_validation.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "580d25912cc86955cd6e5b1ac69a9f3e251cb8e4",
+      "size": 9788,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/580d25912cc86955cd6e5b1ac69a9f3e251cb8e4"
+    },
+    {
+      "path": "index.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f85033820dc76e4a22e04a9c61a4a660e49d864",
+      "size": 7543,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5f85033820dc76e4a22e04a9c61a4a660e49d864"
+    },
+    {
+      "path": "knowledge",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "18ae5cbbb4f30272416cb3b511007573ab0903a7",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/18ae5cbbb4f30272416cb3b511007573ab0903a7"
+    },
+    {
+      "path": "knowledge/01_why_0.2477_won_and_the_ceiling.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1c59136f2693b182300a6478f337e50f527de899",
+      "size": 5368,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1c59136f2693b182300a6478f337e50f527de899"
+    },
+    {
+      "path": "knowledge/02_hypotheses_ranked.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce2804fbd9538ba7be0a4d817106f6634d1fbf95",
+      "size": 49623,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ce2804fbd9538ba7be0a4d817106f6634d1fbf95"
+    },
+    {
+      "path": "knowledge/03_preregistration_topology_gate.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1c265d16e357316527d649b5a39811a1eea81f68",
+      "size": 32856,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1c265d16e357316527d649b5a39811a1eea81f68"
+    },
+    {
+      "path": "knowledge/04_topology_graph_argument.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bce2780a7b773e9b7f96abe0c5d26ac1aa0aaeaa",
+      "size": 13461,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/bce2780a7b773e9b7f96abe0c5d26ac1aa0aaeaa"
+    },
+    {
+      "path": "knowledge/05_sources_and_verification.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "429f12a8e1bc98d705fde69fe822a16472f9e262",
+      "size": 23747,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/429f12a8e1bc98d705fde69fe822a16472f9e262"
+    },
+    {
+      "path": "knowledge/06_limitations_and_access.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63afb6e3eae4eb9a53cb3df1ca40e6e36c40fc30",
+      "size": 32662,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/63afb6e3eae4eb9a53cb3df1ca40e6e36c40fc30"
+    },
+    {
+      "path": "knowledge/07_live_score_inversion.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6993b65e10b5642fba9b68d9cee6fe7084474253",
+      "size": 11531,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6993b65e10b5642fba9b68d9cee6fe7084474253"
+    },
+    {
+      "path": "knowledge/07_untried_hypotheses.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cd46c4a03b623a19aa955945b9cd44ab5a076082",
+      "size": 21647,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/cd46c4a03b623a19aa955945b9cd44ab5a076082"
+    },
+    {
+      "path": "knowledge/08_preregistration_H28-1.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a178b0fd4622bf83934b64239b6039462412171",
+      "size": 7899,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8a178b0fd4622bf83934b64239b6039462412171"
+    },
+    {
+      "path": "knowledge/09_preregistration_H28-1_candidate.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "96a8402f8594ba8369fa05a1e3ba81440dc738b8",
+      "size": 5439,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/96a8402f8594ba8369fa05a1e3ba81440dc738b8"
+    },
+    {
+      "path": "knowledge/10_session4_farfield_measurement_and_proxy_limit.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b823e627d28034257a16dc29e28decc35a9a498",
+      "size": 19613,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8b823e627d28034257a16dc29e28decc35a9a498"
+    },
+    {
+      "path": "knowledge/11_h27_5b_geologist_review_class.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8148c679f251d748caac3b4bb17fe979211352c7",
+      "size": 7389,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8148c679f251d748caac3b4bb17fe979211352c7"
+    },
+    {
+      "path": "knowledge/12_20261025_peer_submission_audit.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "582ae9eb231665187c2fd9e3a5062d814211fa8e",
+      "size": 8859,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/582ae9eb231665187c2fd9e3a5062d814211fa8e"
+    },
+    {
+      "path": "knowledge/12_why_02778_won.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fec23631dbe86ac87c8e39e8c7806c55478cacdd",
+      "size": 6635,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/fec23631dbe86ac87c8e39e8c7806c55478cacdd"
+    },
+    {
+      "path": "knowledge/13_lane_and_hypotheses_2026-10-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f71b528b63274cd2388bd23607a57f07cd35b57f",
+      "size": 7300,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f71b528b63274cd2388bd23607a57f07cd35b57f"
+    },
+    {
+      "path": "knowledge/13_preregistration_H28-3.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c0d8caf31fd992b883435f90b435abe0b1dccd33",
+      "size": 7353,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c0d8caf31fd992b883435f90b435abe0b1dccd33"
+    },
+    {
+      "path": "knowledge/14_lane_result_negative.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f503c210166337216ca46592a74d7635bfc8ffd5",
+      "size": 3492,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f503c210166337216ca46592a74d7635bfc8ffd5"
+    },
+    {
+      "path": "knowledge/15_geothermal_vent_discovery_and_h29_preregistration.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6561b39bd1382d4b84cb4854f6e61ab0a2b7041b",
+      "size": 28497,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6561b39bd1382d4b84cb4854f6e61ab0a2b7041b"
+    },
+    {
+      "path": "knowledge/15_lane_dconfirm_preregistration.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16c703ce55a6aeed69ca13bc4e4acfde42112e2b",
+      "size": 11469,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/16c703ce55a6aeed69ca13bc4e4acfde42112e2b"
+    },
+    {
+      "path": "knowledge/15_preregistration_H29-1.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6dccf1762b1cb9247c28b6dd38e5dff4f70ee3f7",
+      "size": 5672,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6dccf1762b1cb9247c28b6dd38e5dff4f70ee3f7"
+    },
+    {
+      "path": "knowledge/16_addendum_H29-1b.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2fc1ff387fa88126946a217c81cf6a9f7ec05bd0",
+      "size": 2011,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2fc1ff387fa88126946a217c81cf6a9f7ec05bd0"
+    },
+    {
+      "path": "knowledge/16_dconfirm_result.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f41b0b9f93ee453c646d34dd4c9aebd1474b54ed",
+      "size": 4916,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f41b0b9f93ee453c646d34dd4c9aebd1474b54ed"
+    },
+    {
+      "path": "knowledge/16_h29_results_and_next_steps.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f297c67916442f15b98bd80439a127c8e16cace7",
+      "size": 7883,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f297c67916442f15b98bd80439a127c8e16cace7"
+    },
+    {
+      "path": "knowledge/17_h29_1_result_and_02778_answer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0bd4bcb18fa20152491adee18fc59928cc535861",
+      "size": 7031,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0bd4bcb18fa20152491adee18fc59928cc535861"
+    },
+    {
+      "path": "knowledge/18_session8_repo_review_2026-10-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5c4c0fef32d480e5cecebfab3f9f92d5ec874251",
+      "size": 8034,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5c4c0fef32d480e5cecebfab3f9f92d5ec874251"
+    },
+    {
+      "path": "knowledge/18_why_02778_won_phd_analysis.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d8eae3f9188c69e7fd0dfe27443c7ed30535930f",
+      "size": 5729,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d8eae3f9188c69e7fd0dfe27443c7ed30535930f"
+    },
+    {
+      "path": "knowledge/19_readiness_audit_20261025.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "27101142d19cceb2fe0684f56bb4f6a64390f608",
+      "size": 7372,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/27101142d19cceb2fe0684f56bb4f6a64390f608"
+    },
+    {
+      "path": "knowledge/19_untried_hypotheses_ranked.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49701796e5f4351a786689396f451f3755eb0fd0",
+      "size": 10255,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/49701796e5f4351a786689396f451f3755eb0fd0"
+    },
+    {
+      "path": "knowledge/20_candidate_screen_20261025.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "95c0f8b39b36678f18cb4a0376dba23db5445f11",
+      "size": 7202,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/95c0f8b39b36678f18cb4a0376dba23db5445f11"
+    },
+    {
+      "path": "knowledge/20_lane_h30_preregistration_2026-10-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "377d1bc5bf55e7b2b6fdc6f47106a01ee5356dd7",
+      "size": 17050,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/377d1bc5bf55e7b2b6fdc6f47106a01ee5356dd7"
+    },
+    {
+      "path": "knowledge/20_preregistration_H30-1_and_hypotheses.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9742530be82904dbef64a41c10823b76df49b882",
+      "size": 16596,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9742530be82904dbef64a41c10823b76df49b882"
+    },
+    {
+      "path": "knowledge/20_preregistration_H30.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f92fa522d85b877b0d56c1e01966da37a45b7103",
+      "size": 9778,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f92fa522d85b877b0d56c1e01966da37a45b7103"
+    },
+    {
+      "path": "knowledge/21_h30_result_2026-10-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d6e5257d09786832c703795b9a9d2673393f6cb",
+      "size": 9053,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9d6e5257d09786832c703795b9a9d2673393f6cb"
+    },
+    {
+      "path": "knowledge/21_hypothesis_screen_H30.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "12177800e8be7db2c8e10638b17ac4490487afb7",
+      "size": 4547,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/12177800e8be7db2c8e10638b17ac4490487afb7"
+    },
+    {
+      "path": "knowledge/21_preregistration_H29-2_20261025.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1b2bad62f42544332424d05de9e6274b436c839",
+      "size": 8308,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b1b2bad62f42544332424d05de9e6274b436c839"
+    },
+    {
+      "path": "knowledge/22_h29_2_result_and_h33_2_b2_audit_20261025.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7445d77827fc08818f03bfa1e6a2a6e003727d2d",
+      "size": 8505,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7445d77827fc08818f03bfa1e6a2a6e003727d2d"
+    },
+    {
+      "path": "knowledge/22_h30_result.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b3b1b2f5f2aead8cc4086ee33e182fa9b180c46c",
+      "size": 7458,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b3b1b2f5f2aead8cc4086ee33e182fa9b180c46c"
+    },
+    {
+      "path": "knowledge/23_focus_sites_and_02778_phd_autopsy_20261026.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2f54e239cbde797716e0cb71b95701b04c581ec1",
+      "size": 16463,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2f54e239cbde797716e0cb71b95701b04c581ec1"
+    },
+    {
+      "path": "knowledge/23_preregistration_H31_2026-10-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b241a76ff9edc1d03525acbbb0549f23591f0fc",
+      "size": 11716,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4b241a76ff9edc1d03525acbbb0549f23591f0fc"
+    },
+    {
+      "path": "knowledge/24_focus_sites_executive_summary_2026-10-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0cf83a958c5d52ef9af681dc5acce7d5bc57e8b1",
+      "size": 8774,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0cf83a958c5d52ef9af681dc5acce7d5bc57e8b1"
+    },
+    {
+      "path": "knowledge/24_focus_sites_executive_summary_20261026.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "815963c102419040dfb539ca6af1e4e0f5be3de9",
+      "size": 29151,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/815963c102419040dfb539ca6af1e4e0f5be3de9"
+    },
+    {
+      "path": "knowledge/24_preregistration_H31_2026-10-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1bc3c50654718516635c8d9a4b68d8b5dc08a79",
+      "size": 10522,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b1bc3c50654718516635c8d9a4b68d8b5dc08a79"
+    },
+    {
+      "path": "knowledge/25_h31_result_2026-10-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d8f2e6141c0e2dc547ba48a7551af364d03fd122",
+      "size": 8913,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d8f2e6141c0e2dc547ba48a7551af364d03fd122"
+    },
+    {
+      "path": "knowledge/25_h31_results_2026-10-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "044eb3b66e5f3446c43bb51c67cd733d83047d3b",
+      "size": 10206,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/044eb3b66e5f3446c43bb51c67cd733d83047d3b"
+    },
+    {
+      "path": "knowledge/25_hypothesis_screen_20261026.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f309cb1a7bc497682056e9da769d11db0e7e4d0",
+      "size": 10506,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0f309cb1a7bc497682056e9da769d11db0e7e4d0"
+    },
+    {
+      "path": "knowledge/26_preregistration_H32_2026-10-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d27d8d8cfcf2f785a4f3eb1da5b68f82425125fd",
+      "size": 7311,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d27d8d8cfcf2f785a4f3eb1da5b68f82425125fd"
+    },
+    {
+      "path": "knowledge/26_session11_review_and_score_estimate_2026-10-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4780087b11caeb157d834a25e311543d840f9cf8",
+      "size": 5714,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4780087b11caeb157d834a25e311543d840f9cf8"
+    },
+    {
+      "path": "knowledge/27_session11_executive_summary_and_h32_result_2026-10-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a402f017629c6942e41bee06567f6a941e80f28",
+      "size": 16086,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7a402f017629c6942e41bee06567f6a941e80f28"
+    },
+    {
+      "path": "knowledge/28_preregistration_H31-3_mt_graben_2026-10-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dbbb1785827d8eab90c0e2f62543fb948d727953",
+      "size": 10812,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/dbbb1785827d8eab90c0e2f62543fb948d727953"
+    },
+    {
+      "path": "knowledge/28_submission_readiness_audit_2026-10-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e98aea6eb4b46e47eaf82cd3bccfbc36f9e9c55",
+      "size": 8067,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0e98aea6eb4b46e47eaf82cd3bccfbc36f9e9c55"
+    },
+    {
+      "path": "knowledge/29_h31_3_mt_graben_result_2026-10-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f5bd2ff85870861da6920323df4948e168ab3a2",
+      "size": 5559,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5f5bd2ff85870861da6920323df4948e168ab3a2"
+    },
+    {
+      "path": "knowledge/30_lane_2026-10-27_preregistration.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b0b0db72ab5946a9052f9b3a497da40d31bfedd5",
+      "size": 9872,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b0b0db72ab5946a9052f9b3a497da40d31bfedd5"
+    },
+    {
+      "path": "knowledge/30_preregistration_H33_2026-10-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3530d45e4dca9387ead15b971780c687ac0d0863",
+      "size": 8142,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/3530d45e4dca9387ead15b971780c687ac0d0863"
+    },
+    {
+      "path": "knowledge/30_session12_repo_review_2026-10-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "092a2c1862e31c353712a67f1ef2b938d3fcf291",
+      "size": 17030,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/092a2c1862e31c353712a67f1ef2b938d3fcf291"
+    },
+    {
+      "path": "knowledge/30_session13_readiness_audit_2026-10-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ee16fb2a9b44c1ad9a461284c9d1e7b79159a68",
+      "size": 11198,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4ee16fb2a9b44c1ad9a461284c9d1e7b79159a68"
+    },
+    {
+      "path": "knowledge/30_session13_repo_review_2026-10-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d03e3d309059bd7ccb2676331732895007341fbb",
+      "size": 12843,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d03e3d309059bd7ccb2676331732895007341fbb"
+    },
+    {
+      "path": "knowledge/31_h33_result_2026-10-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1dc724abc9b07e1558da601f1d3d2fa6809567a",
+      "size": 7790,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b1dc724abc9b07e1558da601f1d3d2fa6809567a"
+    },
+    {
+      "path": "knowledge/32_session14_review_2026-10-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "12d1dde867a77dd6d7726ac0aeba98e9b642c64c",
+      "size": 6735,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/12d1dde867a77dd6d7726ac0aeba98e9b642c64c"
+    },
+    {
+      "path": "knowledge/32_submission_safety_review_2026-10-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2f0efaaf7b469523d8570cb29bf865e7d8db9ef0",
+      "size": 4469,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2f0efaaf7b469523d8570cb29bf865e7d8db9ef0"
+    },
+    {
+      "path": "pyproject.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b9b31678709dd302802d0ed61680f8d1fba821e",
+      "size": 601,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1b9b31678709dd302802d0ed61680f8d1fba821e"
+    },
+    {
+      "path": "registry",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8d74323180bb9111541ae743a15b4873400850ee",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/8d74323180bb9111541ae743a15b4873400850ee"
+    },
+    {
+      "path": "registry/focus_sites_2026-10-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "563ed6a96b552842e0130ce1fc8c152fbeda8ff2",
+      "size": 6275,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/563ed6a96b552842e0130ce1fc8c152fbeda8ff2"
+    },
+    {
+      "path": "registry/hypotheses.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6cffd1ddddf27d94cb6afb42e15c14b044eb9563",
+      "size": 50984,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6cffd1ddddf27d94cb6afb42e15c14b044eb9563"
+    },
+    {
+      "path": "registry/irregularities.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2bf7047afea5273ccdde9d6edf82ea5c23407b04",
+      "size": 59052,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2bf7047afea5273ccdde9d6edf82ea5c23407b04"
+    },
+    {
+      "path": "registry/live_scores.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20377c754f41c61b40025b388800d7f18b5e3c63",
+      "size": 18176,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/20377c754f41c61b40025b388800d7f18b5e3c63"
+    },
+    {
+      "path": "registry/next_hypotheses.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf8ed643a38c9144ca67374ce3ec8fef65c01dbd",
+      "size": 21409,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/bf8ed643a38c9144ca67374ce3ec8fef65c01dbd"
+    },
+    {
+      "path": "registry/parallel_submission_registry.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b2f6503b931d292d6f9f4cf6b9ed566935a07590",
+      "size": 5239,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b2f6503b931d292d6f9f4cf6b9ed566935a07590"
+    },
+    {
+      "path": "registry/sources.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4948223e4d07a36648c5ee723842ae759b18a4aa",
+      "size": 30531,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4948223e4d07a36648c5ee723842ae759b18a4aa"
+    },
+    {
+      "path": "registry/submitted_rasters.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0338a8c3214de0b5ddb7110ccc2be4d6779641b2",
+      "size": 1240,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0338a8c3214de0b5ddb7110ccc2be4d6779641b2"
+    },
+    {
+      "path": "registry/topology_candidates.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6fb6b41233c4f4ef8587af25489ab79375fe5eb8",
+      "size": 1254088,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6fb6b41233c4f4ef8587af25489ab79375fe5eb8"
+    },
+    {
+      "path": "requirements.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb535af36031653046b2f05309e059a78c04d315",
+      "size": 163,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/cb535af36031653046b2f05309e059a78c04d315"
+    },
+    {
+      "path": "scripts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2b0945bac2279a0a85dc58a0f40d52345eda2c0a",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/2b0945bac2279a0a85dc58a0f40d52345eda2c0a"
+    },
+    {
+      "path": "scripts/analyze_link_features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ec2df87eb497c84aa16c03cf2dee7220a8f6bbf",
+      "size": 2672,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4ec2df87eb497c84aa16c03cf2dee7220a8f6bbf"
+    },
+    {
+      "path": "scripts/audit_submission_readiness.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b53ea019cd7d376f140c7084612e56a32fbfba82",
+      "size": 1877,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b53ea019cd7d376f140c7084612e56a32fbfba82"
+    },
+    {
+      "path": "scripts/build_augmented_features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b344d2b532bb6965b802a49d7750040bffff00f",
+      "size": 4664,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4b344d2b532bb6965b802a49d7750040bffff00f"
+    },
+    {
+      "path": "scripts/build_candidates.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a74cd03cc10223286c5c6616a14f9be0ab08562",
+      "size": 20677,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8a74cd03cc10223286c5c6616a14f9be0ab08562"
+    },
+    {
+      "path": "scripts/build_dconfirm_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd479327c4912a4d291276262cac849e0ee4c2e0",
+      "size": 10854,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/bd479327c4912a4d291276262cac849e0ee4c2e0"
+    },
+    {
+      "path": "scripts/build_focus_sites_summary.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0f68473c73867759e1901d3d1691c4ed9aab48a",
+      "size": 21330,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/a0f68473c73867759e1901d3d1691c4ed9aab48a"
+    },
+    {
+      "path": "scripts/build_h28_1_candidate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7611b6a3065f96581d9be43518fed97f3ca0bfa8",
+      "size": 12671,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7611b6a3065f96581d9be43518fed97f3ca0bfa8"
+    },
+    {
+      "path": "scripts/build_h28_3_negative_research.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3d2a83a68827c0de15a787518fcb3572229ce0aa",
+      "size": 7043,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/3d2a83a68827c0de15a787518fcb3572229ce0aa"
+    },
+    {
+      "path": "scripts/build_h29_1_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a654c5a82200ade6c3f1c6d705bad685b04a063c",
+      "size": 8373,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/a654c5a82200ade6c3f1c6d705bad685b04a063c"
+    },
+    {
+      "path": "scripts/build_h29_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1421b8642caa2c307454780ec92e75ecdb212407",
+      "size": 17147,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1421b8642caa2c307454780ec92e75ecdb212407"
+    },
+    {
+      "path": "scripts/build_h30_1_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5441ebd2c347d02cb523116dbda2d7bafd9d32c",
+      "size": 14324,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/a5441ebd2c347d02cb523116dbda2d7bafd9d32c"
+    },
+    {
+      "path": "scripts/build_h30_dipgap_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "289d7a610bc5362784d7c8177a5f4e60ea9bc308",
+      "size": 17592,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/289d7a610bc5362784d7c8177a5f4e60ea9bc308"
+    },
+    {
+      "path": "scripts/build_h30_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7f6516757431ce418f1f34ddb66bfd1d5418163",
+      "size": 11894,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e7f6516757431ce418f1f34ddb66bfd1d5418163"
+    },
+    {
+      "path": "scripts/build_h31_3_mt_graben_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "21366a14ea8e29d1fc158169e0496a5d0684331a",
+      "size": 12509,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/21366a14ea8e29d1fc158169e0496a5d0684331a"
+    },
+    {
+      "path": "scripts/build_h31_s10_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "063ab7c65d7fb888e1f10e43e98d24e76b9c7cfe",
+      "size": 22071,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/063ab7c65d7fb888e1f10e43e98d24e76b9c7cfe"
+    },
+    {
+      "path": "scripts/build_h31_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2b5f33f0ff4bd5a7d5eb54f605bed983acf84ea4",
+      "size": 9292,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2b5f33f0ff4bd5a7d5eb54f605bed983acf84ea4"
+    },
+    {
+      "path": "scripts/build_h32_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58f6ccc947c3a98b41bc24eb3b6d69dd031541c2",
+      "size": 11385,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/58f6ccc947c3a98b41bc24eb3b6d69dd031541c2"
+    },
+    {
+      "path": "scripts/build_lane_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ac65da06896809fa8caeaaa60b535ed26cfd8022",
+      "size": 8410,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ac65da06896809fa8caeaaa60b535ed26cfd8022"
+    },
+    {
+      "path": "scripts/build_site.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e3905abe499290c97df637395e1ff5264d3488da",
+      "size": 30349,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e3905abe499290c97df637395e1ff5264d3488da"
+    },
+    {
+      "path": "scripts/build_submission27.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "48b3c92f6fcedb8bf20484655c947475c7c7be96",
+      "size": 14052,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/48b3c92f6fcedb8bf20484655c947475c7c7be96"
+    },
+    {
+      "path": "scripts/build_unique_20261026.py",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "e8504cc0e3cb433d48349c670fa5dd565f54d306",
+      "size": 11244,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e8504cc0e3cb433d48349c670fa5dd565f54d306"
+    },
+    {
+      "path": "scripts/build_unique_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e2cca9c75479cac106409304d692d1a7e452bcd9",
+      "size": 10546,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e2cca9c75479cac106409304d692d1a7e452bcd9"
+    },
+    {
+      "path": "scripts/channel_auc.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d1dea764c4f9e40d59c53cca5b5d47f6179eca6",
+      "size": 2659,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7d1dea764c4f9e40d59c53cca5b5d47f6179eca6"
+    },
+    {
+      "path": "scripts/check_parallel_uniqueness.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "57648c89c83b0c5e982e50c051751a557cc2c282",
+      "size": 5693,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/57648c89c83b0c5e982e50c051751a557cc2c282"
+    },
+    {
+      "path": "scripts/diagnose_arm_habitats.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf8c87fe4dd2d7d2758b6e5a51990deaa50e7591",
+      "size": 11175,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/cf8c87fe4dd2d7d2758b6e5a51990deaa50e7591"
+    },
+    {
+      "path": "scripts/download_competition_data.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "5f9ea7bc4a869b24039dccd62086bb6cde89d26e",
+      "size": 776,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5f9ea7bc4a869b24039dccd62086bb6cde89d26e"
+    },
+    {
+      "path": "scripts/fetch_external_layers.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "daaa2d162d3613cb159246f6d07a160641953dd8",
+      "size": 15480,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/daaa2d162d3613cb159246f6d07a160641953dd8"
+    },
+    {
+      "path": "scripts/fetch_parallel_registry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "640a99c614bb0e4eca07a3464c52dcfbad77c80f",
+      "size": 5269,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/640a99c614bb0e4eca07a3464c52dcfbad77c80f"
+    },
+    {
+      "path": "scripts/fetch_scored_corpus.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9fe777c7ee16ef067abd67557c127a75e18fd68c",
+      "size": 7916,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9fe777c7ee16ef067abd67557c127a75e18fd68c"
+    },
+    {
+      "path": "scripts/fetch_vector_faults.py",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "580b7f7321fbdda4b38b782398ed8ba19df19c0b",
+      "size": 5011,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/580b7f7321fbdda4b38b782398ed8ba19df19c0b"
+    },
+    {
+      "path": "scripts/invert_live_scores.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4826d2c271165859a450da5c7c03ad8ac01d5d40",
+      "size": 14960,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4826d2c271165859a450da5c7c03ad8ac01d5d40"
+    },
+    {
+      "path": "scripts/invert_sgmc_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9626748f8c69537d3e5144e572dc07a093ad0e78",
+      "size": 17592,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9626748f8c69537d3e5144e572dc07a093ad0e78"
+    },
+    {
+      "path": "scripts/make_figures.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb0c5c5d03ffc8cf5421a033606244bcbef69086",
+      "size": 10616,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/fb0c5c5d03ffc8cf5421a033606244bcbef69086"
+    },
+    {
+      "path": "scripts/model_candidates.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f10f8225920c6b86a784fa6af989482461366533",
+      "size": 7608,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f10f8225920c6b86a784fa6af989482461366533"
+    },
+    {
+      "path": "scripts/operating_point.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "45c0b42edf42db80315ac43093f21964667b44b8",
+      "size": 3117,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/45c0b42edf42db80315ac43093f21964667b44b8"
+    },
+    {
+      "path": "scripts/optimize_budget.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "130b4f3fc1be57159a6a13cc11730524a047cf27",
+      "size": 7458,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/130b4f3fc1be57159a6a13cc11730524a047cf27"
+    },
+    {
+      "path": "scripts/prepare_data.py",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "65b0d0cb5803917db9450ca8074f4e82fba082ab",
+      "size": 9136,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/65b0d0cb5803917db9450ca8074f4e82fba082ab"
+    },
+    {
+      "path": "scripts/reaudit_session11.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5993ff71055e8764ed136b1d6a4912ddeb39510",
+      "size": 7405,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/a5993ff71055e8764ed136b1d6a4912ddeb39510"
+    },
+    {
+      "path": "scripts/refresh_focus_inventory.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2febb92e21d0b7cfdc0330547b89b092c2274c91",
+      "size": 5770,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2febb92e21d0b7cfdc0330547b89b092c2274c91"
+    },
+    {
+      "path": "scripts/refresh_source_feed.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f5b31b3a5218807aa6686f935469b7065859642",
+      "size": 8754,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8f5b31b3a5218807aa6686f935469b7065859642"
+    },
+    {
+      "path": "scripts/restore_data.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b13df30ac0c237f68e73f8715d4f6e40b851b490",
+      "size": 11385,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b13df30ac0c237f68e73f8715d4f6e40b851b490"
+    },
+    {
+      "path": "scripts/run_addendum_d_gates.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7b9abcc5e2fafa35a03ed3d7fbc97f0eea419ed",
+      "size": 18746,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e7b9abcc5e2fafa35a03ed3d7fbc97f0eea419ed"
+    },
+    {
+      "path": "scripts/run_build_h29_1b.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9169d819d929a4ff36a7db2f800448cede3c982a",
+      "size": 11634,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9169d819d929a4ff36a7db2f800448cede3c982a"
+    },
+    {
+      "path": "scripts/run_dconfirm_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ce2419729adef0f7dd72fe531dc226517bda94d",
+      "size": 11545,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4ce2419729adef0f7dd72fe531dc226517bda94d"
+    },
+    {
+      "path": "scripts/run_graph_report.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf9801e7d6ed26bf9231712b9eada85e889e3363",
+      "size": 3961,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/bf9801e7d6ed26bf9231712b9eada85e889e3363"
+    },
+    {
+      "path": "scripts/run_h27_10_annulus_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c2743039fe66949311aef547d7752969fdca4c97",
+      "size": 18989,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c2743039fe66949311aef547d7752969fdca4c97"
+    },
+    {
+      "path": "scripts/run_h28_1_edge_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a4453e007ec5a43dca866d35344241adbb0e8b6",
+      "size": 19861,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1a4453e007ec5a43dca866d35344241adbb0e8b6"
+    },
+    {
+      "path": "scripts/run_h28_3_strain_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5586a8f3e807e0b1ed542f6a4ebbda649a108cc8",
+      "size": 21220,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5586a8f3e807e0b1ed542f6a4ebbda649a108cc8"
+    },
+    {
+      "path": "scripts/run_h28_4_seismicity_fabric_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c26cb811789aed02ca682015fe8e8c1e33a752f",
+      "size": 16872,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/3c26cb811789aed02ca682015fe8e8c1e33a752f"
+    },
+    {
+      "path": "scripts/run_h29_1_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e822501f28141300a17b978b588244d718e4405",
+      "size": 8375,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/9e822501f28141300a17b978b588244d718e4405"
+    },
+    {
+      "path": "scripts/run_h29_2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f71d46c8cc376cfdaddfa6c8309ad3d1d01926fa",
+      "size": 48892,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f71d46c8cc376cfdaddfa6c8309ad3d1d01926fa"
+    },
+    {
+      "path": "scripts/run_h29_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "42cb7e687879698f1a8c1de85366a7f529240aa4",
+      "size": 22236,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/42cb7e687879698f1a8c1de85366a7f529240aa4"
+    },
+    {
+      "path": "scripts/run_h30_1_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bed9e8e7cf9a38f43d90a58a09f342a9bbdfa59f",
+      "size": 21602,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/bed9e8e7cf9a38f43d90a58a09f342a9bbdfa59f"
+    },
+    {
+      "path": "scripts/run_h30_dipgap_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2239ac3e89ec22cb3b710e8e4dc3bcf5207754aa",
+      "size": 13834,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2239ac3e89ec22cb3b710e8e4dc3bcf5207754aa"
+    },
+    {
+      "path": "scripts/run_h30_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8d84be212581e1737e3f2ca81afd9967ddcecdd",
+      "size": 13608,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f8d84be212581e1737e3f2ca81afd9967ddcecdd"
+    },
+    {
+      "path": "scripts/run_h31_3_mt_graben.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "203888d8f999cdc262c193eb3dcae6d808415520",
+      "size": 13306,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/203888d8f999cdc262c193eb3dcae6d808415520"
+    },
+    {
+      "path": "scripts/run_h31_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99a01902377ab9a6caada68ceba94f46ebbaefc4",
+      "size": 12122,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/99a01902377ab9a6caada68ceba94f46ebbaefc4"
+    },
+    {
+      "path": "scripts/run_h31_s10_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d6378040621b45192c92f22b9b7510d21f7db285",
+      "size": 27350,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d6378040621b45192c92f22b9b7510d21f7db285"
+    },
+    {
+      "path": "scripts/run_h32_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1104bdab87dbd2b7d3a67cef7ce62babe0f117ad",
+      "size": 10841,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1104bdab87dbd2b7d3a67cef7ce62babe0f117ad"
+    },
+    {
+      "path": "scripts/run_h33_lane.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b148446e1a94b3954e73e6b242d5f8d70cc58e96",
+      "size": 23689,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b148446e1a94b3954e73e6b242d5f8d70cc58e96"
+    },
+    {
+      "path": "scripts/run_lane_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26254305f3ff8920b536e2506c648dda1c7deff1",
+      "size": 9218,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/26254305f3ff8920b536e2506c648dda1c7deff1"
+    },
+    {
+      "path": "scripts/run_oof_hypothesis_gates.py",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "43009cc904f99e7133166616fba1198028f17524",
+      "size": 8676,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/43009cc904f99e7133166616fba1198028f17524"
+    },
+    {
+      "path": "scripts/run_relief_profile_lane.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99327d3d72ec80539f4c1c71a691f222f447ae55",
+      "size": 19841,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/99327d3d72ec80539f4c1c71a691f222f447ae55"
+    },
+    {
+      "path": "scripts/run_topology_confirm.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "482b942a119033326c65d4fb93407357fcbf7480",
+      "size": 9141,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/482b942a119033326c65d4fb93407357fcbf7480"
+    },
+    {
+      "path": "scripts/run_topology_validation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "348f9c8d1ff30893634dc5c25536d344c13041a5",
+      "size": 7797,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/348f9c8d1ff30893634dc5c25536d344c13041a5"
+    },
+    {
+      "path": "scripts/run_unique_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ef5682f8739495d730811a3a89d45ecdfd0af1e",
+      "size": 8493,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8ef5682f8739495d730811a3a89d45ecdfd0af1e"
+    },
+    {
+      "path": "scripts/run_vector_topology_validation.py",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "7bcc05aeafc23e6af40e5309bd134a9e75266859",
+      "size": 7691,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7bcc05aeafc23e6af40e5309bd134a9e75266859"
+    },
+    {
+      "path": "scripts/sgmc_lidar_response.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d39af98dbdcb5f69cb64c53f0e53a8910ffefa39",
+      "size": 4675,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d39af98dbdcb5f69cb64c53f0e53a8910ffefa39"
+    },
+    {
+      "path": "scripts/tomography_partition.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a7a2c39b3bbe8f1438ed9ebed3ca5b93f8ebd2a",
+      "size": 8443,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6a7a2c39b3bbe8f1438ed9ebed3ca5b93f8ebd2a"
+    },
+    {
+      "path": "scripts/verify_downloads.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8c552cc0db316eaf6a93fc7aba1512af43292b3e",
+      "size": 27938,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8c552cc0db316eaf6a93fc7aba1512af43292b3e"
+    },
+    {
+      "path": "src",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "026248e81da433a85de6232ab46ecaa116e2c05c",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/026248e81da433a85de6232ab46ecaa116e2c05c"
+    },
+    {
+      "path": "src/gems27",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "fbc358c35a15b736d2f28bb25d18657502c05ffd",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/fbc358c35a15b736d2f28bb25d18657502c05ffd"
+    },
+    {
+      "path": "src/gems27/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f99c6df0796f9a76c823ea0e1e9cd62ca091708d",
+      "size": 392,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f99c6df0796f9a76c823ea0e1e9cd62ca091708d"
+    },
+    {
+      "path": "src/gems27/annulus.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f05a6fb18a6533d20a10c95eedb3d7f5f01522e0",
+      "size": 4238,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/f05a6fb18a6533d20a10c95eedb3d7f5f01522e0"
+    },
+    {
+      "path": "src/gems27/buried_step.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec907f1a6eb81408017d83047023da97fdfd4ea4",
+      "size": 4391,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ec907f1a6eb81408017d83047023da97fdfd4ea4"
+    },
+    {
+      "path": "src/gems27/candidates.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3313b8a6511c2ce634e89630f1e5a45a1042d527",
+      "size": 5719,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/3313b8a6511c2ce634e89630f1e5a45a1042d527"
+    },
+    {
+      "path": "src/gems27/coverage_thin.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dee94c13b50423b5c8508a9852bf890ee3a5cb2b",
+      "size": 12188,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/dee94c13b50423b5c8508a9852bf890ee3a5cb2b"
+    },
+    {
+      "path": "src/gems27/dip_gap_features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e49d00beb18f7aff60120a8f2f211a353d3d5d0",
+      "size": 7118,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7e49d00beb18f7aff60120a8f2f211a353d3d5d0"
+    },
+    {
+      "path": "src/gems27/dip_rad_features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b14680fb0fbb7e2da2bbe492fa20899329c7b35",
+      "size": 5761,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0b14680fb0fbb7e2da2bbe492fa20899329c7b35"
+    },
+    {
+      "path": "src/gems27/dip_shift.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "508e899ad803d37f7432b1b022633ed4b38ced30",
+      "size": 12746,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/508e899ad803d37f7432b1b022633ed4b38ced30"
+    },
+    {
+      "path": "src/gems27/geothermal_conduit_nis.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "21c32ff52995b256f6b7061bbfb30d168365a734",
+      "size": 34357,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/21c32ff52995b256f6b7061bbfb30d168365a734"
+    },
+    {
+      "path": "src/gems27/graph.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ecdb49bfa2707eb445eaa71d0f046c71b3a09dd",
+      "size": 10780,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1ecdb49bfa2707eb445eaa71d0f046c71b3a09dd"
+    },
+    {
+      "path": "src/gems27/graph_value.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e09f36f1602c832f630cdb790011ccb15bfb4f4",
+      "size": 10837,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4e09f36f1602c832f630cdb790011ccb15bfb4f4"
+    },
+    {
+      "path": "src/gems27/grid.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "57ccfc1ea7e2a11a3f0e030c9996ddba6f27bf7e",
+      "size": 2176,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/57ccfc1ea7e2a11a3f0e030c9996ddba6f27bf7e"
+    },
+    {
+      "path": "src/gems27/holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "67cd7cf96db7871b72625506210e032daebb0428",
+      "size": 7671,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/67cd7cf96db7871b72625506210e032daebb0428"
+    },
+    {
+      "path": "src/gems27/hydrochemistry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af228ad89eb4e7834c6492600e15a848776dd7ca",
+      "size": 9575,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/af228ad89eb4e7834c6492600e15a848776dd7ca"
+    },
+    {
+      "path": "src/gems27/hydrothermal_piedmont.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b9975730d437ce60c5f174dcbab98e03fd9b2f44",
+      "size": 26852,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b9975730d437ce60c5f174dcbab98e03fd9b2f44"
+    },
+    {
+      "path": "src/gems27/layers.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91718e74868c902c75672909583f5202df39a6f7",
+      "size": 4138,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/91718e74868c902c75672909583f5202df39a6f7"
+    },
+    {
+      "path": "src/gems27/links.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a153152d5e95173fd1b9664152c92d67b36e4a6",
+      "size": 8267,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8a153152d5e95173fd1b9664152c92d67b36e4a6"
+    },
+    {
+      "path": "src/gems27/metric.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "213444f989075ed7d4529da1e6a6cb6ea3eaba88",
+      "size": 5768,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/213444f989075ed7d4529da1e6a6cb6ea3eaba88"
+    },
+    {
+      "path": "src/gems27/mt_graben.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "710a64b4ac2488e3a7e7982c1f152124fdea720b",
+      "size": 7328,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/710a64b4ac2488e3a7e7982c1f152124fdea720b"
+    },
+    {
+      "path": "src/gems27/newinfo.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "242e03a84246807d49167ac97f1575274a44488a",
+      "size": 15739,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/242e03a84246807d49167ac97f1575274a44488a"
+    },
+    {
+      "path": "src/gems27/oof_detector.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0c6009e7c7dddf09c4b5e0dfe464c1861d343b5d",
+      "size": 12420,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0c6009e7c7dddf09c4b5e0dfe464c1861d343b5d"
+    },
+    {
+      "path": "src/gems27/paths.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b776ff304585420ab767db3babdad81faebd3e40",
+      "size": 1233,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/b776ff304585420ab767db3babdad81faebd3e40"
+    },
+    {
+      "path": "src/gems27/poisson_demag.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a90952eca4151941262116df33fc312e0bfcaea2",
+      "size": 6454,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/a90952eca4151941262116df33fc312e0bfcaea2"
+    },
+    {
+      "path": "src/gems27/potential_edges.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8082913229c00493fc8ed926febf12bbce2d2e51",
+      "size": 5699,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8082913229c00493fc8ed926febf12bbce2d2e51"
+    },
+    {
+      "path": "src/gems27/readiness.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2e510e35056f8faae45f4c2c7411e63dc5dd717c",
+      "size": 9961,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2e510e35056f8faae45f4c2c7411e63dc5dd717c"
+    },
+    {
+      "path": "src/gems27/relief_profile.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec84b290800cac83fcbc514edc8d10a1715b155e",
+      "size": 4334,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/ec84b290800cac83fcbc514edc8d10a1715b155e"
+    },
+    {
+      "path": "src/gems27/seismicity_fabric.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c5bf707edb4947dad65882a3caf05523855028ce",
+      "size": 6776,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c5bf707edb4947dad65882a3caf05523855028ce"
+    },
+    {
+      "path": "src/gems27/strain_conductivity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "255313a2641b6dfb1558c951a9159ca08dd433a0",
+      "size": 6179,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/255313a2641b6dfb1558c951a9159ca08dd433a0"
+    },
+    {
+      "path": "src/gems27/submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46e4ae22d303db6e8cf53ee4099adaf1b5accc2c",
+      "size": 8762,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/46e4ae22d303db6e8cf53ee4099adaf1b5accc2c"
+    },
+    {
+      "path": "src/gems27/subsurface_features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c2feb76de57dfc877c122946b1491d1527ae22ed",
+      "size": 9930,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c2feb76de57dfc877c122946b1491d1527ae22ed"
+    },
+    {
+      "path": "src/gems27/thinning.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df35e83a7587b86a6b21ee57469f91565598543e",
+      "size": 2725,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/df35e83a7587b86a6b21ee57469f91565598543e"
+    },
+    {
+      "path": "src/gems27/tomography.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d8f782c655f2412ff4708fdaf91ae6ee004fbf36",
+      "size": 11718,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d8f782c655f2412ff4708fdaf91ae6ee004fbf36"
+    },
+    {
+      "path": "src/gems27/topology_classes.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7743a5fe123f216d9d65f082f8815fb26aced4a8",
+      "size": 1942,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7743a5fe123f216d9d65f082f8815fb26aced4a8"
+    },
+    {
+      "path": "src/gems27/topology_theory.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "81bfb934a6aea71c9bc9bf2bc71d1c5db9d83abc",
+      "size": 5452,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/81bfb934a6aea71c9bc9bf2bc71d1c5db9d83abc"
+    },
+    {
+      "path": "src/gems27/uniqueness.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a58ea794b6c4d2941c4bb9ca29f5f2d8e151b28",
+      "size": 4047,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0a58ea794b6c4d2941c4bb9ca29f5f2d8e151b28"
+    },
+    {
+      "path": "src/gems27/updip_relay_features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0051cdfcb6b1c684652a01b8794084513d8b01cd",
+      "size": 13650,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0051cdfcb6b1c684652a01b8794084513d8b01cd"
+    },
+    {
+      "path": "src/gems27/vector_graph.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe66e186065565788e3ab1af83c1e38c6a5a7041",
+      "size": 9920,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/fe66e186065565788e3ab1af83c1e38c6a5a7041"
+    },
+    {
+      "path": "tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c85da2a58752cacf5d80c229f088da49cffc03ca",
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/c85da2a58752cacf5d80c229f088da49cffc03ca"
+    },
+    {
+      "path": "tests/conftest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "306971515b16f23ae20760422d3ee39bd6c1c7f4",
+      "size": 1919,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/306971515b16f23ae20760422d3ee39bd6c1c7f4"
+    },
+    {
+      "path": "tests/test_annulus.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "57367f4d1d3f2f1fee84cd4b66a8d6ce6b6de07a",
+      "size": 3586,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/57367f4d1d3f2f1fee84cd4b66a8d6ce6b6de07a"
+    },
+    {
+      "path": "tests/test_buried_step.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0079b74f56186a437c324f0622acfde673134b52",
+      "size": 1132,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0079b74f56186a437c324f0622acfde673134b52"
+    },
+    {
+      "path": "tests/test_candidates.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "216d98672ad79c5d68227836e1e9b5486a6fc05e",
+      "size": 1451,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/216d98672ad79c5d68227836e1e9b5486a6fc05e"
+    },
+    {
+      "path": "tests/test_dconfirm.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "89f22df44430d9044e5c2190e8fc23b2f365bfd0",
+      "size": 2476,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/89f22df44430d9044e5c2190e8fc23b2f365bfd0"
+    },
+    {
+      "path": "tests/test_dip_gap_features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "48327417aa0de0feecf92290dff52ad46316e640",
+      "size": 2576,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/48327417aa0de0feecf92290dff52ad46316e640"
+    },
+    {
+      "path": "tests/test_dip_rad_features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2f0822b2bf8c25bcca553bf29b5f34f0fc643883",
+      "size": 2004,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/2f0822b2bf8c25bcca553bf29b5f34f0fc643883"
+    },
+    {
+      "path": "tests/test_dip_shift.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "56f74be5575d5740c4d9ac77342a692ef3bddc87",
+      "size": 4234,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/56f74be5575d5740c4d9ac77342a692ef3bddc87"
+    },
+    {
+      "path": "tests/test_focus_inventory.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0cc413e01a9fb6929fc6b1e70fe0d5d5b0ac5844",
+      "size": 1991,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/0cc413e01a9fb6929fc6b1e70fe0d5d5b0ac5844"
+    },
+    {
+      "path": "tests/test_geothermal_conduit_nis.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e108772515e3fac7b47d74017f0dc81393848d73",
+      "size": 6138,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e108772515e3fac7b47d74017f0dc81393848d73"
+    },
+    {
+      "path": "tests/test_graph_links.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ab68ee60250952a187fb5648782b583facd3be7",
+      "size": 3133,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1ab68ee60250952a187fb5648782b583facd3be7"
+    },
+    {
+      "path": "tests/test_graph_value.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6eed4a32f2ad403e1c8dc271876c9c3621e53f81",
+      "size": 4273,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/6eed4a32f2ad403e1c8dc271876c9c3621e53f81"
+    },
+    {
+      "path": "tests/test_h29_pipeline.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4de2272275e0f84579827dc15ab0701112ea0daa",
+      "size": 7727,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4de2272275e0f84579827dc15ab0701112ea0daa"
+    },
+    {
+      "path": "tests/test_holdout_segments.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85b14140dab884b35557e7a583f225c0d2cf7774",
+      "size": 2953,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/85b14140dab884b35557e7a583f225c0d2cf7774"
+    },
+    {
+      "path": "tests/test_hydrochemistry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe058e69bfd28cb0322ba0d602a26a3177243c09",
+      "size": 4091,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/fe058e69bfd28cb0322ba0d602a26a3177243c09"
+    },
+    {
+      "path": "tests/test_inversion.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5331596c78440a7c672688c5f726d2351809b390",
+      "size": 6045,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5331596c78440a7c672688c5f726d2351809b390"
+    },
+    {
+      "path": "tests/test_lane.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e2f0d476f9bf87df8a6937f6a445e2e964a98222",
+      "size": 2618,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/e2f0d476f9bf87df8a6937f6a445e2e964a98222"
+    },
+    {
+      "path": "tests/test_lidar_features_metadata.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1467ecfe52eadbe8b344e2f14f35e8551ac92055",
+      "size": 1162,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1467ecfe52eadbe8b344e2f14f35e8551ac92055"
+    },
+    {
+      "path": "tests/test_metric.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a6fd9c381c613d88a50008fb42d293c6b2a2b50f",
+      "size": 2932,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/a6fd9c381c613d88a50008fb42d293c6b2a2b50f"
+    },
+    {
+      "path": "tests/test_mt_graben.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1032c572d93a6ec4ee7602d2e1a8eb23765371e0",
+      "size": 2947,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/1032c572d93a6ec4ee7602d2e1a8eb23765371e0"
+    },
+    {
+      "path": "tests/test_newinfo.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "389bc9a395167afb97c52082b1d4bf1733a6b292",
+      "size": 4757,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/389bc9a395167afb97c52082b1d4bf1733a6b292"
+    },
+    {
+      "path": "tests/test_poisson_demag.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cc160d0ea3e01291fb4ac542c5a0666054ce2c8a",
+      "size": 1937,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/cc160d0ea3e01291fb4ac542c5a0666054ce2c8a"
+    },
+    {
+      "path": "tests/test_potential_edges.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cef4716337c3694f2ba7c1b292da7484983b7123",
+      "size": 1839,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/cef4716337c3694f2ba7c1b292da7484983b7123"
+    },
+    {
+      "path": "tests/test_readiness.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "22197796e8a180c5357fffc288a7fc5d9f5a117a",
+      "size": 10086,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/22197796e8a180c5357fffc288a7fc5d9f5a117a"
+    },
+    {
+      "path": "tests/test_relief_profile.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4cc12cd4c3b75477f81db85584ee62598d6b7e2b",
+      "size": 1141,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/4cc12cd4c3b75477f81db85584ee62598d6b7e2b"
+    },
+    {
+      "path": "tests/test_site.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df9447bcbdc302a746f271ecf2384e33054b55cb",
+      "size": 6470,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/df9447bcbdc302a746f271ecf2384e33054b55cb"
+    },
+    {
+      "path": "tests/test_source_feed_guard.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2d47f377676ce728c2f0c36727a456b90420979",
+      "size": 2445,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d2d47f377676ce728c2f0c36727a456b90420979"
+    },
+    {
+      "path": "tests/test_strain_conductivity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "803c2c67da6e422d1f1e22c25f6414aca0226689",
+      "size": 1623,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/803c2c67da6e422d1f1e22c25f6414aca0226689"
+    },
+    {
+      "path": "tests/test_submission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5cf747695a1da6cd06c86779508382751169bdcb",
+      "size": 4056,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/5cf747695a1da6cd06c86779508382751169bdcb"
+    },
+    {
+      "path": "tests/test_subsurface_features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c5d23e3b709b0ce147d5d83182d45e400b08d367",
+      "size": 2850,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/c5d23e3b709b0ce147d5d83182d45e400b08d367"
+    },
+    {
+      "path": "tests/test_topology_classes.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "406cad0441d519ddc4ad435ba106feb0a4c7fd7e",
+      "size": 1180,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/406cad0441d519ddc4ad435ba106feb0a4c7fd7e"
+    },
+    {
+      "path": "tests/test_topology_review_artifacts.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "31d93ec47849a4fcf328287b9d83be2e968506f3",
+      "size": 6523,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/31d93ec47849a4fcf328287b9d83be2e968506f3"
+    },
+    {
+      "path": "tests/test_topology_theory.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7db9be5759bbf737a67c7dfe5337c888c14b80ac",
+      "size": 1769,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/7db9be5759bbf737a67c7dfe5337c888c14b80ac"
+    },
+    {
+      "path": "tests/test_uniqueness.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8837c38198f51e1b61884aabc8d6515a0527972c",
+      "size": 1553,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/8837c38198f51e1b61884aabc8d6515a0527972c"
+    },
+    {
+      "path": "tests/test_uniqueness_cli.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3f4ed7f48dc5ac94d2b67fcebe87b3cc635fffbe",
+      "size": 4589,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/3f4ed7f48dc5ac94d2b67fcebe87b3cc635fffbe"
+    },
+    {
+      "path": "tests/test_updip_relay_features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d30071e841c55e61260c1c357ca5eaa110d86766",
+      "size": 2591,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/d30071e841c55e61260c1c357ca5eaa110d86766"
+    },
+    {
+      "path": "tests/test_vector_and_oof.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "18abd55e5e8797b8d54f4cd095144664e8f25b72",
+      "size": 3444,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/18abd55e5e8797b8d54f4cd095144664e8f25b72"
+    },
+    {
+      "path": "tests/test_verify_downloads_prereq.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "428235bd60fb32b1224b85ff296a24bd426c1fbe",
+      "size": 805,
+      "url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/blobs/428235bd60fb32b1224b85ff296a24bd426c1fbe"
+    }
+  ],
+  "truncated": false
+}
