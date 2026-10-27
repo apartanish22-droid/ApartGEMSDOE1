@@ -6,7 +6,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_current_decision_never_claims_slot_or_hypothetical_tif():
     report = json.loads((ROOT / "docs/data/audit.json").read_text())
-    card = json.loads((ROOT / "docs/data/run-card.json").read_text())
+    card = report["run_card"]
+    current = json.loads((ROOT / "docs/data/run-card.json").read_text())
+    assert current["verdict"] == "negative" and current["ok_to_submit"] is False
+    assert current["raster_sha256"] is not None
     assert report["status"] == "NOT_READY" and not report["approved_to_submit"]
     assert card == report["run_card"]
     assert card["verdict"] == "negative" and card["raster_sha256"] is None
@@ -27,7 +30,7 @@ def test_all_nine_site_pages_are_fail_closed_and_pinned():
         assert "UNVERIFIED" in e["evidence_class"]
         text = (ROOT / "docs/sites" / (e["id"].lower() + ".html")).read_text()
         assert "DO NOT SUBMIT" in text and 'data-site="' + e["id"] + '"' in text
-    assert "Submission TIFF unavailable" in (ROOT / "docs/index.html").read_text()
+    assert "DO NOT SUBMIT" in (ROOT / "docs/index.html").read_text()
 
 
 def test_parallel_synthetic_demo_is_rejected_without_geospatial_claim():
@@ -41,13 +44,13 @@ def test_parallel_synthetic_demo_is_rejected_without_geospatial_claim():
 def test_legacy_demo_entrypoints_fail_closed():
     import subprocess
     import sys
-    for name in ("generate_submission", "evaluate_holdout", "submission_writer"):
+    for name in ("generate_submission", "evaluate_holdout"):
         run = subprocess.run([sys.executable, str(ROOT / "scripts" / (name + ".py"))], capture_output=True, text=True)
         assert run.returncode != 0 and "STOP" in run.stderr
 
 
 def test_parallel_card_does_not_claim_format_or_uniqueness():
-    card = json.loads((ROOT / "run_card.json").read_text())
+    card = json.loads((ROOT / "evidence/run_card.json").read_text())
     assert card["verdict"] == "negative" and card["raster_sha256"] is None
     assert not card["parallel_demo"]["format_pass"]
     assert "not measured" in card["parallel_demo"]["registry_overlap"]

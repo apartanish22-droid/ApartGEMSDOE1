@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-"""Restore and SHA-256 verify all competition, external, and historical scored files in registry/data_manifest.json."""
+"""Restore the exact public owner mirrors used by the shared template.
 
+No DrivenData credentials or login bypass. Mirrors are integrity-pinned, NOT
+independently organizer-authenticated. Raw rasters remain ignored by Git.
+"""
 from __future__ import annotations
 
 import argparse
@@ -8,145 +11,100 @@ import hashlib
 import json
 import shutil
 import subprocess
-import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-from gems32.paths import data_dir  # noqa: E402
+ORIGINAL_REPO = "buffedlizard55-lab/GEMSDOE"
+ORIGINAL_REF = "c0c06ac82178f26b94fce3397036ef8f12a2f3a0"
+MIRROR_REPO = "buffedlizard55-lab/GEMSDOE24"
+MIRROR_REF = "07345ea0604953d7efb858d9cfbc21e20c7aca0b"
+PRODUCTS = [
+    ("data/bridge/labels.tif", "data/bridge/labels.tif", "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"),
+    ("data/bridge/sample_submission.tif", "data/bridge/sample_submission.tif", "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"),
+    ("data/external/lidar_scarp_features_u8.tif", "data/external/lidar_scarp_features_u8.tif", "d580bb8bdcdb941e32fefb8b38044bc5bf04e199bf2e83498c3576e6fc465568"),
+    ("data/external/geodawn_rad_u8.tif", "data/external/geodawn_rad_u8.tif", "c22420f75999030d7cc65c9e31e50d232ea6158423bca051613a18a8b20ba682"),
+    ("data/external/geodawn_extensions_u8.tif", "data/external/geodawn_extensions_u8.tif", "a35a9c6d2a14786f4dab85481ee59769213072f5dab5b2535ea82ae4d9bb7d9b"),
+]
 
 
-def sha256_file(p: Path) -> str:
-    h = hashlib.sha256()
-    with p.open("rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    return h.hexdigest()
+def checksum(path):
+    with Path(path).open("rb") as handle:
+        return hashlib.file_digest(handle, "sha256").hexdigest()
 
 
-def _fetch_from_codeload(repo: str, ref: str, path: str, dest: Path) -> None:
-    import tarfile
-    import urllib.request
-
-    url = f"https://codeload.github.com/{repo}/tar.gz/{ref}"
-    with urllib.request.urlopen(url, timeout=120) as resp, tarfile.open(fileobj=resp, mode="r|gz") as tf:
-        for member in tf:
-            if not member.isfile() or "/" not in member.name:
-                continue
-            rel = member.name.split("/", 1)[1]
-            if rel == path:
-                src = tf.extractfile(member)
-                if src is None:
-                    break
-                with dest.open("wb") as out:
-                    shutil.copyfileobj(src, out, 1 << 20)
-                return
-    raise FileNotFoundError(f"{path} not found in codeload tarball {repo}@{ref}")
+def tree(repo, ref):
+    output = subprocess.check_output(["gh", "api", f"repos/{repo}/git/trees/{ref}?recursive=1"], text=True, timeout=90)
+    obj = json.loads(output)
+    if obj.get("truncated"):
+        raise ValueError("Refusing a truncated source inventory")
+    return {x["path"]: x for x in obj["tree"] if x["type"] == "blob"}
 
 
-def fetch(repo: str, ref: str, path: str, dest: Path) -> None:
+def restore_blob(repo, entry, dest):
     dest.parent.mkdir(parents=True, exist_ok=True)
-    tmp = dest.with_suffix(dest.suffix + ".partial")
+    temp = dest.with_suffix(dest.suffix + ".partial")
     try:
-        if shutil.which("gh"):
-            try:
-                with tmp.open("wb") as out:
-                    subprocess.run(
-                        [
-                            "gh",
-                            "api",
-                            f"repos/{repo}/contents/{path}?ref={ref}",
-                            "-H",
-                            "Accept: application/vnd.github.raw",
-                        ],
-                        stdout=out,
-                        stderr=subprocess.PIPE,
-                        check=True,
-                    )
-                tmp.replace(dest)
-                return
-            except subprocess.CalledProcessError:
-                tmp.unlink(missing_ok=True)
-        _fetch_from_codeload(repo, ref, path, tmp)
-        tmp.replace(dest)
+        with temp.open("wb") as handle:
+            subprocess.run(["gh", "api", "-H", "Accept: application/vnd.github.raw+json",
+                            f"repos/{repo}/git/blobs/{entry['sha']}"], stdout=handle, check=True, timeout=180)
+        if temp.stat().st_size != entry["size"]:
+            raise ValueError(f"Byte size mismatch: {dest}")
+        # Streaming Git SHA-1 avoids buffering a 90 MiB part twice.
+        digest = hashlib.sha1(b"blob " + str(temp.stat().st_size).encode() + b"\0")
+        with temp.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+        if digest.hexdigest() != entry["sha"]:
+            raise ValueError(f"Git blob mismatch: {dest}")
+        temp.replace(dest)
     finally:
-        tmp.unlink(missing_ok=True)
+        temp.unlink(missing_ok=True)
 
 
-def restore_entry(entry: dict, root: Path) -> dict:
-    dest = root / entry["dest"]
-    if dest.exists() and sha256_file(dest) == entry["sha256"]:
-        return {
-            "id": entry["id"],
-            "dest": entry["dest"],
-            "group": entry["group"],
-            "status": "present",
-            "bytes": dest.stat().st_size,
-            "sha256": entry["sha256"],
-        }
-    if "parts" in entry:
-        tmp = dest.with_suffix(".assembling")
-        tmp.parent.mkdir(parents=True, exist_ok=True)
-        with tmp.open("wb") as out:
-            for part in entry["parts"]:
-                p = root / "raw_parts" / Path(part).name
-                fetch(entry["repo"], entry["ref"], part, p)
-                with p.open("rb") as src:
-                    shutil.copyfileobj(src, out, 1 << 20)
-                p.unlink()
-        got = sha256_file(tmp)
-        if got != entry["sha256"]:
-            tmp.unlink(missing_ok=True)
-            raise SystemExit(f"HASH MISMATCH for {entry['id']}: {got} != {entry['sha256']}")
-        tmp.replace(dest)
-    else:
-        fetch(entry["repo"], entry["ref"], entry["path"], dest)
-        got = sha256_file(dest)
-        if got != entry["sha256"]:
-            dest.unlink(missing_ok=True)
-            raise SystemExit(f"HASH MISMATCH for {entry['id']}: {got} != {entry['sha256']}")
-    return {
-        "id": entry["id"],
-        "dest": entry["dest"],
-        "group": entry["group"],
-        "status": "restored",
-        "bytes": dest.stat().st_size,
-        "sha256": entry["sha256"],
-    }
-
-
-def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--group", default="all", choices=["core", "external", "scored", "all"])
-    ap.add_argument("--manifest", default=str(ROOT / "registry" / "data_manifest.json"))
-    ap.add_argument("--target-dir", default=None, help="Override destination directory")
-    args = ap.parse_args()
-
-    man = json.loads(Path(args.manifest).read_text())
-    root = Path(args.target_dir) if args.target_dir else data_dir()
-    root.mkdir(parents=True, exist_ok=True)
-
-    results = []
-    for e in man["files"]:
-        if args.group in ("all", e["group"]):
-            r = restore_entry(e, root)
-            results.append(r)
-            print(f"{r['status']:>8}  {e['dest']:82s}  sha256={r['sha256'][:12]}…")
-
-    try:
-        storage_root = root.resolve().relative_to(ROOT.resolve()).as_posix()
-    except ValueError:
-        storage_root = str(root)
-    receipt = {
-        "schema_version": 1,
-        "verified_files_count": len(results),
-        "storage_root": storage_root,
-        "files": results,
-    }
-    (ROOT / "data").mkdir(parents=True, exist_ok=True)
-    (ROOT / "data" / "restore_receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
-    print(f"Verified {len(results)} files; receipt written to data/restore_receipt.json")
+def main(root: Path = ROOT):
+    root = Path(root).resolve()
+    mirrored = tree(MIRROR_REPO, MIRROR_REF)
+    receipt = {"provenance": "public owner mirrors; integrity verified, not organizer-authenticated", "files": []}
+    for source, dest_name, expected in PRODUCTS:
+        dest = root / dest_name
+        if not dest.exists() or checksum(dest) != expected:
+            restore_blob(MIRROR_REPO, mirrored[source], dest)
+        if checksum(dest) != expected:
+            raise ValueError(f"SHA-256 mismatch: {dest_name}")
+        receipt["files"].append({"path": dest_name, "sha256": expected, "repo": MIRROR_REPO, "ref": MIRROR_REF, "source_path": source})
+        print("Verified", dest_name, flush=True)
+    for name in ("geodawn_rad.json", "geodawn_extensions.json", "lidar_scarp_features.json"):
+        source = f"data/external/{name}"
+        dest = root / source
+        restore_blob(MIRROR_REPO, mirrored[source], dest)
+        receipt["files"].append({"path": source, "sha256": checksum(dest), "repo": MIRROR_REPO,
+                                 "ref": MIRROR_REF, "blob_sha": mirrored[source]["sha"], "source_path": source})
+    training = root / "data/training_features.tif"
+    expected = "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5"
+    if not training.exists() or checksum(training) != expected:
+        original = tree(ORIGINAL_REPO, ORIGINAL_REF)
+        parts = sorted(name for name in original if name.startswith("data/bridge/gems-geodawn-numerical-features.tif.part-"))
+        if len(parts) != 5:
+            raise ValueError("Expected exactly five original feature-stack parts")
+        partial = training.with_suffix(".partial.tif")
+        with partial.open("wb") as output:
+            for i, name in enumerate(parts):
+                cached = root / f".cache/restore/part-{i}"
+                restore_blob(ORIGINAL_REPO, original[name], cached)
+                with cached.open("rb") as handle:
+                    shutil.copyfileobj(handle, output)
+                cached.unlink()
+        if checksum(partial) != expected:
+            partial.unlink()
+            raise ValueError("Reassembled feature-stack SHA-256 mismatch")
+        partial.replace(training)
+    receipt["files"].append({"path": "data/training_features.tif", "sha256": expected, "repo": ORIGINAL_REPO, "ref": ORIGINAL_REF, "source": "five ordered bridge parts"})
+    (root / "evidence").mkdir(parents=True, exist_ok=True)
+    (root / "evidence/data-restoration.json").write_text(json.dumps(receipt, indent=2) + "\n")
+    print("Restored pinned mirrored inputs; organizer authentication remains unverified")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=ROOT, help="Optional isolated restoration root for end-to-end integrity checks")
+    main(parser.parse_args().root)

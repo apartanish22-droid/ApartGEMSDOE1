@@ -1,26 +1,48 @@
 #!/usr/bin/env python3
-"""Fail closed instead of manufacturing a grid or bypassing registry gates.
+"""Shared CLI for the existing strict writer; never authorizes a weekly slot."""
 
-The previous local scaffold guessed an origin of (0,0) without a template and
-its self-validation did not require matching transforms. It was not the shared
-writer and could emit a misleading file. Use the unchanged, hash-pinned
-``gems57.submission_writer`` restored by scripts/check_shared_template.py only
-after the separate lane, holdout, canary, complete-registry and selector gates
-are implemented. The shared writer's own receipt never approves a weekly slot.
-"""
+from __future__ import annotations
+
+import argparse
+import json
 import sys
+from pathlib import Path
+
+import numpy as np
+import rasterio
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from gems.submission import _same_file, check_variants, write_submission  # noqa: E402
 
 
-def write_submission(*args, **kwargs):
-    raise RuntimeError('STOP: local scaffold is disabled; use the pinned shared writer after all gates.')
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("prediction", type=Path, help="2D .npy or aligned single-band .tif")
+    ap.add_argument("output", type=Path)
+    ap.add_argument("--template", type=Path, default=ROOT / "data/bridge/sample_submission.tif")
+    ap.add_argument(
+        "--outside",
+        choices=("nan", "zero"),
+        default="zero",
+        help="exterior encoding; zero tests strict all-finite validation and does not authorize upload",
+    )
+    args = ap.parse_args()
+    if _same_file(args.output, args.prediction):
+        raise SystemExit("Output must not overwrite the prediction input")
+    if args.prediction.suffix == ".npy":
+        a = np.load(args.prediction, allow_pickle=False)
+    else:
+        with rasterio.open(args.prediction) as s, rasterio.open(args.template) as t:
+            if (s.shape, s.crs, s.transform, s.count) != (t.shape, t.crs, t.transform, 1):
+                raise SystemExit("Prediction must match the template grid and be single-band")
+            a = s.read(1)
+    p = write_submission(a, args.template, args.output, outside=args.outside)
+    checks = check_variants(p, args.template)
+    print(json.dumps(checks, indent=2))
+    if not checks["format_valid"]:
+        raise SystemExit("Written file failed pinned-grid format validation")
 
 
-def main() -> int:
-    print('BLOCKED: STOP: this local writer is disabled; no file was written. '
-          'Restore the pinned shared writer with scripts/check_shared_template.py '
-          'and satisfy the protocol gates before packaging a candidate.', file=sys.stderr)
-    return 2
-
-
-if __name__ == '__main__':
-    raise SystemExit(main())
+if __name__ == "__main__":
+    main()

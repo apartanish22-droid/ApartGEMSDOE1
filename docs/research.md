@@ -1,6 +1,6 @@
-# Preregistered ideas — not experiments or assigned lanes
+> **Historical concurrent-pass document, superseded.** See `docs/executive-summary.html`, `research/hypotheses-2026-10-27.md`, and `evidence/run-card.json` for the measured AP1 result. Do not interpret this earlier state as the current data/validation status.
 
-> **Earlier parallel review — historical snapshot, not current status.** For the latest decision, owner-mirror provenance and the invalid synthetic demo, see the [current executive summary](executive-summary.html) and [saved-byte report](data/parallel-demo-validation.json).
+# Preregistered ideas — not experiments or assigned lanes
 
 None is authorized to run until a single lane is assigned. Novelty is provisional: this checkout initially had no implementation, while the reviewed sibling already implements curvature, magnetic edges, radiometry, thermal conduits and dot thinning. No quantitative DTI improvement is estimated. Ranking below is scientific prioritization, not a measured benefit. No new external dataset is assumed obtainable.
 

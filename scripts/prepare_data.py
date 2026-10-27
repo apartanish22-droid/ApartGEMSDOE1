@@ -1,106 +1,172 @@
 #!/usr/bin/env python3
-"""Inventory local input files without treating mirrors as official data."""
+"""Validate restored inputs and build a memory-mapped, label-free feature matrix.
+
+No GPU required. This is a deliberately small CPU detector with geological
+inputs, not the old unavailable CNN pipeline. Raw bulk rasters stay ignored.
+"""
+
 from __future__ import annotations
 
-import hashlib
+import argparse
 import json
-import math
 import sys
 from pathlib import Path
-from typing import Any
 
+import numpy as np
 import rasterio
+from scipy.ndimage import gaussian_filter
 
-REPO = Path(__file__).resolve().parents[1]
-DATA = REPO / "data"
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from gems import arcs, footprint, geofeatures  # noqa: E402
+from gems.validator import sha256_file  # noqa: E402
 
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def inspect_raster(path: Path) -> dict[str, Any]:
-    if not path.is_file():
-        return {"present": False}
-    result: dict[str, Any] = {
-        "present": True,
-        "size_bytes": path.stat().st_size,
-        "sha256": sha256_file(path),
-    }
-    try:
-        with rasterio.open(path) as ds:
-            result.update({
-                "readable": True,
-                "crs": str(ds.crs) if ds.crs is not None else None,
-                "width": ds.width,
-                "height": ds.height,
-                "count": ds.count,
-                "dtypes": list(ds.dtypes),
-                "transform": list(ds.transform),
-                "nodata": (None if ds.nodata is None else
-                           (float(ds.nodata) if math.isfinite(ds.nodata) else str(ds.nodata))),
-            })
-    except Exception as exc:  # inventory malformed local files; don't crash report
-        result.update({"readable": False, "error": f"{type(exc).__name__}: {exc}"})
-    return result
+BASE_BANDS = (
+    "rtp",
+    "tmi_hg",
+    "tmi_vg",
+    "iso_grav_anom",
+    "iso_grav_anom_hg",
+    "iso_grav_anom_vg",
+    "det_elev",
+    "det_elev_slope",
+    "tmi",
+    "cond_surf",
+    "depth_to_base_surf",
+    "geod_dilaterate",
+    "geod_shearrate",
+)
+LIDAR_BANDS = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)  # strike converted to circular encoding below.
 
 
-def inspect_data(data_dir: Path) -> dict[str, Any]:
-    names = {
-        "training_features": "training_features.tif",
-        "labels": "labels.tif",
-        "sample_submission": "sample_submission.tif",
-        "example_submission": "example_submission.tif",
-        "existing_faults": "existing_faults.tif",
-        "geodawn_features": "gems-geodawn-numerical-features.tif",
-        "candidate": "candidate.tif",
-    }
-    files = {key: inspect_raster(data_dir / filename) for key, filename in names.items()}
-    sample = files["sample_submission"]
-    training_inputs = all(
-        files[key].get("present") and files[key].get("readable")
-        for key in ("training_features", "labels", "sample_submission")
+def verify_cached_preparation(dest, meta_path, input_paths, expected_shape, expected_names):
+    """Fail closed on stale bytes, inputs, or layout instead of trusting cache presence."""
+    metadata = json.loads(Path(meta_path).read_text())
+    if metadata.get("names") != list(expected_names) or metadata.get("shape") != list(
+        expected_shape
+    ):
+        raise ValueError("Prepared cache layout changed; explicit --force required")
+    if metadata.get("sha256") != sha256_file(dest):
+        raise ValueError("Prepared feature cache checksum mismatch; explicit --force required")
+    expected_inputs = {str(p.relative_to(ROOT)): sha256_file(p) for p in input_paths}
+    if metadata.get("inputs") != expected_inputs:
+        raise ValueError("Prepared cache inputs changed; explicit --force required")
+    arr = np.load(dest, mmap_mode="r", allow_pickle=False)
+    if arr.shape != tuple(expected_shape) or arr.dtype != np.dtype("float32"):
+        raise ValueError("Prepared cache array layout does not match metadata")
+    return metadata
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--force", action="store_true")
+    args = ap.parse_args()
+    out = ROOT / "data" / "prepared"
+    out.mkdir(parents=True, exist_ok=True)
+    dest = out / "features.npy"
+    meta_path = out / "features.json"
+    if dest.exists() != meta_path.exists() and not args.force:
+        raise ValueError("Incomplete prepared cache; explicit --force required")
+    fp = footprint.load_footprint()
+    idx = np.flatnonzero(fp.ravel())
+    template = ROOT / "data/bridge/sample_submission.tif"
+    source = ROOT / "data/training_features.tif"
+    lidar = ROOT / "data/external/lidar_scarp_features_u8.tif"
+    with rasterio.open(template) as t, rasterio.open(source) as s, rasterio.open(lidar) as lidar_ds:
+        for d in (s, lidar_ds):
+            if d.shape != t.shape or d.crs != t.crs or d.transform != t.transform:
+                raise SystemExit("Input grid mismatch; no silent reprojecting")
+        if s.count != 19:
+            raise SystemExit("Expected 19 competition bridge bands")
+        if not np.array_equal(np.isfinite(t.read(1)), fp):
+            raise SystemExit("Template and committed footprint disagree")
+    names = (
+        list(BASE_BANDS)
+        + [f"lidar_{b}" for b in LIDAR_BANDS]
+        + [
+            "lidar_cos2strike",
+            "lidar_sin2strike",
+            "det_local_relief",
+            "det_gradient",
+            "arc_rtp",
+            "arc_det_elev",
+            "arc_agreement",
+        ]
     )
-    validation_inputs = (
-        sample.get("present") and sample.get("readable")
-        and files["candidate"].get("present") and files["candidate"].get("readable")
+    if dest.exists() and meta_path.exists() and not args.force:
+        checked = verify_cached_preparation(
+            dest, meta_path, (template, source, lidar), (len(idx), len(names)), names
+        )
+        print(json.dumps(checked, indent=2))
+        return
+    arr = np.lib.format.open_memmap(
+        dest.with_name("features.partial.npy"),
+        mode="w+",
+        dtype=np.float32,
+        shape=(len(idx), len(names)),
     )
-    return {
-        "schema_version": 2,
-        "data_dir": str(data_dir.relative_to(REPO)) if data_dir.is_relative_to(REPO) else str(data_dir),
-        "provenance": "Local-file inventory only; presence does not authenticate organizer provenance.",
-        "files": files,
-        "template_signature": (
-            {
-                "source": "locally supplied sample_submission.tif; organizer authenticity must be verified separately",
-                "crs": sample.get("crs"),
-                "width": sample.get("width"),
-                "height": sample.get("height"),
-                "transform": sample.get("transform"),
-                "count": sample.get("count"),
-                "dtypes": sample.get("dtypes"),
-                "origin_verified": False,
-                "local_transform_inspected": True,
-            }
-            if sample.get("present") and sample.get("readable")
-            else {"source": None, "origin_verified": False, "status": "NO READABLE SAMPLE TEMPLATE"}
-        ),
-        "ready_for_training_inputs": bool(training_inputs),
-        "ready_for_template_validation": bool(validation_inputs),
-        "submission_authorized": False,
-        "submission_blocker": "A file inventory never establishes scientific validity, registry novelty, or weekly-slot authorization.",
+    stored = {}
+    with rasterio.open(source) as s:
+        for i, name in enumerate(BASE_BANDS):
+            a = s.read(geofeatures.BAND_ORDER.index(name) + 1).astype(np.float32)
+            a[~fp | ~geofeatures._valid(a)] = np.nan
+            arr[:, i] = a.ravel()[idx]
+            if name in ("rtp", "det_elev"):
+                stored[name] = a
+            print("source", name, flush=True)
+    col = len(BASE_BANDS)
+    with rasterio.open(lidar) as s:
+        valid = s.read(12) > 0
+        for b in LIDAR_BANDS:
+            a = s.read(b).astype(np.float32)
+            a[~valid] = np.nan
+            arr[:, col] = a.ravel()[idx]
+            col += 1
+        theta = (np.maximum(s.read(11).astype(np.float32) - 1, 0) / 254) * np.pi
+        for a in (np.cos(2 * theta), np.sin(2 * theta)):
+            a[~valid] = np.nan
+            arr[:, col] = a.ravel()[idx]
+            col += 1
+    dem = stored["det_elev"]
+    dv = np.isfinite(dem)
+    # Nearest valid fill affects only label-free transform neighborhoods; missing
+    # input pixels themselves remain NaN. No label-based imputation.
+    from scipy.ndimage import distance_transform_edt
+
+    inds = distance_transform_edt(~dv, return_distances=False, return_indices=True)
+    dem_fill = dem[tuple(inds)]
+    del inds
+    local_relief = dem_fill - gaussian_filter(dem_fill, 5)
+    gy, gx = np.gradient(gaussian_filter(dem_fill, 1), 100)
+    for a in (local_relief, np.hypot(gx, gy)):
+        a[~dv] = np.nan
+        arr[:, col] = a.ravel()[idx]
+        col += 1
+    ar = arcs.arc_rim_support(stored["rtp"], np.isfinite(stored["rtp"]))
+    ad = arcs.arc_rim_support(dem, dv)
+    # Agreement is a descriptor, not a declaration of statistical independence.
+    aa = np.sqrt(np.maximum(ar, 0) * np.maximum(ad, 0))
+    for a in (ar, ad, aa):
+        arr[:, col] = a.ravel()[idx]
+        col += 1
+    if col != len(names):
+        raise SystemExit("Feature column accounting error")
+    arr.flush()
+    del arr
+    dest.with_name("features.partial.npy").replace(dest)
+    metadata = {
+        "names": names,
+        "base_count": len(names) - 3,
+        "shape": [len(idx), len(names)],
+        "arc_radii_px": list(arcs.RADII_PX),
+        "sha256": sha256_file(dest),
+        "inputs": {str(p.relative_to(ROOT)): sha256_file(p) for p in (template, source, lidar)},
+        "note": "Band names follow owner bridge order. Ambiguous tc/earthquake description aliases are deliberately excluded. Features are not calibrated fault probabilities.",
     }
-
-
-def main() -> int:
-    report = inspect_data(DATA)
-    print(json.dumps(report, indent=2))
-    return 0 if report["ready_for_training_inputs"] else 1
+    meta_path.write_text(json.dumps(metadata, indent=2) + "\n")
+    (ROOT / "evidence/data_preparation.json").write_text(json.dumps(metadata, indent=2) + "\n")
+    print(json.dumps(metadata, indent=2))
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-27T21:17:00Z",
+  "scope": "Nine pinned historical files and one 13GEMSDOE lattice only; not a complete registry",
+  "score_warning": "Values are user reports without organizer submission-page receipts, not confirmed scores or estimates",
+  "reference_sites": [
+    {
+      "site": "GEMSDOE24",
+      "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+      "path": "docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "sha256": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+      "bytes": 1632732,
+      "owner": "buffedlizard55-lab",
+      "repo": "GEMSDOE24",
+      "reported_value": "0.2477",
+      "reported_value_evidence": "USER-REPORTED, no artifact-linked organizer receipt",
+      "review_head": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE24/"
+    },
+    {
+      "site": "GEMSDOE25",
+      "ref": "04333cc3fbf7486c56e0324fd07aee684be614dc",
+      "path": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "bytes": 1603424,
+      "owner": "buffedlizard55-lab",
+      "repo": "GEMSDOE25",
+      "reported_value": "0.2600",
+      "reported_value_evidence": "USER-REPORTED, no artifact-linked organizer receipt",
+      "review_head": "19b219f629440b9975b093f459c74e21a42476ca",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE25/"
+    },
+    {
+      "site": "GEMSDOE27",
+      "ref": "b8dd298e10884afffa05436673ac73aeaf850b8c",
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+      "bytes": 1635084,
+      "owner": "buffedlizard55-lab",
+      "repo": "GEMSDOE27",
+      "reported_value": "0.2449",
+      "reported_value_evidence": "USER-REPORTED, no artifact-linked organizer receipt",
+      "review_head": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE27/"
+    },
+    {
+      "site": "GEMSDOE28",
+      "ref": "ec1d501fd12c8dee9dc062726003639dec9382ff",
+      "path": "docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "sha256": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
+      "bytes": 1590848,
+      "owner": "buffedlizard55-lab",
+      "repo": "GEMSDOE28",
+      "reported_value": "0.2710",
+      "reported_value_evidence": "USER-REPORTED, no artifact-linked organizer receipt",
+      "review_head": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE28/"
+    },
+    {
+      "site": "GEMSDOE30",
+      "ref": "3d5bec2af5f29291617f97c9e2dfe443be6f55c3",
+      "path": "docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "bytes": 806758,
+      "owner": "buffedlizard55-lab",
+      "repo": "GEMSDOE30",
+      "reported_value": "0.2600",
+      "reported_value_evidence": "USER-REPORTED, no artifact-linked organizer receipt",
+      "review_head": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE30/"
+    },
+    {
+      "site": "GEMSDOE31",
+      "ref": "cf13282fcd86290f1539f0a86446c8ba7205a79b",
+      "path": "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "sha256": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
+      "bytes": 199214,
+      "owner": "buffedlizard55-lab",
+      "repo": "GEMSDOE31",
+      "reported_value": "0.2708",
+      "reported_value_evidence": "USER-REPORTED, no artifact-linked organizer receipt",
+      "review_head": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE31/docs/"
+    },
+    {
+      "site": "GEMSDOE32",
+      "ref": "012e17b2a115c3c0d5e7885bea625bf9657c99fc",
+      "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "bytes": 219065,
+      "owner": "buffedlizard55-lab",
+      "repo": "GEMSDOE32",
+      "reported_value": "0.2778",
+      "reported_value_evidence": "USER-REPORTED, no artifact-linked organizer receipt",
+      "review_head": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE32/docs/"
+    },
+    {
+      "site": "GEMSDOE33",
+      "ref": "f52533110fe62cd03e77f1228e9e5ecac412c463",
+      "path": "docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "bytes": 917544,
+      "owner": "buffedlizard55-lab",
+      "repo": "GEMSDOE33",
+      "reported_value": "0.2632",
+      "reported_value_evidence": "USER-REPORTED, no artifact-linked organizer receipt",
+      "review_head": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE33/"
+    },
+    {
+      "site": "GEMSDOE36",
+      "ref": "c9ad59ec6f969ed931d089a03044c1567a633e84",
+      "path": "docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "bytes": 318190,
+      "owner": "buffedlizard55-lab",
+      "repo": "GEMSDOE36",
+      "reported_value": "0.2750",
+      "reported_value_evidence": "USER-REPORTED, no artifact-linked organizer receipt",
+      "review_head": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "site_url": "https://buffedlizard55-lab.github.io/GEMSDOE36/docs/"
+    }
+  ],
+  "support": [
+    {
+      "id": "sample_submission",
+      "owner": "buffedlizard55-lab",
+      "repo": "GEMSDOE24",
+      "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+      "path": "data/bridge/sample_submission.tif",
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "bytes": 1599597,
+      "description": "Third-party sample-grid mirror; NOT organizer-authenticated"
+    },
+    {
+      "id": "labels",
+      "owner": "buffedlizard55-lab",
+      "repo": "GEMSDOE24",
+      "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+      "path": "data/bridge/labels.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "bytes": 425830,
+      "description": "Third-party mapped fault mirror; NOT organizer-authenticated"
+    },
+    {
+      "id": "lattice",
+      "owner": "buffedlizard55-lab",
+      "repo": "13GEMSDOE",
+      "ref": "92ee6f074323f161eed837b80ec3ee5b662e26f5",
+      "path": "docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+      "bytes": 1706456,
+      "description": "Historical calibration lattice, included in user-supplied comparison sites"
+    }
+  ]
+}

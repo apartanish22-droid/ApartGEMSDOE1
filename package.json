@@ -1,6 +1,16 @@
 {
-  "name": "apart-gems-dashboard",
+  "name": "apartgems-release-checks",
+  "version": "0.1.0",
   "private": true,
-  "scripts": { "test": "node --test tests/site.test.cjs" },
-  "devDependencies": { "jsdom": "26.1.0" }
+  "description": "Optional browser checks for the static GEMS research dashboard",
+  "scripts": {
+    "test:browser": "node scripts/browser_smoke.mjs",
+    "test": "node --test tests/site.test.cjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.64.1",
+    "@sparticuz/chromium": "153.0.0",
+    "jsdom": "26.1.0"
+  }
 }

@@ -1,0 +1,215 @@
+{
+  "schema": "apartgems-release-verification-v1",
+  "checked_utc": "2026-10-27T22:47:11.456522+00:00",
+  "checker_sha256": "50c6206d919961a42cbe349026f4757c98aa70cd857c5c1fd91539030f5309a2",
+  "scope": "Frozen research release consistency, not scientific re-evaluation or organizer acceptance",
+  "submission_authorized": false,
+  "checks": {
+    "all_shared_template_pins": {
+      "passed": true,
+      "detail": "All 15 shared files must remain byte-exact; no private evaluator/writer forks."
+    },
+    "experiment_code_pins": {
+      "passed": true,
+      "detail": "Code used for the recorded experiment remains unchanged."
+    },
+    "preregistration_pin": {
+      "passed": true,
+      "detail": "Preregistered method must not be edited after evaluating it."
+    },
+    "recorded_stop_and_budget": {
+      "passed": true,
+      "detail": "One completed experiment; mandatory duplicate STOP; zero real slots."
+    },
+    "no_fabricated_leaderboard_metrics": {
+      "passed": true,
+      "detail": "No local holdout-to-leaderboard conversion."
+    },
+    "holdout_label_and_protocol": {
+      "passed": true,
+      "detail": "Pooled metric, version, positive count and 95% interval must accompany every performance claim."
+    },
+    "pooled_metric_arithmetic": {
+      "passed": true,
+      "detail": "Recompute pooled DTI from recorded components, not mean fold DTI."
+    },
+    "fold_segment_integrity": {
+      "passed": true,
+      "detail": "Whole buffered segments, no visible held-out component."
+    },
+    "individual_feature_canaries": {
+      "passed": true,
+      "detail": "All 18 source/descriptor canaries, both polarities and missingness."
+    },
+    "surface_registry_coverage": {
+      "passed": true,
+      "detail": "Literal audited nine-snapshot scope; not a claim of global completeness."
+    },
+    "surface_registry_stop_consistency": {
+      "passed": true,
+      "detail": "0 literal duplicate comparisons; no calibration-control exemptions."
+    },
+    "final_registry_coverage": {
+      "passed": true,
+      "detail": "Literal audited nine-snapshot scope; not a claim of global completeness."
+    },
+    "final_registry_stop_consistency": {
+      "passed": true,
+      "detail": "5 literal duplicate comparisons; no calibration-control exemptions."
+    },
+    "negative_status_fail_closed": {
+      "passed": true,
+      "detail": "Valid format must not be presented as an approved submission."
+    },
+    "run_card_matches_experiment": {
+      "passed": true,
+      "detail": "Exact artifact, holdout, unique name and \u2264140-character note."
+    },
+    "published_copy:docs/data/experiment.json": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:docs/data/run-card.json": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:docs/data/focus-audit.json": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:docs/data/surface-registry.json": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:docs/data/final-registry.json": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:docs/data/source-pins.json": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:docs/data/sources.json": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:docs/data/claims.csv": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:docs/data/data-catalog.csv": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:docs/research/hypotheses-2026-10-27.md": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:run_card.json": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:run-card.json": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "published_copy:docs/run_card.json": {
+      "passed": true,
+      "detail": "Published evidence must be identical to the recorded source."
+    },
+    "artifact_hash_and_size": {
+      "passed": true,
+      "detail": "73fa21b7c558cd48dea20d1d63ddd43efd2ea8b9e57bbc98972153212625987a"
+    },
+    "shared_competition_format": {
+      "passed": true,
+      "detail": ""
+    },
+    "raw_finite_and_0_1": {
+      "passed": true,
+      "detail": "Full raw-array check, including all exterior pixels; prevents range-error regression."
+    },
+    "internal_footprint_mask": {
+      "passed": true,
+      "detail": "Masked reads must return exterior nulls."
+    },
+    "prediction_hash_and_count": {
+      "passed": true,
+      "detail": "Prediction-content hash and 20,000 placed dots."
+    },
+    "nine_focus_pages": {
+      "passed": true,
+      "detail": "Exactly the nine requested sites, hosted locally."
+    },
+    "all_local_site_links": {
+      "passed": true,
+      "detail": "199 local links/assets/fragments checked; "
+    },
+    "download_and_warning_visible_in_source": {
+      "passed": true,
+      "detail": "Prominent research download, negative verdict and complete holdout labels."
+    },
+    "missing_lane_not_invented": {
+      "passed": true,
+      "detail": "Provisional method choice and mirror provenance remain explicit limitations."
+    },
+    "parallel_promotion_rejected": {
+      "passed": true,
+      "detail": "Parallel H2 claims remain preserved and separately blocked, never silently adopted as AP1 promotion."
+    },
+    "browser_report_passes_current_checker": {
+      "passed": true,
+      "detail": "Current desktop/mobile, real-download hash, clipboard, keyboard, responsive and accessibility checks."
+    },
+    "browser_report_covers_current_site": {
+      "passed": true,
+      "detail": "All active HTML/CSS/JS, including legacy routes and root fallback, must match the tested site snapshot."
+    },
+    "three_pass_review_recorded": {
+      "passed": true,
+      "detail": "Review completion is not scientific success; blocked and negative requirements remain explicit."
+    },
+    "published_report:source-health.json": {
+      "passed": true,
+      "detail": "Published inspection evidence must match its recorded source."
+    },
+    "published_report:browser-verification.json": {
+      "passed": true,
+      "detail": "Published inspection evidence must match its recorded source."
+    },
+    "published_report:restoration-verification.json": {
+      "passed": true,
+      "detail": "Published inspection evidence must match its recorded source."
+    },
+    "published_report:review-ledger.json": {
+      "passed": true,
+      "detail": "Published inspection evidence must match its recorded source."
+    },
+    "published_report:three-pass-review.md": {
+      "passed": true,
+      "detail": "Published inspection evidence must match its recorded source."
+    },
+    "published_report:parallel-intake.json": {
+      "passed": true,
+      "detail": "Published inspection evidence must match its recorded source."
+    },
+    "published_report:format-verification.json": {
+      "passed": true,
+      "detail": "Published inspection evidence must match its recorded source."
+    },
+    "published_report:test-results.xml": {
+      "passed": true,
+      "detail": "Published inspection evidence must match its recorded source."
+    },
+    "published_report:release-verification.json": {
+      "passed": true,
+      "detail": "The published release report is the exact recorded checkpoint, not a stale copy."
+    }
+  },
+  "errors": [],
+  "surface_duplicate_comparisons": 0,
+  "final_duplicate_comparisons": 5,
+  "research_release_valid": true,
+  "scientific_verdict": "negative",
+  "status": "PASS: consistent negative research release \u2014 DO NOT SUBMIT"
+}

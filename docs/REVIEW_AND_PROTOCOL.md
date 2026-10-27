@@ -1,6 +1,6 @@
-# Repository review, evidence, and next-step protocol
+> **Historical concurrent-pass document, superseded.** See `docs/executive-summary.html`, `research/hypotheses-2026-10-27.md`, and `evidence/run-card.json` for the measured AP1 result. Do not interpret this earlier state as the current data/validation status.
 
-> **Earlier parallel review — historical snapshot, not current status.** For the latest decision, owner-mirror provenance and the invalid synthetic demo, see the [current executive summary](executive-summary.html) and [saved-byte report](data/parallel-demo-validation.json).
+# Repository review, evidence, and next-step protocol
 
 **Review date:** 2026-10-27 (UTC). **Scope:** inspected local checkout at `d681f75` on `arena/8564b8df-apartgemsdoe1`; only tracked file at review start was a 15-byte README. No changes or prior sessions were present in this repository.
 
@@ -15,7 +15,7 @@ This review was extended after parallel work merged into `main`; all statements 
 | Shared template | Canonical paths expected by readiness (`scripts/evaluate_holdout.py`, `scripts/submission_writer.py`, cached stack) are absent. A sibling snapshot exists under `research/gems32/`, but its provenance disclaims organizer authentication and it is not the installed template. | Do not treat the snapshot as the requested shared runtime or silently substitute its metric/writer. |
 | Competition access | No DrivenData credentials/data are available. The repository contains user-supplied links and GitHub mirror snapshots, not authenticated competition package contents. | No authenticated download or live organizer receipt was obtained. |
 | Existing candidate registry | `evidence/site_inventory.json` and mirrored HTML pin source trees/pages and enumerate remote raster paths; the raster bytes and complete pixel registry are not present locally. | User-reported results can be summarized, but raster-level uniqueness cannot be certified here. |
-| Submission deliverable | The later parallel synthetic demo fails the pinned mirror grid; no file is approved and no slot is authorized. | This earlier review generated no TIF. Any guessed or fabricated grid would be unsafe to submit. |
+| Submission deliverable | No candidate GeoTIFF exists in the worktree; current root page says no approved file and no slot is authorized. | No TIF is generated. Any guessed or fabricated grid would be unsafe to submit. |
 
 ### Highest-score question (what can and cannot be concluded)
 
@@ -99,6 +99,6 @@ A pass means only that the file passed the implemented structural/range checks. 
 - **Pass 3 — request alignment:** the landing page clearly says no approved file and NO submission. The main site builder uses a hard-coded historical result list and a fixed date; it is a static snapshot, not an automatically current leaderboard feed. No GitHub Pages deployment workflow/settings or live leaderboard receipt was verified. The nested sibling research README advertised audit downloads through relative paths, but the referenced TIFF/ZIP bytes are not present in this checkout; a warning has been added so those links are not mistaken for a working download or submission authorization.
 - **Evidence boundary:** `research/gems32/scripts/evaluate_holdout.py` and `submission_writer.py` are sibling snapshot files, not an installed/reproducible shared template. The official feature cache, competition rasters, and complete pixel-level registry are absent. The `evidence/site_inventory.json` records source refs and raster paths; it cannot replace raster bytes for correlation/overlap checks.
 - **Hypothesis lane:** the user brief says a single assigned method paragraph defines the lane, but no such paragraph is present. Therefore no candidate was implemented or tested. The listed ideas are preregistrations only, not a recommendation to spend a submission slot.
-- **Submission decision:** no candidate TIF is authorized; the later synthetic demo fails the mirrored grid. Do not submit any artifact based on a filename, sibling README, score projection, or a passing format check alone.
+- **Submission decision:** no candidate TIF is locally available or authorized. Do not submit any artifact based on a filename, sibling README, score projection, or a passing format check alone.
 
 The canonical run card for this review is [`docs/run_card.json`](run_card.json). No experiment was run; all unavailable measurements remain `null` rather than being guessed.

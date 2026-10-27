@@ -1,6 +1,6 @@
-# Candidate geological hypotheses (ranked)
+> **Historical concurrent-pass document, superseded.** See `docs/executive-summary.html`, `research/hypotheses-2026-10-27.md`, and `evidence/run-card.json` for the measured AP1 result. Do not interpret this earlier state as the current data/validation status.
 
-> Historical, untested parallel proposals; see [current research slate](research/hypotheses-2026-10-27.md) and [executive decision](docs/executive-summary.html).
+# Candidate geological hypotheses (ranked)
 
 Source of truth for rankings: expected holdout-DTI improvement vs the current
 repo best on the spatially-blocked hide-and-recover holdout, and implementation

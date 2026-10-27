@@ -8,14 +8,10 @@ from pathlib import Path
 from typing import Any
 
 REQUIRED = (
-    "data/sample_submission.tif",
-    "data/labels.tif",
-    ".cache/shared/.cache/training_features.tif",
-    "registry/rasters.json",
-    "registry/lane.txt",
-    # These locations are for the restored shared runtime, not root demo scripts.
-    ".cache/upstream57/src/gems57/evaluate_holdout.py",
-    ".cache/upstream57/src/gems57/submission_writer.py",
+    "data/bridge/sample_submission.tif", "data/bridge/labels.tif",
+    "data/training_features.tif", "data/prepared/features.npy", "data/prepared/features.json",
+    "evidence/registry.json", "registry/lane.txt", "src/gems/holdout.py",
+    "scripts/submission_writer.py", "vendor/template-pins.json",
 )
 
 
@@ -31,7 +27,7 @@ def inspect(root: Path) -> dict[str, Any]:
         "all_required_paths_present": all_paths_present,
         "canonical_runtime_verified": False,
         "ready_for_experiment": False,
-        "ready_for_template_validation": ((root / "data/sample_submission.tif").is_file()
+        "ready_for_template_validation": ((root / "data/bridge/sample_submission.tif").is_file()
                                           and (root / "data/candidate.tif").is_file()),
         "submission_authorized": False,
         "reason": (

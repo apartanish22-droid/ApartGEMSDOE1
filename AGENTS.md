@@ -1,7 +1,27 @@
-# Session starting point
+# Repository working agreement
 
-Read `README.md` and `research/forensics-2026-10-27.md` before working. The README contains the consolidated user brief and binding parallel-run limits. Keep evidence classes and provenance honest; never present a projected or user-reported value as an organizer-confirmed submission score. No current candidate is approved.
+Read `README.md` first, then `evidence/run-card.json` and `evidence/experiment.json`.
+The user charter in README is the starting point for future work.
 
-Do not invent an assigned lane, exclude a registry entry, move dots merely to game the overlap check, or run more than three experiments/two hours. Reuse the canonical evaluator/writer; fix defects there, not as a private fork. A champion-sized candidate is not permitted to proceed past the literal duplicate-stop; smaller budgets still require every protocol gate. Data preparation or read-only geometry checks are not geological experiments. Keep raw rasters and caches out of Git.
-
-Do three review passes, run tests, and keep the executive decision and machine-readable run card consistent. Treat GitHub source changes, inaccessible data, unknown receipt/slot status, and failures as fail-closed. Do not automate DrivenData scraping or platform submissions without authorization.
+- AP1-SNRC is a completed **negative** experiment with a mandatory duplicate STOP.
+  Do not rerun it, tune placement, remove calibration controls, change its frozen
+  registry, delete its record, or consume a competition slot.
+- Shared evaluation/writer/cache files are byte-pinned in
+  `vendor/template-pins.json`. Do not create private metric/writer forks.
+- Keep research evidence and source pins immutable. Current release verification
+  is `python scripts/verify_release.py`; success means a consistent **negative
+  research release**, not upload authorization. Run `pytest -q` as well.
+- `scripts/build_site.py` deterministically generates the current dashboard.
+  Do not hand-edit generated pages; edit the builder and rebuild. A public source
+  link is not a scientific measurement, receipt or data-license grant.
+- Keep large data/caches/browser artifacts ignored. Exact public mirrors can be
+  restored autonomously with `scripts/restore_data.py`; authentication against
+  organizer bytes remains a distinct missing gate.
+- Preserve concurrent work and historical evidence; do not confuse archived
+  origin-zero H1 scaffolds with the measured AP1 result. Work only on the branch
+  assigned by the current Arena session.
+- Before any later experiment: explicit new lane/run identity, preregistered
+  physical mechanism/mimic, verified data availability, spatially blocked whole
+  segments, feature-alone canaries, pooled DTI + CI, and both novelty checks.
+- Never upload/select a real submission in a research run. Follow the user's
+  metric-label, experiment/time-budget and single-final-JSON-run-card rules.

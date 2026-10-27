@@ -1,0 +1,180 @@
+{
+  "schema": "apartgems-source-health-v1",
+  "checked_utc": "2026-10-27T22:10:42.691105+00:00",
+  "mode": "github_only",
+  "scope": "Reachability and source-HEAD drift only. Does not authenticate organizer data, validate scientific claims or extend registry coverage.",
+  "submission_authorized": false,
+  "scientific_records_modified": false,
+  "sources": [
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "status": "not_automatically_probed_source_policy",
+      "reachable": null,
+      "scientific_claims_reverified": false,
+      "reason": "No automated DrivenData monitoring; dated source observations only.",
+      "id": "DD-PROBLEM",
+      "recorded_status": "READ, both returned chunks"
+    },
+    {
+      "url": "https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516/4",
+      "status": "not_automatically_probed_source_policy",
+      "reachable": null,
+      "scientific_claims_reverified": false,
+      "reason": "No automated DrivenData monitoring; dated source observations only.",
+      "id": "DD-MASK",
+      "recorded_status": "READ staff answers"
+    },
+    {
+      "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "status": "recorded_only_not_live_probed",
+      "reachable": null,
+      "scientific_claims_reverified": false,
+      "id": "DOE-RULES",
+      "recorded_status": "READ relevant extracted sections 3.3\u20133.6, not a claim of full legal review"
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/rules/",
+      "status": "not_automatically_probed_source_policy",
+      "reachable": null,
+      "scientific_claims_reverified": false,
+      "reason": "No automated DrivenData monitoring; dated source observations only.",
+      "id": "DD-RULES-INDEX",
+      "recorded_status": "READ"
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "status": "not_automatically_probed_source_policy",
+      "reachable": null,
+      "scientific_claims_reverified": false,
+      "reason": "No automated DrivenData monitoring; dated source observations only.",
+      "id": "DD-BOARD",
+      "recorded_status": "READ public leaderboard first returned chunk"
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/",
+      "status": "not_automatically_probed_source_policy",
+      "reachable": null,
+      "scientific_claims_reverified": false,
+      "reason": "No automated DrivenData monitoring; dated source observations only.",
+      "id": "DD-ACCOUNT",
+      "recorded_status": "REDIRECTED TO LOGIN"
+    },
+    {
+      "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+      "status": "recorded_only_not_live_probed",
+      "reachable": null,
+      "scientific_claims_reverified": false,
+      "id": "USGS-GEODAWN",
+      "recorded_status": "READ"
+    },
+    {
+      "url": "https://gdr.openei.org/submissions/1391",
+      "status": "recorded_only_not_live_probed",
+      "reachable": null,
+      "scientific_claims_reverified": false,
+      "id": "GDR-1391",
+      "recorded_status": "READ public resource catalogue and download links"
+    },
+    {
+      "url": "https://gbcge.org/current-projects/ingenious/",
+      "status": "recorded_only_not_live_probed",
+      "reachable": null,
+      "scientific_claims_reverified": false,
+      "id": "INGENIOUS",
+      "recorded_status": "READ project and publications information"
+    },
+    {
+      "url": "https://www.usgs.gov/publications/gamma-ray-spectrometer-studies-hydro-thermally-altered-rocks",
+      "status": "recorded_only_not_live_probed",
+      "reachable": null,
+      "scientific_claims_reverified": false,
+      "id": "USGS-KTH",
+      "recorded_status": "READ official abstract"
+    },
+    {
+      "url": "https://github.com/drivendataorg/gems-prize-reference-solution",
+      "resolved_url": "https://github.com/drivendataorg/gems-prize-reference-solution",
+      "http_status": 200,
+      "reachable": true,
+      "status": "reachable",
+      "scientific_claims_reverified": false,
+      "id": "DD-REFERENCE",
+      "recorded_status": "READ README and relevant notebook code through GitHub API, with Git blob inventory retained"
+    },
+    {
+      "url": "https://www.usgs.gov/3d-elevation-program/data-tools",
+      "status": "recorded_only_not_live_probed",
+      "reachable": null,
+      "scientific_claims_reverified": false,
+      "id": "USGS-3DEP-URL",
+      "recorded_status": "RETURNED PAGE NOT FOUND in this session"
+    }
+  ],
+  "snapshots": [
+    {
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "pinned_commit": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "latest_commit": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "snapshot_matches_head": true,
+      "status": "unchanged"
+    },
+    {
+      "repo": "buffedlizard55-lab/GEMSDOE25",
+      "pinned_commit": "19b219f629440b9975b093f459c74e21a42476ca",
+      "latest_commit": "19b219f629440b9975b093f459c74e21a42476ca",
+      "snapshot_matches_head": true,
+      "status": "unchanged"
+    },
+    {
+      "repo": "buffedlizard55-lab/GEMSDOE27",
+      "pinned_commit": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "latest_commit": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "snapshot_matches_head": true,
+      "status": "unchanged"
+    },
+    {
+      "repo": "buffedlizard55-lab/GEMSDOE28",
+      "pinned_commit": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "latest_commit": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "snapshot_matches_head": true,
+      "status": "unchanged"
+    },
+    {
+      "repo": "buffedlizard55-lab/GEMSDOE30",
+      "pinned_commit": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "latest_commit": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "snapshot_matches_head": true,
+      "status": "unchanged"
+    },
+    {
+      "repo": "buffedlizard55-lab/GEMSDOE31",
+      "pinned_commit": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "latest_commit": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "snapshot_matches_head": true,
+      "status": "unchanged"
+    },
+    {
+      "repo": "buffedlizard55-lab/GEMSDOE32",
+      "pinned_commit": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "latest_commit": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "snapshot_matches_head": true,
+      "status": "unchanged"
+    },
+    {
+      "repo": "buffedlizard55-lab/GEMSDOE33",
+      "pinned_commit": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "latest_commit": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "snapshot_matches_head": true,
+      "status": "unchanged"
+    },
+    {
+      "repo": "buffedlizard55-lab/GEMSDOE36",
+      "pinned_commit": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "latest_commit": "63ba988b8e7e15da4d6938fae167933d8f697b4c",
+      "snapshot_matches_head": false,
+      "status": "snapshot_drift"
+    }
+  ],
+  "issues_count": 1,
+  "status": "attention_needed"
+}
