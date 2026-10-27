@@ -9,7 +9,7 @@ import sys
 
 
 def main() -> int:
-    print("STOP: legacy generate_submission is disabled. Restore/repair the canonical shared "
+    print("STOP: BLOCKED: legacy generate_submission is disabled. Restore/repair the canonical shared "
           "template and satisfy the lane, uniqueness and holdout gates first; "
           "see README.md and research/forensics-2026-10-27.md.", file=sys.stderr)
     return 2

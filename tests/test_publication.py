@@ -51,4 +51,4 @@ def test_historical_parallel_card_does_not_claim_format_or_uniqueness():
     assert card["verdict"] == "negative" and not card["validator_output"]["format_pass"]
     assert not card["validator_output"]["template_transform_match_pinned_mirror"]
     assert card["note_chars"] == len(card["note"]) <= 140
-    assert "do not prove" in card["correlation_overlap_vs_registry"]
+    assert "do not prove" in card["correlation_overlap_vs_registry"]["reason"]

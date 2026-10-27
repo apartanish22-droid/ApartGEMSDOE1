@@ -5,8 +5,18 @@
   "hypothesis": "H1 blind hydrothermal-conduit propensity: geothermal conduits host clay alteration (elevated airborne radiometric Th/K), magnetite destruction (TMI magnetic lows), and concave curvature at intersections/relay ramps. These signatures can occur on blind faults ABSENT from the USGS/INGENIOUS Quaternary catalogue, so dots are placed strictly outside a 2 px catalogue-exclusion collar. This targets catalogue-missing faults instead of re-dotting the catalogue (the H19-5 / B2 dotted family that overlaps at 100% within 3 px across GEMSDOE24/25/27/28/30/31/32/33/36).",
   "mechanism": "Intended H1 design was described as Th/K, TMI and curvature, but this archived demonstration used seeded synthetic fields, not a measured geologic feature stack.",
   "named_non_fault_mimic": "Paleo-geothermal sinter/tufa deposits and fossil hydrothermal alteration zones (Quaternary volcanics, paleo-springs) produce Th/K and magnetic signatures without an active fault; Lake Lahontan wave-cut shoreline benches and alluvial-fan terrace risers mimic concave curvature; these are suppressed by the piedmont-habitat window and along-strike continuity requirements in the full design (demo surface here is illustrative).",
-  "holdout_dti": "BLOCKED - labels.tif is DrivenData login-gated and was not downloadable from this sandbox; hide-and-recover pooled DTI (alpha 0.2, beta 0.8, 300 m triangular kernel) cannot be computed. No holdout-DTI number exists yet; none is asserted. Place labels.tif in data/ and run scripts/evaluate_holdout.py before any submission slot is spent.",
-  "correlation_overlap_vs_registry": "Not measured. The demo grid transform does not match the pinned template; a geospatial registry comparison is invalid. A SHA-256 and name do not prove scientific uniqueness.",
+  "holdout_dti": {
+    "value": null,
+    "status": "not run; no comparable segment holdout",
+    "evaluator_version": null,
+    "withheld_positives": null,
+    "ci_95": null
+  },
+  "correlation_overlap_vs_registry": {
+    "rank_correlation": null,
+    "dot_overlap": null,
+    "reason": "Not measured. The demo grid transform does not match the pinned template; a geospatial registry comparison is invalid. A SHA-256 and name do not prove scientific uniqueness."
+  },
   "raster_sha256": "397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a",
   "validator_output": {
     "file": "docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
@@ -40,5 +50,6 @@
   "verdict": "negative",
   "verdict_reason": "Fails the pinned mirrored template transform; no holdout or valid registry comparison. Research demo only; do not submit.",
   "data_blocker": "Owner-hosted mirrors are hash-checked, not authenticated organizer data. Shared cached stack, canonical runtime repair, complete registry and comparable holdout remain unavailable.",
-  "scope": "Historical parallel synthetic demonstration; not this audit, not a competition-ready candidate."
+  "scope": "Historical parallel synthetic demonstration; not this audit, not a competition-ready candidate.",
+  "submission_note": "GEMSDOE1 H1 blind-conduit CELF300 37654d B2 | 06281cc7efb3 | research demo; holdout not computable without labels.tif; DO NOT SUBMIT"
 }

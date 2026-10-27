@@ -12,7 +12,7 @@ These are reviews of research infrastructure, not geological experiments or subm
 
 - Added validation against non-boolean geometry inputs, empty/misaligned rasters, hidden nodata, nonfinite/out-of-range values, positive outside pixels, incorrect CRS/shape/transform/bands/dtype, and exact inclusive radius behavior. A non-authorizing CLI now defaults to a conservative null-outside-footprint policy; the all-finite alternative is diagnostic only.
 - Added offline, malformed-data and unsafe-link/injection frontend tests. In a real headless Chromium session, opened all 12 dashboard pages at 1440 px and 390 px: no page errors, failed resource responses or viewport overflow. Made wide tables keyboard-scrollable and added a mobile scroll hint.
-- Local automated checks at this pass: 41 Python tests and 5 frontend tests passed. Synthetic failures, a checked historical TIFF, and the independent pinned audit were used; no new geological prediction was made.
+- Local automated checks at this pass: 47 Python tests and 5 frontend tests passed. Synthetic failures, a checked historical TIFF, and the independent pinned audit were used; no new geological prediction was made.
 
 ## 3. Requirements, publication, and operational review
 
