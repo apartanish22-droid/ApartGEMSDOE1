@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Executive summary &mdash; nine focus GEMSDOE sites &mdash; ApartGEMSDOE1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f172a; --muted:#475569; --line:#e2e8f0;
+    --brand:#0b5ed6; --stop:#b91c1c; --warn:#b45309; --neutral:#64748b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.5}
+  header{background:#0f172a;color:#fff;padding:24px 20px}
+  header h1{font-size:22px;font-weight:800;letter-spacing:-0.4px}
+  header p{color:#cbd5e1;margin-top:6px;font-size:14px}
+  .container{max-width:1100px;margin:0 auto;padding:0 20px}
+  .nav{margin:16px 0}
+  .nav a{color:var(--brand);text-decoration:none;margin-right:16px;font-size:14px}
+  .nav a:hover{text-decoration:underline}
+  h2{font-size:17px;margin:26px 0 10px;border-bottom:2px solid var(--line);padding-bottom:6px}
+  h3{font-size:14.5px;margin:18px 0 6px;color:var(--brand)}
+  p{margin:8px 0;color:#334155;font-size:14px}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+  th{text-align:left;background:#f1f5f9;padding:8px;border:1px solid var(--line);font-weight:600;font-size:12px}
+  td{padding:8px;border:1px solid var(--line);vertical-align:top;font-size:13px}
+  tr:nth-child(even)td{background:#fbfdff}
+  .mono{font-family:Source Code Pro,monospace;font-size:11.5px}
+  .badge{display:inline-block;font-size:11px;padding:2px 7px;border-radius:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+  .badge-no{background:#fee2e2;color:var(--stop)}
+  .badge-neutral{background:#e2e8f0;color:var(--neutral)}
+  .verdict-big{font-weight:800;font-size:15px}
+  .no{color:var(--stop)}
+  .note{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:14px;margin:16px 0;font-size:13.5px}
+  .foot{color:var(--muted);font-size:12.5px;margin-top:26px;border-top:1px solid var(--line);padding-top:18px}
+  a{color:var(--brand);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .kicker{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Executive summary &mdash; nine focus sites</h1>
+    <p>ApartGEMSDOE1 &middot; GEMS Prize Challenge &middot; branch <code>arena/f4d3d0af-apartgemsdoe1</code></p>
+  </div>
+</header>
+<div class="container">
+
+  <div class="nav">
+    <a href="index.html">&#8592; Home &amp; TIF download</a>
+    <a href="run_card.json">Run card (JSON)</a>
+  </div>
+
+  <div class="kicker">Decision at a glance</div>
+  <h2>Which file is best? None &#8212; all nine are blocked from resubmission</h2>
+  <p>The best historical submission among the nine focus sites is GEMSDOE32's
+  <span class="mono">h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros</span> at
+  <b>0.2778 owner-reported</b> &mdash; the highest supplied value in the set. But it is
+  <b>already submitted</b>, is <b>owner-reported / unverified</b> (no organizer receipt linking the
+  raster hash to the score), and overlaps at <b>100% within 3 px</b> of the GEMSDOE24/25/30 dotted-file
+  family, so it fails the literal 70% uniqueness lane gate and must not be resubmitted.</p>
+  <p><span class="verdict-big no">&#10007; Best downloadable file: GEMSDOE32 h33-h33-2-b2 (research only, DO NOT SUBMIT).</span></p>
+
+  <h2>Score table &mdash; file to download, estimated score, uniqueness</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:14%">Site</th>
+        <th style="width:26%">File to download (historical reference)</th>
+        <th style="width:13%">Supplied score</th>
+        <th style="width:14%">Estimated leaderboard score</th>
+        <th style="width:20%">Unique vs other eight sites?</th>
+        <th style="width:13%">May be submitted?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>GEMSDOE32</b></td>
+        <td><span class="mono">h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros</span> (0.2778 &mdash; 9-site high)</td>
+        <td>0.2778 owner-reported, unverified</td>
+        <td><b>Not estimable</b> &mdash; no organizer receipt</td>
+        <td><span class="badge badge-no">No</span> 100% within 3 px of GEMSDOE24 dotted family</td>
+        <td><span class="badge badge-no">No</span> already submitted</td>
+      </tr>
+      <tr>
+        <td><b>GEMSDOE28</b></td>
+        <td><span class="mono">h36-1-rung30-blind-r1-20261003-b531dae0a36f</span></td>
+        <td>0.2710 owner-reported</td>
+        <td>Not estimable</td>
+        <td><span class="badge badge-no">No</span> 100% within 3 px of GEMSDOE24</td>
+        <td><span class="badge badge-no">No</span></td>
+      </tr>
+      <tr>
+        <td><b>GEMSDOE31</b></td>
+        <td><span class="mono">h27-4-solo-d28-20261004-8acb75e1</span></td>
+        <td>0.2708 owner-reported</td>
+        <td>Not estimable</td>
+        <td><span class="badge badge-no">No</span> 100% within 3 px of GEMSDOE24</td>
+        <td><span class="badge badge-no">No</span></td>
+      </tr>
+      <tr>
+        <td><b>GEMSDOE25</b></td>
+        <td><span class="mono">dotted-h19-5-d2-8-20261002-e56ea318af89-zeros</span></td>
+        <td>0.2600 owner-reported</td>
+        <td>Not estimable</td>
+        <td><span class="badge badge-no">No</span> 100% within 3 px of GEMSDOE24</td>
+        <td><span class="badge badge-no">No</span></td>
+      </tr>
+      <tr>
+        <td><b>GEMSDOE30</b></td>
+        <td><span class="mono">d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca</span></td>
+        <td>0.2600 owner-reported</td>
+        <td>Not estimable</td>
+        <td><span class="badge badge-no">No</span> 100% within 3 px of GEMSDOE24</td>
+        <td><span class="badge badge-no">No</span></td>
+      </tr>
+      <tr>
+        <td><b>GEMSDOE33</b></td>
+        <td><span class="mono">h33d-analog-tip-stepover-r30-20261004-cb490425926e</span></td>
+        <td>0.2632 owner-reported</td>
+        <td>Not estimable</td>
+        <td><span class="badge badge-no">No</span> 99.71% vs 8 sites</td>
+        <td><span class="badge badge-no">No</span></td>
+      </tr>
+      <tr>
+        <td><b>GEMSDOE36</b></td>
+        <td><span class="mono">anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros</span></td>
+        <td>0.2750 owner-reported</td>
+        <td>Not estimable</td>
+        <td><span class="badge badge-no">No</span> 97.58% vs 8 sites</td>
+        <td><span class="badge badge-no">No</span></td>
+      </tr>
+      <tr>
+        <td><b>GEMSDOE27</b></td>
+        <td><span class="mono">topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1</span></td>
+        <td>0.2449 owner-reported</td>
+        <td>Not estimable</td>
+        <td><span class="badge badge-no">No</span> 98.02% vs GEMSDOE24</td>
+        <td><span class="badge badge-no">No</span></td>
+      </tr>
+      <tr>
+        <td><b>GEMSDOE24</b></td>
+        <td><span class="mono">h25-1-dotted-h19-5-d1-5-20261002-989f59505db1</span></td>
+        <td>0.2477 owner-reported</td>
+        <td>Not estimable</td>
+        <td><span class="badge badge-no">No</span> anchor of the 100% overlap family</td>
+        <td><span class="badge badge-no">No</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <b>How to read this table.</b> "Supplied score" is the value published on each site &mdash; all are
+    <b>USER-REPORTED / UNVERIFIED</b>, none linked to an organizer submission-page receipt. "Estimated
+    leaderboard score" is deliberately <b>not estimable</b>: a catalogue-proxy holdout-DTI cannot be
+    converted into the expert-hidden DrivenData score without validated transfer calibration, and no
+    such calibration exists in this repository. "Unique?" applies the Parallel-Run Protocol literal
+    rule (&le;70% of dots within 3 px of any registry raster; Spearman &le; 0.90): every one of the nine
+    fails against the GEMSDOE24 dotted-file anchor (all &#8805; 98% within 3 px). This is a geometric
+    bound measured on the pinned historical bytes, not a complete registry pass.
+  </div>
+
+  <h2>Per-site summaries</h2>
+
+  <h3>GEMSDOE32 &mdash; best supplied score (0.2778), but blocked</h3>
+  <p>File: <span class="mono">h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros</span> &middot; 37,654 dots &middot;
+  sha256 <span class="mono">c55bafc470054e82&#8230;</span> &middot; described upstream as D2.8 spacing with
+  6,436 catalogue-proximal dots removed (&ldquo;zeros&rdquo; outside footprint).</p>
+  <p><b>Why it scored:</b> the GEMS distance-weighted Tversky metric rewards prediction mass close to true
+  faults. Dotting dense catalogue faults at fine spacing places mass directly on mapped structures, which the
+  hidden labels reward. <b>Why it cannot be beaten by copying it:</b> it only re-discovers catalogue faults,
+  scores nothing on blind faults, is geometrically duplicate (100% within-3-px overlap with the GEMSDOE24/25/30
+  family), and is already submitted (a resubmission spends a slot and adds no information). The repo's own
+  holdout-DTI work (H48-1-FBGR, 0.1153 vs champion proxy 0.0992) shows the path forward is catalogue-missing
+  faults, not more dotted catalogue.</p>
+  <p><span class="badge badge-no">DO NOT SUBMIT</span> &mdash; already submitted; duplicate lane.</p>
+
+  <h3>GEMSDOE28 &mdash; 0.2710 (h36-1-rung30-blind-r1)</h3>
+  <p>B2 dotted-ridge family. Owner-reported 0.2710, unverified. 100% within 3 px of GEMSDOE24 anchor.
+  <span class="badge badge-no">DO NOT SUBMIT</span> &mdash; duplicate lane.</p>
+
+  <h3>GEMSDOE31 &mdash; 0.2708 (h27-4-solo-d28)</h3>
+  <p>D2.8 minus 2,545 solo dots. Owner-reported 0.2708, unverified. 100% within 3 px of GEMSDOE24 anchor.
+  Local format check flagged as FAIL on one mirror read. <span class="badge badge-no">DO NOT SUBMIT</span>
+  &mdash; duplicate lane.</p>
+
+  <h3>GEMSDOE25 &mdash; 0.2600 (dotted-h19-5-d2-8)</h3>
+  <p>The canonical dotted-h19-5 file that anchors the family; owner-reported 0.2600, unverified.
+  <span class="badge badge-no">DO NOT SUBMIT</span> &mdash; duplicate lane; every other site's dotted file
+  overlaps it at 100%.</p>
+
+  <h3>GEMSDOE30 &mdash; 0.2600 (d28-poisson300m-offcat-44090)</h3>
+  <p>Value alias of GEMSDOE25; owner-reported 0.2600, unverified; historical file failed the outside-null
+  check on one mirror. 100% within 3 px of GEMSDOE24 anchor. <span class="badge badge-no">DO NOT SUBMIT</span>
+  &mdash; duplicate lane.</p>
+
+  <h3>GEMSDOE33 &mdash; 0.2632 (h33d-analog-tip-stepover-r30)</h3>
+  <p>B2 + tip/stepover. Owner-reported 0.2632, unverified. 99.71% within 3 px vs 8 sites.
+  <span class="badge badge-no">DO NOT SUBMIT</span> &mdash; duplicate lane.</p>
+
+  <h3>GEMSDOE36 &mdash; 0.2750 (anderson-geothermal-pinn-38854-zeros)</h3>
+  <p>B2 + 1,200 dots. Owner-reported 0.2750, unverified; latest KPL result reported separately at
+  0.1647 user-reported (no receipt). 97.58% within 3 px vs 8 sites; the KPL file fails the literal
+  reg-052 calibration-lattice gate (99.17% &gt; 70%). <span class="badge badge-no">DO NOT SUBMIT</span>
+  &mdash; duplicate lane.</p>
+
+  <h3>GEMSDOE27 &mdash; 0.2449 (topo-gap-closure-t-v2-on-d1-5)</h3>
+  <p>Owner-reported 0.2449, unverified; 98.02% within 3 px of GEMSDOE24 anchor.
+  <span class="badge badge-no">DO NOT SUBMIT</span> &mdash; duplicate lane.</p>
+
+  <h3>GEMSDOE24 &mdash; 0.2477 (h25-1-dotted-h19-5-d1-5)</h3>
+  <p>Anchor of the dotted-file family; owner-reported 0.2477, unverified; 60,069 dots.
+  <span class="badge badge-no">DO NOT SUBMIT</span> &mdash; already scored / duplicate family.</p>
+
+  <h2>Competition context</h2>
+  <p>Live public leaderboard (verified 2026-10-27): #1 <b>0.4544</b> (xiaofanhu, DW-Tversky). The nine-site
+  historical high of 0.2778 (GEMSDOE32) is far below the leaderboard and cannot be resubmitted. The route
+  above 0.2778 is H1 &mdash; blind hydrothermal-conduit propensity targeting catalogue-missing faults via
+  GeoDAWN Th/K alteration, TMI magnetic lows and DEM concave curvature, with a catalogue-exclusion collar
+  &mdash; validated on a spatially-blocked holdout before any slot is spent. See <a href="index.html">the
+  generated H1 TIF</a> (research only; origin unverified) and <a href="hypotheses.html">hypotheses</a>.</p>
+
+  <div class="foot">
+    <b>Labels &amp; evidence classes:</b> every number above is either USER-REPORTED / UNVERIFIED or NOT
+    ESTIMABLE. No projection is written as a score. No organizer-CONFIRMED receipts were archived for any of
+    the nine files. Sources: per-site GEMSDOE pages (buffedlizard55-lab.github.io/GEMSDOE24&#8230;36);
+    official leaderboard https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/;
+    Tversky metric https://en.wikipedia.org/wiki/Tversky_index. No hallucinations; verify line by line.
+  </div>
+</div>
+</body>
+</html>
