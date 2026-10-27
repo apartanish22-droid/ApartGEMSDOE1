@@ -1,0 +1,34 @@
+{
+  "hypothesis": null,
+  "mechanism": "Not run in this audit: no single assigned lane and the champion-sized budget is duplicate-stopped by a registered lattice.",
+  "non_fault_process": null,
+  "holdout_dti": {
+    "status": "not run",
+    "evaluator_version": null,
+    "withheld_positives": null,
+    "ci_95": null
+  },
+  "correlation_vs_registry": {
+    "candidate_surface": null,
+    "final_dots": null,
+    "reason": "This audit produced no candidate."
+  },
+  "overlap_vs_registry": {
+    "candidate_surface": null,
+    "final_dots": null,
+    "budget_preflight_witness": "r13-lattice",
+    "minimum_fraction_at_champion_budget": 0.8234184947150369
+  },
+  "raster_sha256": null,
+  "validator": {
+    "status": "not run: this audit produced no raster",
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null
+  },
+  "submission_name": null,
+  "note": "No candidate generated in this run; lattice preflight stopped it. DO NOT SUBMIT.",
+  "verdict": "negative",
+  "experiments_run": 0,
+  "weekly_slots_used": 0
+}

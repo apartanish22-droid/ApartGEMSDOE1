@@ -1,0 +1,37 @@
+# The B2 family and the protocol feasibility stop
+
+## Evidence and provenance
+
+The original checkout was an initial README, not a working template. This review inspected the public nine-site repositories and independently downloaded their selected historical rasters using immutable GitHub commits and SHA-256 pins in [`config/inputs.json`](../config/inputs.json). All scores attached to these files are **USER-REPORTED / UNVERIFIED**: no organizer submission-page receipt binds a particular TIFF hash to any value. The [official public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) changes and is not a file-specific receipt.
+
+The mirrored training features, label raster and sample template were restored from owner-hosted GitHub files and matched previously recorded hashes. The shared GEMSDOE32 `prepare_data.py` produced [`evidence/prepared-input-receipt.json`](../evidence/prepared-input-receipt.json). Hash agreement proves the bytes are stable relative to those pins; it does **not** establish organizer origin or authorization to redistribute. The official data page redirects to login in this session. The shared cache of trained features and the frozen comparable best were not available. Preparation is not an experiment.
+
+The owner mirror of `sample_submission.tif` has 60,988 positive pixels identical to its mirrored `labels.tif`. The [official description](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/#submission-format) calls its sample a total-fault-absence prediction. This is an unresolved **mirror discrepancy**, not proof of an organizer error; the audit uses the mirror's finite footprint and notes the uncertainty.
+
+## Direct geometric findings
+
+The masks are compared on the mirrored finite footprint; links and full hashes are in [`docs/data/audit.json`](../docs/data/audit.json). They are not forecasts.
+
+1. GEMSDOE25 d=2.8 and GEMSDOE30 D28 have identical positive masks, even though the GeoTIFF byte hashes differ.
+2. GEMSDOE25 has 44,090 dots; GEMSDOE32 B2 has 37,654. B2 is **exactly** GEMSDOE25 minus the 6,436 dots at Euclidean distance ≤2 pixels from the mirrored catalogue, with no dots added. Relative to the GEMSDOE31 source, B2 removes 2,545 dots and adds none. This reproduces the historical [B2 build description](https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/evidence/h33_submission_bundles.json), but not its claimed live result.
+3. For these nine selected historical rasters, all 72 ordered comparisons exceed 70% of the candidate dots within three Euclidean pixels of the reference; the smallest directional overlap is 86.72%. This does not audit all other submissions or continuous surfaces.
+4. The [13GEMSDOE lattice](https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif) is a registered historical raster: its Git blob matches the independently retrieved GEMSDOE24 copy, whose SHA-256 is `b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2`. Its inclusive three-pixel Euclidean neighborhood covers 5,160,724 of 5,167,373 mirrored footprint cells; 6,649 are uncovered. Any set of **distinct, in-footprint** dots with budget N has at least `max(0, N − 6649)` dots within three pixels. For the historical B2 budget of 37,654 the minimum is 31,005/37,654 = **82.34%**, above the stated 70% maximum. At or below 22,163 dots, this single counting bound alone does not force a violation; it does not establish that any such candidate is scientifically sound or unique versus the full registry. Do not position dots solely to game uncovered holes.
+
+The prompt refers to a single assigned method paragraph but does not identify one. Combined with the mandatory pre-placement duplicate stop, this session did not fit a geological model, create a surface, place dots, write a new GeoTIFF, estimate a leaderboard score, or spend a slot. The negative run card reports null for all unrun evaluations; it is not a substitute for a real experiment.
+
+## What can be inferred from the metric
+
+For binary predictions and the organizer's triangular kernel, let `T` be the total weighted truth coverage, `F` the weighted false-positive mass, and `G` the number of truth pixels. Because `FN = G − T`, the official `alpha=0.2, beta=0.8` denominator is `D = 0.2T + 0.2F + 0.8G`. If a pruning operation loses true coverage `L ≥ 0` and removes false-positive mass `f ≥ 0`, its DTI improves precisely when `L(0.2F + 0.8G) < 0.2Tf`, assuming the denominators are positive. Removing redundant or weak dots is therefore a *plausible* explanation, not evidence that the deleted dots were weak on private truth. Newly labeled faults may lie near old catalogue traces. An overly wide exclusion collar could also remove valuable coverage.
+
+We cannot deduce hidden truth, causal mechanism, generalization or a higher future score from these masks or the owner claims. Spatially blocked hide-and-recover can screen a future method, but it targets the available catalogue rather than expert-labeled hidden faults and is not a calibrated leaderboard estimate. A paired, same-fold comparison, proper uncertainty and feature-level leakage checks are needed before any separate selector considers a slot.
+
+## Shared-tool irregularity
+
+At [GEMSDOE32's pinned shared writer](https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/scripts/submission_writer.py#L33-L70), the argument is called `mask_or_probs` but `(np.isfinite(arr_in) & (arr_in > 0))` converts every positive probability to `True`. A soft field would not survive serialization. The same repository's `evaluate_holdout.py` also thresholds non-NPZ arrays to positive support. Do not use those interfaces as a soft-score evaluator or writer until the **canonical** template is fixed and a probability-preserving round-trip test is added. This checkout did not fork either shared tool, and the fixed Arena branch cannot modify the separate repository's template. Binary-only code paths still require their own checks.
+
+The prior portal error cannot be diagnosed from the message alone. Saved-byte inspection separately counts inside-footprint NaN, infinity, masked cells and out-of-range/sentinel values, as well as outside encoding. The official wording speaks about null/NaN outside bounds; whether the portal accepts zeros outside the **irregular mirrored footprint** is not established by a local range check.
+
+
+## Parallel main-branch demo discovered during review
+
+A parallel PR merged a synthetic H1 demo TIFF at `docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif` (SHA-256 `397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a`). It was not generated by this audit and has no holdout result or full registry verification. Its saved transform has origin `(0, 0)` while the hash-pinned owner-mirror template has `(243350, 4508550)`. It fails the grid check and **must not be submitted**. In same-index comparison, 3,602 positives lie outside the mirror footprint, but because transforms differ this is a diagnostic only, not a geospatial overlap measurement. See the [validation report](../docs/data/parallel-demo-validation.json). Hash novelty does not establish protocol uniqueness; no proximity is asserted for a misaligned file.
