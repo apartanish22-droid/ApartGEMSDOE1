@@ -1,3 +1,74 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ApartGEMSDOE1 — Executive summary (GEMSDOE 24/25/27/28/30/31/32/33/36)</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="logo">Apart<span class="accent">GEMSDOE1</span></div>
+    <div class="tagline">Executive summary — best submission per focus site, with score provenance</div>
+  </div>
+</header>
+<nav>
+  <div class="container">
+    <a href="index.html">Submission</a>
+    <a href="executive-summary.html">Executive summary</a>
+    <a href="hypotheses.html">Hypotheses</a>
+  </div>
+</nav>
+
+<div class="container">
+  <section>
+    <h2>Focus sites and best scores</h2>
+    <p>Sites per task scope: GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, 36. This project's active lane is GEMSDOE32 (single-band GeoTIFF, unique submission).</p>
+    <div class="warnbox"><strong>Score provenance:</strong> site bests below are team-published figures cited in project materials — they are <strong>unverified</strong> (no DrivenData login, mirrors unreachable, see IR-01/IR-03). The organizer-confirmed public leaderboard bar is <strong>0.4544</strong> (top public DW-Tversky, xiaofanhu). Projections are not scores.</div>
+    <table>
+      <thead><tr>
+        <th>Site</th><th>Published best score (unverified)</th><th>Reference</th><th>This project — best candidate</th><th>Score type</th><th>vs organizer bar 0.4544</th><th>Uniqueness vs other sites</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><b>GEMSDOE24</b></td><td>0.2477</td><td>team-published</td><td>—</td><td>—</td><td>gap 0.2067</td><td>not addressed in this lane</td></tr>
+        <tr><td><b>GEMSDOE25</b></td><td>0.2600</td><td>team-published</td><td>—</td><td>—</td><td>gap 0.1944</td><td>not addressed in this lane</td></tr>
+        <tr><td><b>GEMSDOE27</b></td><td>0.2449</td><td>team-published</td><td>—</td><td>—</td><td>gap 0.2095</td><td>not addressed in this lane</td></tr>
+        <tr><td><b>GEMSDOE28</b></td><td>0.2710</td><td>team-published</td><td>—</td><td>—</td><td>gap 0.1834</td><td>not addressed in this lane</td></tr>
+        <tr><td><b>GEMSDOE30</b></td><td>0.2600</td><td>team-published</td><td>—</td><td>—</td><td>gap 0.1944</td><td>not addressed in this lane</td></tr>
+        <tr><td><b>GEMSDOE31</b></td><td>0.2708</td><td>team-published</td><td>—</td><td>—</td><td>gap 0.1836</td><td>not addressed in this lane</td></tr>
+        <tr><td><b>GEMSDOE32</b></td><td>0.2778</td><td>h33-h33-2-b2, team-published</td><td>apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8</td><td>HOLDOUT-DTI 0.1240 [0.1110, 0.1370]</td><td>not on leaderboard; holdout ≠ public DTI</td><td><b>Unique lane</b>: blind-fault propensity (strain + seismicity + curvature + basement + weak catalogue + GDR thermal/paleo), not a copy of any registered submission</td></tr>
+        <tr><td><b>GEMSDOE33</b></td><td>0.2632</td><td>team-published</td><td>—</td><td>—</td><td>gap 0.1912</td><td>not addressed in this lane</td></tr>
+        <tr><td><b>GEMSDOE36</b></td><td>0.2750</td><td>team-published</td><td>—</td><td>—</td><td>gap 0.1794</td><td>not addressed in this lane</td></tr>
+      </tbody>
+    </table>
+    <p class="small">Source notes: leaderboard top public score 0.4544 fetched from DrivenData GEMS DOE leaderboard page. Prompt-cited figures 0.4413 / 0.3195 were not verified and are treated as stale. All site bests except GEMSDOE32 come from team-published material in repo context and cannot be re-verified from official sources in this sandbox (no DrivenData login, Dropbox mirrors unreachable).</p>
+  </section>
+
+  <section>
+    <h2>Promoted submission (this lane)</h2>
+    <table>
+      <thead><tr><th>Field</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>File</td><td><code>docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-zeros.tif</code></td></tr>
+        <tr><td>SHA-256</td><td>39e2e332911f7e8c909c14884da11302b0efc525bd89fe0f7252f444bc836b79</td></tr>
+        <tr><td>Format</td><td>Single-band float32 GeoTIFF, EPSG:32611, 3730×3292 px, 100 m, values in [0,1]</td></tr>
+        <tr><td>Holdout-DTI</td><td>0.1240 (95% CI [0.1110, 0.1370]), n=22,232 withheld faults, 140 spatial clusters, 1000 bootstrap reps</td></tr>
+        <tr><td>Lane check</td><td>max |ρ| = 0.0209 (&lt; 0.90); max dot overlap = 57.9% (&lt; 70%) → unique lane, no drift</td></tr>
+        <tr><td>Leakage canary</td><td>AUC = 0.6049 (&lt; 0.90) → no leakage</td></tr>
+        <tr><td>Download</td><td><a href="index.html" class="btn-secondary" style="padding:6px 14px">Go to submission page &rarr;</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer class="foot">
+    ApartGEMSDOE1 • GEMS DOE Prize • Read the full verification trail: <code>run-card.json</code> • <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/" target="_blank" rel="noopener">Competition page</a> • <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener">Leaderboard</a>
+  </footer>
+</div>
+</body>
+</html>
+=======
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Submission decision, nine-site evidence and reproducible GEMS audit."><title>Executive summary · Apart GEMS</title><link rel="stylesheet" href="assets/styles.css"><script defer src="assets/app.js"></script></head>
 <body data-base="."><header class="topbar"><div class="wrap nav"><a class="brand" href="index.html"><span class="brand-mark">a</span> APART GEMS <span class="brand-sub">/ research</span></a><nav class="navlinks" aria-label="Primary navigation"><a href="index.html">Overview</a><a href="executive-summary.html" aria-current="page">Executive summary</a><a href="sources.html">Sources</a><span class="nav-badge">Evidence first</span></nav></div></header>
@@ -12,3 +83,4 @@
  <section class="article-block"><p class="eyebrow">Research, not promises</p><h2>Four candidate directions.</h2><p>These are ranked qualitative hypotheses, not measured gains or an assigned method lane. Each needs a full novelty check and the specified leakage-safe holdout.</p><div class="grid-3"><article class="card"><div class="icon">01</div><h3>Cross-physics edge offsets</h3><p>Compare signed spatial offsets of multiscale gravity and magnetic gradients. Lithological contacts and survey artifacts are competing explanations.</p></article><article class="card"><div class="icon">02</div><h3>Seasonal thermal persistence</h3><p>Test Landsat surface-temperature residuals alongside independent structure. Irrigation, soil moisture and solar heating can mimic heat.</p></article><article class="card"><div class="icon">03</div><h3>Repeated drainage breaks</h3><p>Compare related stream-profile discontinuities across independent catchments. Lithology, shorelines and grading are alternatives.</p></article></div><p style="margin-top:16px">A fourth proposal combines attributed geothermal observations with conductivity and sampling-bias controls. <a href="https://github.com/apartanish22-droid/ApartGEMSDOE1/blob/main/research/hypotheses-2026-10-27.md">Read the ranked research slate, layers and source availability ↗</a></p></section>
  <section class="article-block" id="submission-guide"><p class="eyebrow">Submission guide</p><h2>How to submit, once approved.</h2><ol class="steps"><li><strong>Do not act on the current snapshot.</strong> Obtain an explicitly assigned lane, resolve the literal registry conflict, and run the shared buffered holdout, feature canaries and full uniqueness checks. Confirm the candidate beats the comparable best with the required uncertainty evidence.</li><li><strong>Validate the saved file automatically.</strong> Confirm single-band float32, matching template CRS, shape and transform, and finite values in [0,1] inside the footprint. Review the reported outside-footprint encoding; local checks do not prove portal acceptance.</li><li><strong>After the separate selector approves a weekly slot,</strong> use the enabled candidate download and its unique name and ≤140-character note. No download is enabled today.</li><li><strong>On DrivenData,</strong> open the competition, choose Submit → Make new submission, select the TIFF or a ZIP containing exactly one TIFF, paste the note and submit. The rules mention three per week, but <a href="https://community.drivendata.org/t/submission-amount-question/11553/2">DrivenData staff say the limit displayed on the competition website prevails</a>; the team’s allowance is unknown. Choose one final entry for both prize rounds.</li></ol><p>Automated project checks are not a substitute for the authenticated platform's acceptance or final selection. <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">Official rules ↗</a> &nbsp; · &nbsp; <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition portal ↗</a></p></section>
 </main><footer><div class="wrap footer-inner"><span>APART GEMS &nbsp; / &nbsp; Evidence before upload.</span><span><a href="sources.html">Sources &amp; limitations</a> &nbsp;·&nbsp; <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">Official leaderboard ↗</a></span></div></footer></body></html>
+>>>>>>> origin/main

@@ -1,6 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ApartGEMSDOE1 — Novel geological hypotheses</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="logo">Apart<span class="accent">GEMSDOE1</span></div>
+    <div class="tagline">3–5 novel hypotheses ranked by expected holdout-DTI improvement and cost</div>
+  </div>
+</header>
+<nav>
+  <div class="container">
+    <a href="index.html">Submission</a>
+    <a href="executive-summary.html">Executive summary</a>
+    <a href="hypotheses.html">Hypotheses</a>
+  </div>
+</nav>
+
+<div class="container">
+  <section>
+    <h2>Ranked hypotheses</h2>
+    <p>DTI metric (organizer): distance-weighted Tversky, α=0.2 (FP penalty), β=0.8 (FN penalty), R=300 m triangular kernel. Private labels are expert-identified <strong>new faults missing from the public catalogue</strong>, so hypotheses that reach beyond catalogue traces score best.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="rank">H2</div>
+        <h3>Geothermal-vent conduit propensity (PROMOTED)</h3>
+        <p class="small">Blind faults hosting hydrothermal conduits are uncatalogued. Propensity surface from geodetic dilatation + shear + seismicity + magnetic curvature + depth-to-basement + weak catalogue proximity + 2 m temperature probes + paleo-vents; dotted NMS emission.</p>
+        <p class="small"><strong>Expected DTI gain:</strong> measured holdout-DTI 0.1240 [0.1110, 0.1370] vs reference holdout best 0.0992 → Δ ≈ +0.025 (holdout scale). <strong>Cost:</strong> low (all rasters prepared).</p>
+        <p class="small"><strong>Verdict:</strong> submitted lane candidate (run-card.json).</p>
+      </div>
+      <div class="card">
+        <div class="rank">H1</div>
+        <h3>Catalogue-anchored dotted field (archived, negative result)</h3>
+        <p class="small">Dotted emission on catalogue faults with NMS separation; proven dotted scale (GEMSDOE25/30/32 family).</p>
+        <p class="small"><strong>Expected DTI gain:</strong> holdout-DTI 0.0488 [0.0361, 0.0609] → did NOT beat reference holdout best (negative). <strong>Cost:</strong> low.</p>
+        <p class="small"><strong>Verdict:</strong> archived; negative results are deliverables per protocol. Catalogue anchoring alone misses blind faults.</p>
+      </div>
+      <div class="card">
+        <div class="rank">H3</div>
+        <h3>Paleo-geothermal / 2 m temperature blind-fault hypothesis</h3>
+        <p class="small">Ancient hydrothermal systems imprint alteration/magnetic anomalies independent of currently mapped faults; coupling GDR #1391 2 m temperature probes with paleo-vent locations targets faults entirely outside the catalogue.</p>
+        <p class="small"><strong>Expected DTI gain:</strong> Δ ≈ +0.03–0.07 holdout. <strong>Cost:</strong> medium (paleo layer needs QA against catalogue to avoid leakage).</p>
+        <p class="small"><strong>Verdict:</strong> next experiment if budget allows (cap: 3 experiments; 2 used).</p>
+      </div>
+      <div class="card">
+        <div class="rank">H4</div>
+        <h3>Seismicity swarm × geodetic dilatation intersection</h3>
+        <p class="small">Earthquake swarms mark blind brittle faulting; intersecting swarm clusters with positive geodetic dilatation isolates blind conduit zones with low FP cost (α=0.2 makes isolated FP cheap).</p>
+        <p class="small"><strong>Expected DTI gain:</strong> Δ ≈ +0.02–0.06 holdout. <strong>Cost:</strong> low (existing rasters).</p>
+        <p class="small"><strong>Verdict:</strong> candidate experiment 3.</p>
+      </div>
+      <div class="card">
+        <div class="rank">H5</div>
+        <h3>Basement-rooted conduit (depth-to-basement + magnetic curvature)</h3>
+        <p class="small">Geothermal systems root in deep faults; shallow basement + magnetic-low curtains mark blind conduit corridors not expressed at the surface.</p>
+        <p class="small"><strong>Expected DTI gain:</strong> Δ ≈ +0.01–0.04 holdout (uncertain). <strong>Cost:</strong> high (basement-model uncertainty, external QA needed).</p>
+        <p class="small"><strong>Verdict:</strong> deprioritized until H2/H3/H4 exhausted.</p>
+      </div>
+    </div>
+    <div class="warnbox"><strong>Budget note (Protocol Rule 6):</strong> stop after 3 experiments or 2 hours. Experiments used: H1 (generated + holdout), H2 (generated + holdout + promoted). One experiment slot remains.</div>
+  </section>
+
+  <footer class="foot">
+    ApartGEMSDOE1 • GEMS DOE Prize • Projections are estimates, not scores; leaderboard and site numbers are organizer-confirmed or team-published and unverified unless marked otherwise.
+  </footer>
+=======
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Geological hypotheses &mdash; ApartGEMSDOE1</title>
@@ -97,6 +166,7 @@
 
   <div class="foot">No projection is written as a score. These are planning brackets, not leaderboard forecasts.
   Validate the top candidate on the spatially-blocked holdout before spending a weekly submission slot.</div>
+>>>>>>> origin/main
 </div>
 </body>
 </html>
