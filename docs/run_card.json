@@ -1,0 +1,15 @@
+{
+  "hypothesis": "No candidate was experimentally tested because the official inputs, shared evaluation stack, and registry rasters are absent.",
+  "mechanism": "Not run: no cached features, buffered segment holdout evaluator, or submission writer is available in this checkout.",
+  "named_non_fault_process_that_could_mimic_it": "Not applicable; no candidate raster or physical mechanism was tested.",
+  "holdout_dti": null,
+  "holdout_evaluator_version": null,
+  "withheld_positives": null,
+  "holdout_ci_95": null,
+  "correlation_overlap_vs_registry": null,
+  "raster_sha256": null,
+  "validator_output": "NOT RUN on a candidate: no candidate or official sample-submission GeoTIFF exists; no grid or prediction checks can be asserted.",
+  "submission_name": null,
+  "submission_note": "No candidate TIF generated; no authorized input data or reference grid.",
+  "verdict": "negative"
+}

@@ -1,0 +1,48 @@
+{
+  "run_card_version": 1,
+  "created_at_utc": "2026-10-27T21:24:28Z",
+  "protocol": "Parallel-Run Protocol (lane, reuse, holdout-DTI labeling, leakage canary, run card, budget)",
+
+  "hypothesis": "H1 blind hydrothermal-conduit propensity: geothermal conduits host clay alteration (elevated airborne radiometric Th/K), magnetite destruction (TMI magnetic lows), and concave curvature at intersections/relay ramps. These signatures can occur on blind faults ABSENT from the USGS/INGENIOUS Quaternary catalogue, so dots are placed strictly outside a 2 px catalogue-exclusion collar. This targets catalogue-missing faults instead of re-dotting the catalogue (the H19-5 / B2 dotted family that overlaps at 100% within 3 px across GEMSDOE24/25/27/28/30/31/32/33/36).",
+
+  "mechanism": "Feature stack = 0.5*normalise(Th/K) + 0.3*normalise(-TMI) + 0.2*normalise(concave curvature), gated by catalogue-exclusion collar, then CELF-300 m dotted emission at min_sep 2.8 px to place 37,654 binary dots; raster = propensity surface at dots, 0 elsewhere, float32 [0,1], all-finite, EPSG:32611, 3730x3292, 100 m pixels, zeros outside footprint (-zeros encoding).",
+
+  "named_non_fault_mimic": "Paleo-geothermal sinter/tufa deposits and fossil hydrothermal alteration zones (Quaternary volcanics, paleo-springs) produce Th/K and magnetic signatures without an active fault; Lake Lahontan wave-cut shoreline benches and alluvial-fan terrace risers mimic concave curvature; these are suppressed by the piedmont-habitat window and along-strike continuity requirements in the full design (demo surface here is illustrative).",
+
+  "holdout_dti": "BLOCKED - labels.tif is DrivenData login-gated and was not downloadable from this sandbox; hide-and-recover pooled DTI (alpha 0.2, beta 0.8, 300 m triangular kernel) cannot be computed. No holdout-DTI number exists yet; none is asserted. Place labels.tif in data/ and run scripts/evaluate_holdout.py before any submission slot is spent.",
+
+  "correlation_overlap_vs_registry": "BLOCKED - registry rasters are not available in this environment. The generator's internal synthetic catalogue collar is respected (dots strictly > 2 px from synthetic traces). Real-registry uniqueness (Spearman <= 0.90; <= 70% of dots within 3 px) must be re-measured against the live registry once sample_submission.tif and registry rasters are present. The dot mask is cryptographically new (sha256 below) and not a copy of any prior submission file.",
+
+  "raster_sha256": "397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a",
+
+  "validator_output": {
+    "file": "docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
+    "format_pass": true,
+    "no_nan_inside_footprint": true,
+    "n_nan": 0,
+    "n_inf": 0,
+    "values_in_0_1": true,
+    "value_min": 0.0,
+    "value_max": 0.9999975562095642,
+    "crs": "EPSG:32611",
+    "crs_match": true,
+    "shape": [3730, 3292],
+    "shape_match": true,
+    "resolution_m": 100.0,
+    "resolution_match": true,
+    "n_positive_cells": 37654,
+    "geotransform_origin_verified": false,
+    "template_origin_note": "sample_submission.tif absent (DrivenData login-gated); origin UNVERIFIED - obtain official template before upload",
+    "verdict": "RESEARCH_ONLY_ORIGIN_UNVERIFIED"
+  },
+
+  "submission_name": "gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros",
+  "note": "GEMSDOE1 H1 blind-conduit CELF300 37654d B2 | 06281cc7efb3 | research demo; holdout not computable without labels.tif; DO NOT SUBMIT",
+  "note_chars": 140,
+
+  "budget": "experiment 1 of 3; ~5 minutes runtime; no weekly submission slot spent",
+
+  "verdict": "negative",
+  "verdict_reason": "Holdout-DTI blocked (no labels.tif) and template origin unverified (no sample_submission.tif). File passes every checkable format gate. Download OK for research/inspection; DO NOT upload to DrivenData until holdout-DTI passes and the origin is verified against the official template.",
+  "data_blocker": "training_features.tif, labels.tif, sample_submission.tif require DrivenData login (https://www.drivendata.org/competitions/306/competition-doe-gems/data/); Dropbox mirrors return empty from this sandbox egress"
+}
