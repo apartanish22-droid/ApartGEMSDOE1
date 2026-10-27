@@ -16,7 +16,7 @@ def write_submission(*args, **kwargs):
 
 
 def main() -> int:
-    print('STOP: this local writer is disabled; no file was written. '
+    print('BLOCKED: STOP: this local writer is disabled; no file was written. '
           'Restore the pinned shared writer with scripts/check_shared_template.py '
           'and satisfy the protocol gates before packaging a candidate.', file=sys.stderr)
     return 2

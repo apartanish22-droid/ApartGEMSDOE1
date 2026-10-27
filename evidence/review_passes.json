@@ -20,7 +20,7 @@
     }
   ],
   "verification": {
-    "repository_tests_passed": 21,
+    "repository_tests_passed": 26,
     "upstream_synthetic_tests_passed": 24,
     "continuous_writer_synthetic_roundtrip": true,
     "browser_smoke": "Chromium desktop 1440px and mobile 390px/320px; no page errors or page-level overflow; demo warning, disabled submission, local site review and old URL redirect verified; GitHub responses mocked.",
@@ -29,7 +29,7 @@
     "fresh_download_audit_replay": "Matched the saved geometry receipt exactly apart from its generation timestamp.",
     "new_tiff_generated_in_this_session": false,
     "prior_parallel_synthetic_demo_exists": true,
-    "legacy_unittest_cases_passed": 8
+    "legacy_unittest_cases_passed": 13
   },
   "remaining_limitations": [
     "No assigned parallel lane or complete registry; literal lattice rule blocks the common dot budget.",
@@ -37,5 +37,5 @@
     "No valid holdout, feature canaries, scientific model, calibrated score forecast, final raster or autonomous slot selector exists in this checkout.",
     "The connected GitHub account lacks push permission to all nine external site repositories; their pages were not modified."
   ],
-  "parallel_merge_integration_review": "Inspected a parallel synthetic demo; measured its grid-origin mismatch; disabled unsafe local generator, writer and non-pooled evaluator; integrated the format validator, prior site pages and their tests. The demo is research-only and was not generated in this session."
+  "parallel_merge_integration_review": "Inspected a parallel synthetic demo; measured its grid-origin mismatch; disabled unsafe local generator, writer and non-pooled evaluator; integrated the format validator, prior site pages and their tests. The demo is research-only and was not generated in this session. A second parallel safeguard update was integrated, retaining its additional independent guards, inventory and hypothesis notes."
 }

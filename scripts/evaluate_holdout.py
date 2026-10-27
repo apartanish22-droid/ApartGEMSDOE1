@@ -17,7 +17,7 @@ import sys
 
 
 def main() -> int:
-    print('STOP: no assigned lane or valid per-fold holdout runner is configured. '
+    print('BLOCKED: STOP: no assigned lane or valid per-fold holdout runner is configured. '
           'The former scaffold was not pooled DTI and is disabled. Restore the '
           'pinned shared evaluator with scripts/check_shared_template.py; do not '
           'claim a holdout or select a slot.', file=sys.stderr)

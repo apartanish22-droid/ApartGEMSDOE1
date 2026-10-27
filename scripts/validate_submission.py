@@ -103,7 +103,9 @@ def validate(candidate: Path, template: Path | None = None) -> dict:
 
     with rasterio.open(template) as ds:
         template_sig = signature(ds)
-        foot = ds.read_masks(1) > 0
+        # Some references store NaNs without a nodata tag. Such cells cannot
+        # define a valid footprint even when GDAL reports their mask as valid.
+        foot = (ds.read_masks(1) > 0) & np.isfinite(ds.read(1, masked=False))
     checks['template'] = template_sig
     checks['template_crs_match'] = bool(sig['crs'] is not None and sig['crs'] == template_sig['crs'])
     checks['template_shape_match'] = sig['shape'] == template_sig['shape']
@@ -173,6 +175,9 @@ def main() -> int:
             args.json_out.parent.mkdir(parents=True, exist_ok=True)
             args.json_out.write_text(encoded, encoding='utf-8')
         print(encoded, end='')
+        if args.template is None:
+            print('STOP: supplied template required; no format clearance', file=sys.stderr)
+            return 2
         if report['format_pass']:
             c = report['checks']
             print(f"PASS (format only, not upload approval): min={c['value_min_inside']:g} "

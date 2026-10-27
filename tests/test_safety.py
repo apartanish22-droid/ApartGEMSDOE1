@@ -11,7 +11,7 @@ from rasterio.transform import from_origin
 
 import scripts.validate_submission as validator
 from scripts.validate_submission import validate
-from scripts.prepare_data import info
+from scripts.prepare_data import inspect_raster
 
 ROOT = Path(__file__).resolve().parents[1]
 DEMO = ROOT / 'docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif'
@@ -46,8 +46,8 @@ def test_outside_null_template_is_distinct_from_slot_approval(tmp_path, monkeypa
     candidate = tmp_path / 'candidate.tif'
     reference = np.array([[0, 0], [0, np.nan]], dtype='float32')
     write_tif(template, reference, t)
-    assert info(template)['dtype'] == 'float32'
-    json.dumps(info(template), allow_nan=False)
+    assert inspect_raster(template)['dtypes'] == ['float32']
+    json.dumps(inspect_raster(template), allow_nan=False)
     write_tif(candidate, np.array([[0, .25], [1, np.nan]]), t)
     result = validate(candidate, template)
     assert result['format_pass'] and result['checks']['outside_null']
@@ -60,6 +60,11 @@ def test_outside_null_template_is_distinct_from_slot_approval(tmp_path, monkeypa
     write_tif(candidate, np.array([[0, .25], [1, np.inf]]), t)
     assert not validate(candidate, template)['format_pass']
     assert not validate(candidate)['format_pass']
+    # A NaN in a template without a nodata tag is still outside its footprint.
+    write_tif(template, reference, t, nodata=None)
+    write_tif(candidate, np.array([[0, .25], [1, np.nan]]), t, nodata=None)
+    result = validate(candidate, template)
+    assert result['format_pass'] and result['checks']['inside_pixels'] == 3
 
 
 def test_unsafe_parallel_entrypoints_are_disabled(tmp_path):

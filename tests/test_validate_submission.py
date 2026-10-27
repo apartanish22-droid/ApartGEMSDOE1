@@ -134,6 +134,29 @@ class ValidateSubmissionTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("exactly one band", result.stderr)
 
+    def test_rejects_non_float32_and_multiband_template(self) -> None:
+        candidate = self.root / 'candidate.tif'
+        self._write(candidate, np.zeros((3, 3), dtype='float64'))
+        result = subprocess.run([sys.executable, str(VALIDATOR), str(candidate), '--template', str(self.reference)],
+                                capture_output=True, text=True, check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('float32', result.stderr)
+        template = self.root / 'multi-reference.tif'
+        self._write(template, np.zeros((2, 3, 3), dtype='float32'))
+        self._write(candidate, np.zeros((3, 3), dtype='float32'))
+        result = subprocess.run([sys.executable, str(VALIDATOR), str(candidate), '--template', str(template)],
+                                capture_output=True, text=True, check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('template must have exactly one band', result.stderr)
+
+    def test_template_is_required_even_if_some_checks_are_available(self) -> None:
+        candidate = self.root / 'candidate.tif'
+        self._write(candidate, np.zeros((3, 3), dtype='float32'))
+        result = subprocess.run([sys.executable, str(VALIDATOR), str(candidate)],
+                                capture_output=True, text=True, check=False)
+        self.assertEqual(result.returncode, 2)
+        self.assertIn('template required', result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()
