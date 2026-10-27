@@ -18,4 +18,4 @@
 
 ## Validator scope
 
-The script checks one band, raster dimensions, CRS, affine transform, finite values in the template's valid footprint, and prediction range [0,1]. It is deliberately fail-closed when the template has no usable footprint or grid metadata differs. It does not inspect scientific leakage, DTI, dot placement/uniqueness, zip contents, competition authentication, or leaderboard score. Requires `rasterio` and `numpy`.
+The script checks one band, raster dimensions, CRS, affine transform, finite values in the template's valid footprint, and prediction range [0,1]. On success it also prints the candidate's SHA-256 for the run card. It is deliberately fail-closed when the template has no usable footprint or grid metadata differs. It does not inspect scientific leakage, DTI, dot placement/uniqueness, zip contents, competition authentication, or leaderboard score. Requires `rasterio` and `numpy`.

@@ -1,6 +1,8 @@
 __pycache__/
+.venv/
 .cache/
 data/
+outputs/
 *.tif
 *.npy
 *.npz

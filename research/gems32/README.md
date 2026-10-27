@@ -1,5 +1,7 @@
 # GEMSDOE32 — DOE GEMS Prize Research, Validation & Submission System
 
+> **Snapshot limitation:** this is a mirrored sibling-repository document. The referenced `docs/downloads/*.tif` and ZIP files are not present in this checkout (the repository contains no GeoTIFF binaries), so relative artifact links here are not downloadable from this copy. “DOWNLOAD FOR RESEARCH / AUDIT: YES” is not a verified download link and never means “safe to submit.” The top-level executive summary is authoritative for this checkout: **no approved TIF exists; do not submit**. Re-check source bytes, hash, validator, uniqueness, and separate selector before any upload.
+
 <!-- SINGLE DECISION: rendered from registry/current_status.json and evidence/current_release_review.json (both must authorize; fail closed). Update those files, never add a second banner. -->
 ## 🚦 Current Decision — 2026-10-27 19:25 UTC
 

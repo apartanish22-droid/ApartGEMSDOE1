@@ -1,13 +1,15 @@
 {
-  "hypothesis": "No experiment run: this checkout has no competition raster data or shared evaluation stack.",
-  "mechanism": "Not tested. Proposed first candidate: multi-scale DEM curvature ridge-break coherence, evaluated only with visible-catalogue features and buffered segment holdout.",
-  "named_non_fault_process_that_could_mimic_it": "Lithologic contacts, landslides, and fluvial incision can produce curvature breaks resembling fault scarps.",
+  "hypothesis": "No candidate was experimentally tested because the official inputs, shared evaluation stack, and registry rasters are absent.",
+  "mechanism": "Not run: no cached features, buffered segment holdout evaluator, or submission writer is available in this checkout.",
+  "named_non_fault_process_that_could_mimic_it": "Not applicable; no candidate raster or physical mechanism was tested.",
   "holdout_dti": null,
-  "holdout_dti_label": "NOT MEASURED; no evaluator/data available (therefore no evaluator version, withheld-positive count, or 95% CI).",
-  "correlation_overlap_vs_registry": "NOT MEASURED; registry rasters and dot sets unavailable. No uniqueness claim.",
+  "holdout_evaluator_version": null,
+  "withheld_positives": null,
+  "holdout_ci_95": null,
+  "correlation_overlap_vs_registry": null,
   "raster_sha256": null,
-  "validator_output": "NOT RUN on a candidate: no candidate or official template exists. Validator requires rasterio and numpy; rasterio is not installed in this environment.",
+  "validator_output": "NOT RUN on a candidate: no candidate or official sample-submission GeoTIFF exists; no grid or prediction checks can be asserted.",
   "submission_name": null,
-  "submission_note": null,
+  "submission_note": "No candidate TIF generated; no authorized input data or reference grid.",
   "verdict": "negative"
 }

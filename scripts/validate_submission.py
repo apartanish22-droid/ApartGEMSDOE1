@@ -6,8 +6,18 @@ This is not a score, uniqueness, or leakage evaluator. Requires rasterio/numpy.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import sys
 from pathlib import Path
+
+
+def sha256_file(path: Path) -> str:
+    """Return a streaming SHA-256 digest for the candidate raster."""
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def main() -> int:
@@ -71,7 +81,8 @@ def main() -> int:
             print(
                 "PASS: one band; CRS, shape and transform match; "
                 f"no NaN/Inf in footprint; values in [0,1] (min={minimum:.8g}, max={maximum:.8g}); "
-                f"valid footprint cells={int(footprint.sum())}. This is format validation only, not a score or uniqueness certification."
+                f"valid footprint cells={int(footprint.sum())}; sha256={sha256_file(args.candidate)}. "
+                "This is format validation only, not a score or uniqueness certification."
             )
             return 0
     except Exception as exc:  # rasterio reports malformed files and I/O errors here
