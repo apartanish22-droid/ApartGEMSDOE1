@@ -1,0 +1,52 @@
+name: Publish research dashboard
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r requirements.txt
+      - name: Restore immutable research inputs
+        run: python scripts/restore_inputs.py --group light
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Recompute the fail-closed audit
+        run: python scripts/audit.py --run-card-out docs/data/run-card.json
+      - name: Check GitHub source heads only
+        run: python scripts/check_freshness.py --allow-unknown
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - run: python scripts/build_site_pages.py
+      - name: Stage public site and linked evidence
+        run: |
+          mkdir -p "$RUNNER_TEMP/site"
+          cp -a docs evidence research catalog config scripts src "$RUNNER_TEMP/site/"
+          cp index.html .nojekyll README.md hypotheses.md run_card.json "$RUNNER_TEMP/site/"
+          find "$RUNNER_TEMP/site" -type d -name __pycache__ -prune -exec rm -rf {} +
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

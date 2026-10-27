@@ -1,0 +1,87 @@
+{
+  "schema_version": "apartgemsdoe1-h1-v1",
+  "generated_utc": "20261027T220038Z",
+  "lane": "APARTGEMSDOE1-H1",
+  "hypothesis": "H1 geothermal-vent conduit propensity (strain + seismicity + curvature + basement + weak catalogue + thermal proxies)",
+  "emitted_px": 44090,
+  "emitted_soft_mass": 21382.7421875,
+  "field_mean": 0.2719792529460685,
+  "field_max": 0.7979741822971215,
+  "auc_field_vs_visible_catalogue": 0.8658012866291017,
+  "weights": {
+    "dilatation": 0.16928000000000004,
+    "shear": 0.11003200000000002,
+    "seismicity": 0.11003200000000002,
+    "curvature": 0.08464000000000002,
+    "basement": 0.04232000000000001,
+    "catalogue": 0.29624,
+    "temp_probe": 0.08,
+    "paleo_vent": 0.08
+  },
+  "target_px": 44090,
+  "min_sep_px": 3.0,
+  "files": {
+    "zeros_tif": {
+      "path": "/home/user/ApartGEMSDOE1/docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-zeros.tif",
+      "sha256": "39e2e332911f7e8c909c14884da11302b0efc525bd89fe0f7252f444bc836b79",
+      "bytes": 544226
+    },
+    "nan_tif": {
+      "path": "/home/user/ApartGEMSDOE1/docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-nan.tif",
+      "sha256": "2fc67043baa322e5a981aa01e02b60eb86da0b8c40e4d232c99954e40da0179e",
+      "bytes": 677847
+    },
+    "zip": {
+      "path": "/home/user/ApartGEMSDOE1/docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8.zip",
+      "sha256": "992cf5522eacbb46adc307bcf4de4f73485f58df6cff64588179b9922f0739bc",
+      "bytes": 506767
+    }
+  },
+  "audit": {
+    "filename": "apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-zeros.tif",
+    "size_bytes": 544226,
+    "sha256": "39e2e332911f7e8c909c14884da11302b0efc525bd89fe0f7252f444bc836b79",
+    "mode": "zeros",
+    "geometry_reference": "/home/user/ApartGEMSDOE1/.cache/gems_data/sample_submission.tif",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "None",
+    "emitted_positive_pixels": 14822,
+    "footprint_fraction": 0.002868,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 0.797974169254303,
+    "full_grid_finite_pixels": 12279160,
+    "checks": {
+      "exact_reference_grid_match": true,
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "seconds": 27.8
+}

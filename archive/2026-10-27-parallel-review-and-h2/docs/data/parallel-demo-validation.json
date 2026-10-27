@@ -1,0 +1,61 @@
+{
+  "path": "docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
+  "sha256": "397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a",
+  "organizer_accepted": false,
+  "approved_to_submit": false,
+  "checks": {
+    "geotiff": true,
+    "single_band": true,
+    "float32": true,
+    "crs_match": true,
+    "shape_match": true,
+    "transform_match": false,
+    "inside_all_finite": true,
+    "inside_in_range_0_1": true,
+    "inside_not_nodata": true,
+    "no_unmasked_positive_outside_footprint": false
+  },
+  "footprint_comparison": "array-index diagnostic only; grid mismatch prevents geospatial comparison",
+  "inside_nan": 0,
+  "inside_infinite": 0,
+  "inside_nodata": 0,
+  "inside_out_of_range_or_nonfinite": 0,
+  "inside_min": 0.0,
+  "inside_max": 0.9999975562095642,
+  "outside_cells": 7111787,
+  "outside_masked_or_nan": 0,
+  "outside_finite_zero": 7108185,
+  "outside_positive": 3602,
+  "strict_irregular_footprint_null": false,
+  "whole_array_finite_in_range": true,
+  "nodata": null,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "shape": [
+    3730,
+    3292
+  ],
+  "transform": [
+    100.0,
+    0.0,
+    0.0,
+    0.0,
+    -100.0,
+    0.0
+  ],
+  "basic_checks_passed": false,
+  "interpretation": "Fails basic format checks against the pinned mirrored template: transform does not match. The 3,602 outside-positive count is an array-index diagnostic only because the grids do not align. Do not submit; a file hash and a different filename do not establish uniqueness. No geospatial proximity, surface correlation, holdout, or organizer acceptance is established.",
+  "validation_profile": "all-finite",
+  "profile_passed": false,
+  "source_commit": "6d0252b6a009f2e739294dc1982e834f803de847",
+  "template_provenance": "hash-pinned owner-hosted mirror; organizer origin unverified",
+  "template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+  "template_transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+  ]
+}

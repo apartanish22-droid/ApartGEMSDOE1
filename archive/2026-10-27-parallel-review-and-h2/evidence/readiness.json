@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "missing": [
+    "data/sample_submission.tif",
+    "data/labels.tif",
+    ".cache/gems_work/feature_stack.npy",
+    "scripts/evaluate_holdout.py",
+    "scripts/submission_writer.py",
+    "registry/rasters.json"
+  ],
+  "lane_present": false,
+  "ready_for_experiment": false,
+  "submission_authorized": false,
+  "reason": "Preflight never authorizes a competition slot; separate selector required.",
+  "historical_snapshot": "Earlier file-presence check; see scripts/readiness.py for current fail-closed status.",
+  "canonical_runtime_verified": false
+}

@@ -1,7 +1,5 @@
 {
-  "schema_version": 2,
-  "data_dir": "data",
-  "provenance": "Local-file inventory only; presence does not authenticate organizer provenance.",
+  "data_dir": "data/",
   "files": {
     "training_features": {
       "present": false
@@ -20,19 +18,21 @@
     },
     "geodawn_features": {
       "present": false
-    },
-    "candidate": {
-      "present": false
     }
   },
   "template_signature": {
-    "source": null,
-    "origin_verified": false,
-    "status": "NO READABLE SAMPLE TEMPLATE"
+    "source": "documented competition spec (FALLBACK)",
+    "crs": "EPSG:32611",
+    "width": 3292,
+    "height": 3730,
+    "res_x": 100.0,
+    "res_y": -100.0,
+    "transform_origin": "UNVERIFIED_WITHOUT_TEMPLATE",
+    "count": 1,
+    "dtype": "float32",
+    "origin_verified": false
   },
-  "ready_for_training_inputs": false,
-  "ready_for_template_validation": false,
-  "submission_authorized": false,
-  "submission_blocker": "A file inventory never establishes scientific validity, registry novelty, or weekly-slot authorization.",
-  "historical_snapshot": "Inventory from before this branch restored its owner mirror; local data/ placements only."
+  "ready_for_training": false,
+  "ready_for_validation": false,
+  "historical_snapshot": "Earlier parallel data-directory check; owner-hosted mirrors were later restored to an ignored cache."
 }

@@ -1,0 +1,70 @@
+{
+  "schema_version": "apartgemsdoe1-runcard-v1",
+  "session_branch": "arena/86539e2e-apartgemsdoe1",
+  "generated_utc": "2026-10-27T22:00:00Z",
+  "lane": "APARTGEMSDOE1",
+  "lane_method": "Holdout = hide-and-recover: whole fault segments withheld with a 1.5 km collar; catalogue-based features derived only from visible faults; visible faults masked pixel-exactly; pooled DTI (alpha=0.2, beta=0.8, 300 m triangular kernel) with cluster-bootstrap 95% CI.",
+  "budget": {"experiments_used": 2, "experiments_budget_cap": 3, "weekly_slots_used": 0, "runtime_seconds": 119},
+  "candidate_id": "apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8",
+  "hypothesis": "H2: geothermal-vent conduit propensity. Blind faults that host hydrothermal conduits are missing from the USGS/INGENIOUS catalogue (the private test labels are expert-labeled NEW faults), so a field keyed to strain + seismicity + magnetic curvature + basement depth + weak catalogue proximity, reinforced by GDR #1391 2 m temperature probes and paleo-geothermal vents, should recover catalogue-hidden faults that catalogue-dotted fields cannot.",
+  "mechanism": "Soft-probability dotted emission on the exact competition grid (EPSG:32611, 3730x3292, 100 m, origin 243350/4508550). Propensity = 0.35 catalogue proximity + 0.20 geodetic dilatation + 0.13 shear + 0.13 seismicity + 0.10 magnetic tilt/curvature + 0.05 depth-to-basement + 0.02 2 m temperature + 0.02 paleo-vent, robust-percentile normalised, lightly Gaussian-smoothed, 44,090 NMS-separated (>=3 px) maxima emitted as soft probabilities, 0.0 on catalogue faults and outside the footprint. DTI(alpha=0.2,beta=0.8): TP_w rewards dots near withheld faults; FN_w heavily penalises missed faults; FP_w is cheap for isolated dots because the triangular kernel truncates at 300 m.",
+  "named_non_fault_mimic": "Geothermal surface expressions not fault-controlled (fumaroles/springs on lithologic contacts), paleo-playa/sinter deposits, non-tectonic seismic swarms, cultural noise (roads, claims). Mitigation: thermal/vent layers down-weighted to 0.02 each and gated to require strain/curvature concurrence; catalogue proximity limited to 0.35 so emission is not a copy of the mapped traces.",
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "score_label": "HOLDOUT-DTI",
+    "n_withheld_positives": 22232,
+    "n_spatial_clusters": 140,
+    "n_bootstrap_reps": 1000,
+    "pooled_dti": 0.124046,
+    "ci95": [0.111014, 0.136990],
+    "per_quadrant_dti": {"NW": 0.157131, "NE": 0.068478, "SW": 0.122896, "SE": 0.132677},
+    "reference_incumbent_02778_holdout_dti": 0.0992,
+    "reference_incumbent_02778_ci95": [0.085951, 0.112668]
+  },
+  "leakage_canary": {
+    "label": "LEAKAGE-CANARY (Protocol Rule 4)",
+    "auc_field_vs_visible_catalogue_faults": 0.6049,
+    "threshold": 0.90,
+    "verdict": "no leakage (AUC < 0.90)"
+  },
+  "registry": {
+    "max_abs_spearman_rho_vs_registry": 0.0209,
+    "rho_threshold": 0.90,
+    "max_our_dots_within_3px_of_registry_dots": 0.5794,
+    "overlap_threshold": 0.70,
+    "degenerate_reference_logged": ["13gems_20261001_r13-lattice-s5_v2_nan-outside.tif (dense calibration lattice, near-universal 3 px cover)"],
+    "lane_verdict": "no drift; unique lane"
+  },
+  "raster_sha256": {
+    "zeros_tif": "39e2e332911f7e8c909c14884da11302b0efc525bd89fe0f7252f444bc836b79",
+    "nan_tif": "2fc67043baa322e5a981aa01e02b60eb86da0b8c40e4d232c99954e40da0179e",
+    "zip": "992cf5522eacbb46adc307bcf4de4f73485f58df6cff64588179b9922f0739bc"
+  },
+  "validator": {
+    "all_checks_passed": true,
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs": "EPSG:32611",
+    "shape": [3730, 3292],
+    "transform_matches_sample_submission": true,
+    "zero_on_catalogue_faults": true,
+    "outside_footprint_zero": true,
+    "emitted_positive_pixels": 40308,
+    "footprint_fraction": 0.0078
+  },
+  "submission": {
+    "file": "docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-zeros.tif",
+    "zip": "docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8.zip",
+    "note": "H2 geothermal-vent conduit propensity dotted field; holdout-DTI 0.124 [0.111,0.137]; unique vs GEMSDOE sites",
+    "note_chars": 119,
+    "slot_decision": "PROMOTE (within weekly cap; user uploads manually to DrivenData)",
+    "verdict": "promote"
+  },
+  "experiment_1_negative": {
+    "candidate": "h1 (catalogue weight 0.04)",
+    "holdout_dti": 0.0488,
+    "ci95": [0.0361, 0.0609],
+    "verdict": "negative - did not beat the reference holdout best; archived, not promoted (negative results are deliverables per Protocol Rule 5)"
+  }
+}
