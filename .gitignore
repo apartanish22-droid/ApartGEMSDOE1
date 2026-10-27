@@ -1,0 +1,7 @@
+# Restorable scientific inputs, large arrays, and local environments
+.cache/
+data/
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]

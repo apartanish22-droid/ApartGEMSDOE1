@@ -1,0 +1,28 @@
+name: Verify research dashboard
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install pinned dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Run offline unit and evidence tests
+        run: python -m pytest -q
+      - name: Verify deterministic static pages
+        run: |
+          python scripts/build_site.py
+          git diff --exit-code -- index.html docs/executive-summary.html docs/research.html
+      - name: Check feed syntax
+        run: node --check docs/assets/feed.js
