@@ -1,4 +1,5 @@
 import hashlib
+import io
 from pathlib import Path
 
 import pytest
@@ -14,10 +15,10 @@ def entry(payload: bytes):
 def test_restore_atomic_verifies_bytes_and_reuses_file(tmp_path, monkeypatch):
     e = entry(b"good bytes")
     calls = []
-    def fake_run(cmd, stdout, **kwargs):
-        calls.append(cmd)
-        stdout.write(b"good bytes")
-    monkeypatch.setattr(restore_inputs.subprocess, "run", fake_run)
+    def fake_urlopen(request, timeout):
+        calls.append(request.full_url)
+        return io.BytesIO(b"good bytes")
+    monkeypatch.setattr(restore_inputs, "urlopen", fake_urlopen)
     assert restore_inputs.restore(e, tmp_path) == "restored"
     assert (tmp_path / e["dest"]).read_bytes() == b"good bytes"
     assert restore_inputs.restore(e, tmp_path) == "present"
@@ -29,7 +30,7 @@ def test_hash_mismatch_does_not_overwrite_existing_file(tmp_path, monkeypatch):
     dest = tmp_path / e["dest"]
     dest.parent.mkdir()
     dest.write_bytes(b"old bytes")
-    monkeypatch.setattr(restore_inputs.subprocess, "run", lambda cmd, stdout, **kw: stdout.write(b"evil bytes"))
+    monkeypatch.setattr(restore_inputs, "urlopen", lambda request, timeout: io.BytesIO(b"evil bytes"))
     with pytest.raises(ValueError, match="SHA-256"):
         restore_inputs.restore(e, tmp_path)
     assert dest.read_bytes() == b"old bytes"
@@ -40,9 +41,9 @@ def test_multipart_is_joined_in_order_and_verified(tmp_path, monkeypatch):
     e = entry(b"abcdef")
     del e["path"]
     e["parts"] = ["part-a", "part-b"]
-    def fake_run(cmd, stdout, **kwargs):
-        stdout.write(b"abc" if "part-a?" in cmd[-1] else b"def")
-    monkeypatch.setattr(restore_inputs.subprocess, "run", fake_run)
+    def fake_urlopen(request, timeout):
+        return io.BytesIO(b"abc" if "part-a?" in request.full_url else b"def")
+    monkeypatch.setattr(restore_inputs, "urlopen", fake_urlopen)
     assert restore_inputs.restore(e, tmp_path) == "restored"
     assert (tmp_path / e["dest"]).read_bytes() == b"abcdef"
 
@@ -60,3 +61,14 @@ def test_manifest_path_and_ref_safety(tmp_path):
     e["path"] = "../elsewhere"
     with pytest.raises(ValueError):
         restore_inputs.restore(e, tmp_path)
+
+
+def test_oversized_response_never_replaces_existing_file(tmp_path, monkeypatch):
+    e = entry(b"good bytes")
+    dest = tmp_path / e["dest"]
+    dest.parent.mkdir()
+    dest.write_bytes(b"old bytes")
+    monkeypatch.setattr(restore_inputs, "urlopen", lambda request, timeout: io.BytesIO(b"too many bytes for the pin"))
+    with pytest.raises(ValueError, match="exceeds pin"):
+        restore_inputs.restore(e, tmp_path)
+    assert dest.read_bytes() == b"old bytes"

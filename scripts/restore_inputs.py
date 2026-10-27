@@ -10,10 +10,11 @@ import argparse
 import json
 import os
 import re
-import subprocess
 import sys
 import tempfile
 from pathlib import Path, PurePosixPath
+from urllib.parse import quote
+from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -62,11 +63,22 @@ def restore(entry: dict, root: Path) -> str:
     try:
         with os.fdopen(fd, "wb") as out:
             for source_path in entry.get("parts", [entry.get("path")]):
-                endpoint = f"repos/{entry['repo']}/contents/{source_path}?ref={entry['ref']}"
-                subprocess.run(["gh", "api", "-H", "Accept: application/vnd.github.raw+json", endpoint],
-                               stdout=out, stderr=subprocess.PIPE, check=True)
-                if out.tell() > entry["bytes"]:
-                    raise ValueError(f"Downloaded size exceeds pin for {entry['id']}")
+                # GitHub CLI may transcode binary output in some runner locales.
+                # Stream the public API response as bytes and authenticate only if
+                # a caller already supplied an Actions token; never persist it.
+                url = (f"https://api.github.com/repos/{entry['repo']}/contents/"
+                       f"{quote(source_path, safe='/')}?ref={entry['ref']}")
+                headers = {"Accept": "application/vnd.github.raw+json",
+                           "User-Agent": "Apart-GEMS-Audit/1.0",
+                           "X-GitHub-Api-Version": "2022-11-28"}
+                token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+                if token:
+                    headers["Authorization"] = f"Bearer {token}"
+                with urlopen(Request(url, headers=headers), timeout=120) as source:
+                    while chunk := source.read(1024 * 1024):
+                        if out.tell() + len(chunk) > entry["bytes"]:
+                            raise ValueError(f"Downloaded size exceeds pin for {entry['id']}")
+                        out.write(chunk)
         verify_file(tmp, entry)
         os.replace(tmp, dest)
     finally:
@@ -87,10 +99,6 @@ def main() -> int:
             if e["group"] in groups:
                 result = restore(e, args.data_dir)
                 print(f"{result:8} {e['id']:20} {e['sha256'][:12]}", flush=True)
-    except subprocess.CalledProcessError as exc:
-        detail = (exc.stderr or b"").decode("utf-8", errors="replace").strip()[:1000]
-        print(f"Restore stopped; no permission to submit was inferred: GitHub API failed. {detail}", file=sys.stderr)
-        return 1
     except (OSError, ValueError, KeyError) as exc:
         print(f"Restore stopped; no permission to submit was inferred: {exc}", file=sys.stderr)
         return 1
