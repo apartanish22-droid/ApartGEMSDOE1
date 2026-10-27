@@ -1,0 +1,62 @@
+{
+  "checked_utc": "2026-10-27T21:39:21+00:00",
+  "scope": "GitHub source heads only; not a DrivenData leaderboard or submission feed.",
+  "sources": [
+    {
+      "site": "GEMSDOE24",
+      "audited_commit": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "current_commit": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "state": "unchanged"
+    },
+    {
+      "site": "GEMSDOE25",
+      "audited_commit": "6c10ab0c2b2891b999cad1b1400d8a262b7ea72a",
+      "current_commit": "19b219f629440b9975b093f459c74e21a42476ca",
+      "state": "changed; not re-audited"
+    },
+    {
+      "site": "GEMSDOE27",
+      "audited_commit": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "current_commit": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "state": "unchanged"
+    },
+    {
+      "site": "GEMSDOE28",
+      "audited_commit": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "current_commit": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "state": "unchanged"
+    },
+    {
+      "site": "GEMSDOE30",
+      "audited_commit": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "current_commit": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "state": "unchanged"
+    },
+    {
+      "site": "GEMSDOE31",
+      "audited_commit": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "current_commit": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "state": "unchanged"
+    },
+    {
+      "site": "GEMSDOE32",
+      "audited_commit": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "current_commit": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "state": "unchanged"
+    },
+    {
+      "site": "GEMSDOE33",
+      "audited_commit": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "current_commit": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "state": "unchanged"
+    },
+    {
+      "site": "GEMSDOE36",
+      "audited_commit": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "current_commit": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "state": "unchanged"
+    }
+  ],
+  "changed_count": 1,
+  "unknown_count": 0
+}

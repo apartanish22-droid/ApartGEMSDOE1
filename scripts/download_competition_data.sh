@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-# Hash-checked owner mirrors for research ONLY. This does not fetch or
-# authenticate the login-gated organizer files or establish redistribution rights.
+# Compatibility wrapper. These owner-hosted files are NOT authenticated
+# organizer downloads. All restored bytes are pinned by size and SHA-256.
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DEST="${1:-$ROOT/.cache/audit-inputs}"
-echo "Fetching SHA-256-pinned owner-mirror audit inputs, not organizer-authenticated files."
-echo "Competition data: https://www.drivendata.org/competitions/306/competition-doe-gems/data/"
-python3 "$ROOT/scripts/download_audit_inputs.py" --directory "$DEST"
+root="$(cd "$(dirname "$0")/.." && pwd)"
+echo "Restoring hash-pinned owner mirrors only; official origin and upload authorization are not established." >&2
+exec python3 "$root/scripts/restore_inputs.py" --group light "$@"

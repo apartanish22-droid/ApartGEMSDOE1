@@ -84,6 +84,7 @@ def inspect_data(data_dir: Path) -> dict[str, Any]:
                 "count": sample.get("count"),
                 "dtypes": sample.get("dtypes"),
                 "origin_verified": False,
+                "local_transform_inspected": True,
             }
             if sample.get("present") and sample.get("readable")
             else {"source": None, "origin_verified": False, "status": "NO READABLE SAMPLE TEMPLATE"}
@@ -96,10 +97,7 @@ def inspect_data(data_dir: Path) -> dict[str, Any]:
 
 
 def main() -> int:
-    DATA.mkdir(parents=True, exist_ok=True)
     report = inspect_data(DATA)
-    out = DATA / "prepare_data.json"
-    out.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2))
     return 0 if report["ready_for_training_inputs"] else 1
 

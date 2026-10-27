@@ -56,10 +56,10 @@ def test_nine_rows_never_offer_an_approved_submission():
         assert rendered.count(f'data-label="{field}"') == 9
     assert all(row["site"] in rendered for row in manifest["reference_sites"])
     summary = (ROOT / "docs/executive-summary.html").read_text()
-    assert "SUBMISSION DOWNLOAD: UNAVAILABLE" in summary
-    assert 'type="button" disabled>Submission download unavailable' in summary
-    assert 'Invalid synthetic demo · never submit' in summary
-    assert 'origin is (0, 0)' in summary
+    assert "Submission TIFF: unavailable" in summary
+    assert 'aria-disabled="true">Submission TIFF unavailable' in (ROOT / 'docs/index.html').read_text()
+    assert 'A prior demo is not a valid submission' in summary
+    assert 'origin <code>(0, 0)</code>' in summary
     for row in manifest['reference_sites']:
         local = (ROOT / 'docs/sites' / f"{row['site']}.html").read_text()
         assert 'DO NOT SUBMIT' in local and 'USER-REPORTED' in local

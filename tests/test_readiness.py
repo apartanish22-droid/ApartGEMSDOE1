@@ -60,6 +60,7 @@ class ReadinessTest(unittest.TestCase):
             self.assertTrue(report["ready_for_template_validation"])
             self.assertFalse(report["submission_authorized"])
             self.assertFalse(report["template_signature"]["origin_verified"])
+            self.assertTrue(report["template_signature"]["local_transform_inspected"])
             self.assertIn("authenticity must be verified", report["template_signature"]["source"])
 
 

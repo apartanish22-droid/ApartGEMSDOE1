@@ -1,8 +1,10 @@
 # Submission workflow
 
+> **Earlier parallel review — historical snapshot, not current status.** For the latest decision, owner-mirror provenance and the invalid synthetic demo, see the [current executive summary](executive-summary.html) and [saved-byte report](data/parallel-demo-validation.json).
+
 ## Current readiness
 
-**No approved submission file is available. Do not submit an unverified file.** A parallel synthetic demo exists but fails the pinned mirrored grid; it is for research only. The mirror is not organizer-authenticated. See the [current executive summary](executive-summary.html) and [demo validation receipt](../evidence/parallel_demo_audit.json). Format validation alone does not establish scientific quality, uniqueness, or score.
+**No submission-ready file is available. Do not submit the synthetic demo or an unverified file.** The owner-mirror template is hash-pinned but not independently authenticated as organizer-origin. Format validation alone does not establish scientific quality, uniqueness, or score.
 
 ## When a candidate and official template exist
 
@@ -18,4 +20,4 @@
 
 ## Validator scope
 
-The script checks one float32 band, dimensions, CRS, affine transform, finite unmasked values in the supplied template's valid footprint, range [0,1], and null outside that footprint. It prints the candidate's SHA-256 and fails closed when a template is absent or the grid differs. The official null-outside wording versus a previous portal range rejection remains unresolved; neither local format success nor the supplied template's provenance is organizer acceptance. It does not inspect scientific leakage, DTI, dot placement/uniqueness, zip contents, competition authentication, or leaderboard score.
+The script checks one band, raster dimensions, CRS, affine transform, finite values in the template's valid footprint, and prediction range [0,1]. On success it also prints the candidate's SHA-256 for the run card. It is deliberately fail-closed when the template has no usable footprint or grid metadata differs. It does not inspect scientific leakage, DTI, dot placement/uniqueness, zip contents, competition authentication, or leaderboard score. Requires `rasterio` and `numpy`.

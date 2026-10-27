@@ -3,7 +3,7 @@
 
 The manifest pins both commit and SHA-256. A hash match verifies bytes, not
 organizer provenance, data licensing, prediction quality, or slot permission.
-No credentials are read or persisted by this script; gh handles its own auth.
+Existing environment authentication is used only for GitHub requests and is never persisted.
 """
 from __future__ import annotations
 
@@ -50,29 +50,15 @@ def check_entry(entry: dict) -> None:
 
 
 def fetch_entry(entry: dict, destination: Path, timeout: int = 180) -> Path:
+    """Use the byte-preserving pinned downloader for the fleet manifest too."""
+    from restore_inputs import restore
     check_entry(entry)
-    destination.mkdir(parents=True, exist_ok=True)
     ident = entry.get("id", entry.get("site"))
-    target = destination / f"{ident}.tif"
-    if target.is_file() and target.stat().st_size == entry["bytes"] and sha256_file(target) == entry["sha256"]:
-        return target
-    endpoint = f"repos/{entry['owner']}/{entry['repo']}/contents/{entry['path']}?ref={entry['ref']}"
-    fd, tmp_name = tempfile.mkstemp(prefix=f".{ident}.", suffix=".partial", dir=destination)
-    tmp = Path(tmp_name)
-    try:
-        with os.fdopen(fd, "wb") as output:
-            result = subprocess.run(
-                ["gh", "api", "-H", "Accept: application/vnd.github.raw+json", endpoint],
-                stdout=output, stderr=subprocess.PIPE, timeout=timeout, check=False,
-            )
-        if result.returncode != 0:
-            raise RuntimeError(f"GitHub API error fetching {ident}: {result.stderr.decode(errors='replace')[:250]}")
-        if tmp.stat().st_size != entry["bytes"] or sha256_file(tmp) != entry["sha256"]:
-            raise ValueError(f"Pinned size/hash mismatch for {ident}; refusing replacement")
-        os.replace(tmp, target)
-        return target
-    finally:
-        tmp.unlink(missing_ok=True)
+    item = {"id": ident, "repo": f"{entry['owner']}/{entry['repo']}",
+            "ref": entry["ref"], "path": entry["path"], "dest": f"{ident}.tif",
+            "sha256": entry["sha256"], "bytes": entry["bytes"]}
+    restore(item, destination, timeout=timeout)
+    return destination / item["dest"]
 
 
 def load_manifest(path: Path) -> dict:

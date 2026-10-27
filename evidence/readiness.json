@@ -11,5 +11,7 @@
   "lane_present": false,
   "ready_for_experiment": false,
   "submission_authorized": false,
-  "reason": "Preflight never authorizes a competition slot; separate selector required."
+  "reason": "Preflight never authorizes a competition slot; separate selector required.",
+  "historical_snapshot": "Earlier file-presence check; see scripts/readiness.py for current fail-closed status.",
+  "canonical_runtime_verified": false
 }

@@ -1,28 +1,43 @@
-name: Verify research dashboard
-
+name: Verify research workspace
 on:
   push:
   pull_request:
-
 permissions:
   contents: read
-
 jobs:
-  checks:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: pip
-      - name: Install pinned dependencies
-        run: python -m pip install -r requirements.txt
-      - name: Run offline unit and evidence tests
-        run: python -m pytest -q
-      - name: Verify deterministic static pages
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: python -m pip install -r requirements.txt
+      - run: python -m pytest -q
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm test
+      - run: node --check docs/assets/app.js
+      - name: Restore pinned research inputs
         run: |
-          python scripts/build_site.py
-          git diff --exit-code -- index.html docs/executive-summary.html docs/research.html docs/sites docs/index.html docs/hypotheses.html run_card.json docs/run_card.json
-      - name: Check feed syntax
-        run: node --check docs/assets/feed.js
+          if ! python scripts/restore_inputs.py --group light > "$RUNNER_TEMP/restore.log" 2>&1; then
+            cat "$RUNNER_TEMP/restore.log"
+            echo "::error::$(tail -n 1 "$RUNNER_TEMP/restore.log" | sed 's/%/%25/g')"
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/restore.log"
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Reproduce the lattice and lineage audit
+        run: |
+          python scripts/audit.py --out "$RUNNER_TEMP/audit.json" --run-card-out "$RUNNER_TEMP/run-card.json"
+          python -c 'import json, os; from pathlib import Path; a=json.loads(Path("docs/data/audit.json").read_text()); b=json.loads((Path(os.environ["RUNNER_TEMP"])/"audit.json").read_text()); assert all(a[k]==b[k] for k in ("preflight","lineage","nine_site_summary","run_card"))'
+      - name: Confirm the parallel demo fails the mirrored grid
+        run: |
+          if python scripts/validate_raster.py docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif --template .cache/inputs/sample_submission.tif --profile all-finite > "$RUNNER_TEMP/demo.json"; then
+            echo "Unexpected demo validation pass" >&2; exit 1
+          fi
+          python -c 'import json, os; from pathlib import Path; a=json.loads(Path("docs/data/parallel-demo-validation.json").read_text()); b=json.loads((Path(os.environ["RUNNER_TEMP"])/"demo.json").read_text()); assert a["sha256"]==b["sha256"] and not b["checks"]["transform_match"] and not b["approved_to_submit"]'

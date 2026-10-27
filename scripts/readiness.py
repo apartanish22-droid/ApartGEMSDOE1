@@ -29,6 +29,7 @@ def inspect(root: Path) -> dict[str, Any]:
         "missing": missing,
         "lane_present": lane_present,
         "all_required_paths_present": all_paths_present,
+        "canonical_runtime_verified": False,
         "ready_for_experiment": False,
         "ready_for_template_validation": ((root / "data/sample_submission.tif").is_file()
                                           and (root / "data/candidate.tif").is_file()),
@@ -47,7 +48,7 @@ def main() -> int:
     args = parser.parse_args()
     report = inspect(args.root)
     print(json.dumps(report, indent=2))
-    return 0 if report["all_required_paths_present"] else 2
+    return 0 if report["ready_for_experiment"] else 2
 
 
 if __name__ == "__main__":

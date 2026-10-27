@@ -1,0 +1,6 @@
+{
+  "name": "apart-gems-dashboard",
+  "private": true,
+  "scripts": { "test": "node --test tests/site.test.cjs" },
+  "devDependencies": { "jsdom": "26.1.0" }
+}
