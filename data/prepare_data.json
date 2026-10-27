@@ -1,0 +1,37 @@
+{
+  "schema_version": 2,
+  "data_dir": "data",
+  "provenance": "Local-file inventory only; presence does not authenticate organizer provenance.",
+  "files": {
+    "training_features": {
+      "present": false
+    },
+    "labels": {
+      "present": false
+    },
+    "sample_submission": {
+      "present": false
+    },
+    "example_submission": {
+      "present": false
+    },
+    "existing_faults": {
+      "present": false
+    },
+    "geodawn_features": {
+      "present": false
+    },
+    "candidate": {
+      "present": false
+    }
+  },
+  "template_signature": {
+    "source": null,
+    "origin_verified": false,
+    "status": "NO READABLE SAMPLE TEMPLATE"
+  },
+  "ready_for_training_inputs": false,
+  "ready_for_template_validation": false,
+  "submission_authorized": false,
+  "submission_blocker": "A file inventory never establishes scientific validity, registry novelty, or weekly-slot authorization."
+}

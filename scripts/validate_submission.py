@@ -1,96 +1,125 @@
 #!/usr/bin/env python3
-"""Fail-closed GeoTIFF format/range validation against an official template.
+"""Fail-closed format check against an authoritative sample GeoTIFF.
 
-This is not a score, uniqueness, or leakage evaluator. Requires rasterio/numpy.
+This validates serialized file format only. It does not test science, holdout
+performance, leakage, novelty, or competition eligibility.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import sys
 from pathlib import Path
+from typing import Any
+
+import numpy as np
+import rasterio
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("candidate", type=Path, help="single-band prediction GeoTIFF")
-    parser.add_argument("--template", required=True, type=Path, help="official template GeoTIFF")
-    args = parser.parse_args()
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
+
+def validate(candidate: Path, template: Path) -> dict[str, Any]:
+    report: dict[str, Any] = {
+        "candidate": str(candidate),
+        "template": str(template),
+        "sha256": None,
+        "format_pass": False,
+        "errors": [],
+    }
     try:
-        import numpy as np
-        import rasterio
-    except ImportError as exc:
-        print(f"FAIL: required package unavailable: {exc}", file=sys.stderr)
-        return 2
+        report["sha256"] = sha256_file(candidate)
+        with rasterio.open(candidate) as src, rasterio.open(template) as ref:
+            report["candidate_grid"] = {
+                "crs": str(src.crs) if src.crs is not None else None,
+                "shape": [int(src.height), int(src.width)],
+                "transform": list(src.transform),
+                "count": int(src.count),
+                "dtype": list(src.dtypes),
+            }
+            report["template_grid"] = {
+                "crs": str(ref.crs) if ref.crs is not None else None,
+                "shape": [int(ref.height), int(ref.width)],
+                "transform": list(ref.transform),
+                "count": int(ref.count),
+            }
 
-    for label, path in (("candidate", args.candidate), ("template", args.template)):
-        if not path.is_file():
-            print(f"FAIL: {label} file does not exist: {path}", file=sys.stderr)
-            return 2
-
-    try:
-        with rasterio.open(args.template) as template, rasterio.open(args.candidate) as candidate:
-            errors: list[str] = []
-            if template.count != 1:
-                errors.append(f"template must have exactly one band (found {template.count})")
-            if candidate.count != 1:
-                errors.append(f"candidate must have exactly one band (found {candidate.count})")
-            elif candidate.dtypes[0] != "float32":
-                errors.append(f"candidate band must be float32 (found {candidate.dtypes[0]})")
-            if candidate.width != template.width or candidate.height != template.height:
+            errors: list[str] = report["errors"]
+            if ref.count != 1:
+                errors.append(f"template must have one band (found {ref.count})")
+            if src.count != 1:
+                errors.append(f"candidate must have one band (found {src.count})")
+            elif src.dtypes[0] != "float32":
+                errors.append(f"candidate must be float32 (found {src.dtypes[0]})")
+            if src.crs is None or ref.crs is None or src.crs != ref.crs:
+                errors.append(f"CRS mismatch or missing CRS: candidate={src.crs}, template={ref.crs}")
+            if (src.height, src.width) != (ref.height, ref.width):
                 errors.append(
-                    f"shape mismatch: candidate {(candidate.height, candidate.width)}, "
-                    f"template {(template.height, template.width)}"
+                    f"shape mismatch: candidate={(src.height, src.width)}, "
+                    f"template={(ref.height, ref.width)}"
                 )
-            if candidate.crs is None or template.crs is None or candidate.crs != template.crs:
-                errors.append(f"CRS mismatch or missing CRS: candidate={candidate.crs}, template={template.crs}")
-            if candidate.transform != template.transform:
-                errors.append(f"affine transform mismatch: candidate={candidate.transform}, template={template.transform}")
-            if errors:
-                for error in errors:
-                    print(f"FAIL: {error}", file=sys.stderr)
-                return 1
+            if src.transform != ref.transform:
+                errors.append(f"affine transform mismatch: candidate={src.transform}, template={ref.transform}")
 
-            data = candidate.read(1, masked=False)
-            template_data = template.read(1, masked=False)
-            template_mask = template.read_masks(1) > 0
-            candidate_mask = candidate.read_masks(1) > 0
-            if np.isinf(template_data[template_mask]).any():
-                print("FAIL: template contains infinity in its valid-data mask", file=sys.stderr)
-                return 1
-            # Some valid templates encode outside-footprint cells as NaN without
-            # setting GDAL nodata metadata, so combine mask and finite-data checks.
-            footprint = template_mask & np.isfinite(template_data)
-            if footprint.shape != data.shape or not footprint.any():
-                print("FAIL: template valid-data footprint is empty or incompatible", file=sys.stderr)
-                return 1
-            if np.any(~candidate_mask[footprint]):
-                print("FAIL: candidate has masked/invalid cells inside template footprint", file=sys.stderr)
-                return 1
-            outside_values = data[~footprint]
-            outside_is_null = ~candidate_mask[~footprint] | np.isnan(outside_values)
-            if np.any(~outside_is_null):
-                print("FAIL: candidate contains non-null values outside template footprint", file=sys.stderr)
-                return 1
-            values = data[footprint]
-            if not np.isfinite(values).all():
-                print("FAIL: candidate contains NaN or infinity inside template footprint", file=sys.stderr)
-                return 1
-            minimum = float(values.min())
-            maximum = float(values.max())
-            if minimum < 0.0 or maximum > 1.0:
-                print(f"FAIL: prediction range outside [0,1] within footprint: [{minimum}, {maximum}]", file=sys.stderr)
-                return 1
-            print(
-                "PASS: one band; CRS, shape and transform match; "
-                f"no NaN/Inf in footprint; values in [0,1] (min={minimum:.8g}, max={maximum:.8g}); "
-                f"valid footprint cells={int(footprint.sum())}. This is format validation only, not a score or uniqueness certification."
-            )
-            return 0
-    except Exception as exc:  # rasterio reports malformed files and I/O errors here
-        print(f"FAIL: could not read/validate GeoTIFF: {exc}", file=sys.stderr)
+            if not errors:
+                values = src.read(1, masked=False)
+                candidate_valid = src.read_masks(1) > 0
+                template_values = ref.read(1, masked=False)
+                footprint = (ref.read_masks(1) > 0) & np.isfinite(template_values)
+                if footprint.shape != values.shape or not footprint.any():
+                    errors.append("template has no usable footprint matching candidate shape")
+                else:
+                    inside = values[footprint]
+                    inside_valid = candidate_valid[footprint]
+                    if not inside_valid.all():
+                        errors.append("candidate masks or nodata inside the template footprint")
+                    if not np.isfinite(inside).all():
+                        errors.append("candidate contains NaN or Inf inside the template footprint")
+                    elif not ((inside >= 0.0).all() and (inside <= 1.0).all()):
+                        errors.append("candidate values outside [0,1] inside the template footprint")
+
+                    outside = ~footprint
+                    if outside.any():
+                        outside_is_null = (~candidate_valid | np.isnan(values))
+                        if not outside_is_null[outside].all():
+                            errors.append("candidate outside the template footprint must be nodata/masked or NaN")
+                    finite_inside = inside[np.isfinite(inside)]
+                    report["footprint"] = {
+                        "valid_cells": int(footprint.sum()),
+                        "outside_cells": int(outside.sum()),
+                        "nan_inside": int(np.isnan(inside).sum()),
+                        "inf_inside": int(np.isinf(inside).sum()),
+                        "min_inside": float(finite_inside.min()) if finite_inside.size else None,
+                        "max_inside": float(finite_inside.max()) if finite_inside.size else None,
+                    }
+    except Exception as exc:  # report malformed/unreadable input as a failed gate
+        report["errors"].append(f"unable to inspect raster: {type(exc).__name__}: {exc}")
+
+    report["format_pass"] = not report["errors"]
+    report["status"] = "PASS_FORMAT_ONLY" if report["format_pass"] else "FAIL_FORMAT"
+    return report
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("candidate", type=Path)
+    parser.add_argument("--template", required=True, type=Path,
+                        help="authoritative official sample_submission.tif")
+    args = parser.parse_args(argv)
+    if not args.candidate.is_file() or not args.template.is_file():
+        missing = [str(path) for path in (args.candidate, args.template) if not path.is_file()]
+        print(json.dumps({"status": "BLOCKED_MISSING_FILE", "missing": missing}, indent=2))
         return 2
+    report = validate(args.candidate, args.template)
+    print(json.dumps(report, indent=2))
+    return 0 if report["format_pass"] else 1
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    sys.exit(main())

@@ -1,6 +1,8 @@
-"""Synthetic raster regression tests for the GeoTIFF format/range gate."""
+"""Synthetic CLI tests for the saved-GeoTIFF format gate."""
 from __future__ import annotations
 
+import hashlib
+import json
 import subprocess
 import sys
 import tempfile
@@ -11,149 +13,150 @@ import numpy as np
 import rasterio
 from rasterio.transform import from_origin
 
-SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "validate_submission.py"
+REPO = Path(__file__).resolve().parents[1]
+VALIDATOR = REPO / "scripts" / "validate_submission.py"
 
 
 class ValidateSubmissionTests(unittest.TestCase):
     def setUp(self) -> None:
         self.tempdir = tempfile.TemporaryDirectory()
         self.root = Path(self.tempdir.name)
-        self.template_path = self.root / "template.tif"
-        self.profile = {
-            "driver": "GTiff",
-            "height": 3,
-            "width": 4,
-            "count": 1,
-            "dtype": "float32",
-            "crs": "EPSG:32611",
-            "transform": from_origin(500000, 4500000, 30, 30),
-            "nodata": -9999.0,
-        }
-        template_data = np.array(
-            [[0, 0, 0, -9999], [0, 0, 0, -9999], [0, 0, 0, -9999]],
-            dtype=np.float32,
+        self.transform = from_origin(500000, 4500000, 30, 30)
+        self.template = self.root / "official-sample.tif"
+        self.candidate = self.root / "candidate.tif"
+        self._write(
+            self.template,
+            np.array([[0, 0, 0], [0, 0, 0], [0, 0, -9999]], dtype=np.float32),
+            nodata=-9999.0,
         )
-        with rasterio.open(self.template_path, "w", **self.profile) as dataset:
-            dataset.write(template_data, 1)
 
     def tearDown(self) -> None:
         self.tempdir.cleanup()
 
-    def write_candidate(
+    def _write(
         self,
-        name: str = "candidate.tif",
-        data: np.ndarray | None = None,
-        **profile_overrides: object,
-    ) -> Path:
-        path = self.root / name
-        profile = {**self.profile, **profile_overrides}
-        if data is None:
-            data = np.array(
-                [[0.0, 0.25, 1.0, -9999.0], [0.2, 0.4, 0.6, -9999.0], [0.3, 0.5, 0.8, -9999.0]],
-                dtype=np.float32,
-            )
-        with rasterio.open(path, "w", **profile) as dataset:
-            dataset.write(data, 1 if profile["count"] == 1 else None)
-        return path
+        path: Path,
+        array: np.ndarray,
+        *,
+        crs: str = "EPSG:32611",
+        transform=None,
+        nodata: float | None = None,
+        dtype: str | None = None,
+    ) -> None:
+        count = 1 if array.ndim == 2 else array.shape[0]
+        height, width = array.shape[-2:]
+        with rasterio.open(
+            path,
+            "w",
+            driver="GTiff",
+            height=height,
+            width=width,
+            count=count,
+            dtype=dtype or str(array.dtype),
+            crs=crs,
+            transform=transform or self.transform,
+            nodata=nodata,
+        ) as dataset:
+            dataset.write(array, 1 if array.ndim == 2 else None)
 
-    def run_validator(self, candidate: Path) -> subprocess.CompletedProcess[str]:
+    def _run(self, data: np.ndarray, **kwargs) -> subprocess.CompletedProcess[str]:
+        self._write(self.candidate, data, **kwargs)
         return subprocess.run(
-            [sys.executable, str(SCRIPT), str(candidate), "--template", str(self.template_path)],
+            [sys.executable, str(VALIDATOR), str(self.candidate), "--template", str(self.template)],
             capture_output=True,
             text=True,
             check=False,
         )
 
-    def test_accepts_matching_single_band_grid_and_unit_values(self) -> None:
-        result = self.run_validator(self.write_candidate())
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("values in [0,1]", result.stdout)
+    def _json(self, result: subprocess.CompletedProcess[str]) -> dict:
+        return json.loads(result.stdout)
+
+    def test_accepts_matching_float32_grid_and_nodata_outside(self) -> None:
+        data = np.array([[0, 0.2, 1], [0.4, 0.5, 0.6], [0.7, 0.8, np.nan]], dtype=np.float32)
+        result = self._run(data, nodata=np.nan)
+        report = self._json(result)
+        self.assertEqual(result.returncode, 0, report)
+        self.assertEqual(report["status"], "PASS_FORMAT_ONLY")
+        self.assertRegex(report["sha256"], r"^[0-9a-f]{64}$")
+        self.assertEqual(report["sha256"], hashlib.sha256(self.candidate.read_bytes()).hexdigest())
 
     def test_rejects_nan_inside_template_footprint(self) -> None:
-        data = np.full((3, 4), 0.5, dtype=np.float32)
-        data[:, 3] = -9999.0
+        data = np.full((3, 3), 0.5, dtype=np.float32)
         data[1, 1] = np.nan
-        result = self.run_validator(self.write_candidate(data=data))
+        data[2, 2] = np.nan
+        result = self._run(data, nodata=np.nan)
         self.assertEqual(result.returncode, 1)
-        self.assertIn("NaN or infinity", result.stderr)
+        self.assertTrue(any("NaN or Inf inside" in error for error in self._json(result)["errors"]))
 
-    def test_rejects_prediction_outside_unit_interval(self) -> None:
-        for invalid in (-0.001, 1.001):
+    def test_rejects_infinity_and_out_of_range_inside(self) -> None:
+        for invalid in (np.inf, -0.01, 1.01):
             with self.subTest(value=invalid):
-                data = np.full((3, 4), 0.5, dtype=np.float32)
-                data[:, 3] = -9999.0
-                data[1, 1] = invalid
-                result = self.run_validator(self.write_candidate(f"range-{invalid}.tif", data=data))
+                data = np.full((3, 3), 0.5, dtype=np.float32)
+                data[0, 0] = invalid
+                data[2, 2] = np.nan
+                result = self._run(data, nodata=np.nan)
                 self.assertEqual(result.returncode, 1)
-                self.assertIn("outside [0,1]", result.stderr)
+                self.assertFalse(self._json(result)["format_pass"])
 
-    def test_rejects_crs_mismatch(self) -> None:
-        result = self.run_validator(self.write_candidate(crs="EPSG:4326"))
+    def test_rejects_non_null_value_outside_template_footprint(self) -> None:
+        data = np.full((3, 3), 0.5, dtype=np.float32)
+        data[2, 2] = 0.0
+        result = self._run(data)
         self.assertEqual(result.returncode, 1)
-        self.assertIn("CRS mismatch", result.stderr)
+        self.assertTrue(any("outside the template footprint" in e for e in self._json(result)["errors"]))
 
-    def test_rejects_shape_mismatch(self) -> None:
-        data = np.full((2, 4), 0.5, dtype=np.float32)
-        result = self.run_validator(self.write_candidate(data=data, height=2))
+    def test_accepts_finite_nodata_outside_when_masked(self) -> None:
+        data = np.full((3, 3), 0.5, dtype=np.float32)
+        data[2, 2] = -9999.0
+        result = self._run(data, nodata=-9999.0)
+        self.assertEqual(result.returncode, 0, self._json(result))
+
+    def test_rejects_crs_shape_and_transform_mismatch(self) -> None:
+        valid = np.full((3, 3), 0.5, dtype=np.float32)
+        for label, kwargs, data in (
+            ("crs", {"crs": "EPSG:4326"}, valid),
+            ("transform", {"transform": from_origin(500030, 4500000, 30, 30)}, valid),
+            ("shape", {}, np.full((2, 3), 0.5, dtype=np.float32)),
+        ):
+            with self.subTest(kind=label):
+                result = self._run(data, **kwargs)
+                self.assertEqual(result.returncode, 1)
+                report = self._json(result)
+                self.assertTrue(report["errors"])
+
+    def test_rejects_non_float32_and_multiband(self) -> None:
+        data64 = np.full((3, 3), 0.5, dtype=np.float64)
+        result = self._run(data64)
         self.assertEqual(result.returncode, 1)
-        self.assertIn("shape mismatch", result.stderr)
+        self.assertTrue(any("float32" in e for e in self._json(result)["errors"]))
 
-    def test_rejects_transform_mismatch(self) -> None:
-        result = self.run_validator(
-            self.write_candidate(transform=from_origin(500030, 4500000, 30, 30))
+        multiband = self.root / "multiband.tif"
+        self._write(multiband, np.zeros((2, 3, 3), dtype=np.float32))
+        result = subprocess.run(
+            [sys.executable, str(VALIDATOR), str(multiband), "--template", str(self.template)],
+            capture_output=True, text=True, check=False,
         )
         self.assertEqual(result.returncode, 1)
-        self.assertIn("transform mismatch", result.stderr)
-
-    def test_rejects_non_float32_candidate(self) -> None:
-        result = self.run_validator(self.write_candidate(dtype="float64"))
-        self.assertEqual(result.returncode, 1)
-        self.assertIn("must be float32", result.stderr)
-
-    def test_rejects_finite_values_outside_template_footprint(self) -> None:
-        data = np.full((3, 4), 0.5, dtype=np.float32)
-        data[:, 3] = 0.0
-        result = self.run_validator(self.write_candidate(data=data))
-        self.assertEqual(result.returncode, 1)
-        self.assertIn("outside template footprint", result.stderr)
-
-    def test_rejects_multiband_candidate(self) -> None:
-        path = self.root / "multiband.tif"
-        profile = {**self.profile, "count": 2}
-        with rasterio.open(path, "w", **profile) as dataset:
-            dataset.write(np.full((2, 3, 4), 0.5, dtype=np.float32))
-        result = self.run_validator(path)
-        self.assertEqual(result.returncode, 1)
-        self.assertIn("exactly one band", result.stderr)
-
-    def test_allows_nodata_outside_template_footprint(self) -> None:
-        data = np.full((3, 4), 0.5, dtype=np.float32)
-        data[:, 3] = np.nan
-        result = self.run_validator(self.write_candidate(data=data))
-        self.assertEqual(result.returncode, 0, result.stderr)
-
-    def test_template_nan_defines_outside_footprint_without_nodata_metadata(self) -> None:
-        template_profile = {**self.profile, "nodata": None}
-        template_data = np.full((3, 4), 1.0, dtype=np.float32)
-        template_data[:, 3] = np.nan
-        with rasterio.open(self.template_path, "w", **template_profile) as dataset:
-            dataset.write(template_data, 1)
-        result = self.run_validator(self.write_candidate())
-        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(any("one band" in e for e in self._json(result)["errors"]))
 
     def test_rejects_multiband_template(self) -> None:
-        path = self.root / "multiband-template.tif"
-        profile = {**self.profile, "count": 2}
-        with rasterio.open(path, "w", **profile) as dataset:
-            dataset.write(np.full((2, 3, 4), 0.5, dtype=np.float32))
+        template = self.root / "multiband-template.tif"
+        self._write(template, np.zeros((2, 3, 3), dtype=np.float32))
+        data = np.full((3, 3), 0.5, dtype=np.float32)
+        self._write(self.candidate, data)
         result = subprocess.run(
-            [sys.executable, str(SCRIPT), str(self.write_candidate()), "--template", str(path)],
-            capture_output=True,
-            text=True,
-            check=False,
+            [sys.executable, str(VALIDATOR), str(self.candidate), "--template", str(template)],
+            capture_output=True, text=True, check=False,
         )
         self.assertEqual(result.returncode, 1)
-        self.assertIn("template must have exactly one band", result.stderr)
+        self.assertTrue(any("template must have one band" in e for e in self._json(result)["errors"]))
+
+    def test_requires_template(self) -> None:
+        result = subprocess.run(
+            [sys.executable, str(VALIDATOR), str(self.candidate)],
+            capture_output=True, text=True, check=False,
+        )
+        self.assertEqual(result.returncode, 2)
 
 
 if __name__ == "__main__":

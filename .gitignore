@@ -2,9 +2,10 @@
 __pycache__/
 .cache/
 data/
+outputs/
 *.py[cod]
 *.npy
 *.npz
 
-# Do not blanket-ignore GeoTIFFs: an explicitly approved submission artifact
-# may need to be published. Keep raw/private datasets under ignored data/.
+# Keep explicitly approved GeoTIFF deliverables trackable. Never commit raw
+# competition inputs under data/; that directory is ignored above.
