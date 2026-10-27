@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-27T22:30:15.074006+00:00",
+  "checker_sha256": "1d2b5fba757c6bd8a57b6b83aeca3b1b35f9fec8524df37879ecdac219192f47",
+  "evidence_class": "MEASURED GEOMETRY AND FORMAT; NOT A PERFORMANCE SCORE",
+  "scope": "Already-generated parallel H2 intake only; not an AP1 experiment, retune or holdout evaluation",
+  "original_commit": "570be4bab6634ffece60104e9abcbf406f98a863",
+  "original_card_path": "archive/2026-10-27-parallel-review-and-h2/run-card.json",
+  "original_card_sha256": "c27b832bf817edfe928e486ab1bc1ef9cbc545c9e1a3dafbef6b7e25d583a7ac",
+  "original_card_url": "https://github.com/apartanish22-droid/ApartGEMSDOE1/blob/570be4bab6634ffece60104e9abcbf406f98a863/run-card.json",
+  "original_promotion": "promote",
+  "original_declared_max_overlap": 0.5794,
+  "original_separately_listed_control": [
+    "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif (dense calibration lattice, near-universal 3 px cover)"
+  ],
+  "candidate": "docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-zeros.tif",
+  "raster_sha256": "39e2e332911f7e8c909c14884da11302b0efc525bd89fe0f7252f444bc836b79",
+  "requested_filename_budget": 44090,
+  "actual_positive_pixels": 44090,
+  "original_validator_positive_pixels": 40308,
+  "original_validator_count_matches": false,
+  "witness": {
+    "id": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "ref": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+    "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+    "source_url": "https://github.com/buffedlizard55-lab/GEMSDOE24/blob/a73f9ffba29260cc7708e8e0557c84c5bea7d47b/inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "positive_pixels": 206895
+  },
+  "directional_overlap": {
+    "candidate_within_3px_of_reference": 0.9996597867997278,
+    "reference_within_3px_of_candidate": 0.16933226999202494,
+    "radius_px": 3.0,
+    "candidate_dots": 44090,
+    "reference_dots": 206895
+  },
+  "independent_geometry_lower_bound": 0.8491948287593558,
+  "duplicate_stop": true,
+  "controls_exempted": false,
+  "stopped_after_first_witness": true,
+  "rank_correlation": null,
+  "rank_correlation_reason": "Not recomputed: the first final-dot witness independently mandates STOP",
+  "holdout_recomputed": false,
+  "new_experiments": 0,
+  "slots_selected_or_uploaded": 0,
+  "format": {
+    "file": "/home/user/ApartGEMSDOE1/docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-zeros.tif",
+    "format_pass": false,
+    "competition_format_verified": false,
+    "relative_template_pass": false,
+    "submission_authorized": false,
+    "organizer_acceptance_tested": false,
+    "verdict": "DO_NOT_SUBMIT",
+    "errors": [
+      "nonnull cells outside the template footprint"
+    ],
+    "checks": {
+      "template_single_band": true,
+      "single_band": true,
+      "float32": true,
+      "crs_match": true,
+      "shape_match": true,
+      "transform_match": true,
+      "nonempty_footprint": true,
+      "finite_inside": true,
+      "range_inside": true,
+      "all_inside_valid": true,
+      "exterior_null": false,
+      "outside_null": false,
+      "inside_pixels": 5167373
+    },
+    "slot_approved": false,
+    "organizer_acceptance_established": false,
+    "template_organizer_authenticated": null,
+    "min": 0.0,
+    "max": 0.797974169254303,
+    "shared_validator": {
+      "file": "apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-zeros.tif",
+      "bytes": 544226,
+      "sha256": "39e2e332911f7e8c909c14884da11302b0efc525bd89fe0f7252f444bc836b79",
+      "format_valid": true,
+      "ok_to_upload": false,
+      "upload_authorization": "not evaluated by a format validator; separate scientific selector required",
+      "format_acceptable": true,
+      "submission_authorized": false,
+      "scope": "Format only; this does not certify bias audit, holdout promotion or weekly-slot eligibility",
+      "hard_failures": [],
+      "official_format_compliant": false,
+      "in_footprint_positive_pixels": 44090,
+      "in_footprint_mass": 21382.74,
+      "checks": {
+        "official_template_grid_and_footprint": {
+          "pass": true,
+          "detail": "Template must be the pinned organizer grid, not just a self-consistent arbitrary raster",
+          "hard_requirement": true
+        },
+        "single_band": {
+          "pass": true,
+          "detail": "count=1",
+          "hard_requirement": true
+        },
+        "dtype_float32": {
+          "pass": true,
+          "detail": "dtypes=('float32',)",
+          "hard_requirement": true
+        },
+        "crs_epsg_32611": {
+          "pass": true,
+          "detail": "EPSG:32611",
+          "hard_requirement": true
+        },
+        "shape_matches_template": {
+          "pass": true,
+          "detail": "(3730, 3292) vs (3730, 3292)",
+          "hard_requirement": true
+        },
+        "geotransform_matches_template": {
+          "pass": true,
+          "detail": "(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)",
+          "hard_requirement": true
+        },
+        "footprint_all_finite": {
+          "pass": true,
+          "detail": "0 NaN/Inf inside the 5,167,373-pixel footprint",
+          "hard_requirement": true
+        },
+        "footprint_range_0_1": {
+          "pass": true,
+          "detail": "finite=5167373/5167373; range=0.0 to 0.797974169254303",
+          "hard_requirement": true
+        },
+        "outside_is_nan_official_text": {
+          "pass": false,
+          "detail": "0 of 7,111,787 outside pixels are NaN",
+          "hard_requirement": false
+        },
+        "nodata_tag_is_nan": {
+          "pass": false,
+          "detail": "nodata=None",
+          "hard_requirement": false
+        },
+        "variant_nan_aware_whole_array": {
+          "pass": true,
+          "detail": "np.nanmin/np.nanmax over the whole array",
+          "hard_requirement": true
+        },
+        "variant_masked_read": {
+          "pass": true,
+          "detail": "rasterio read(masked=True).compressed()",
+          "hard_requirement": true
+        },
+        "variant_strict_whole_array_no_nan_allowed": {
+          "pass": true,
+          "detail": "((a>=0)&(a<=1)).all() over the whole array - fails for ANY NaN, including the official sample's NaN outside",
+          "hard_requirement": false
+        },
+        "profile_matches_official_sample": {
+          "pass": false,
+          "detail": "driver/dtype/nodata/size/crs/transform equal to template; compress=deflate (template lzw)",
+          "hard_requirement": false
+        }
+      }
+    },
+    "sha256": "39e2e332911f7e8c909c14884da11302b0efc525bd89fe0f7252f444bc836b79"
+  },
+  "organizer_acceptance_tested": false,
+  "verdict": "negative",
+  "submission_authorized": false,
+  "interpretation": "Reject original promotion under the user's no-exemption overlap rule. High lattice overlap is not proof of copied geology or physics. Original H2 holdout claims are preserved, not independently validated or compared with AP1. The original validator count is checked against the actual bytes; its 40,308 declaration differs from this file's 44,090 positive pixels."
+}

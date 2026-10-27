@@ -1,0 +1,299 @@
+{
+  "schema": "apartgems-review-ledger-v1",
+  "reviewed_utc": "2026-10-27T22:42:50.851726+00:00",
+  "review_complete": true,
+  "scope": "Three completed local review passes; NOT scientific promotion or organizer acceptance. Subsequent publication lifecycle is authoritative on GitHub.",
+  "branch": "arena/a861115a-apartgemsdoe1",
+  "passes": [
+    {
+      "pass": 1,
+      "status": "complete",
+      "focus": "Implement exact-source audit, preregistered AP1 experiment and negative research artifact",
+      "evidence": [
+        "evidence/experiment.json",
+        "evidence/focus-audit.json",
+        "evidence/run-card.json"
+      ]
+    },
+    {
+      "pass": 2,
+      "status": "complete",
+      "focus": "Fix grid/format, merge-scoping, restoration, strict JSON and browser/keyboard/mobile edge cases",
+      "evidence": [
+        "tests/test_release.py",
+        "evidence/restoration-verification.json",
+        "evidence/browser-verification.json"
+      ]
+    },
+    {
+      "pass": 3,
+      "status": "complete",
+      "focus": "Recheck every requirement, reconcile concurrent H2, retire stale publication, guard every route and record explicit limits",
+      "evidence": [
+        "evidence/parallel-intake.json",
+        "research/claims.csv",
+        "evidence/three-pass-review.md"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "nine-sites",
+      "reviewed": true,
+      "outcome": "met",
+      "finding": "Exact highest-claim artifacts inspected; nine local executive subpages, not edits to independent websites.",
+      "evidence": [
+        "evidence/focus-audit.json",
+        "docs/sites.html"
+      ]
+    },
+    {
+      "id": "h33-mechanism",
+      "reviewed": true,
+      "outcome": "met-with-limit",
+      "finding": "Exact D2.8-minus-6436 lineage; FP-mass explanation is plausible, not hidden-test causality.",
+      "evidence": [
+        "docs/sites/GEMSDOE32.html"
+      ]
+    },
+    {
+      "id": "new-tiff",
+      "reviewed": true,
+      "outcome": "met-with-limit",
+      "finding": "One newly computed AP1 prediction and valid-grid TIFF; distinct bytes/array do not imply protocol uniqueness.",
+      "evidence": [
+        "evidence/experiment.json",
+        "evidence/run-card.json"
+      ]
+    },
+    {
+      "id": "protocol-uniqueness",
+      "reviewed": true,
+      "outcome": "negative",
+      "finding": "Five final-dot duplicates; lattice and independently genuine LiDAR witness. STOP, no exemptions.",
+      "evidence": [
+        "evidence/final-registry.json"
+      ]
+    },
+    {
+      "id": "performance-labels",
+      "reviewed": true,
+      "outcome": "met",
+      "finding": "Version, 60988 positives and CI accompany HOLDOUT-DTI; no calibrated leaderboard forecast or copied receipt.",
+      "evidence": [
+        "docs/executive-summary.html",
+        "research/claims.csv"
+      ]
+    },
+    {
+      "id": "ranked-hypotheses",
+      "reviewed": true,
+      "outcome": "met-with-limit",
+      "finding": "Four preregistered physical proposals with layers, transforms, mimics and qualitative value/cost; not globally certified novel.",
+      "evidence": [
+        "research/hypotheses-2026-10-27.md"
+      ]
+    },
+    {
+      "id": "data-availability",
+      "reviewed": true,
+      "outcome": "met-with-limit",
+      "finding": "Nine pinned mirror files independently restored; unacquired official raw data and failed tile URLs are explicitly not verified.",
+      "evidence": [
+        "evidence/restoration-verification.json",
+        "research/data-catalog.csv"
+      ]
+    },
+    {
+      "id": "assigned-lane",
+      "reviewed": true,
+      "outcome": "blocked",
+      "finding": "No identifiable method paragraph was supplied; provisional AP1 was not falsely called assigned.",
+      "evidence": [
+        "evidence/experiment.json"
+      ]
+    },
+    {
+      "id": "segment-holdout",
+      "reviewed": true,
+      "outcome": "met-with-limit",
+      "finding": "Buffered whole 8-connected components, four quadrants, visible pixel mask and pooled triangular-kernel metric; raster components are not authenticated segment IDs.",
+      "evidence": [
+        "evidence/experiment.json",
+        "vendor/template-pins.json"
+      ]
+    },
+    {
+      "id": "feature-canaries",
+      "reviewed": true,
+      "outcome": "met",
+      "finding": "18 source/descriptor canaries, both polarities and missingness; passing is not proof of independence.",
+      "evidence": [
+        "evidence/experiment.json"
+      ]
+    },
+    {
+      "id": "improvement-and-current-best",
+      "reviewed": true,
+      "outcome": "negative",
+      "finding": "0/4 wins vs matched-budget ablation; paired CI crosses zero. Common verified current-best OOF benchmark absent.",
+      "evidence": [
+        "evidence/experiment.json"
+      ]
+    },
+    {
+      "id": "budget-and-stop",
+      "reviewed": true,
+      "outcome": "met",
+      "finding": "One AP1 experiment, 236.06 seconds, no further arms after STOP. Concurrent-artifact intake is read-only, not another experiment.",
+      "evidence": [
+        "evidence/experiment.json",
+        "evidence/parallel-intake.json"
+      ]
+    },
+    {
+      "id": "no-real-slot",
+      "reviewed": true,
+      "outcome": "met",
+      "finding": "No slot selected or uploaded. Authenticated entity quota/receipt unknown; separate selector never invoked.",
+      "evidence": [
+        "evidence/run-card.json"
+      ]
+    },
+    {
+      "id": "format-range",
+      "reviewed": true,
+      "outcome": "met-with-limit",
+      "finding": "Single band, float32, full raw finite [0,1], pinned grid and internal null-exterior mask. No organizer portal acceptance claim.",
+      "evidence": [
+        "evidence/format-verification.json"
+      ]
+    },
+    {
+      "id": "prominent-download",
+      "reviewed": true,
+      "outcome": "met",
+      "finding": "Exact TIFF download and <=140-character note; complete button inside 390x844 mobile viewport; SHA checked from browser download.",
+      "evidence": [
+        "evidence/browser-verification.json",
+        "docs/executive-summary.html"
+      ]
+    },
+    {
+      "id": "official-science-and-tables",
+      "reviewed": true,
+      "outcome": "met-with-limit",
+      "finding": "Twelve-source ledger, 23 claim rows, eight data-layer rows; research plausibility is not performance or verified raw acquisition.",
+      "evidence": [
+        "research/sources.json",
+        "research/claims.csv",
+        "research/data-catalog.csv"
+      ]
+    },
+    {
+      "id": "prompt-values-and-future-start",
+      "reviewed": true,
+      "outcome": "met-with-limit",
+      "finding": "README starts with measured STOP and project values, preserves working prompt transcription and corrected protocol; not claimed verbatim.",
+      "evidence": [
+        "README.md",
+        "AGENTS.md"
+      ]
+    },
+    {
+      "id": "autonomous-verification",
+      "reviewed": true,
+      "outcome": "met-with-limit",
+      "finding": "Strict JSON, scientific pins/arithmetic, full raster checks, all local links, Node DOM and browser regressions. No human inspector required; automated WCAG is not a conformance certificate.",
+      "evidence": [
+        "scripts/verify_release.py",
+        "scripts/browser_smoke.mjs",
+        "evidence/test-results.xml"
+      ]
+    },
+    {
+      "id": "three-passes",
+      "reviewed": true,
+      "outcome": "met",
+      "finding": "Implementation, adversarial bug/edge review and original-requirement/concurrency review recorded. Completion does not mean promotion.",
+      "evidence": [
+        "evidence/three-pass-review.md"
+      ]
+    },
+    {
+      "id": "parallel-h2-integrity",
+      "reviewed": true,
+      "outcome": "met",
+      "finding": "Preserved original H2 claims and files; independently blocked 99.966% overlap, non-null exterior and stale positive-count declaration. No re-score or adoption as AP1.",
+      "evidence": [
+        "evidence/parallel-intake.json"
+      ]
+    },
+    {
+      "id": "publication-and-merge",
+      "reviewed": true,
+      "outcome": "external-delivery",
+      "finding": "Reviewed pre-publication checkpoint; actual PR, merge and Pages lifecycle is recorded by GitHub after this local review, not falsely certified here.",
+      "evidence": [
+        ".github/workflows/checks.yml"
+      ]
+    },
+    {
+      "id": "limitations-and-next-session",
+      "reviewed": true,
+      "outcome": "met",
+      "finding": "Prioritized explicit new lane, comparable current-best/receipts, provenance/rights/data coverage and separate entity-wide selector.",
+      "evidence": [
+        "README.md",
+        "docs/sources.html"
+      ]
+    }
+  ],
+  "verification": {
+    "pre_release_pytest": {
+      "passed": 99,
+      "subtests_passed": 5,
+      "deselected": 1,
+      "reason": "Release-ledger acceptance deferred until this review record and final report publication exist."
+    },
+    "final_pytest": {
+      "passed": 100,
+      "subtests_passed": 5,
+      "failures": 0,
+      "errors": 0,
+      "warnings": 41,
+      "command": ".venv/bin/pytest -q --junitxml=.cache/local-final-tests.xml",
+      "durable_report": "evidence/test-results.xml"
+    },
+    "node_dom_tests": {
+      "passed": 5,
+      "command": "npm test"
+    },
+    "browser_report": "evidence/browser-verification.json",
+    "fresh_restoration": {
+      "files": 9,
+      "bytes": 511648215,
+      "passed": true
+    },
+    "independent_parallel_audit": {
+      "reproduced": true,
+      "matched_sections": [
+        "preflight",
+        "lineage",
+        "nine_site_summary",
+        "run_card"
+      ],
+      "scientific_experiments": 0
+    }
+  },
+  "scientific_verdict": "negative",
+  "submission_authorized": false,
+  "ap1_experiments": 1,
+  "ap1_slots_selected_or_uploaded": 0,
+  "next_session_priorities": [
+    "Keep AP1 stopped; any later experiment requires a different explicit assignment/run identity.",
+    "Bind exact-file receipts and establish a common verified current-best OOF benchmark.",
+    "Authenticate organizer inputs/rights and verify raw-data endpoints and footprint before new-data adoption.",
+    "Keep slot selection separate and enforce the authenticated entity-wide weekly ledger."
+  ]
+}

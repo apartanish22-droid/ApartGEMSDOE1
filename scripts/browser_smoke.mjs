@@ -31,6 +31,16 @@ async function check(name, fn) {
   catch (error) { report.checks[name] = { passed: false, detail: String(error) }; report.errors.push(`${name}: ${error}`); }
 }
 
+async function siteInputs(directory = DOCS, hashes = {}) {
+  for (const item of await fs.readdir(directory, { withFileTypes: true })) {
+    const file = path.join(directory, item.name);
+    if (item.isDirectory()) await siteInputs(file, hashes);
+    else if (/\.(html|css|js)$/.test(item.name))
+      hashes[path.relative(ROOT, file)] = createHash('sha256').update(await fs.readFile(file)).digest('hex');
+  }
+  return hashes;
+}
+
 async function serve() {
   const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript',
     '.svg': 'image/svg+xml', '.json': 'application/json', '.tif': 'image/tiff', '.csv': 'text/csv', '.md': 'text/plain' };
@@ -52,6 +62,8 @@ async function serve() {
 try {
   await fs.mkdir(CACHE, { recursive: true });
   report.checker_sha256 = createHash('sha256').update(await fs.readFile(fileURLToPath(import.meta.url))).digest('hex');
+  report.site_inputs_sha256 = await siteInputs();
+  report.site_inputs_sha256['index.html'] = createHash('sha256').update(await fs.readFile(path.join(ROOT, 'index.html'))).digest('hex');
   // This npm-delivered binary and its verified-system shared libraries let the
   // test run without apt, a privileged OS install, or downloading from a new host.
   const packageRoot = path.dirname(path.dirname(fileURLToPath(import.meta.resolve('@sparticuz/chromium'))));
@@ -154,7 +166,17 @@ try {
       const a11y = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
       assert.deepEqual(a11y.violations.map(item => ({ id: item.id, targets: item.nodes.map(node => node.target) })), [], `Accessibility: ${name}`);
     }
-    return 'All nine executive subpages plus site index, guide, research and sources render at mobile width with no automated WCAG 2.1 A/AA violations. Automated checks are not a conformance certificate.';
+    for (const n of [24,25,27,28,30,31,32,33,36]) {
+      await page.goto(new URL(`sites/gemsdoe${n}.html`, base).href, { waitUntil: 'networkidle' });
+      assert.equal(new URL(page.url()).pathname.split('/').at(-1), `GEMSDOE${n}.html`);
+    }
+    await page.goto(new URL('hypotheses.html', base).href, { waitUntil: 'networkidle' });
+    assert.equal(new URL(page.url()).pathname.split('/').at(-1), 'research.html');
+    const expected = ['index.html', 'docs/index.html', 'docs/executive-summary.html', 'docs/sites.html',
+      'docs/submission-guide.html', 'docs/research.html', 'docs/sources.html', 'docs/hypotheses.html'];
+    for (const n of [24,25,27,28,30,31,32,33,36]) expected.push(`docs/sites/GEMSDOE${n}.html`, `docs/sites/gemsdoe${n}.html`);
+    assert.deepEqual(Object.keys(report.site_inputs_sha256).filter(p => p.endsWith('.html')).sort(), expected.sort(), 'Every active HTML route must be covered; unknown legacy pages are not silently ignored');
+    return 'Thirteen canonical secondary pages pass automated WCAG 2.1 A/AA checks; ten legacy routes redirect correctly, in addition to entry/index. Every active HTML route is accounted for. Automated checks are not a conformance certificate.';
   });
   await check('no_runtime_errors', async () => { assert.deepEqual(runtimeErrors, []); return 'No browser JavaScript exceptions.'; });
 } catch (error) {

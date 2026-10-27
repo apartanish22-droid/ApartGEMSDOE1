@@ -88,6 +88,7 @@ def inspect_data(data_dir: Path) -> dict[str, Any]:
                 "count": sample.get("count"),
                 "dtypes": sample.get("dtypes"),
                 "origin_verified": False,
+                "local_transform_inspected": True,
             }
             if sample.get("present") and sample.get("readable")
             else {"source": None, "origin_verified": False, "status": "NO READABLE SAMPLE TEMPLATE"}

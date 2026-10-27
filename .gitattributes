@@ -1,0 +1,5 @@
+*.tif binary
+*.zip binary
+*.bin binary
+*.csv text eol=lf
+archive/** -text

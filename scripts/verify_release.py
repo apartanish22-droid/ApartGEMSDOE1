@@ -89,6 +89,7 @@ def inspect_local_links(root: Path = ROOT) -> tuple[int, list[str]]:
 def inspect_release(root: Path = ROOT) -> dict:
     report = {"schema": "apartgems-release-verification-v1",
               "checked_utc": datetime.now(timezone.utc).isoformat(),
+              "checker_sha256": digest(Path(__file__)),
               "scope": "Frozen research release consistency, not scientific re-evaluation or organizer acceptance",
               "submission_authorized": False, "checks": {}, "errors": []}
     checks, errors = report["checks"], report["errors"]
@@ -165,8 +166,10 @@ def inspect_release(root: Path = ROOT) -> dict:
                            ("evidence/final-registry.json", "docs/data/final-registry.json"),
                            ("evidence/source-pins.json", "docs/data/source-pins.json"),
                            ("research/sources.json", "docs/data/sources.json"),
+                           ("research/claims.csv", "docs/data/claims.csv"),
+                           ("research/data-catalog.csv", "docs/data/data-catalog.csv"),
                            ("research/hypotheses-2026-10-27.md", "docs/research/hypotheses-2026-10-27.md"),
-                           ("evidence/run-card.json", "run_card.json"), ("evidence/run-card.json", "docs/run_card.json")]:
+                           ("evidence/run-card.json", "run_card.json"), ("evidence/run-card.json", "run-card.json"), ("evidence/run-card.json", "docs/run_card.json")]:
         require("published_copy:" + target, (root / target).is_file() and digest(root / source) == digest(root / target),
                 "Published evidence must be identical to the recorded source.")
     artifact = experiment["artifact"]
@@ -196,6 +199,41 @@ def inspect_release(root: Path = ROOT) -> dict:
             "Prominent research download, negative verdict and complete holdout labels.")
     require("missing_lane_not_invented", experiment["assigned_lane"] is False and experiment["authenticated_data_provenance"] is False,
             "Provisional method choice and mirror provenance remain explicit limitations.")
+    intake = strict_json(root / "evidence/parallel-intake.json")
+    require("parallel_promotion_rejected", intake["verdict"] == "negative" and intake["duplicate_stop"]
+            and not intake["submission_authorized"] and not intake["controls_exempted"]
+            and not intake["holdout_recomputed"] and intake["new_experiments"] == 0
+            and intake["slots_selected_or_uploaded"] == 0
+            and intake["directional_overlap"]["candidate_within_3px_of_reference"] > 0.7
+            and digest(root / intake["candidate"]) == intake["raster_sha256"]
+            and digest(root / intake["original_card_path"]) == intake["original_card_sha256"]
+            and digest(root / "scripts/audit_parallel_intake.py") == intake["checker_sha256"],
+            "Parallel H2 claims remain preserved and separately blocked, never silently adopted as AP1 promotion.")
+    browser = strict_json(root / "evidence/browser-verification.json")
+    require("browser_report_passes_current_checker", browser["passed"]
+            and digest(root / "scripts/browser_smoke.mjs") == browser["checker_sha256"]
+            and len(browser["checks"]) == 10 and all(c["passed"] for c in browser["checks"].values()),
+            "Current desktop/mobile, real-download hash, clipboard, keyboard, responsive and accessibility checks.")
+    expected_browser_inputs = {str(p.relative_to(root)) for p in (root / "docs").rglob("*")
+                               if p.is_file() and p.suffix in (".html", ".css", ".js")} | {"index.html"}
+    require("browser_report_covers_current_site", set(browser["site_inputs_sha256"]) == expected_browser_inputs
+            and all(digest(root / path) == value for path, value in browser["site_inputs_sha256"].items()),
+            "All active HTML/CSS/JS, including legacy routes and root fallback, must match the tested site snapshot.")
+    review = strict_json(root / "evidence/review-ledger.json")
+    require("three_pass_review_recorded", review["review_complete"] and len(review["passes"]) == 3
+            and all(p["status"] == "complete" for p in review["passes"])
+            and len(review["requirements"]) >= 16 and all(r["reviewed"] for r in review["requirements"]),
+            "Review completion is not scientific success; blocked and negative requirements remain explicit.")
+    for name in ("source-health.json", "browser-verification.json", "restoration-verification.json",
+                 "review-ledger.json", "three-pass-review.md", "parallel-intake.json", "format-verification.json", "test-results.xml"):
+        require("published_report:" + name,
+                digest(root / "evidence" / name) == digest(root / "docs/data" / name),
+                "Published inspection evidence must match its recorded source.")
+    if (root / "evidence/release-verification.json").exists():
+        require("published_report:release-verification.json",
+                (root / "docs/data/release-verification.json").is_file()
+                and digest(root / "evidence/release-verification.json") == digest(root / "docs/data/release-verification.json"),
+                "The published release report is the exact recorded checkpoint, not a stale copy.")
     report["research_release_valid"] = not errors
     report["scientific_verdict"] = "negative"
     report["status"] = "PASS: consistent negative research release — DO NOT SUBMIT" if not errors else "FAIL: inconsistent release — DO NOT SUBMIT"

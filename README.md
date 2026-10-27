@@ -4,7 +4,7 @@
 
 ## Current decision — DO NOT SUBMIT
 
-**One new GeoTIFF was generated, but the experiment is negative and the lane is stopped.**
+**This AP1 session generated one new GeoTIFF, but the experiment is negative and the lane is stopped.**
 
 - **[Open the executive dashboard](https://apartanish22-droid.github.io/ApartGEMSDOE1/docs/executive-summary.html)** · [nine-site review](docs/sites.html) · [submission instructions](docs/submission-guide.html).
 - **[Download the new research-only TIFF](docs/downloads/apartgems1-snrc-e1-20000-20261027-735ea04bc35d-DO-NOT-SUBMIT.tif)** — a single self-contained, single-band float32 GeoTIFF. Download: **yes**. Competition submission: **NO**.
@@ -13,7 +13,13 @@
 - Surface novelty passed. Final dots failed: **100%** within 3 px of a registry lattice; independently **85.885%** against a genuine GEMSDOE31 LiDAR comparator. Five comparisons exceed the literal 70% stop threshold. No exemptions were made.
 - Distinct file bytes and prediction array **do not** establish protocol uniqueness or scientific readiness. No leaderboard forecast is defensible. **No real competition slot or final selection was used.**
 - TIFF SHA-256: `73fa21b7c558cd48dea20d1d63ddd43efd2ea8b9e57bbc98972153212625987a`.
-- Primary records: [`evidence/experiment.json`](evidence/experiment.json), [`evidence/run-card.json`](evidence/run-card.json). Root `run_card.json` and the dashboard copies are exact aliases. The underscore-named `evidence/run_card.json` belongs to an earlier, explicitly historical scaffold.
+- Primary records: [`evidence/experiment.json`](evidence/experiment.json), [`evidence/run-card.json`](evidence/run-card.json). Root `run_card.json` / `run-card.json` and the dashboard copies are exact aliases. The underscore-named `evidence/run_card.json` belongs to an earlier, explicitly historical scaffold.
+
+### Concurrent H2 intake — also blocked
+
+PR 10's other-lane H2 artifacts and original claims are preserved, not re-run or adopted as AP1 performance. Independent read-only intake found **99.966%** directional final-dot overlap with the pinned lattice (3 px). Its promotion card listed that control separately; your no-exemption rule still requires **STOP**. This is a geometric gate failure, not proof of copied physics. The selected zero-exterior file also fails the local null-exterior policy, and its card's 40,308 count disagrees with its exact 44,090 positive pixels. No portal acceptance or H2 holdout re-evaluation is claimed. See [`evidence/parallel-intake.json`](evidence/parallel-intake.json) and the [original snapshots](archive/2026-10-27-parallel-review-and-h2/ARCHIVE.md).
+
+Only the canonical evidence-bound builder publishes the dashboard. The obsolete scheduled publisher was retired: it overwrote the current run-card URL with another review's zero-experiment record. Existing native GitHub Pages publication from `main:/` is retained; source-health automation saves diagnostics, not silent science updates.
 
 ## User prompt and task charter
 
@@ -142,4 +148,4 @@ Concurrent main had an H1 scaffold with a **(0,0) fallback origin**, no comparab
 4. Verify concrete official raw-tile endpoints and spatial coverage before adopting a raw-DEM or other new-data hypothesis. The two attempted USGS 3DEP landing URLs returned 404; do not label them working downloads.
 5. Maintain an authenticated entity-wide slot ledger only in the separate future selector. Quota, portal mask acceptance and final selection are unknown/unperformed here.
 
-Official references and claim-by-claim boundaries are in the [source ledger](research/sources.json) and [sources page](docs/sources.html). Three-pass release/review evidence is in `evidence/review-ledger.json` and `evidence/three-pass-review.md`.
+Official references and claim-by-claim boundaries are in the [source ledger](research/sources.json) and [sources page](docs/sources.html). Three-pass release/review evidence is in [`evidence/review-ledger.json`](evidence/review-ledger.json) and [`evidence/three-pass-review.md`](evidence/three-pass-review.md). Final local verification: **100 Python tests + five subtests, five Node DOM tests, 10/10 browser checks**, deterministic rebuild and release inspection. Full mirrored-data restoration was independently verified; this is still a negative, unapproved research release.

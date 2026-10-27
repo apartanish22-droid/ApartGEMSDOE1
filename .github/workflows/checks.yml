@@ -16,7 +16,7 @@ jobs:
       - run: python -m compileall -q scripts src
       - run: python -m pytest -q
       - run: python scripts/build_site.py
-      - run: git diff --exit-code -- index.html docs run_card.json
+      - run: git diff --exit-code -- index.html docs run_card.json run-card.json
       - run: python scripts/verify_release.py --report .cache/release-ci.json
       - uses: actions/upload-artifact@v4
         if: always()

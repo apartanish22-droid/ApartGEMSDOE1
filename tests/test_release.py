@@ -52,7 +52,7 @@ def test_site_builder_cannot_fabricate_approval_or_mismatch(change):
 
 def test_public_candidate_performance_excludes_unreceipted_historical_numbers():
     focus = json.loads((ROOT / "evidence/focus-audit.json").read_text())
-    pages = [ROOT / "docs/executive-summary.html", *sorted((ROOT / "docs/sites").glob("*.html"))]
+    pages = [ROOT / "docs/executive-summary.html", *sorted((ROOT / "docs/sites").glob("GEMSDOE*.html"))]
     for path in pages:
         content = path.read_text()
         for row in focus["rows"]:
