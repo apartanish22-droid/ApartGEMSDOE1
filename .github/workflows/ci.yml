@@ -22,7 +22,13 @@ jobs:
       - run: npm test
       - run: node --check docs/assets/app.js
       - name: Restore pinned research inputs
-        run: python scripts/restore_inputs.py --group light
+        run: |
+          if ! python scripts/restore_inputs.py --group light > "$RUNNER_TEMP/restore.log" 2>&1; then
+            cat "$RUNNER_TEMP/restore.log"
+            echo "::error::$(tail -n 1 "$RUNNER_TEMP/restore.log" | sed 's/%/%25/g')"
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/restore.log"
         env:
           GH_TOKEN: ${{ github.token }}
       - name: Reproduce the lattice and lineage audit

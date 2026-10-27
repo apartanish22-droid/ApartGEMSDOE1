@@ -87,7 +87,11 @@ def main() -> int:
             if e["group"] in groups:
                 result = restore(e, args.data_dir)
                 print(f"{result:8} {e['id']:20} {e['sha256'][:12]}", flush=True)
-    except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as exc:
+    except subprocess.CalledProcessError as exc:
+        detail = (exc.stderr or b"").decode("utf-8", errors="replace").strip()[:1000]
+        print(f"Restore stopped; no permission to submit was inferred: GitHub API failed. {detail}", file=sys.stderr)
+        return 1
+    except (OSError, ValueError, KeyError) as exc:
         print(f"Restore stopped; no permission to submit was inferred: {exc}", file=sys.stderr)
         return 1
     print("Owner-mirror integrity verified; official provenance and upload authorization remain unverified.")
