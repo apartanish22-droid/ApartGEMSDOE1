@@ -1,0 +1,26 @@
+# Large competition rasters are restored on demand (hash-pinned, see scripts/download_competition_data.sh)
+# and never committed. Snapshots exclude .cache/ anyway.
+.cache/
+data/*.tif
+data/*.zip
+data/bridge/
+data/external/
+data/scored/
+data/raw_parts/
+
+# Regenerable caches and scratch
+__pycache__/
+*.pyc
+*.npz
+.npy_cache/
+.venv/
+venv/
+.env
+.DS_Store
+.ipynb_checkpoints/
+
+# OS
+Thumbs.db
+
+# The published submission GeoTIFF (under docs/downloads) and the committed submission bundle
+# are deliverables: track them explicitly with `git add -f` if a global rule ever ignores *.tif.

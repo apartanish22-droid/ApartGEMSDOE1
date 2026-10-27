@@ -1,0 +1,121 @@
+{
+  "candidate_id": "apartgemsdoe1-h1-geothermal-vent-conduit-44090-20261027T215540Z-19364ce5-zeros",
+  "path": "docs/downloads/apartgemsdoe1-h1-geothermal-vent-conduit-44090-20261027T215540Z-19364ce5-zeros.tif",
+  "emitted_pixels": 44090,
+  "hide_and_recover": {
+    "candidate_id": "apartgemsdoe1-h1-geothermal-vent-conduit-44090-20261027T215540Z-19364ce5-zeros",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "score_label": "HOLDOUT-DTI",
+    "b_visible_px": 0.0,
+    "n_withheld_positives": 22232,
+    "n_spatial_clusters": 140,
+    "n_bootstrap_reps": 1000,
+    "pooled_dti": 0.04880458459249376,
+    "ci95_cluster_bootstrap": [
+      0.03607426078500281,
+      0.060930573089330704
+    ],
+    "fold_mean_dti": 0.035019591014939414,
+    "per_quadrant_dti": {
+      "NW": 0.02123563750796766,
+      "NE": 0.0,
+      "SW": 0.05811571908242019,
+      "SE": 0.060727007469369806
+    },
+    "folds": {
+      "draw20_fold0": {
+        "dti": 0.024658497525144627,
+        "coverage": 0.022354842365312825,
+        "tp": 42.720103760112806,
+        "fp": 975.6291972365264,
+        "fn": 1868.2798962398872,
+        "n_truth": 1911,
+        "emitted": 997
+      },
+      "draw20_fold1": {
+        "dti": 0.0,
+        "tp": 0.0,
+        "fp": 0.0,
+        "fn": 2351.0,
+        "n_truth": 2351,
+        "emitted": 0
+      },
+      "draw20_fold2": {
+        "dti": 0.05433401449752077,
+        "coverage": 0.11655283448535328,
+        "tp": 429.49719507852683,
+        "fp": 24354.289060226107,
+        "fn": 3255.5028049214734,
+        "n_truth": 3685,
+        "emitted": 24570
+      },
+      "draw20_fold3": {
+        "dti": 0.060179800328691566,
+        "coverage": 0.10619721968494891,
+        "tp": 342.4860334839602,
+        "fp": 15212.745756365892,
+        "fn": 2882.5139665160395,
+        "n_truth": 3225,
+        "emitted": 15383
+      },
+      "draw21_fold0": {
+        "dti": 0.01781277749079069,
+        "coverage": 0.015960073573158807,
+        "tp": 33.69171531293824,
+        "fp": 979.4845533394491,
+        "fn": 2077.3082846870616,
+        "n_truth": 2111,
+        "emitted": 997
+      },
+      "draw21_fold1": {
+        "dti": 0.0,
+        "tp": 0.0,
+        "fp": 0.0,
+        "fn": 2265.0,
+        "n_truth": 2265,
+        "emitted": 0
+      },
+      "draw21_fold2": {
+        "dti": 0.06189742366731961,
+        "coverage": 0.1352386382445506,
+        "tp": 484.6952794684693,
+        "fp": 24332.41083958128,
+        "fn": 3099.3047205315306,
+        "n_truth": 3584,
+        "emitted": 24570
+      },
+      "draw21_fold3": {
+        "dti": 0.06127421461004805,
+        "coverage": 0.1104927636614109,
+        "tp": 342.52756735037383,
+        "fp": 15207.856581205033,
+        "fn": 2757.472432649626,
+        "n_truth": 3100,
+        "emitted": 15383
+      }
+    }
+  },
+  "sgmc_off_catalogue": {
+    "candidate_id": "apartgemsdoe1-h1-geothermal-vent-conduit-44090-20261027T215540Z-19364ce5-zeros",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "score_label": "HOLDOUT-DTI",
+    "n_withheld_positives": 62703,
+    "n_spatial_clusters": 140,
+    "n_bootstrap_reps": 1000,
+    "sgmc_raw_pooled_dti": 0.04117325488811808,
+    "sgmc_raw_ci95": [
+      0.023969055966874302,
+      0.06276800548554463
+    ],
+    "sgmc_prevalence_calibrated_dti": 0.026030799689713318,
+    "sgmc_calibrated_ci95": [
+      0.015890330449643723,
+      0.0386920358524847
+    ]
+  },
+  "legacy_summary": {
+    "catalogue_hidden_mean": 0.035019591014939414,
+    "sgmc_prevalence_calibrated_dti": 0.02603079968971328,
+    "drift_corrected_holdout_mean": 0.058494465339887544
+  }
+}

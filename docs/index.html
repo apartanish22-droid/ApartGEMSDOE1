@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ApartGEMSDOE1 — GEMS DOE Prize submission (unique TIF)</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="logo">Apart<span class="accent">GEMSDOE1</span> <span class="badge ok">format-validated</span></div>
+    <div class="tagline">GEMS DOE Prize — unique single-band GeoTIFF submission, auto-validated, holdout-scored</div>
+  </div>
+</header>
+<nav>
+  <div class="container">
+    <a href="index.html">Submission</a>
+    <a href="executive-summary.html">Executive summary</a>
+    <a href="hypotheses.html">Hypotheses</a>
+  </div>
+</nav>
+
+<div class="container">
+  <section class="hero">
+    <div>
+      <h1>Geothermal-vent conduit propensity (H2) — unique dotted submission</h1>
+      <p>Single-band float32 GeoTIFF, EPSG:32611, 100 m, 3730×3292 px, values in [0,1], zero on catalogue faults and outside the footprint.</p>
+      <div class="kv">
+        Holdout-DTI (GEMSDOE32-HIDE-RECOVER-v3.0): <b>0.1240</b> (95% CI [0.1110, 0.1370], n=22,232 withheld faults) &nbsp;|&nbsp;
+        Organizer-confirmed public leaderboard bar: <b>0.4544</b> (xiaofanhu) &nbsp;|&nbsp;
+        Max |ρ| vs registry: <b>0.0209</b> &nbsp;|&nbsp;
+        Lane: <b>clear</b> &nbsp;|&nbsp;
+        Leakage canary AUC: <b>0.6049</b> (&lt; 0.90)
+      </div>
+    </div>
+    <div class="download-wrap">
+      <a class="btn-primary" href="downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-zeros.tif" download>Download submission TIF</a>
+      <a class="btn-secondary" href="downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8.zip">Download submission ZIP (TIF + audit)</a>
+      <div class="small" style="margin-top:6px">SHA-256 TIF: 39e2e332…836b79 &nbsp;•&nbsp; ZIP: 992cf552…39bc</div>
+    </div>
+  </section>
+
+  <section class="okbox">
+    <strong>Status: format-validated — OK to download and submit.</strong>
+    <ul>
+      <li>13/13 format audit checks passed (single-band GeoTIFF, CRS/shape/transform match the submission template, values clamped to [0,1], NaN/0 outside footprint, zero on catalogue faults).</li>
+      <li>LANE checks passed: max |Spearman ρ| = 0.0209 vs registry rasters (&lt; 0.90) and max dot overlap 57.9% (&lt; 70%) — not a copy of any registered submission.</li>
+      <li>Holdout-DTI 0.1240 [0.1110, 0.1370] beats the h33-h33-2-b2 (0.2778) submission's reference holdout (0.0992 [0.0860, 0.1127]). Holdout-DTI ≠ public leaderboard DTI; not yet uploaded to DrivenData.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>How to submit</h2>
+    <ol>
+      <li>Download the TIF (or ZIP) using the button above.</li>
+      <li>Go to the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/" target="_blank" rel="noopener">GEMS DOE Prize competition page</a>, sign in, and upload the TIF as your submission (single-band GeoTIFF, values in [0,1]).</li>
+      <li>This repo cannot auto-upload: DrivenData requires login and no credentials are stored here (see <a href="registry/irregularities.json">IR-02</a>).</li>
+      <li>Full verification trail: <code>scripts/generate_submission.py</code> → <code>scripts/validate_submission.py</code> → <code>scripts/evaluate_holdout.py</code>; run cards in <code>run-card.json</code>.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Verification artefacts</h2>
+    <table>
+      <thead><tr><th>Artefact</th><th>Path</th><th>Hash (sha256)</th></tr></thead>
+      <tbody>
+        <tr><td>Submission TIF (zeros outside footprint)</td><td><code>docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-zeros.tif</code></td><td>39e2e332911f7e8c909c14884da11302b0efc525bd89fe0f7252f444bc836b79</td></tr>
+        <tr><td>Submission TIF (NaN outside footprint)</td><td><code>docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-nan.tif</code></td><td>2fc67043baa322e5a981aa01e02b60eb86da0b8c40e4d232c99954e40da0179e</td></tr>
+        <tr><td>Submission ZIP (TIF + audit + validate)</td><td><code>docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8.zip</code></td><td>992cf5522eacbb46adc307bcf4de4f73485f58df6cff64588179b9922f0739bc</td></tr>
+        <tr><td>Format audit (13 checks)</td><td><code>docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-audit.json</code></td><td>b0e9f6c118ed7a739dca1ed2aea3c8d06433360b0375742d7d052065e9c50776</td></tr>
+        <tr><td>LANE validation</td><td><code>docs/downloads/apartgemsdoe1-h2-geothermal-vent-conduit-44090-20261027T220038Z-f55d90d8-zeros.validate.json</code></td><td>49906ccb0e4d975c22c420567331ee81f87f5703533bae7c4811dacf0cd9f9d1</td></tr>
+        <tr><td>Holdout receipt</td><td><code>evidence/holdout_receipt_h2.json</code></td><td>(see run-card.json)</td></tr>
+        <tr><td>Run card (protocol)</td><td><code>run-card.json</code></td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p class="small">TIF download link is relative and works from this GitHub Pages origin.</p>
+  </section>
+
+  <footer class="foot">
+    ApartGEMSDOE1 • GEMS DOE Prize • Not affiliated with DrivenData, USGS, or INGENIOUS • Projections are not scores; leaderboard numbers are organizer-confirmed or team-published and unverified unless marked otherwise.
+  </footer>
+</div>
+</body>
+</html>
