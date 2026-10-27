@@ -5,3 +5,7 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 /* On narrow screens show every decision field without hidden horizontal scrolling. */
 @media(max-width:700px){.data-wrap{overflow:visible;border:0;border-radius:0;background:transparent;box-shadow:none}table,tbody,tr,td{display:block;min-width:0;width:100%}thead{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}tr{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:0 0 12px;box-shadow:var(--shadow)}td{display:grid;grid-template-columns:112px minmax(0,1fr);align-items:start;gap:10px;padding:11px 14px;border-top:1px solid #edf1eb}td:first-child{border-top:0;white-space:normal}td:before{content:attr(data-label);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#71867b;padding-top:2px}.file-name{max-width:none}}
+
+.demo-card{border-color:#edcabb;background:#fff9f5}.fine{overflow-wrap:anywhere}
+
+.demo-card .pill{max-width:100%;white-space:normal;line-height:1.35}

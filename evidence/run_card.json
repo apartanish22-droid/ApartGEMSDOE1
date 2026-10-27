@@ -19,13 +19,13 @@
     "final_dot_overlap": null,
     "scope": "Nine pinned historical references and the 13GEMSDOE lattice; not a complete registry.",
     "necessary_condition_geometry": {
-      "label": "DATA-MEASUREMENT — NOT A SCORE",
+      "label": "DATA-MEASUREMENT \u2014 NOT A SCORE",
       "witness_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
       "footprint_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
       "uncovered_pixels": 6649,
       "example_budget": 37654,
       "minimum_overlap_fraction": 0.8234184947150369,
-      "duplicate_stop_above_fraction": 0.70,
+      "duplicate_stop_above_fraction": 0.7,
       "limitations": "Bound is conditional on distinct dots inside the mirrored footprint; no result for an unbuilt candidate surface or smaller budget."
     }
   },
@@ -43,5 +43,20 @@
     "reason": "No candidate was produced or approved; do not upload a historical file."
   },
   "verdict": "negative",
-  "weekly_slots_spent": 0
+  "weekly_slots_spent": 0,
+  "parallel_demo": {
+    "artifact": "docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
+    "sha256": "397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a",
+    "input": "synthetic demonstration fields and synthetic fault traces; no real geological features",
+    "format_pass": false,
+    "reason": "Affine origin (0,0) does not match pinned unauthenticated mirror origin (243350,4508550).",
+    "registry_overlap": "not measured: grids are geographically misaligned",
+    "receipt": "evidence/parallel_demo_audit.json",
+    "verdict": "negative; research only; DO NOT SUBMIT",
+    "hypothesis": "Unassigned H1 blind hydrothermal-conduit idea, illustrated only with synthetic fields",
+    "mechanism": "Simulated alteration-like and magnetic-low Gaussian patterns; no real geological inputs or inferred faults",
+    "named_non_fault_mimicker": "Lithologic contacts and fossil hydrothermal alteration (not tested)",
+    "holdout_dti": null,
+    "holdout_ci95": null
+  }
 }

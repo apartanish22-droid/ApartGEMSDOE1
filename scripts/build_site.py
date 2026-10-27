@@ -46,7 +46,7 @@ def table(manifest: dict, audit: dict, prefix: str) -> str:
         file_url = f'https://github.com/{row["owner"]}/{row["repo"]}/raw/{row["ref"]}/{quote(row["path"], safe="/")}'
         filename = row["path"].split("/")[-1]
         lines.append(f'''<tr data-review-repo="{esc(site)}" data-review-head="{esc(row['review_head'])}">
-<td data-label="Source"><div><a class="file-link" href="{esc(row['site_url'])}">{esc(site)}</a><span class="feed-state">Freshness not checked</span></div></td>
+  <td data-label="Source"><div><a class="file-link" href="{esc(row['site_url'])}">{esc(site)}</a><span class="feed-state">Freshness not checked</span><a class="file-name" href="{esc(prefix)}docs/sites/{esc(site)}.html">Local site review →</a></div></td>
 <td data-label="Research file"><div><a class="file-link" href="{esc(file_url)}">Historical .tif ↗</a><span class="file-name">{esc(filename)}</span><span class="fine">SHA-256 {esc(row['sha256'][:12])}… · research only</span></div></td>
 <td data-label="Supplied claim"><div><strong>{esc(row['reported_value'])}</strong><span class="file-name">USER-REPORTED<br>Not receipt-verified</span></div></td>
 <td data-label="Estimate"><div class="text-muted">Not estimable</div></td>
@@ -58,19 +58,37 @@ def table(manifest: dict, audit: dict, prefix: str) -> str:
 <p class="fine">Audit: {esc(audit['generated_utc'][:19].replace('T', ' '))} UTC. Claims are supplied by the owner, not organizer-confirmed receipts. The table covers one pinned historical raster per site, not all possible submissions. Directed overlap is measured against the other eight references. A changed GitHub head does not re-audit its new content.</p>'''
 
 
+def site_page(row: dict, audit: dict) -> str:
+    site = row['site']
+    measured = audit['historical_references'][site]
+    peer = measured['maximum_peer_overlap']
+    file_url = f'https://github.com/{row["owner"]}/{row["repo"]}/raw/{row["ref"]}/{quote(row["path"], safe="/")}'
+    content = f'''
+<section class="subhero"><div class="shell"><p class="overline">NINE-SITE REVIEW / {esc(site)}</p><h1>{esc(site)}: historical evidence.</h1><p>This is a pinned research snapshot, not a recommended competition upload or a verified score receipt.</p></div></section>
+<section class="section tight"><div class="shell"><div class="notice"><strong>DO NOT SUBMIT.</strong> This historical file already belongs to the reported submission history and exceeds the requested dot-overlap threshold against a pinned peer. No new file is approved.</div></div></section>
+<section class="section"><div class="shell"><div class="grid-2"><article class="card"><p class="overline">SUPPLIED CLAIM</p><h3>{esc(row['reported_value'])}</h3><p>USER-REPORTED; no artifact-linked organizer receipt was obtained. A new leaderboard estimate is not available.</p><p><a class="text-link" href="{esc(row['site_url'])}">Open source site ↗</a> · <a class="text-link" href="{esc(file_url)}">Historical TIFF for research only ↗</a></p><p class="fine">SHA-256 {esc(row['sha256'])}</p></article>
+<article class="card"><p class="overline">MEASURED GEOMETRY</p><h3>{peer['fraction'] * 100:.2f}% within 3 pixels of {esc(peer['site'])}</h3><p>{measured['inside_positive_pixels']:,} positive pixels in the mirrored footprint. {measured['versus_lattice']['fraction'] * 100:.2f}% are within 3 pixels of the pinned lattice. These are directional geometry measurements, not performance scores or a complete-registry clearance.</p><a class="text-link" href="../../evidence/fleet_audit.json">Full machine-readable audit ↗</a></article></div></div></section>
+<section class="section tight"><div class="shell"><div class="callout"><h2>Next step</h2><p>Use an assigned lane and authenticated inputs, then evaluate a new method using the prescribed segment-buffered holdout and complete registry. A separate selector must approve any future slot.</p><a class="text-link" href="../executive-summary.html">Return to the full submission guide →</a></div></div></section>
+'''
+    return page(f'{site} review', 'summary', '../../', content)
+
+
 def build(manifest: dict, audit: dict) -> None:
     bound = audit["lattice"]["budget_37654_lower_bound"]["minimum_fraction"] * 100
     historical_count = len(audit["historical_references"])
     stop_count = sum(v["duplicate_stop"] for v in audit["peer_comparisons"].values())
     common_table_root = table(manifest, audit, "")
     common_table_docs = table(manifest, audit, "../")
+    parallel = json.loads((ROOT / "evidence/parallel_demo_audit.json").read_text(encoding="utf-8"))
+    demo_file = Path(parallel["file"]).name
+    demo_sha = parallel["sha256"]
     home = f'''
 <section class="hero"><div class="shell hero-grid"><div><p class="eyebrow">GEMS PRIZE · RESEARCH DECISION DESK</p>
 <h1>Better evidence.<br><em>Better decisions.</em></h1>
 <p class="hero-copy">We are building a reproducible path to a genuinely new geothermal fault prediction. Right now, the evidence does not support spending a submission slot.</p>
 <div class="actions"><a class="button primary" href="docs/executive-summary.html">Open submission brief <span aria-hidden="true">→</span></a><a class="button ghost" href="docs/research.html">Explore the evidence</a></div></div>
 <aside class="hero-card" aria-label="Submission status"><span class="pill light-negative"><span class="dot"></span>Not ready to submit</span>
-<h2>No new file is approved.</h2><p>No candidate TIFF or reliable score estimate exists in this checkout. Historical files below are for research only.</p><div class="rule"></div>
+<h2>No file is approved.</h2><p>A parallel synthetic demo fails the mirrored grid; no reliable score estimate exists. All files below are for research only.</p><div class="rule"></div>
 <div class="mini"><span>Research status</span><strong>Blocked preflight</strong></div><div class="mini"><span>Weekly slots used</span><strong>None</strong></div></aside></div></section>
 <section class="section tight"><div class="shell"><div class="metrics">
 <div class="metric"><span class="metric-top">Submission clearance</span><strong class="flag">None</strong><p>No file is approved to upload.</p></div>
@@ -85,9 +103,10 @@ def build(manifest: dict, audit: dict) -> None:
 '''
     summary = f'''
 <section class="subhero"><div class="shell"><p class="overline">EXECUTIVE SUMMARY / 27 OCT 2026</p><h1>Know exactly what is safe to submit.</h1><p>Submission decisions are evidence-led and automatic. A historic download, a valid TIFF or an attractive local number is not approval to use a weekly slot.</p></div></section>
-<section class="section tight"><div class="shell"><div class="notice"><strong>SUBMISSION DOWNLOAD: UNAVAILABLE · DO NOT SUBMIT.</strong><br>No new candidate, holdout result, complete registry check, validated file, name or note exists for this session. The downloads below are previous files for research only. A separate selector must approve any future file.</div></div></section>
+<section class="section tight"><div class="shell"><div class="notice"><strong>SUBMISSION DOWNLOAD: UNAVAILABLE · DO NOT SUBMIT.</strong><br>No valid competition candidate, holdout result, complete registry check, approved file, name or note exists for this session. A parallel synthetic demo fails the mirrored grid. All downloads below are for research only. A separate selector must approve any future file.</div></div></section>
 <section class="section tight"><div class="shell"><div class="section-heading"><div><p class="overline">01 / FILE DECISION</p><h2>What can I download?</h2><p>Historical files can be inspected for learning; they are not unique new submissions. A leaderboard estimate is unavailable without validated calibration.</p></div></div>
-<div class="card"><span class="pill negative"><span class="dot"></span>Do not submit</span><h3 class="gap-top">New competition TIFF</h3><p>Not generated. No hidden-score estimate, submission name or portal note can be supplied honestly.</p><button class="button disabled" type="button" disabled>Submission download unavailable</button> <a class="text-link" href="../evidence/run_card.json">Open the negative run card ↗</a></div></div></section>
+<div class="card"><span class="pill negative"><span class="dot"></span>Do not submit</span><h3 class="gap-top">New competition TIFF</h3><p>Not generated. No hidden-score estimate, submission name or portal note can be supplied honestly.</p><button class="button disabled" type="button" disabled>Submission download unavailable</button> <a class="text-link" href="../evidence/run_card.json">Open the negative run card ↗</a></div>
+<div class="card demo-card gap-top"><span class="pill negative"><span class="dot"></span>Invalid synthetic demo · never submit</span><h3 class="gap-top">Parallel research artifact</h3><p>This prior demo uses invented fields, not real geological data. Its origin is (0, 0), not the pinned mirror's (243350, 4508550); it fails the grid check. The mirror itself is not organizer-authenticated. No holdout or aligned registry comparison exists.</p><p class="fine">SHA-256 {esc(demo_sha)} · not a competition prediction.</p><a class="text-link" href="assets/{esc(demo_file)}" download>Download invalid demo for research only ↗</a> &nbsp;·&nbsp; <a class="text-link" href="../evidence/parallel_demo_audit.json">View format failure ↗</a></div></div></section>
 <section class="section"><div class="shell"><div class="section-heading"><div><p class="overline">02 / NINE-SITE REVIEW</p><h2>Historical evidence, not a shortlist.</h2><p>Each historical row is a supplied, unconfirmed claim; all {stop_count} directed comparisons among these pinned examples exceed the requested overlap limit.</p></div></div>{common_table_docs}</div></section>
 <section class="section"><div class="shell"><div class="section-heading"><div><p class="overline">03 / SUBMISSION PLAYBOOK</p><h2>When a candidate is eventually cleared</h2><p>These are future instructions, not permission to submit anything today. No manual visual inspection is required by this project.</p></div></div><div class="steps">
 <article class="step"><span class="step-number">01</span><h3>Pass the gates</h3><p>A lane, leakage canaries, blocked holdout win, complete registry checks, exact-byte validation and a separate selector approval must all be recorded.</p></article>
@@ -117,6 +136,20 @@ def build(manifest: dict, audit: dict) -> None:
     (ROOT / "index.html").write_text(page("Overview", "overview", "", home), encoding="utf-8")
     (ROOT / "docs/executive-summary.html").write_text(page("Executive summary", "summary", "../", summary), encoding="utf-8")
     (ROOT / "docs/research.html").write_text(page("Research & sources", "research", "../", research), encoding="utf-8")
+    (ROOT / "docs/sites").mkdir(parents=True, exist_ok=True)
+    for row in manifest['reference_sites']:
+        (ROOT / 'docs/sites' / f"{row['site']}.html").write_text(site_page(row, audit), encoding='utf-8')
+    # Compatibility URLs from parallel work point to the current, corrected site.
+    for name, destination, label in [('index.html', '../index.html', 'current overview'),
+                                     ('hypotheses.html', 'research.html', 'current hypotheses')]:
+        (ROOT / 'docs' / name).write_text(
+            '<!doctype html><html lang="en"><meta charset="utf-8">'
+            f'<meta http-equiv="refresh" content="0; url={destination}">'
+            f'<title>Moved</title><p>This page moved to the <a href="{destination}">{label}</a>.</p></html>\n',
+            encoding='utf-8')
+    card = (ROOT / 'evidence/run_card.json').read_text(encoding='utf-8')
+    for path in (ROOT / 'run_card.json', ROOT / 'docs/run_card.json'):
+        path.write_text(card, encoding='utf-8')
 
 
 def main() -> None:

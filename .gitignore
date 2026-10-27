@@ -5,3 +5,8 @@ data/
 __pycache__/
 .pytest_cache/
 *.py[cod]
+# Do not accidentally commit generated rasters or array caches.
+outputs/
+*.tif
+*.npy
+*.npz

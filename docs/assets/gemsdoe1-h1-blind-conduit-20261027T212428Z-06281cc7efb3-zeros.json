@@ -1,0 +1,29 @@
+{
+  "hypothesis": "H1 blind hydrothermal-conduit propensity (radiometric-primary, catalogue-exclusion)",
+  "layers": [
+    "synthetic Gaussian fields; no actual radiometric, magnetic or DEM data"
+  ],
+  "catalogue_use": "synthetic traces only; no real catalogue exclusion tested",
+  "protocol": "CELF-300 m dotted emission, min_sep 2.8 px",
+  "n_dots": 37654,
+  "dot_budget": 37654,
+  "shape": [
+    3730,
+    3292
+  ],
+  "crs": "EPSG:32611",
+  "res_m": 100.0,
+  "values": "whole array finite in [0,1]; actual mirrored footprint is not aligned",
+  "origin_verified": false,
+  "sha256": "397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a",
+  "file": "docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
+  "unique_name": "gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros",
+  "note": "GEMSDOE1 H1 blind-conduit CELF300 37654d B2 | 06281cc7efb3 | research demo; holdout not computable without labels.tif; DO NOT SUBMIT",
+  "demo": true,
+  "written_at_utc": "2026-10-27T21:24:29.144532+00:00",
+  "verdict": "DO_NOT_SUBMIT_FORMAT_FAILURE",
+  "verdict_reason": "Synthetic demo; (0,0) origin fails the pinned owner-mirror grid at (243350,4508550). No holdout, complete registry check or organizer template authentication.",
+  "format_pass": false,
+  "audit_receipt": "../../evidence/parallel_demo_audit.json",
+  "uniqueness_verified": false
+}

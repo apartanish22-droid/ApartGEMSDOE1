@@ -26,7 +26,10 @@ class LocalLinks(HTMLParser):
 
 
 def test_build_is_deterministic_and_all_local_links_exist():
-    paths = [ROOT / "index.html", ROOT / "docs/executive-summary.html", ROOT / "docs/research.html"]
+    paths = ([ROOT / "index.html", ROOT / "docs/executive-summary.html", ROOT / "docs/research.html",
+              ROOT / "docs/index.html", ROOT / "docs/hypotheses.html"]
+             + sorted((ROOT / "docs/sites").glob("GEMSDOE*.html")))
+    assert len(list((ROOT / "docs/sites").glob("GEMSDOE*.html"))) == 9
     before = [path.read_bytes() for path in paths]
     build_site.main()
     assert before == [path.read_bytes() for path in paths]
@@ -55,6 +58,12 @@ def test_nine_rows_never_offer_an_approved_submission():
     summary = (ROOT / "docs/executive-summary.html").read_text()
     assert "SUBMISSION DOWNLOAD: UNAVAILABLE" in summary
     assert 'type="button" disabled>Submission download unavailable' in summary
+    assert 'Invalid synthetic demo · never submit' in summary
+    assert 'origin is (0, 0)' in summary
+    for row in manifest['reference_sites']:
+        local = (ROOT / 'docs/sites' / f"{row['site']}.html").read_text()
+        assert 'DO NOT SUBMIT' in local and 'USER-REPORTED' in local
+        assert row['sha256'] in local
 
 
 def test_github_feed_failure_is_fail_closed_and_labels_changes(tmp_path):

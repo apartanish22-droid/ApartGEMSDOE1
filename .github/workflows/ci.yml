@@ -23,6 +23,6 @@ jobs:
       - name: Verify deterministic static pages
         run: |
           python scripts/build_site.py
-          git diff --exit-code -- index.html docs/executive-summary.html docs/research.html
+          git diff --exit-code -- index.html docs/executive-summary.html docs/research.html docs/sites docs/index.html docs/hypotheses.html run_card.json docs/run_card.json
       - name: Check feed syntax
         run: node --check docs/assets/feed.js
