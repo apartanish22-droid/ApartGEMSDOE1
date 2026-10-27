@@ -29,3 +29,7 @@ Run `python -m unittest discover -s tests -v` and `python scripts/readiness.py`.
 5. Write a TIF only after tests permit it, validate bytes on disk, publish hash and <=140-character note. Separate selector must authorize a real slot after verifying the current cap.
 
 Official reference solution supports CPU execution; a GPU is helpful, not a universal prerequisite. GitHub is reachable here; DrivenData, Dropbox, USGS and other hosts are outside the environment's outbound allowlist, so their live content, login status, leaderboard and weekly cap were not checked.
+
+## Parallel-session integration
+
+During PR merge, `main` advanced through PR #1. Its format-only `scripts/validate_submission.py`, requirements and Markdown submission guides were retained. `docs/run_card.json` is that session's historical negative card; `evidence/run_card.json` is this session's card. Neither is a submission authorization. The retained validator checks the template footprint only; it does not certify whole-grid finiteness, registry uniqueness or scientific performance. This session did not execute it against a real competition TIF.
