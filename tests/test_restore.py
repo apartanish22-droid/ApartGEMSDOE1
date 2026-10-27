@@ -72,3 +72,12 @@ def test_oversized_response_never_replaces_existing_file(tmp_path, monkeypatch):
     with pytest.raises(ValueError, match="exceeds pin"):
         restore_inputs.restore(e, tmp_path)
     assert dest.read_bytes() == b"old bytes"
+
+
+def test_parallel_fleet_downloader_reuses_byte_safe_streamer(tmp_path, monkeypatch):
+    import download_audit_inputs
+    payload = b"binary\x00\xff"
+    record = {"id": "sample", "owner": "o", "repo": "r", "ref": "a" * 40,
+              "path": "data/sample.tif", "sha256": hashlib.sha256(payload).hexdigest(), "bytes": len(payload)}
+    monkeypatch.setattr(restore_inputs, "urlopen", lambda request, timeout: io.BytesIO(payload))
+    assert download_audit_inputs.fetch_entry(record, tmp_path).read_bytes() == payload

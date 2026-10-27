@@ -47,7 +47,7 @@ def validate_source(entry: dict) -> None:
             raise ValueError("Unsafe source path")
 
 
-def restore(entry: dict, root: Path) -> str:
+def restore(entry: dict, root: Path, timeout: int = 120) -> str:
     validate_source(entry)
     dest = safe_dest(root, entry["dest"])
     if dest.is_file():
@@ -74,7 +74,7 @@ def restore(entry: dict, root: Path) -> str:
                 token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
                 if token:
                     headers["Authorization"] = f"Bearer {token}"
-                with urlopen(Request(url, headers=headers), timeout=120) as source:
+                with urlopen(Request(url, headers=headers), timeout=timeout) as source:
                     while chunk := source.read(1024 * 1024):
                         if out.tell() + len(chunk) > entry["bytes"]:
                             raise ValueError(f"Downloaded size exceeds pin for {entry['id']}")

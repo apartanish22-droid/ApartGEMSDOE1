@@ -1,27 +1,62 @@
 {
-  "hypothesis": "Signed magnetic-gravity contact displacement (provisional rank 1; lane unassigned)",
-  "mechanism": "Persistent cross-layer displacement may identify inclined buried structural contacts",
-  "non_fault_mimic": "Dipping intrusive contact",
-  "holdout_dti": null,
-  "holdout_ci95": null,
-  "evaluator_version": null,
-  "withheld_positives": null,
-  "registry_surface_rank_correlation": null,
-  "registry_final_dot_overlap_3px": null,
+  "schema_version": 1,
+  "created_utc": "2026-10-27T21:20:02Z",
+  "hypothesis": null,
+  "hypothesis_status": "No single assigned method paragraph was supplied. Four unexecuted proposals are in docs/research/hypotheses-2026-10-27.md; none is this session's authorized lane.",
+  "mechanism": null,
+  "named_non_fault_process_that_could_mimic_it": null,
+  "experiments_run": 0,
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positives": null,
+    "value": null,
+    "ci95": null,
+    "reason": "No candidate, leakage canaries, matched baseline, or blocked holdout was run."
+  },
+  "registry": {
+    "surface_rank_correlation": null,
+    "final_dot_overlap": null,
+    "scope": "Nine pinned historical references and the 13GEMSDOE lattice; not a complete registry.",
+    "necessary_condition_geometry": {
+      "label": "DATA-MEASUREMENT \u2014 NOT A SCORE",
+      "witness_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+      "footprint_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "uncovered_pixels": 6649,
+      "example_budget": 37654,
+      "minimum_overlap_fraction": 0.8234184947150369,
+      "duplicate_stop_above_fraction": 0.7,
+      "limitations": "Bound is conditional on distinct dots inside the mirrored footprint; no result for an unbuilt candidate surface or smaller budget."
+    }
+  },
   "raster_sha256": null,
   "validator": {
-    "status": "NOT_RUN_NO_RASTER",
     "no_nan_inside_footprint": null,
     "values_in_0_1": null,
-    "crs_match": null,
-    "shape_match": null,
-    "transform_match": null
+    "crs_shape_transform_match": null,
+    "result": "NOT RUN: no new output raster exists; historical reference diagnostics are in evidence/fleet_audit.json."
   },
-  "submission_name": null,
-  "note": "Earlier review: no candidate generated in that run. Canonical runtime and full registry remain unverified.",
-  "experiments_run": 0,
-  "competition_slots_used": 0,
+  "submission": {
+    "name": null,
+    "note": null,
+    "slot_selected": false,
+    "reason": "No candidate was produced or approved; do not upload a historical file."
+  },
   "verdict": "negative",
-  "reason": "Scientific validation and uniqueness cannot be asserted. No leaderboard estimate or organizer receipt.",
-  "scope": "Historical run card for an earlier parallel review; current audit is docs/data/run-card.json."
+  "weekly_slots_spent": 0,
+  "parallel_demo": {
+    "artifact": "docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
+    "sha256": "397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a",
+    "input": "synthetic demonstration fields and synthetic fault traces; no real geological features",
+    "format_pass": false,
+    "reason": "Affine origin (0,0) does not match pinned unauthenticated mirror origin (243350,4508550).",
+    "registry_overlap": "not measured: grids are geographically misaligned",
+    "receipt": "evidence/parallel_demo_audit.json",
+    "verdict": "negative; research only; DO NOT SUBMIT",
+    "hypothesis": "Unassigned H1 blind hydrothermal-conduit idea, illustrated only with synthetic fields",
+    "mechanism": "Simulated alteration-like and magnetic-low Gaussian patterns; no real geological inputs or inferred faults",
+    "named_non_fault_mimicker": "Lithologic contacts and fossil hydrothermal alteration (not tested)",
+    "holdout_dti": null,
+    "holdout_ci95": null
+  }
 }

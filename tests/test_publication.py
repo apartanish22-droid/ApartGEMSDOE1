@@ -46,9 +46,9 @@ def test_legacy_demo_entrypoints_fail_closed():
         assert run.returncode != 0 and "STOP" in run.stderr
 
 
-def test_historical_parallel_card_does_not_claim_format_or_uniqueness():
+def test_parallel_card_does_not_claim_format_or_uniqueness():
     card = json.loads((ROOT / "run_card.json").read_text())
-    assert card["verdict"] == "negative" and not card["validator_output"]["format_pass"]
-    assert not card["validator_output"]["template_transform_match_pinned_mirror"]
-    assert card["note_chars"] == len(card["note"]) <= 140
-    assert "do not prove" in card["correlation_overlap_vs_registry"]["reason"]
+    assert card["verdict"] == "negative" and card["raster_sha256"] is None
+    assert not card["parallel_demo"]["format_pass"]
+    assert "not measured" in card["parallel_demo"]["registry_overlap"]
+    assert card["parallel_demo"]["verdict"].endswith("DO NOT SUBMIT")

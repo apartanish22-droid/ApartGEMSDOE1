@@ -32,9 +32,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
       - run: python scripts/build_site_pages.py
+      - name: Stage public site and linked evidence
+        run: |
+          mkdir -p "$RUNNER_TEMP/site"
+          cp -a docs evidence research catalog config scripts src "$RUNNER_TEMP/site/"
+          cp index.html .nojekyll README.md hypotheses.md run_card.json "$RUNNER_TEMP/site/"
+          find "$RUNNER_TEMP/site" -type d -name __pycache__ -prune -exec rm -rf {} +
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: ${{ runner.temp }}/site
   deploy:
     needs: build
     runs-on: ubuntu-latest

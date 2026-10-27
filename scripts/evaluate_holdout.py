@@ -1,19 +1,28 @@
 #!/usr/bin/env python3
-"""Disabled legacy parallel-demo entry point; not the canonical shared tool.
+"""Fail closed: no valid holdout CLI is configured in this checkout.
 
-The former implementation is preserved in Git history at main commit
-6d0252b6a009f2e739294dc1982e834f803de847. It is not an approved evaluator,
-writer or generator. Do not use a private stand-in for the shared protocol.
+A parallel scaffold previously scored vertical pixel strips using a normalized
+convolution, reversed false-positive/false-negative weights, and averaged fold
+scores. It neither withheld whole fault segments nor constructed catalogue
+features from visible faults only. It was not the requested pooled DTI and
+must never produce a HOLDOUT-DTI report.
+
+Run scripts/check_shared_template.py to restore the pinned, unmodified
+``gems57`` shared evaluator. A future assigned lane must supply genuinely
+per-fold predictions and segment/buffer/visible-only features to that shared
+module before any score can be computed. This entry point intentionally refuses
+rather than offer a misleading private evaluator.
 """
 import sys
 
 
 def main() -> int:
-    print("STOP: BLOCKED: legacy evaluate_holdout is disabled. Restore/repair the canonical shared "
-          "template and satisfy the lane, uniqueness and holdout gates first; "
-          "see README.md and research/forensics-2026-10-27.md.", file=sys.stderr)
+    print('BLOCKED: STOP: no assigned lane or valid per-fold holdout runner is configured. '
+          'The former scaffold was not pooled DTI and is disabled. Restore the '
+          'pinned shared evaluator with scripts/check_shared_template.py; do not '
+          'claim a holdout or select a slot.', file=sys.stderr)
     return 2
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     raise SystemExit(main())

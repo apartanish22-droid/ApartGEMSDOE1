@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
-"""Disabled legacy parallel-demo entry point; not the canonical shared tool.
+"""Fail closed instead of manufacturing a grid or bypassing registry gates.
 
-The former implementation is preserved in Git history at main commit
-6d0252b6a009f2e739294dc1982e834f803de847. It is not an approved evaluator,
-writer or generator. Do not use a private stand-in for the shared protocol.
+The previous local scaffold guessed an origin of (0,0) without a template and
+its self-validation did not require matching transforms. It was not the shared
+writer and could emit a misleading file. Use the unchanged, hash-pinned
+``gems57.submission_writer`` restored by scripts/check_shared_template.py only
+after the separate lane, holdout, canary, complete-registry and selector gates
+are implemented. The shared writer's own receipt never approves a weekly slot.
 """
 import sys
 
 
+def write_submission(*args, **kwargs):
+    raise RuntimeError('STOP: local scaffold is disabled; use the pinned shared writer after all gates.')
+
+
 def main() -> int:
-    print("STOP: BLOCKED: legacy submission_writer is disabled. Restore/repair the canonical shared "
-          "template and satisfy the lane, uniqueness and holdout gates first; "
-          "see README.md and research/forensics-2026-10-27.md.", file=sys.stderr)
+    print('BLOCKED: STOP: this local writer is disabled; no file was written. '
+          'Restore the pinned shared writer with scripts/check_shared_template.py '
+          'and satisfy the protocol gates before packaging a candidate.', file=sys.stderr)
     return 2
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     raise SystemExit(main())

@@ -1,16 +1,62 @@
 {
-  "hypothesis": "No candidate was experimentally tested because the official inputs, shared evaluation stack, and registry rasters are absent.",
-  "mechanism": "Not run: no cached features, buffered segment holdout evaluator, or submission writer is available in this checkout.",
-  "named_non_fault_process_that_could_mimic_it": "Not applicable; no candidate raster or physical mechanism was tested.",
-  "holdout_dti": null,
-  "holdout_evaluator_version": null,
-  "withheld_positives": null,
-  "holdout_ci_95": null,
-  "correlation_overlap_vs_registry": null,
+  "schema_version": 1,
+  "created_utc": "2026-10-27T21:20:02Z",
+  "hypothesis": null,
+  "hypothesis_status": "No single assigned method paragraph was supplied. Four unexecuted proposals are in docs/research/hypotheses-2026-10-27.md; none is this session's authorized lane.",
+  "mechanism": null,
+  "named_non_fault_process_that_could_mimic_it": null,
+  "experiments_run": 0,
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positives": null,
+    "value": null,
+    "ci95": null,
+    "reason": "No candidate, leakage canaries, matched baseline, or blocked holdout was run."
+  },
+  "registry": {
+    "surface_rank_correlation": null,
+    "final_dot_overlap": null,
+    "scope": "Nine pinned historical references and the 13GEMSDOE lattice; not a complete registry.",
+    "necessary_condition_geometry": {
+      "label": "DATA-MEASUREMENT \u2014 NOT A SCORE",
+      "witness_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+      "footprint_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "uncovered_pixels": 6649,
+      "example_budget": 37654,
+      "minimum_overlap_fraction": 0.8234184947150369,
+      "duplicate_stop_above_fraction": 0.7,
+      "limitations": "Bound is conditional on distinct dots inside the mirrored footprint; no result for an unbuilt candidate surface or smaller budget."
+    }
+  },
   "raster_sha256": null,
-  "validator_output": "Not run by that earlier review. A later synthetic demo fails the pinned mirror grid; see data/parallel-demo-validation.json.",
-  "submission_name": null,
-  "submission_note": "Earlier review: no candidate was generated in that run. Do not submit.",
+  "validator": {
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "result": "NOT RUN: no new output raster exists; historical reference diagnostics are in evidence/fleet_audit.json."
+  },
+  "submission": {
+    "name": null,
+    "note": null,
+    "slot_selected": false,
+    "reason": "No candidate was produced or approved; do not upload a historical file."
+  },
   "verdict": "negative",
-  "scope": "Historical run card for an earlier parallel review, not the current repository-wide state."
+  "weekly_slots_spent": 0,
+  "parallel_demo": {
+    "artifact": "docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
+    "sha256": "397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a",
+    "input": "synthetic demonstration fields and synthetic fault traces; no real geological features",
+    "format_pass": false,
+    "reason": "Affine origin (0,0) does not match pinned unauthenticated mirror origin (243350,4508550).",
+    "registry_overlap": "not measured: grids are geographically misaligned",
+    "receipt": "evidence/parallel_demo_audit.json",
+    "verdict": "negative; research only; DO NOT SUBMIT",
+    "hypothesis": "Unassigned H1 blind hydrothermal-conduit idea, illustrated only with synthetic fields",
+    "mechanism": "Simulated alteration-like and magnetic-low Gaussian patterns; no real geological inputs or inferred faults",
+    "named_non_fault_mimicker": "Lithologic contacts and fossil hydrothermal alteration (not tested)",
+    "holdout_dti": null,
+    "holdout_ci95": null
+  }
 }
