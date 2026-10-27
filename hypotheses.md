@@ -1,113 +1,28 @@
-# Candidate geological hypotheses (ranked)
+# Provisional research hypotheses — proposals only
 
-Source of truth for rankings: expected holdout-DTI improvement vs the current
-repo best on the spatially-blocked hide-and-recover holdout, and implementation
-cost given publicly available, official data. None of these numbers is a
-leaderboard score; none has been validated yet (labels.tif / template are
-DrivenData login-gated). Validate the top candidate on the holdout BEFORE
-spending a weekly submission slot (Parallel-Run Protocol rule 6).
+**No candidate in this document has been implemented or evaluated.** The assigned method lane is missing, the official competition rasters and shared feature cache are unavailable, and the complete prior-raster registry is absent. “Novelty” below means a possible distinction from methods described in the pinned site snapshots—not a passed raster correlation/overlap test. No numeric DTI gain or leaderboard-score projection is supportable yet.
 
-## H1 — Blind hydrothermal-conduit propensity (IMPLEMENTED; demo surface)
+Ranking is a preregistration priority based on plausible catalogue-missing fault signal, likely falsifiability, data availability, and cost. It is not a claim of measured performance. The first proposal is the one to validate only after the lane is recovered and inputs are authenticated.
 
-- **Layers:** GeoDAWN airborne radiometrics (Th, K → Th/K alteration ratio),
-  GeoDAWN TMI (magnetics), USGS 3DEP DEM (concave/profile curvature).
-  Catalogue used ONLY as a 2 px exclusion collar.
-- **Physical signature:** illite/argillic alteration (high Th/K), magnetite
-  destruction (TMI lows), concave curvature at fault intersections/relay ramps.
-- **Why it catches catalogue-missing faults:** blind/hidden geothermal faults
-  alter bedrock radiometrically and magnetically with little or no Quaternary
-  surface rupture, so they are absent from the USGS/INGENIOUS Quaternary
-  catalogue; the exclusion collar forces dots off catalogue traces.
-- **Differs from repo:** every H19-5 / B2 "dotted" submission re-dots catalogue
-  traces (100% within-3-px overlap across GEMSDOE24/25/27/28/30/31/32/33/36).
-  H1 places dots where the catalogue is silent.
-- **Expected DTI improvement:** +0.02 to +0.06 over the dotted baseline
-  (planning bracket only, not a score).
-- **Cost:** low — GeoDAWN + 3DEP + INGENIOUS faults are official, free, public.
-- **Status:** implemented in scripts/generate_submission.py as a deterministic
-  demonstration surface (real rasters unavailable in this sandbox).
-- **Verification needed:** run evaluate_holdout.py with labels.tif; leakage
-  canary AUC on Th/K alone must be <= 0.90.
+| Rank | Hypothesis | Layers and physical signature | Why it could find catalogue-missing faults | Repository novelty / key confounder | Expected DTI benefit (qualitative, unmeasured) | Cost |
+|---:|---|---|---|---|---|---|
+| 1 | Cross-channel magnetic/radiometric lineament breaks | Official GeoDAWN magnetic grids and radiometric channels; derive multiscale ridges, edge orientation, and cross-channel terminations rather than raw intensity. Look for aligned anomaly breaks/offsets that persist across scales. | A buried fault can offset or truncate magnetic source boundaries and alter near-surface radiometric signatures without a mapped Quaternary trace. | Potentially distinct from catalogue-centered dotted placement and generic geothermal favorability, but prior raster comparisons are missing. Lithologic contacts, dikes, survey seams, and flight-line artifacts are strong mimics; require scale/channel persistence and seam controls. | Moderate potential; very uncertain until buffered spatial holdout and feature-alone canaries. | Medium-high: geophysical grids, harmonization, derivatives, seam audit, and fold-local tests. |
+| 2 | Terrain-conditioned drainage/relief deflection | Official USGS 3DEP DEM where available; detrended elevation, profile/plan curvature, channel direction and drainage deflection conditioned on slope and geology. | Fault-controlled relief and drainage can persist where a fault is concealed or lacks a catalogued surface trace. | Not known to be novel across all nine sites; avoid simple scarp proximity, which is a confound-prone baseline. Alluvial fans, shoreline benches, landslides, and channel migration mimic deflection. | Low-to-moderate potential; likely localized and dependent on resolution/coverage. | Medium: obtain coverage-matched DEM, hydrology/terrain derivatives, and test only within matched terrain strata. |
+| 3 | Cross-strike radiometric residual contrast | GeoDAWN airborne K, eTh/eU or available radiometric products; terrain-matched local residuals and anisotropic cross-strike gradients, not a raw Th/K propensity score. | Hydrothermal alteration or fault-related weathering may create linear chemical contrasts beyond the mapped-fault catalogue. | The broader radiometric/geothermal idea overlaps prior site descriptions; the terrain-matched cross-strike residual is the proposed distinction, not proof of novelty. Lithology, soil moisture, vegetation, and survey height mimic the signal. | Low-to-moderate potential; uncertain, with a high risk of spatially structured false positives. | Medium: verify exact channels, harmonize survey blocks, construct matched controls, and run single-feature leakage tests. |
+| 4 | Shallow thermal / geochemical anomaly clusters independent of catalogue proximity | INGENIOUS/GDR 1391 2-m temperature probes, spring/well temperatures and chemistry, paleo-geothermal observations, with uncertainty-aware point-to-grid features. | Thermal and geochemical evidence can mark concealed upflow controlled by faults without mapped Quaternary rupture. | Prior GEMSDOE36 summary includes geothermal favorability concepts; novelty risk is high. Point locations can encode study/survey access and may leak catalogue or label selection. Springs, drilling, topography, and paleo systems are mimics. | Potentially moderate locally but very uncertain and prone to sampling bias. | High: source-quality audit, deduplication, spatial folds, provenance/uncertainty encoding, and leakage tests. |
 
-## H2 — Relay-ramp / step-over dilation zones
+## Shared acceptance test (required before placement)
 
-- **Layers:** GDR 1391 geodetic shear & dilation models, USGS 3DEP DEM
-  curvature, INGENIOUS Quaternary faults (exclusion collar).
-- **Physical signature:** extensional step-overs and relay ramps dilate the
-  crust, focusing geothermal upflow; geodetic dilation + concave curvature +
-  curvature-axis alignment with mapped fault termini.
-- **Why it catches catalogue-missing faults:** relay ramps between en-echelon
-  fault segments are commonly unmapped at Quaternary scale yet host the
-  highest-permeability conduits.
-- **Differs from repo:** H1 uses alteration/magnetics; H2 uses geodetic
-  strain + structural geometry, a different physical process.
-- **Expected DTI improvement:** +0.01 to +0.04.
-- **Cost:** medium — requires downloading + reprojecting GDR 1391 geodetics.
+1. Recover the exact assigned method lane and check the hypothesis against every prior candidate plus the complete registry. Compare surface rank correlation and final dots; reject/log a duplicate at correlation >0.90 or >70% of dots within 3 px of a registry raster.
+2. Use the canonical cached feature stack and shared evaluator. Hold out whole fault segments with a buffer; derive catalogue-based features from visible faults only and mask visible faults pixel-exactly. Pool DTI with alpha 0.2, beta 0.8, and a 300 m triangular kernel.
+3. Run each feature alone on each fold; AUC >0.90 is a leakage warning until resolved. Include named non-fault mimics and matched controls.
+4. Report only measured HOLDOUT-DTI with evaluator version, withheld-positive count, and spatial 95% CI. No score is estimated here. Stop after three experiments or two hours. No weekly submission slot is selected by this process.
+5. Only a promoted result proceeds to the canonical writer and exact official-sample format gate. Preserve SHA-256, note (<=140 characters), validator output, registry comparison, and a separate slot-selection decision.
 
-## H3 — Shallow thermal + paleo-geothermal spring clusters
+## Official-source availability check (2026-10-27)
 
-- **Layers:** GDR 1391 2-m temperature probes, paleo-geothermal features
-  (sinter/tufa), USGS/INGENIOUS springs & well temperatures, DEM.
-- **Physical signature:** shallow conductive thermal anomalies and sinter
-  mounds mark blind fault-controlled upflow zones not mapped as Quaternary
-  faults.
-- **Why it catches catalogue-missing faults:** paleo-spring/sinter deposits
-  often overlie blind faults with no surface rupture.
-- **Differs from repo:** point-observation-driven (probe/spring rasterization)
-  rather than raster-feature-driven; complements H1 which targets bedrock
-  alteration.
-- **Expected DTI improvement:** +0.005 to +0.03.
-- **Cost:** medium — point data interpolation + kernel smoothing.
+- **GeoDAWN:** the USGS data release describes airborne magnetic and radiometric survey products for northwestern Great Basin Nevada/California, lists downloadable data products, marks access public, and gives the US public-domain license. Exact overlap, channels, usable raster grids, and alignment with the competition footprint have not been checked. [USGS GeoDAWN release](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and) · [USGS catalog record](https://data.usgs.gov/datacatalog/data/USGS:657e1d85d34e23d3533209f7)
+- **USGS 3DEP:** USGS says elevation products are free and without use restrictions, but 1 m coverage is tile-dependent/in progress; exact coverage at the competition footprint must be checked before using it. [USGS 3DEP products and services](https://www.usgs.gov/3d-elevation-program/about-3dep-products-services) · [1 m DEM collection](https://data.usgs.gov/datacatalog/data/USGS:77ae0551-c61e-4979-aedd-d797abdcde0e)
+- **INGENIOUS / GDR 1391:** the official Geothermal Data Repository page lists Great Basin datasets including 2 m probes, fault/volcanic features, geodetic shear/dilation, MT, magnetics, gravity, paleogeothermal features, seismicity, springs/wells, and states CC BY 4.0. Its metadata says some compiled locations have not been field validated. It is free to download; per-layer exact coverage/provenance and required attribution still need verification. [GDR submission 1391](https://gdr.openei.org/submissions/1391) · [license](https://creativecommons.org/licenses/by/4.0/)
 
-## H4 — Deep MT conductor + gravity low (reservoir-scale)
-
-- **Layers:** GDR 1391 MT electrical conductance (2–200 km depth slices),
-  GDR 1391 gravity, depth-to-basement.
-- **Physical signature:** mid-to-deep crustal electrical conductor (connected
-  fluids/graphite) co-located with a gravity low (low-density altered rock).
-- **Why it catches catalogue-missing faults:** deep blind faults controlling
-  geothermal reservoirs have no shallow expression at all.
-- **Differs from repo:** deep-penetrating geophysics rather than near-surface
-  radiometric/geomorphic signatures.
-- **Expected DTI improvement:** +0.005 to +0.02 (signal is deep and diffuse).
-- **Cost:** high — large national rasters, depth-slice integration, baseline
-  removal needed.
-
-## H5 — Microseismicity + slip/dilation tendency on mapped structures
-
-- **Layers:** GDR 1391 earthquake density / seismicity, USGS Quaternary fault
-  slip tendency & dilation tendency, INGENIOUS faults.
-- **Physical signature:** clusters of microseismicity and high
-  slip/dilation tendency on structures indicate critically stressed, fluid-rich
-  faults.
-- **Why it catches catalogue-missing faults:** seismicity reveals blind
-  structures absent from the Quaternary map.
-- **Differs from repo:** seismicity-driven rather than alteration/geomorphic.
-- **Expected DTI improvement:** +0.01 to +0.03.
-- **Cost:** medium — point seismicity rasterization.
-
-## Ranking (expected DTI improvement, then cost)
-
-| Rank | Hypothesis | Expected DTI gain | Cost | Data source |
-|------|------------|-------------------|------|-------------|
-| 1 | H1 blind hydrothermal-conduit propensity | +0.02..+0.06 | low | GeoDAWN (USGS), 3DEP, INGENIOUS faults (GDR 1391) |
-| 2 | H2 relay-ramp / step-over dilation | +0.01..+0.04 | medium | GDR 1391 geodetics, 3DEP |
-| 3 | H5 microseismicity + slip/dilation | +0.01..+0.03 | medium | GDR 1391 seismicity, USGS Qfaults |
-| 4 | H3 shallow thermal + paleo springs | +0.005..+0.03 | medium | GDR 1391 probes/springs |
-| 5 | H4 deep MT conductor + gravity low | +0.005..+0.02 | high | GDR 1391 MT/gravity |
-
-## Validation gate before any slot
-
-Per the Parallel-Run Protocol: run each feature ALONE on the holdout first
-(leakage canary; AUC > 0.90 = leakage until proven otherwise), then the fused
-stack. Promote only a fold-local HOLDOUT-DTI win with paired 95% CI > 0 against
-the repo best, with no SGMC-cal regression and literal uniqueness
-(Spearman <= 0.90, <= 70% within 3 px). No projection is ever written as a
-score.
-
-Official sources (for manual review):
-- USGS GeoDAWN survey: https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and
-- INGENIOUS / GDR 1391: https://gdr.openei.org/submissions/1391 (DOI 10.15121/1881483, CC-BY 4.0)
-- INGENIOUS project: https://gbcge.org/current-projects/ingenious/
-- CRS: https://epsg.io/32611
-- Metric: Tversky index https://en.wikipedia.org/wiki/Tversky_index
+These checks establish that official candidate sources exist and are advertised as public/free, not that any external layer is available, aligned, scientifically useful, or permitted by the competition rules for this experiment. The login-gated competition data/template, canonical method package, and registry remain the blocking dependencies.

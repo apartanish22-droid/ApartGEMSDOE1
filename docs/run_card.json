@@ -1,15 +1,52 @@
 {
-  "hypothesis": "No candidate was experimentally tested because the official inputs, shared evaluation stack, and registry rasters are absent.",
-  "mechanism": "Not run: no cached features, buffered segment holdout evaluator, or submission writer is available in this checkout.",
-  "named_non_fault_process_that_could_mimic_it": "Not applicable; no candidate raster or physical mechanism was tested.",
-  "holdout_dti": null,
-  "holdout_evaluator_version": null,
-  "withheld_positives": null,
-  "holdout_ci_95": null,
-  "correlation_overlap_vs_registry": null,
-  "raster_sha256": null,
-  "validator_output": "NOT RUN on a candidate: no candidate or official sample-submission GeoTIFF exists; no grid or prediction checks can be asserted.",
-  "submission_name": null,
-  "submission_note": "No candidate TIF generated; no authorized input data or reference grid.",
-  "verdict": "negative"
+  "run_card_version": 2,
+  "created_at_utc": "2026-10-27T21:24:28Z",
+  "scope": "Synthetic software demonstration only; not a scientific experiment or competition submission.",
+  "hypothesis": "None tested. The artificial Gaussian/trace demo inputs contain no competition observations.",
+  "mechanism": "The demo generator created synthetic blobs and synthetic traces for code inspection. No geophysical mechanism or feature stack was tested.",
+  "named_non_fault_process_that_could_mimic_it": "Synthetic Gaussian blobs are not evidence of a geological process; real non-fault confounders were not evaluated.",
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "value": null,
+    "evaluator_version": null,
+    "withheld_positive_count": null,
+    "confidence_interval_95": null,
+    "status": "NOT RUN: no authorized labels, assigned lane, or verified shared evaluator."
+  },
+  "leakage_canary": {
+    "status": "NOT RUN",
+    "reason": "No authorized labeled data or scientific features."
+  },
+  "correlation_overlap_vs_registry": {
+    "rank_correlation": null,
+    "fraction_of_dots_within_3px": null,
+    "status": "UNKNOWN: complete registry rasters/dot sets are unavailable; uniqueness is not certified."
+  },
+  "raster_sha256": "397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a",
+  "validator_output": {
+    "local_raster_inspection": {
+      "status": "PASS_LOCAL_PROPERTIES_ONLY",
+      "bands": 1,
+      "dtype": "float32",
+      "crs": "EPSG:32611",
+      "shape": [3730, 3292],
+      "pixel_size_m": [100.0, 100.0],
+      "affine_origin": [0.0, 0.0],
+      "origin_verified_against_official_sample": false,
+      "nan_count": 0,
+      "inf_count": 0,
+      "min": 0.0,
+      "max": 0.9999975562095642,
+      "positive_cells": 37654,
+      "value_range_0_1": true
+    },
+    "official_template_validation": "NOT RUN: official sample_submission.tif is absent.",
+    "scientific_validity": "NOT ESTABLISHED",
+    "scope": "Inspection of this file's local metadata/values only; not a comparison with an official footprint/grid and not evidence of a valid prediction."
+  },
+  "submission_name": "gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros",
+  "submission_note": "Synthetic research demo, not a geophysical prediction; no holdout or template verification. DO NOT SUBMIT.",
+  "verdict": "negative",
+  "verdict_reason": "Artificial inputs only; no verified template origin, holdout DTI, leakage test, or registry novelty audit. Do not submit.",
+  "budget": "No scientific experiment or weekly submission slot spent."
 }

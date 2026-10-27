@@ -1,8 +1,11 @@
+/.venv/
 __pycache__/
-.venv/
 .cache/
 data/
 outputs/
-*.tif
+*.py[cod]
 *.npy
 *.npz
+
+# Keep explicitly approved GeoTIFF deliverables trackable. Never commit raw
+# competition inputs under data/; that directory is ignored above.

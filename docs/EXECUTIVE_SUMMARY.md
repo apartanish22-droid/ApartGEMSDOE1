@@ -1,57 +1,57 @@
-# Executive summary — evidence-first status
+# Executive summary — evidence before submission
 
 ## Decision now
 
-**DO NOT DOWNLOAD/SUBMIT a candidate from this checkout.** There is no GeoTIFF or competition data in the repository, and no scientifically valid candidate can be scored or template-validated here. The validator added here only assesses format against a supplied official template; it cannot estimate leaderboard performance. Creating a random or guessed raster would be misleading and risks an invalid submission.
+# **DO NOT SUBMIT. No approved prediction GeoTIFF exists.**
 
-The filenames and purported score reports in the prompt are not independently verified from organizer receipts. To honor the run-card score-label rule, no unverified numeric results are reproduced as scores here. The prompt contains inconsistent claimed leaderboard highs and a claimed GEMSDOE32 result; these require dated organizer-receipt/leaderboard verification before quantitative analysis.
+A synthetic demo GeoTIFF is present for software inspection, but it was generated from artificial Gaussian blobs and synthetic fault traces, not the competition feature stack. Its UTM origin is unverified; it has no valid holdout-DTI, leakage canary, or reproduced registry novelty result. Do not treat its filename, SHA-256, geometry, or format check as proof of a competition prediction. The file is explicitly `RESEARCH_ONLY_DO_NOT_SUBMIT` in its sidecar/run card.
 
-## Requested site comparison
+## Nine requested sites
 
-| Site | User-provided top relevant candidate | Estimated score | Current decision |
-|---|---|---|---|
-| GEMSDOE24 | `h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan` | Not estimable; no local holdout | Historical lead only; `nan` suffix is a warning, not proof of invalid pixels; inspect file |
-| GEMSDOE25 | `dotted-h19-5-d2-8-20261002-e56ea318af89-nan` | Not estimable; no local holdout | Historical lead only; inspect file |
-| GEMSDOE27 | `topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan` | Not estimable; no local holdout | Historical lead only; inspect file |
-| GEMSDOE28 | `h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan` | Not estimable; no local holdout | Top supplied entry for this site only; inspect file |
-| GEMSDOE30 | `d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca` | Not estimable; no local holdout | Historical lead only |
-| GEMSDOE31 | `h27-4-solo-d28-20261004-8acb75e1-nan` | Not estimable; no local holdout | Historical lead only; inspect file |
-| GEMSDOE32 | `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` | Not estimable; no local holdout | Top supplied entry among these sites only; uniqueness and submission readiness unknown |
-| GEMSDOE33 | `h33d-analog-tip-stepover-r30-20261004-cb490425926e` | Not estimable; no local holdout | Historical lead only |
-| GEMSDOE36 | `anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros` | Not estimable; no local holdout | Historical lead only |
+Values below are **user-reported historical figures** from the prompt; they are not HOLDOUT-DTI and not ORGANIZER-CONFIRMED because submission receipts were not provided. “Candidate to submit” is none for every site. New score estimates are not estimable without the authorized data and required holdout. Uniqueness is unknown without comparing the exact raster files against the full registry.
 
-The entries and ordering are copied from the prompt and are not independently validated. The estimated-score column is intentionally unavailable: a score requires the authorized holdout data and shared evaluator. No metric is inferred from filenames or public-site descriptions.
+| Site | User-reported historical leader | User-reported value (unverified) | File to download and submit | New score estimate | Unique vs other sites? |
+|---|---|---:|---|---|---|
+| [GEMSDOE24](https://buffedlizard55-lab.github.io/GEMSDOE24/) | `h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan` | 0.2477 | None approved | Not estimable | Unknown |
+| [GEMSDOE25](https://buffedlizard55-lab.github.io/GEMSDOE25/) | `dotted-h19-5-d2-8-20261002-e56ea318af89-nan` | 0.2600 | None approved | Not estimable | Unknown |
+| [GEMSDOE27](https://buffedlizard55-lab.github.io/GEMSDOE27/) | `topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan` | 0.2449 | None approved | Not estimable | Unknown |
+| [GEMSDOE28](https://buffedlizard55-lab.github.io/GEMSDOE28/) | `h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan` | 0.2710 | None approved | Not estimable | Unknown |
+| [GEMSDOE30](https://buffedlizard55-lab.github.io/GEMSDOE30/) | `d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca` | 0.2600 | None approved | Not estimable | Unknown |
+| [GEMSDOE31](https://buffedlizard55-lab.github.io/GEMSDOE31/docs/) | `h27-4-solo-d28-20261004-8acb75e1-nan` | 0.2708 | None approved | Not estimable | Unknown |
+| [GEMSDOE32](https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html) | `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` | 0.2778 | None approved; do not resubmit | Not estimable | Unknown; source snapshot has unverified overlap claims |
+| [GEMSDOE33](https://buffedlizard55-lab.github.io/GEMSDOE33/) | `h33d-analog-tip-stepover-r30-20261004-cb490425926e` | 0.2632 | None approved | Not estimable | Unknown |
+| [GEMSDOE36](https://buffedlizard55-lab.github.io/GEMSDOE36/docs/) | `anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros` | 0.2750 | None approved | Not estimable | Unknown |
 
-### GEMSDOE32: what can and cannot be inferred
+The largest user-reported value among these nine is GEMSDOE32's 0.2778; GEMSDOE36's 0.2750 is next. The global highs quoted by the prompt (0.3195 and 0.4413) conflict. The official [public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) was fetched on 2026-10-27 and showed a public rank-one value of 0.4544. This is a leaderboard observation, not a submission receipt for our project and not a holdout estimate. It makes clear the nine-site historical leader is not the current overall leader.
 
-The prompt identifies the GEMSDOE32 item as its strongest reported entry among these selected sites. Its name suggests a method label, but names are not reproducible methods. Without the site's methods, code, raster, evaluator definition, split protocol, and organizer receipt, we cannot establish why it scored that way, whether the result is comparable, or whether it is an exact/near duplicate. A higher score is possible in principle, but cannot be promised or estimated from this evidence. The relevant next step is reproducibility and strict spatial holdout—not extrapolation from leaderboard results.
+## GEMSDOE32: what the evidence supports
 
-## Candidate hypotheses for a later, bounded test
+The pinned owner-maintained GEMSDOE32 page snapshot calls the cited file “D2.8 with B2 catalogue-apron pruning” and labels 0.2778 `OWNER-REPORTED`; no organizer receipt linking that score to the raster hash is present here. A plausible mechanism is thinning predictions to a fixed point budget and pruning predictions near known catalogue traces. Under a distance-tolerant score, that could suppress low-credit false positives while retaining useful coverage near unmapped faults. This is a hypothesis, not a causal explanation of the historical score.
 
-These are candidate ideas, not demonstrated discoveries. Test only against existing cached layers and the shared segment holdout; do not fetch or imply access to unavailable layers. Scores and expected gain are deliberately qualitative.
+The same source snapshot warns that the entry is already scored and contains overlap statements. A separate audit snapshot compares different site candidates and yields different overlap figures; the corresponding raster bytes are not in this checkout, so the calculation has not been independently reproduced. **Do not resubmit GEMSDOE32's file or infer uniqueness from its name.**
 
-| Rank | Hypothesis / layers | Target signature and missed-fault rationale | Difference to test / likely confound | Cost; expected DTI change |
-|---|---|---|---|---|
-| 1 | Multi-scale curvature ridge-breaks in DEM-derived profile/plan curvature and local relief | Fault scarps and fault-controlled drainage may create aligned curvature discontinuities; off-catalogue structures could retain a geomorphic signature | Derive multi-scale signed curvature and orientation coherence, then mask visible catalogue pixels. Distinguish from prior DEM scarp/ridge approaches in the listed results by emphasizing cross-scale curvature breaks, not elevation rank alone. Confound: lithologic contacts, landslides, stream incision | Low if DEM derivatives are cached; moderate upside, uncertain |
-| 2 | Magnetic analytic-signal gradient and directional edge coherence from GeoDawn magnetic channels | Abrupt magnetic-source boundaries and aligned gradients may indicate concealed basement structures beyond mapped surface faults | Use orientation-consistent edges and require spatially coherent multi-channel evidence; unlike a generic magnetic edge, explicitly test off-catalogue, spatially blocked segments. Confound: dikes, pluton contacts, survey seams | Low/medium if layers cached; moderate/uncertain |
-| 3 | Radiometric K/U/Th ratio residuals conditioned on lithology/topography | Hydrothermal alteration or fluid-rock interaction may perturb radiometric ratios along unmapped structures | Test robust within-neighborhood residuals and ratio contrasts rather than raw radiometric intensity. Confound: soil moisture, cover, lithology, flight-line artifacts | Medium; low-to-moderate/uncertain |
-| 4 | Drainage-network angular anomalies plus terrain-position transitions | Fracture-controlled drainage alignments or deflections may reveal unmapped structures | A network-geometry feature, distinct from simple ridge/scarp proximity; require agreement across drainage scales. Confound: ordinary fluvial controls, roads, DEM artifacts | Medium; low/uncertain |
+The official [DrivenData problem description](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) was reviewed on 2026-10-27. It identifies fault prediction as the target, describes expert-labeled faults absent from the public catalogue, and specifies distance-weighted Tversky with alpha 0.2, beta 0.8 and a 300 m triangular kernel. The submission page specifies a single float32 layer in [0,1] at 100 m / UTM 11N EPSG:32611, with outside-bounds data null/NaN. The greater false-negative weight makes recall valuable, but cannot identify why this particular historical file received its owner-reported result.
 
-All can be attempted only if the named raster layers are already available in the project's feature stack. If absent, do not claim viability or download external data under this plan; first document an official source, license, exact layer, spatial coverage, resolution, and obtainable URL, then add an independent validation plan. No candidate is promoted absent a measured improvement and full leakage/duplication gates.
+## Provisional hypotheses — not assigned or tested
 
-## Required next evidence
+The prompt's lane-defining method paragraph is absent. These proposals are not established as novel across all prior repositories and must not be implemented until the lane and registries are recovered. No numeric expected score or DTI gain is stated because none has been measured.
 
-1. Place the official `sample_submission.tif`, labels, feature stack and any provided cached stack in the expected `data/` location; do not commit sensitive or large data.
-2. Recover the shared evaluator/writer and registry records from the approved template/repository. This checkout has neither; do not privately fork a shared tool.
-3. Verify historical leaderboard entries using organizer receipts and obtain actual candidate rasters plus methodology/metadata from the listed sites.
-4. Run exactly the prescribed segment-buffered holdout, feature-alone leakage canaries, 95% CI, correlation/3-pixel overlap screening, and template validator; record evaluator version and withheld-positive count.
-5. Only after best holdout beats the existing holdout best, unique-lane checks pass, and raster validator passes should a separate slot selector decide whether to use a weekly competition submission.
+| Rank for a first falsifiable test | Candidate layers and signature | Why it might find uncatalogued faults | Confounder / distinction | Cost and expected DTI |
+|---:|---|---|---|---|
+| 1 | Multiscale magnetic–gravity edge displacement/orientation persistence from official GeoDAWN potential-field channels | Cross-scale, cross-channel structural offsets may persist beneath alluvium away from mapped Quaternary traces. | Dipping intrusive/lithologic contacts can mimic faults; test displacement/orientation rather than raw edge magnitude. | Medium; benefit unknown until holdout. |
+| 2 | Terrain-matched radiometric K/Th cross-strike residuals plus DEM curvature context | Persistent chemical contrasts after matching slope/elevation may reveal concealed alteration boundaries. | Moisture, lithology, and survey seams; differ from raw radiometric intensity and generic scarp proximity. | Medium; benefit unknown. |
+| 3 | DEM profile/plan curvature asymmetry and drainage deflection conditioned on mapped geology | Fault-controlled relief/drainage may register structures with weak scarps. | Fan deposition, channel migration, landslides; distinct from a simple elevation-rank or scarp detector. | High; viability depends on authorized DEM coverage. |
+| 4 | Magnetic lineament terminations/intersections with a continuity-aware graph statistic | Relay zones and fault tips may create coherent lineament bends outside catalogue traces. | Dikes and lithologic contacts; prior sibling site names include tip/stepover work, so novelty is especially uncertain. | High; benefit unknown. |
 
-## Limits and irregularities
+All are contingent on bands actually present in the shared cache. If a proposal needs new data, document and test the specific official source's asset availability/license before calling it viable. The competition problem page lists potential-field and other feature families, but the login-gated raster package is absent here.
 
-- Only README existed at initial review; no data, application/site, tests, cached stack, holdout evaluator, submission writer, or TIFF.
-- No DrivenData authentication or organizer receipt was available in the workspace; no live leaderboard or page claims have been verified in this work.
-- The prompt gives conflicting leaderboard-high claims and an unverified GEMSDOE32 result; none is shown to be the official global high without dated organizer evidence.
-- `nan` suffixes in several listed artifact names are a warning, not proof of NaN pixels. Actual file validation is required.
-- Surface uniqueness cannot be certified from filenames or SHA-256 alone; pixel-level correlation and point-overlap require registry rasters and dot sets.
-- No holdout result, confidence interval, score estimate, or candidate TIF is claimed.
+## Submission and remaining work
+
+1. Obtain and provenance-check the official `sample_submission.tif`, labels, training features, fault catalogue, and DEM links. Do not treat owner-supplied GitHub mirrors as organizer-authenticated.
+2. Recover the exact lane and canonical template package, including the shared evaluator/writer and complete registry. The root custom evaluator in this checkout does **not** implement the required segment-buffered protocol and must not be used to report DTI.
+3. Run per-feature leakage canaries, then hide/recover whole segments with buffer, visible-only catalogue features, exact visible-fault masking, pooled DTI, evaluator version, withheld-positive count and spatial 95% CI. Stay within the experiment/time budget.
+4. Compare the candidate surface before placement and final dots against all registry rasters. Fail closed if correlation/overlap exceeds the lane thresholds.
+5. Reopen and validate saved bytes against the official sample. Only a positive matched holdout and passed novelty/format gates may go to the separate weekly-slot selector.
+6. Keep a visible **DO NOT SUBMIT** warning until then. The synthetic demo can be downloaded for code/format inspection only; its original (0,0) affine origin is unverified and its biology/geophysics are synthetic.
+
+No holdout experiment or competition upload was run in this review. The root [`run_card.json`](../run_card.json) is the current demo card with a negative verdict; historical cards under `docs/` and `evidence/` are not authorizations. Static Pages deployment and an automated current leaderboard feed remain unverified/not implemented.
