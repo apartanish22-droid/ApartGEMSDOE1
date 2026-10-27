@@ -73,7 +73,7 @@ No third-party source is proposed as a currently viable new-data dependency. If 
 The competition submission instructions pasted by the user say to upload one single-band GeoTIFF (or a ZIP containing one) matching the submission format's CRS, shape, and geotransform. The actual sample raster is absent here, so those properties cannot be confirmed. `scripts/validate_submission.py` compares these properties against a supplied reference raster, rejects non-finite or out-of-range values inside the reference footprint, and prints a SHA-256. Install dependencies from `requirements.txt`; then run:
 
 ```bash
-python scripts/validate_submission.py path/to/predictions.tif path/to/sample_submission.tif
+python scripts/validate_submission.py path/to/predictions.tif --template path/to/sample_submission.tif
 ```
 
 A pass means only that the file passed the implemented structural/range checks. It does not prove scientific validity, uniqueness, high holdout DTI, competition-rule compliance, or organizer acceptance.
@@ -88,22 +88,6 @@ A pass means only that the file passed the implemented structural/range checks. 
 6. Run the shared writer, then the validator, save a run card and SHA-256. Keep real-submission promotion as a separate selector step.
 7. Build the requested public executive-summary UI only after the evidence/data pipeline exists. The UI must never advertise a download as “OK to submit” unless all configured gates pass; public scores must have receipt provenance and date.
 
-## Run card for this review
+## Run card
 
-```json
-{
-  "hypothesis": "No candidate was experimentally tested; the checkout is empty apart from its initial README.",
-  "mechanism": "Not run: the shared feature stack, spatial holdout evaluator, official inputs, and registry rasters are absent.",
-  "named_non_fault_process_that_could_mimic_it": "Not applicable; no candidate raster or mechanism was tested.",
-  "holdout_dti": null,
-  "holdout_ci_95": null,
-  "holdout_evaluator_version": null,
-  "withheld_positives": null,
-  "correlation_overlap_vs_registry": null,
-  "raster_sha256": null,
-  "validator_output": "NOT RUN: candidate and official sample_submission.tif are absent; no NaN/range/CRS/shape/transform assertions made.",
-  "submission_name": null,
-  "submission_note": "No candidate TIF generated; no local data or reference grid.",
-  "verdict": "negative"
-}
-```
+The canonical run card for this review is [`docs/run_card.json`](run_card.json). No experiment was run; all unavailable measurements remain `null` rather than being guessed.

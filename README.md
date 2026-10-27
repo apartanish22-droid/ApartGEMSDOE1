@@ -1,38 +1,32 @@
-# ApartGEMSDOE1 — GEMS Prize research & submission workbench
+# ApartGEMSDOE1 — GEMS submission research workspace
 
-## Project north star
+## Project charter (read before each experiment)
 
-Build an auditable, reproducible system for discovering previously unmapped faults that may improve geothermal and critical-mineral mapping in the DOE GEMS Prize challenge. Optimize for evidence of generalization, not leaderboard anecdotes. Own the outcome: record negative results, validate every exported raster, and never claim a score or uniqueness without the corresponding measurement.
+Objective: maximize the probability of a scientifically defensible, valid submission to the DOE GEMS geothermal-favorability competition. Own the end-to-end result: keep sources auditable, use spatially independent validation, test leakage, report uncertainty, and never represent a projection as an organizer-confirmed score. Do not spend a competition submission slot unless a candidate beats the current spatial holdout best and passes format and duplication gates. A unique filename or hash does not make a scientifically duplicate raster unique.
 
-The competition's stated task is to generate enhanced geologic fault datasets. The challenge description also states that the same submission is scored against a private expert-labeled test set and later an expanded label set; see the [official DrivenData challenge page](https://www.drivendata.org/competitions/306/competition-doe-gems/). The [USGS GeoDAWN data release](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and) describes airborne magnetic and radiometric data for geologic and geophysical mapping (DOI [10.5066/P93LGLVQ](https://doi.org/10.5066/P93LGLVQ)). These are source descriptions, not evidence that this checkout contains the competition data.
+### Required experiment controls
 
-## Read this before every project session
+1. Stay within the declared geological hypothesis/lane. Compare candidate scores against registry rasters before placement and on final dots; flag rank correlation >0.90 or >70% of dots within 3 pixels of any registry dot set as duplicate/drift.
+2. Reuse the shared cached feature stack, segment-level buffered hide-and-recover holdout evaluator, and shared submission writer. Derive catalogue-based features only from visible faults; mask visible faults pixel-exactly. Score pooled DTI with alpha 0.2, beta 0.8, and 300 m triangular kernel. Leakage-canary each feature alone; AUC >0.90 requires investigation.
+3. Label all reported numeric scores as either **HOLDOUT-DTI** (evaluator version, withheld-positive count, 95% CI) or **ORGANIZER-CONFIRMED** (receipt evidence). No score is inferred from public-site descriptions or projection.
+4. Maximum per request: three experiments or two hours. Negative results are valid deliverables. Slot selection is separate and must respect the organizer's weekly cap.
+5. Any downloadable GeoTIFF must be single-band, match the official template's CRS, shape and affine transform, have finite predictions in [0,1] inside the footprint, and state whether it passed all gates. Do not fabricate a file when the official template, data, or validation evidence is unavailable.
 
-1. **Inspect first.** Check the current branch and worktree, then inspect repository contents and existing tools. Reuse the shared template's cached feature stack, holdout evaluator, and submission writer when present; do not create a private fork of shared tools.
-2. **No unsupported claims.** Distinguish organizer-confirmed leaderboard receipts from local holdout estimates and from scores merely reported by a user. A projection is never a score. Attach evaluator version, withheld-positive count, and 95% CI to every holdout DTI result.
-3. **Hold out spatially.** Withhold whole fault segments plus a buffer; derive catalogue-based features only from visible faults; mask visible faults pixel-exactly; evaluate pooled DTI with alpha 0.2, beta 0.8, and a 300 m triangular kernel. Test every feature alone first; AUC > 0.90 is a leakage alarm until explained.
-4. **Stay in the assigned experimental lane.** Before placement and on final dots, compare rank-correlation against each registry raster and the fraction of dots within 3 pixels. Correlation > 0.90 or overlap > 70% means duplicate/drift: log it and stop. Do not spend a weekly submission slot; a separate selector controls promotions under the competition's current cap.
-5. **No submission without gates.** Validate single-band GeoTIFF, CRS, dimensions and affine transform against the official sample-submission raster; require finite predictions within [0, 1] throughout the valid footprint. Record the file SHA-256. Do not publish a download link until this passes and uniqueness checks pass. A valid file is not a high-scoring file, and neither is an organizer-confirmed result.
-6. **Bound experiments.** Stop after 3 experiments or 2 hours for a run. End each run with the JSON run card specified in `docs/REVIEW_AND_PROTOCOL.md`; negative results are deliverables.
-7. **Own the outcome.** In the spirit of the Arena values supplied in the project brief, maximize the probability of a sound result, report blockers plainly, and carry findings forward.
+### Current repository status
 
-## Current checkout status
+At initial review the checkout had only this README; this work adds project notes and a format/range validator, but no competition rasters, cached feature stack, shared `evaluate_holdout.py`, shared `submission_writer.py`, registry rasters, or prior experiments. Thus this checkout cannot truthfully produce a template-matched TIF, run the prescribed holdout, estimate DTI, verify uniqueness against raster registries, or claim a promotable submission. See the [executive summary](docs/EXECUTIVE_SUMMARY.md), [submission workflow](docs/SUBMISSION.md), and [detailed repository review](docs/REVIEW_AND_PROTOCOL.md). `scripts/validate_submission.py` is a format/range gate, not a score estimator; tests cover its format gate only.
 
-This repository currently has no model, data, cached feature stack, shared evaluator/writer, website, or existing submission raster. The only tests now cover the standalone validator scaffold. Consequently it is **not currently possible** to reproduce any listed experiment, estimate a defensible holdout DTI, compare a candidate to registry rasters, or produce a submission GeoTIFF matching the competition grid. Do not submit a synthetic or guessed-grid raster. The evaluator and submit-generation tasks are blocked until the authorized competition assets and shared template are available locally.
+### Official references
 
-A standalone validator scaffold is provided at [`scripts/validate_submission.py`](scripts/validate_submission.py). It does not generate predictions or certify score/uniqueness. See [`docs/REVIEW_AND_PROTOCOL.md`](docs/REVIEW_AND_PROTOCOL.md) for the repository audit, supplied-score review, candidate hypotheses, sources, and blockers.
+- [Competition overview/rules](https://www.drivendata.org/competitions/306/competition-doe-gems/)
+- [Problem description](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
+- [Competition data page (login may be required)](https://www.drivendata.org/competitions/306/competition-doe-gems/data/)
+- [About/resources](https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/)
+- [DrivenData reference solution](https://github.com/drivendataorg/gems-prize-reference-solution)
+- [USGS GeoDawn data record](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and)
+- [INGENIOUS project](https://gbcge.org/current-projects/ingenious/)
+- [NREL competition report PDF](https://docs.nlr.gov/docs/fy26osti/96647.pdf)
+- [EPSG:32611](https://epsg.io/32611)
+- [Leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
 
-## Getting started once authorized data and shared tools are placed
-
-1. Place the official competition inputs and the shared template assets in the documented paths; record their source, version, and checksums. Do not commit private competition data or large generated rasters.
-2. Install `requirements.txt` and first run the template's data-integrity checks.
-3. Use the shared holdout evaluator and writer. Establish the current holdout best before changing features. Run the leakage canary and duplicate checks before considering any output.
-4. Validate an output against the official `sample_submission.tif`:
-   ```bash
-   python scripts/validate_submission.py candidate.tif data/sample_submission.tif
-   ```
-5. Only the separate selector, with current weekly-cap and organizer rules checked, may promote a passing candidate to a real competition slot. The validator does not pick or submit it.
-
-## Submission status
-
-**No downloadable submission is currently available.** The repository has neither raster inputs nor an official sample grid. The “download and submit” gate must remain closed until a candidate is generated from authorized data, passes holdout and uniqueness criteria, and passes the GeoTIFF validator. See the report for detailed blockers and next steps.
+Review these links for current requirements before relying on prior notes; this repository has not authenticated to DrivenData and did not verify live leaderboard receipts in this checkout.

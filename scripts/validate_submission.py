@@ -1,20 +1,18 @@
 #!/usr/bin/env python3
-"""Validate a single-band prediction GeoTIFF against the official reference grid.
+"""Fail-closed GeoTIFF format/range validation against an official template.
 
-This checks file-format/grid compatibility and [0, 1] finite values inside the
-reference footprint. It does not estimate score, prove uniqueness, or submit.
+This is not a score, uniqueness, or leakage evaluator. Requires rasterio/numpy.
 """
 from __future__ import annotations
 
 import argparse
 import hashlib
-import json
 import sys
 from pathlib import Path
-from typing import Any
 
 
-def _sha256(path: Path) -> str:
+def sha256_file(path: Path) -> str:
+    """Return a streaming SHA-256 digest for the candidate raster."""
     digest = hashlib.sha256()
     with path.open("rb") as stream:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
@@ -22,93 +20,74 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def validate(prediction_path: Path, reference_path: Path) -> dict[str, Any]:
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("candidate", type=Path, help="single-band prediction GeoTIFF")
+    parser.add_argument("--template", required=True, type=Path, help="official template GeoTIFF")
+    args = parser.parse_args()
+
     try:
         import numpy as np
         import rasterio
     except ImportError as exc:
-        raise RuntimeError(
-            "Missing geospatial dependencies. Install them with: "
-            "python -m pip install -r requirements.txt"
-        ) from exc
-
-    if not prediction_path.is_file():
-        raise ValueError(f"Prediction file does not exist: {prediction_path}")
-    if not reference_path.is_file():
-        raise ValueError(f"Reference file does not exist: {reference_path}")
-
-    with rasterio.open(reference_path) as reference, rasterio.open(prediction_path) as pred:
-        if reference.count != 1:
-            raise ValueError(f"Reference must be single-band; found {reference.count} bands")
-        if pred.count != 1:
-            raise ValueError(f"Prediction must be single-band; found {pred.count} bands")
-        if reference.crs is None or pred.crs is None:
-            raise ValueError("Both rasters must declare a CRS")
-        if pred.crs != reference.crs:
-            raise ValueError(f"CRS mismatch: prediction={pred.crs}, reference={reference.crs}")
-        if (pred.height, pred.width) != (reference.height, reference.width):
-            raise ValueError(
-                "Shape mismatch: "
-                f"prediction={(pred.height, pred.width)}, "
-                f"reference={(reference.height, reference.width)}"
-            )
-        if pred.transform != reference.transform:
-            raise ValueError(
-                f"Transform mismatch: prediction={pred.transform}, reference={reference.transform}"
-            )
-
-        footprint = reference.read_masks(1) != 0
-        footprint_count = int(np.count_nonzero(footprint))
-        if footprint_count == 0:
-            raise ValueError("Reference footprint is empty (all pixels are masked)")
-
-        prediction = pred.read(1, masked=False)
-        prediction_mask = pred.read_masks(1) != 0
-        if np.any(footprint & ~prediction_mask):
-            missing = int(np.count_nonzero(footprint & ~prediction_mask))
-            raise ValueError(f"Prediction is masked/nodata at {missing} reference-footprint pixels")
-
-        values = prediction[footprint]
-        finite = np.isfinite(values)
-        if not np.all(finite):
-            bad = int(values.size - np.count_nonzero(finite))
-            raise ValueError(f"Prediction contains {bad} non-finite values inside reference footprint")
-        minimum = float(np.min(values))
-        maximum = float(np.max(values))
-        if minimum < 0.0 or maximum > 1.0:
-            raise ValueError(
-                f"Predicted values must be in range [0, 1] inside the reference footprint; "
-                f"observed min={minimum}, max={maximum}"
-            )
-
-        return {
-            "status": "PASS",
-            "prediction": str(prediction_path),
-            "reference": str(reference_path),
-            "sha256": _sha256(prediction_path),
-            "bands": int(pred.count),
-            "crs": pred.crs.to_string(),
-            "shape": [int(pred.height), int(pred.width)],
-            "transform": list(pred.transform)[:6],
-            "footprint_pixels_checked": footprint_count,
-            "finite_inside_footprint": True,
-            "value_range_inside_footprint": [minimum, maximum],
-            "scope_note": "Structural/range validation only; no score, uniqueness, or organizer acceptance is certified.",
-        }
-
-
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("prediction", type=Path, help="candidate single-band prediction GeoTIFF")
-    parser.add_argument("reference", type=Path, help="official sample-submission/reference GeoTIFF")
-    args = parser.parse_args()
-    try:
-        result = validate(args.prediction, args.reference)
-    except (OSError, RuntimeError, ValueError) as exc:
-        print(json.dumps({"status": "FAIL", "error": str(exc)}, indent=2), file=sys.stderr)
+        print(f"FAIL: required package unavailable: {exc}", file=sys.stderr)
         return 2
-    print(json.dumps(result, indent=2))
-    return 0
+
+    for label, path in (("candidate", args.candidate), ("template", args.template)):
+        if not path.is_file():
+            print(f"FAIL: {label} file does not exist: {path}", file=sys.stderr)
+            return 2
+
+    try:
+        with rasterio.open(args.template) as template, rasterio.open(args.candidate) as candidate:
+            errors: list[str] = []
+            if template.count < 1:
+                errors.append("template has no raster band")
+            if candidate.count != 1:
+                errors.append(f"candidate must have exactly one band (found {candidate.count})")
+            if candidate.width != template.width or candidate.height != template.height:
+                errors.append(
+                    f"shape mismatch: candidate {(candidate.height, candidate.width)}, "
+                    f"template {(template.height, template.width)}"
+                )
+            if candidate.crs is None or template.crs is None or candidate.crs != template.crs:
+                errors.append(f"CRS mismatch or missing CRS: candidate={candidate.crs}, template={template.crs}")
+            if candidate.transform != template.transform:
+                errors.append(f"affine transform mismatch: candidate={candidate.transform}, template={template.transform}")
+            if errors:
+                for error in errors:
+                    print(f"FAIL: {error}", file=sys.stderr)
+                return 1
+
+            data = candidate.read(1, masked=False)
+            template_mask = template.read_masks(1) > 0
+            candidate_mask = candidate.read_masks(1) > 0
+            footprint = template_mask
+            if footprint.shape != data.shape or not footprint.any():
+                print("FAIL: template valid-data footprint is empty or incompatible", file=sys.stderr)
+                return 1
+            if np.any(~candidate_mask[footprint]):
+                print("FAIL: candidate has masked/invalid cells inside template footprint", file=sys.stderr)
+                return 1
+            values = data[footprint]
+            if not np.isfinite(values).all():
+                print("FAIL: candidate contains NaN or infinity inside template footprint", file=sys.stderr)
+                return 1
+            minimum = float(values.min())
+            maximum = float(values.max())
+            if minimum < 0.0 or maximum > 1.0:
+                print(f"FAIL: prediction range outside [0,1] within footprint: [{minimum}, {maximum}]", file=sys.stderr)
+                return 1
+            print(
+                "PASS: one band; CRS, shape and transform match; "
+                f"no NaN/Inf in footprint; values in [0,1] (min={minimum:.8g}, max={maximum:.8g}); "
+                f"valid footprint cells={int(footprint.sum())}; sha256={sha256_file(args.candidate)}. "
+                "This is format validation only, not a score or uniqueness certification."
+            )
+            return 0
+    except Exception as exc:  # rasterio reports malformed files and I/O errors here
+        print(f"FAIL: could not read/validate GeoTIFF: {exc}", file=sys.stderr)
+        return 2
 
 
 if __name__ == "__main__":
