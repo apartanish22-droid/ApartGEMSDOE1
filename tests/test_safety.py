@@ -11,10 +11,10 @@ from rasterio.transform import from_origin
 
 import scripts.validate_submission as validator
 from scripts.validate_submission import validate
-from scripts.prepare_data import inspect_raster
+from scripts.inspect_data import inspect_raster
 
 ROOT = Path(__file__).resolve().parents[1]
-DEMO = ROOT / 'docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif'
+DEMO = ROOT / 'archive/2026-10-27-concurrent-main/downloads/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif'
 
 
 def write_tif(path, values, transform, nodata=np.nan):
@@ -38,9 +38,8 @@ def test_parallel_demo_audit_is_not_a_competition_grid():
     assert not report['format_pass'] and not report['slot_approved']
 
 
-def test_outside_null_template_is_distinct_from_slot_approval(tmp_path, monkeypatch):
+def test_outside_null_template_is_distinct_from_slot_approval(tmp_path):
     # Exercise a miniature synthetic grid without treating it as a competition grid.
-    monkeypatch.setattr(validator, 'EXPECTED_SHAPE', (2, 2))
     t = from_origin(500, 600, 100, 100)
     template = tmp_path / 'template.tif'
     candidate = tmp_path / 'candidate.tif'
@@ -50,7 +49,8 @@ def test_outside_null_template_is_distinct_from_slot_approval(tmp_path, monkeypa
     json.dumps(inspect_raster(template), allow_nan=False)
     write_tif(candidate, np.array([[0, .25], [1, np.nan]]), t)
     result = validate(candidate, template)
-    assert result['format_pass'] and result['checks']['outside_null']
+    assert result['relative_template_pass'] and result['checks']['outside_null']
+    assert not result['format_pass'] and not result['competition_format_verified']
     assert not result['slot_approved'] and not result['organizer_acceptance_established']
     assert result['template_organizer_authenticated'] is None
     write_tif(candidate, np.array([[0, .25], [1, 0]]), t)
@@ -64,11 +64,12 @@ def test_outside_null_template_is_distinct_from_slot_approval(tmp_path, monkeypa
     write_tif(template, reference, t, nodata=None)
     write_tif(candidate, np.array([[0, .25], [1, np.nan]]), t, nodata=None)
     result = validate(candidate, template)
-    assert result['format_pass'] and result['checks']['inside_pixels'] == 3
+    assert result['relative_template_pass'] and result['checks']['inside_pixels'] == 3
+    assert not result['format_pass']
 
 
 def test_unsafe_parallel_entrypoints_are_disabled(tmp_path):
-    for name in ('generate_submission.py', 'evaluate_holdout.py', 'submission_writer.py'):
+    for name in ('generate_submission.py', 'evaluate_holdout.py'):
         result = subprocess.run([sys.executable, str(ROOT / 'scripts' / name)], cwd=tmp_path,
                                 capture_output=True, text=True, check=False)
         assert result.returncode == 2, (name, result.stdout, result.stderr)
@@ -77,9 +78,11 @@ def test_unsafe_parallel_entrypoints_are_disabled(tmp_path):
 
 
 def test_run_card_copies_agree():
-    canonical = json.loads((ROOT / 'evidence/run_card.json').read_text())
+    canonical = json.loads((ROOT / 'evidence/run-card.json').read_text())
     for path in (ROOT / 'run_card.json', ROOT / 'docs/run_card.json'):
         assert json.loads(path.read_text()) == canonical
     assert canonical['verdict'] == 'negative'
-    assert canonical['parallel_demo']['format_pass'] is False
-    assert canonical['raster_sha256'] is None
+    assert canonical['ok_to_submit'] is False
+    assert canonical['raster_sha256'] is not None
+    historical = json.loads((ROOT / 'evidence/run_card.json').read_text())
+    assert historical['parallel_demo']['format_pass'] is False and historical['raster_sha256'] is None

@@ -21,7 +21,7 @@ def main():
     args = parser.parse_args()
     if args.verify_recorded:
         return subprocess.run([sys.executable, str(ROOT / "scripts/verify_release.py")], cwd=ROOT, check=False).returncode
-    parser.error("AP1 is stopped and frozen. No new scientific run is authorized. Use --verify-recorded; see research/hypotheses-2026-10-27.md.")
+    parser.error("BLOCKED: STOP. AP1 is stopped and frozen. No new scientific run is authorized. Use --verify-recorded; see research/hypotheses-2026-10-27.md.")
 
 
 if __name__ == "__main__":

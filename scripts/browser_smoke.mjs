@@ -51,6 +51,7 @@ async function serve() {
 
 try {
   await fs.mkdir(CACHE, { recursive: true });
+  report.checker_sha256 = createHash('sha256').update(await fs.readFile(fileURLToPath(import.meta.url))).digest('hex');
   // This npm-delivered binary and its verified-system shared libraries let the
   // test run without apt, a privileged OS install, or downloading from a new host.
   const packageRoot = path.dirname(path.dirname(fileURLToPath(import.meta.resolve('@sparticuz/chromium'))));
@@ -134,7 +135,7 @@ try {
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: path.join(CACHE, 'mobile.png'), fullPage: true });
     const box = await page.locator('a[download][href$=".tif"]').first().boundingBox();
-    assert(box && box.y < 844, `Mobile research download is too far below fold: ${box?.y}`);
+    assert(box && box.y >= 0 && box.y + box.height <= 844, `Mobile research download must be fully above fold: ${JSON.stringify(box)}`);
     return { viewport_widths: widths, mobile_download_top: box.y };
   });
   await check('mobile_accessibility', async () => {
@@ -150,8 +151,10 @@ try {
       const sizes = await page.evaluate(() => ({ viewport: innerWidth, page: document.documentElement.scrollWidth }));
       assert(sizes.page <= sizes.viewport + 1, `Mobile overflow: ${name}`);
       if (name.startsWith('sites/')) assert.match(await page.locator('main').innerText(), /DO NOT SUBMIT/);
+      const a11y = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+      assert.deepEqual(a11y.violations.map(item => ({ id: item.id, targets: item.nodes.map(node => node.target) })), [], `Accessibility: ${name}`);
     }
-    return 'All nine executive subpages plus the site index, guide, research and sources render at mobile width.';
+    return 'All nine executive subpages plus site index, guide, research and sources render at mobile width with no automated WCAG 2.1 A/AA violations. Automated checks are not a conformance certificate.';
   });
   await check('no_runtime_errors', async () => { assert.deepEqual(runtimeErrors, []); return 'No browser JavaScript exceptions.'; });
 } catch (error) {

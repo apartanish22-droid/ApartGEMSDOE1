@@ -44,25 +44,24 @@ def test_build_is_deterministic_and_all_local_links_exist():
 
 
 def test_nine_rows_never_offer_an_approved_submission():
-    manifest = json.loads((ROOT / "catalog/reference_sources.json").read_text())
-    audit = json.loads((ROOT / "evidence/fleet_audit.json").read_text())
-    rendered = build_site.table(manifest, audit, "")
-    assert rendered.count('data-review-repo=') == 9
+    focus = json.loads((ROOT / "evidence/focus-audit.json").read_text())
+    rendered = build_site.historical_table_rows(focus)
+    assert rendered.count('class="table-site"') == 9
     assert rendered.count('Not estimable') == 9
-    assert rendered.count('USER-REPORTED') == 9
-    assert rendered.count('research only') == 9
-    assert rendered.count('Historical / already reported') == 9
-    for field in ('Source', 'Research file', 'Supplied claim', 'Estimate', 'Unique vs peers?', 'Submit?'):
-        assert rendered.count(f'data-label="{field}"') == 9
-    assert all(row["site"] in rendered for row in manifest["reference_sites"])
+    assert rendered.count('None approved') == 9
+    assert rendered.count('No exact-file organizer receipt') == 9
+    for row in focus["rows"]:
+        assert row["site"] in rendered
+        assert row["historical_user_reported_value"] not in rendered
     summary = (ROOT / "docs/executive-summary.html").read_text()
-    assert "SUBMISSION DOWNLOAD: UNAVAILABLE" in summary
-    assert 'type="button" disabled>Submission download unavailable' in summary
-    assert 'Invalid synthetic demo · never submit' in summary
-    assert 'origin is (0, 0)' in summary
-    for row in manifest['reference_sites']:
+    assert 'DO NOT SUBMIT' in summary
+    assert 'Download new research TIF' in summary
+    assert 'Local checks passed; portal acceptance untested.' in summary
+    artifact = json.loads((ROOT / 'evidence/experiment.json').read_text())['artifact']
+    assert artifact['filename'] in summary
+    for row in focus["rows"]:
         local = (ROOT / 'docs/sites' / f"{row['site']}.html").read_text()
-        assert 'DO NOT SUBMIT' in local and 'USER-REPORTED' in local
+        assert 'DO NOT SUBMIT' in local and 'no organizer receipt' in local
         assert row['sha256'] in local
 
 

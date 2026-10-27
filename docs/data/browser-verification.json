@@ -1,6 +1,6 @@
 {
   "schema": "apartgems-browser-verification-v1",
-  "checked_utc": "2026-10-27T21:49:16.772Z",
+  "checked_utc": "2026-10-27T22:11:54.718Z",
   "scope": "Local rendered site; no organizer portal or live Pages browser acceptance claim",
   "submission_authorized": false,
   "checks": {
@@ -29,11 +29,8 @@
       "detail": "Selection/execCommand fallback works without Clipboard API."
     },
     "desktop_accessibility": {
-      "passed": true,
-      "detail": {
-        "wcag_violations": 0,
-        "incomplete_checks": 1
-      }
+      "passed": false,
+      "detail": "AssertionError [ERR_ASSERTION]: [{\"id\":\"color-contrast\",\"impact\":\"serious\",\"nodes\":[{\"target\":[\"a[href$=\\\"sources.html#automation\\\"]\"],\"summary\":\"Fix any of the following:\\n  Element has insufficient color contrast of 4.36 (foreground color: #087f78, background color: #f8f2e6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\"}]},{\"id\":\"link-in-text-block\",\"impact\":\"serious\",\"nodes\":[{\"target\":[\"a[href$=\\\"sources.html#automation\\\"]\"],\"summary\":\"Fix any of the following:\\n  The link has insufficient color contrast of 1.19:1 with the surrounding text. (Minimum contrast is 3:1, link text: #087f78, surrounding text: #756343)\\n  The link has no styling (such as underline) to distinguish it from the surrounding text\"}]}]\n+ actual - expected\n\n+ [\n+   {\n+     id: 'color-contrast',\n+     impact: 'serious',\n+     nodes: [\n+       {\n+         summary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.36 (foreground color: #087f78, background color: #f8f2e6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           'a[href$=\"sources.html#automation\"]'\n+         ]\n+       }\n+     ]\n+   },\n+   {\n+     id: 'link-in-text-block',\n+     impact: 'serious',\n+     nodes: [\n+       {\n+         summary: 'Fix any of the following:\\n' +\n+           '  The link has insufficient color contrast of 1.19:1 with the surrounding text. (Minimum contrast is 3:1, link text: #087f78, surrounding text: #756343)\\n' +\n+           '  The link has no styling (such as underline) to distinguish it from the surrounding text',\n+         target: [\n+           'a[href$=\"sources.html#automation\"]'\n+         ]\n+       }\n+     ]\n+   }\n+ ]\n- []\n"
     },
     "responsive_and_mobile_download": {
       "passed": true,
@@ -46,28 +43,30 @@
           1512,
           1920
         ],
-        "mobile_download_top": 836.578125
+        "mobile_download_top": 744.375
       }
     },
     "mobile_accessibility": {
-      "passed": true,
-      "detail": {
-        "wcag_violations": 0,
-        "incomplete_checks": 1
-      }
+      "passed": false,
+      "detail": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   {\n+     id: 'color-contrast',\n+     targets: [\n+       [\n+         'a[href$=\"sources.html#automation\"]'\n+       ]\n+     ]\n+   },\n+   {\n+     id: 'link-in-text-block',\n+     targets: [\n+       [\n+         'a[href$=\"sources.html#automation\"]'\n+       ]\n+     ]\n+   }\n+ ]\n- []\n"
     },
     "nine_site_pages_and_guides": {
-      "passed": true,
-      "detail": "All nine executive subpages plus the site index, guide, research and sources render at mobile width."
+      "passed": false,
+      "detail": "AssertionError [ERR_ASSERTION]: Accessibility: sources.html\n+ actual - expected\n\n+ [\n+   {\n+     id: 'link-in-text-block',\n+     targets: [\n+       [\n+         'a[href$=\"source-health.json\"]'\n+       ]\n+     ]\n+   }\n+ ]\n- []\n"
     },
     "no_runtime_errors": {
       "passed": true,
       "detail": "No browser JavaScript exceptions."
     }
   },
-  "errors": [],
+  "errors": [
+    "desktop_accessibility: AssertionError [ERR_ASSERTION]: [{\"id\":\"color-contrast\",\"impact\":\"serious\",\"nodes\":[{\"target\":[\"a[href$=\\\"sources.html#automation\\\"]\"],\"summary\":\"Fix any of the following:\\n  Element has insufficient color contrast of 4.36 (foreground color: #087f78, background color: #f8f2e6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\"}]},{\"id\":\"link-in-text-block\",\"impact\":\"serious\",\"nodes\":[{\"target\":[\"a[href$=\\\"sources.html#automation\\\"]\"],\"summary\":\"Fix any of the following:\\n  The link has insufficient color contrast of 1.19:1 with the surrounding text. (Minimum contrast is 3:1, link text: #087f78, surrounding text: #756343)\\n  The link has no styling (such as underline) to distinguish it from the surrounding text\"}]}]\n+ actual - expected\n\n+ [\n+   {\n+     id: 'color-contrast',\n+     impact: 'serious',\n+     nodes: [\n+       {\n+         summary: 'Fix any of the following:\\n' +\n+           '  Element has insufficient color contrast of 4.36 (foreground color: #087f78, background color: #f8f2e6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1',\n+         target: [\n+           'a[href$=\"sources.html#automation\"]'\n+         ]\n+       }\n+     ]\n+   },\n+   {\n+     id: 'link-in-text-block',\n+     impact: 'serious',\n+     nodes: [\n+       {\n+         summary: 'Fix any of the following:\\n' +\n+           '  The link has insufficient color contrast of 1.19:1 with the surrounding text. (Minimum contrast is 3:1, link text: #087f78, surrounding text: #756343)\\n' +\n+           '  The link has no styling (such as underline) to distinguish it from the surrounding text',\n+         target: [\n+           'a[href$=\"sources.html#automation\"]'\n+         ]\n+       }\n+     ]\n+   }\n+ ]\n- []\n",
+    "mobile_accessibility: AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   {\n+     id: 'color-contrast',\n+     targets: [\n+       [\n+         'a[href$=\"sources.html#automation\"]'\n+       ]\n+     ]\n+   },\n+   {\n+     id: 'link-in-text-block',\n+     targets: [\n+       [\n+         'a[href$=\"sources.html#automation\"]'\n+       ]\n+     ]\n+   }\n+ ]\n- []\n",
+    "nine_site_pages_and_guides: AssertionError [ERR_ASSERTION]: Accessibility: sources.html\n+ actual - expected\n\n+ [\n+   {\n+     id: 'link-in-text-block',\n+     targets: [\n+       [\n+         'a[href$=\"source-health.json\"]'\n+       ]\n+     ]\n+   }\n+ ]\n- []\n"
+  ],
   "screenshots": "Ignored .cache/browser/",
+  "checker_sha256": "339fcdda23bd05085440de940c5605892d511ea88da7852ba8f0f36a9995a232",
   "browser_package": "chromium 153.0.0",
   "browser_version": "153.0.8010.0",
-  "passed": true
+  "passed": false
 }

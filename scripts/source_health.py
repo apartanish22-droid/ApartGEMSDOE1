@@ -38,7 +38,7 @@ def check_url(url: str, timeout: float = 15) -> dict:
             return {"url": url, "resolved_url": response.url, "http_status": response.status_code,
                     "reachable": ok, "status": "authentication_required" if login else ("reachable" if ok else "http_error"),
                     "scientific_claims_reverified": False}
-    except requests.RequestException as exc:
+    except (requests.RequestException, OSError) as exc:
         return {"url": url, "reachable": None, "status": "unreachable_from_checker",
                 "error": str(exc)[:350], "scientific_claims_reverified": False}
 

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Inventory local input files without treating mirrors as official data."""
+"""Preserved concurrent inventory helper, not the pinned AP1 feature preparer.
+
+Inventory local files without treating their presence as official provenance.
+The active shared cache builder remains scripts/prepare_data.py, unchanged.
+"""
 from __future__ import annotations
 
 import hashlib

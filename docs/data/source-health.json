@@ -1,6 +1,6 @@
 {
   "schema": "apartgems-source-health-v1",
-  "checked_utc": "2026-10-27T21:52:31.327998+00:00",
+  "checked_utc": "2026-10-27T22:10:42.691105+00:00",
   "mode": "github_only",
   "scope": "Reachability and source-HEAD drift only. Does not authenticate organizer data, validate scientific claims or extend registry coverage.",
   "submission_authorized": false,
@@ -8,17 +8,19 @@
   "sources": [
     {
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
-      "status": "recorded_only_not_live_probed",
+      "status": "not_automatically_probed_source_policy",
       "reachable": null,
       "scientific_claims_reverified": false,
+      "reason": "No automated DrivenData monitoring; dated source observations only.",
       "id": "DD-PROBLEM",
       "recorded_status": "READ, both returned chunks"
     },
     {
       "url": "https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516/4",
-      "status": "recorded_only_not_live_probed",
+      "status": "not_automatically_probed_source_policy",
       "reachable": null,
       "scientific_claims_reverified": false,
+      "reason": "No automated DrivenData monitoring; dated source observations only.",
       "id": "DD-MASK",
       "recorded_status": "READ staff answers"
     },
@@ -32,25 +34,28 @@
     },
     {
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/rules/",
-      "status": "recorded_only_not_live_probed",
+      "status": "not_automatically_probed_source_policy",
       "reachable": null,
       "scientific_claims_reverified": false,
+      "reason": "No automated DrivenData monitoring; dated source observations only.",
       "id": "DD-RULES-INDEX",
       "recorded_status": "READ"
     },
     {
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-      "status": "recorded_only_not_live_probed",
+      "status": "not_automatically_probed_source_policy",
       "reachable": null,
       "scientific_claims_reverified": false,
+      "reason": "No automated DrivenData monitoring; dated source observations only.",
       "id": "DD-BOARD",
       "recorded_status": "READ public leaderboard first returned chunk"
     },
     {
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/",
-      "status": "recorded_only_not_live_probed",
+      "status": "not_automatically_probed_source_policy",
       "reachable": null,
       "scientific_claims_reverified": false,
+      "reason": "No automated DrivenData monitoring; dated source observations only.",
       "id": "DD-ACCOUNT",
       "recorded_status": "REDIRECTED TO LOGIN"
     },

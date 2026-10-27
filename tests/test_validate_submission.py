@@ -78,16 +78,16 @@ class ValidateSubmissionTests(unittest.TestCase):
         )
         # The CLI correctly rejects this miniature synthetic grid as non-competition.
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn('shape differs from documented competition grid', result.stderr)
+        self.assertIn('not the pinned competition grid/footprint', result.stderr)
         self.assertRegex(result.stdout, r'"sha256": "[0-9a-f]{64}"')
-        # Test positive validation arithmetic on a deliberately patched *test* grid.
+        # Miniature fixtures can verify relative arithmetic without weakening
+        # the immutable competition-footprint/grid authority.
         from scripts.validate_submission import validate
-        with patch('scripts.validate_submission.EXPECTED_SHAPE', (3, 3)), \
-             patch('scripts.validate_submission.EXPECTED_PIXEL_M', 30.0):
-            report = validate(self.root / 'candidate.tif', self.reference)
-        self.assertTrue(report['format_pass'])
-        self.assertEqual(report['checks']['value_min_inside'], 0.0)
-        self.assertEqual(report['checks']['value_max_inside'], 1.0)
+        report = validate(self.root / 'candidate.tif', self.reference)
+        self.assertTrue(report['relative_template_pass'])
+        self.assertFalse(report['format_pass'])
+        self.assertEqual(report['min'], 0.0)
+        self.assertEqual(report['max'], 1.0)
         self.assertFalse(report['slot_approved'])
 
     def test_rejects_out_of_range_values(self) -> None:

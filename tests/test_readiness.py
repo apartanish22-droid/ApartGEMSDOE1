@@ -6,7 +6,7 @@ import numpy as np
 import rasterio
 from rasterio.transform import from_origin
 
-from scripts.prepare_data import inspect_data
+from scripts.inspect_data import inspect_data
 from scripts.readiness import REQUIRED, inspect
 
 
