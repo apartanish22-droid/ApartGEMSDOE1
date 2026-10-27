@@ -1,28 +1,50 @@
 {
-  "hypothesis": "H1 blind hydrothermal-conduit propensity (radiometric-primary, catalogue-exclusion)",
-  "layers": [
-    "GeoDAWN Th/K alteration proxy",
-    "TMI magnetite-destruction proxy",
-    "DEM concave-curvature proxy"
-  ],
-  "catalogue_use": "exclusion collar only (> 2 px); dots target catalogue-missing blind faults",
-  "protocol": "CELF-300 m dotted emission, min_sep 2.8 px",
-  "n_dots": 37654,
-  "dot_budget": 37654,
-  "shape": [
-    3730,
-    3292
-  ],
-  "crs": "EPSG:32611",
-  "res_m": 100.0,
-  "values": "[0, 1] float32, all-finite, 0 outside footprint",
-  "origin_verified": false,
+  "artifact_class": "synthetic research demo; not a scientific prediction",
+  "source_inputs": "Artificial Gaussian blobs and synthetic trace masks; no competition rasters or labels were used.",
+  "hypothesis_tested": null,
+  "mechanism_tested": null,
+  "metrics": {
+    "holdout_dti": null,
+    "leakage_canary": null,
+    "registry_correlation": null,
+    "registry_dot_overlap": null
+  },
+  "local_raster_inspection": {
+    "bands": 1,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "pixel_size_m": [
+      100.0,
+      100.0
+    ],
+    "affine_origin": [
+      0.0,
+      0.0
+    ],
+    "origin_verified_against_official_template": false,
+    "nan_count": 0,
+    "inf_count": 0,
+    "min": 0.0,
+    "max": 0.9999975562095642,
+    "positive_cells": 37654,
+    "value_range_0_1": true
+  },
+  "official_template_validation": "NOT RUN; sample_submission.tif unavailable.",
   "sha256": "397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a",
-  "file": "/home/user/ApartGEMSDOE1/docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
-  "unique_name": "gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros",
-  "note": "GEMSDOE1 H1 blind-conduit CELF300 37654d B2 | 06281cc7efb3 | research demo; holdout not computable without labels.tif; DO NOT SUBMIT",
-  "demo": true,
-  "written_at_utc": "2026-10-27T21:24:29.144532+00:00",
-  "verdict": "RESEARCH_ONLY_DO_NOT_SUBMIT",
-  "verdict_reason": "Holdout-DTI cannot be computed without labels.tif (DrivenData login-gated) and the geotransform origin is unverified without sample_submission.tif. Download for research; do not upload to DrivenData until evaluate_holdout passes and the template origin is verified."
+  "file": "docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
+  "artifact_name": "gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros",
+  "note": "Synthetic research demo, not a geophysical prediction; no holdout or template verification. DO NOT SUBMIT.",
+  "verdict": "DO_NOT_SUBMIT_FORMAT_FAILURE",
+  "verdict_reason": "Synthetic demonstration with a (0,0) origin that fails the pinned owner-mirror grid (243350,4508550); mirror provenance, holdout and registry uniqueness remain unverified.",
+  "format_pass_vs_pinned_mirror": false,
+  "pinned_mirror_origin": [
+    243350.0,
+    4508550.0
+  ],
+  "pinned_mirror_organizer_authenticated": false,
+  "audit_receipt": "../../evidence/parallel_demo_audit.json"
 }

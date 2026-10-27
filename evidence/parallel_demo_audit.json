@@ -1,0 +1,85 @@
+{
+  "file": "docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
+  "sha256": "397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a",
+  "template_file": ".cache/research/inputs/sample_submission.tif",
+  "template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+  "template_organizer_authenticated": null,
+  "template_provenance_note": "Caller supplied; organizer origin not established by this check.",
+  "slot_approved": false,
+  "organizer_acceptance_established": false,
+  "checks": {
+    "candidate": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        0.0,
+        0.0,
+        -100.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "count": 1,
+      "dtype": "float32"
+    },
+    "single_band": true,
+    "float32": true,
+    "competition_crs": true,
+    "competition_shape": true,
+    "competition_pixel_geometry": true,
+    "n_nan_whole_array": 0,
+    "n_inf_whole_array": 0,
+    "positive_pixels_whole_array": 37654,
+    "value_min_finite_whole_array": 0.0,
+    "value_max_finite_whole_array": 0.9999975562095642,
+    "all_values_finite_and_in_range_whole_array": true,
+    "template": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "count": 1,
+      "dtype": "float32"
+    },
+    "template_crs_match": true,
+    "template_shape_match": true,
+    "template_transform_match": false,
+    "template_single_band": true,
+    "template_footprint_nonempty": true,
+    "aligned_for_footprint": false,
+    "inside_pixels": null,
+    "finite_in_footprint": null,
+    "n_nonfinite_in_footprint": null,
+    "masked_cells_in_footprint": null,
+    "in_range_in_footprint": null,
+    "value_min_inside": null,
+    "value_max_inside": null,
+    "outside_pixels": null,
+    "outside_nonnull_pixels": null,
+    "outside_null": null
+  },
+  "errors": [
+    "transform mismatch"
+  ],
+  "format_pass": false,
+  "verdict": "DO_NOT_SUBMIT_FORMAT_FAILURE",
+  "outside_encoding_caveat": "Official wording describes null outside the footprint; prior portal range rejection makes actual acceptance unresolved. This is not a portal receipt."
+}

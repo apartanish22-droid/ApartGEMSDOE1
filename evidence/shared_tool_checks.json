@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-27T21:31:24.288470+00:00",
+  "source": "https://github.com/buffedlizard55-lab/57GEMSDOE/tree/822a0ce5546c7b6749cdd82eb145b6b3e616603d",
+  "source_commit": "822a0ce5546c7b6749cdd82eb145b6b3e616603d",
+  "source_sha256": {
+    "src/gems57/__init__.py": "bd7f12b45caf67b7b4d0da4656c7c3895513bec524ec0b7f251227ecbdd39d26",
+    "src/gems57/grid.py": "b96df7ec0f33658a61b0baa5db85fcd19be2cd8b1873f99699bd26bddae8cd8d",
+    "src/gems57/metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+    "src/gems57/evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+    "src/gems57/holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+    "src/gems57/spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8",
+    "src/gems57/gates.py": "7c57f70dbba58bb1112df4193a3de56516af0f981970d4b943b394f99b573dae",
+    "src/gems57/validate.py": "e7849554b47f6a2b66aeb2f7cfd5db06267412f049f52a73f1c41f934a2c34dd",
+    "src/gems57/submission_writer.py": "41220185ac2823fe5358603d38f2a915ea3e5f1ab1f94f0b237295b38b4a2565",
+    "tests/test_evaluate_holdout.py": "2e354c977536dcf85dd6230420c1ca2ffec525f7068941e1206736b73061cf68",
+    "tests/test_metric.py": "5160e70f6eff218903e9ae4e3da1f1cff87f8bc8b7a8ea6916c0b942ce456fdb",
+    "tests/test_submission_format.py": "5cee5bd24815ac1ea123d82eb512bc6af0a8b403a56072fe2bda934492afff68"
+  },
+  "synthetic_upstream_tests_passed": 24,
+  "synthetic_continuous_float32_roundtrip": true,
+  "local_policy_all_finite_is_organizer_acceptance": false,
+  "warning": "Synthetic tests do not establish model quality, a real holdout, or portal acceptance."
+}

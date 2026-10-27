@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 import numpy as np
@@ -75,11 +76,19 @@ class ValidateSubmissionTests(unittest.TestCase):
             np.array([[0, 0.2, 1], [0.4, 0.5, 0.6], [0.7, 0.8, self.nodata]]),
             nodata=self.nodata,
         )
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("PASS", result.stdout)
-        self.assertIn("min=0", result.stdout)
-        self.assertIn("max=1", result.stdout)
-        self.assertRegex(result.stdout, r"sha256=[0-9a-f]{64}")
+        # The CLI correctly rejects this miniature synthetic grid as non-competition.
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('shape differs from documented competition grid', result.stderr)
+        self.assertRegex(result.stdout, r'"sha256": "[0-9a-f]{64}"')
+        # Test positive validation arithmetic on a deliberately patched *test* grid.
+        from scripts.validate_submission import validate
+        with patch('scripts.validate_submission.EXPECTED_SHAPE', (3, 3)), \
+             patch('scripts.validate_submission.EXPECTED_PIXEL_M', 30.0):
+            report = validate(self.root / 'candidate.tif', self.reference)
+        self.assertTrue(report['format_pass'])
+        self.assertEqual(report['checks']['value_min_inside'], 0.0)
+        self.assertEqual(report['checks']['value_max_inside'], 1.0)
+        self.assertFalse(report['slot_approved'])
 
     def test_rejects_out_of_range_values(self) -> None:
         result = self._run(
@@ -124,6 +133,29 @@ class ValidateSubmissionTests(unittest.TestCase):
         result = self._run(np.zeros((2, 3, 3), dtype="float32"))
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("exactly one band", result.stderr)
+
+    def test_rejects_non_float32_and_multiband_template(self) -> None:
+        candidate = self.root / 'candidate.tif'
+        self._write(candidate, np.zeros((3, 3), dtype='float64'))
+        result = subprocess.run([sys.executable, str(VALIDATOR), str(candidate), '--template', str(self.reference)],
+                                capture_output=True, text=True, check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('float32', result.stderr)
+        template = self.root / 'multi-reference.tif'
+        self._write(template, np.zeros((2, 3, 3), dtype='float32'))
+        self._write(candidate, np.zeros((3, 3), dtype='float32'))
+        result = subprocess.run([sys.executable, str(VALIDATOR), str(candidate), '--template', str(template)],
+                                capture_output=True, text=True, check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('template must have exactly one band', result.stderr)
+
+    def test_template_is_required_even_if_some_checks_are_available(self) -> None:
+        candidate = self.root / 'candidate.tif'
+        self._write(candidate, np.zeros((3, 3), dtype='float32'))
+        result = subprocess.run([sys.executable, str(VALIDATOR), str(candidate)],
+                                capture_output=True, text=True, check=False)
+        self.assertEqual(result.returncode, 2)
+        self.assertIn('template required', result.stderr)
 
 
 if __name__ == "__main__":
