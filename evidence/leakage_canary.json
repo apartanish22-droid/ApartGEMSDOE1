@@ -1,0 +1,147 @@
+{
+  "evidence_class": "LEAKAGE-CANARY-HOLDOUT",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "withheld_positive_pixels": 11360,
+  "negative_sample_pixels": 250000,
+  "canary_cap": 0.9,
+  "max_symmetric_auc": 0.767905,
+  "all_passed": true,
+  "features": [
+    {
+      "feature": "udpc_grav_tilt_zero",
+      "group": "blind_physical",
+      "roc_auc": 0.526595,
+      "symmetric_auc": 0.526595,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "udpc_grav_updip",
+      "group": "blind_physical",
+      "roc_auc": 0.533846,
+      "symmetric_auc": 0.533846,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "udpc_mag_updip",
+      "group": "blind_physical",
+      "roc_auc": 0.533247,
+      "symmetric_auc": 0.533247,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "udpc_basin_margin_curv",
+      "group": "blind_physical",
+      "roc_auc": 0.530432,
+      "symmetric_auc": 0.530432,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "dopsr_scarp_seamfree",
+      "group": "blind_physical",
+      "roc_auc": 0.544673,
+      "symmetric_auc": 0.544673,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "dopsr_drainage_orth",
+      "group": "blind_physical",
+      "roc_auc": 0.543995,
+      "symmetric_auc": 0.543995,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "dopsr_road_deconfounded",
+      "group": "blind_physical",
+      "roc_auc": 0.541826,
+      "symmetric_auc": 0.541826,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "dopsr_piedmont_inflection",
+      "group": "blind_physical",
+      "roc_auc": 0.589809,
+      "symmetric_auc": 0.589809,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "hmcs_mag_destruction",
+      "group": "blind_physical",
+      "roc_auc": 0.521895,
+      "symmetric_auc": 0.521895,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "hmcs_k_th_alteration",
+      "group": "blind_physical",
+      "roc_auc": 0.455621,
+      "symmetric_auc": 0.544379,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "hmcs_mt_cond",
+      "group": "blind_physical",
+      "roc_auc": 0.515683,
+      "symmetric_auc": 0.515683,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "hmcs_thermal_upflow",
+      "group": "blind_physical",
+      "roc_auc": 0.535507,
+      "symmetric_auc": 0.535507,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "hmcs_updip_alteration_concordance",
+      "group": "blind_physical",
+      "roc_auc": 0.530467,
+      "symmetric_auc": 0.530467,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "stress_anderson_seis",
+      "group": "blind_physical",
+      "roc_auc": 0.543959,
+      "symmetric_auc": 0.543959,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "vtrb_tip_cone",
+      "group": "fold_visible_vtrb",
+      "roc_auc": 0.767905,
+      "symmetric_auc": 0.767905,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "vtrb_stepover_bridge",
+      "group": "fold_visible_vtrb",
+      "roc_auc": 0.756769,
+      "symmetric_auc": 0.756769,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "vtrb_belt_density",
+      "group": "fold_visible_vtrb",
+      "roc_auc": 0.741629,
+      "symmetric_auc": 0.741629,
+      "canary_cap": 0.9,
+      "passed": true
+    }
+  ]
+}

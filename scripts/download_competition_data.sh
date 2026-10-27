@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
-# Autonomous restoration from exact pinned public GitHub owner mirrors.
-# No DrivenData credentials, manual data placement, or guessed-grid fallback.
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-if [[ $# -gt 0 ]]; then
-  echo 'Data locations are integrity-pinned. Use scripts/restore_data.py without positional paths.' >&2
-  exit 2
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PYTHON="${ROOT}/.venv/bin/python"
+if [[ ! -x "${PYTHON}" ]]; then
+  PYTHON="python3"
 fi
-PYTHON="${PYTHON:-python3}"
-if [[ -x "$ROOT/.venv/bin/python" && "$PYTHON" == python3 ]]; then
-  PYTHON="$ROOT/.venv/bin/python"
-fi
-exec "$PYTHON" "$ROOT/scripts/restore_data.py"
+
+echo "[download_competition_data] Restoring & SHA-256 verifying competition + public-domain layers..."
+"${PYTHON}" "${ROOT}/scripts/prepare_data.py" --fetch
+echo "[download_competition_data] Done. Next run: python scripts/prepare_data.py --cache-bands"

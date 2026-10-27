@@ -1,10 +1,9 @@
 [project]
 name = "apartgemsdoe1"
-version = "0.1.0"
+version = "1.0.0"
+description = "DOE GEMS Geothermal Subsurface Fault Discovery — Updip Phase-Tilt, Drainage-Orthogonal 3DEP Scarp & Hydrothermal Upflow Submodular Synthesis"
 requires-python = ">=3.11"
-description = "Auditable GEMS fault-discovery experiments and fail-closed submission readiness"
 
 [tool.pytest.ini_options]
-pythonpath = [".", "src", "scripts"]
+pythonpath = ["src"]
 testpaths = ["tests"]
-addopts = "-ra"

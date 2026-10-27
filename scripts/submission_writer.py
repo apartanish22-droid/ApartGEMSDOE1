@@ -1,48 +1,44 @@
 #!/usr/bin/env python3
-"""Shared CLI for the existing strict writer; never authorizes a weekly slot."""
-
+"""CLI wrapper around the shared fail-closed GeoTIFF submission_writer."""
 from __future__ import annotations
 
 import argparse
 import json
-import sys
 from pathlib import Path
-
-import numpy as np
-import rasterio
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-from gems.submission import _same_file, check_variants, write_submission  # noqa: E402
+if str(ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(ROOT / "src"))
+
+import numpy as np
+
+from gems57 import load_grid
+from gems57.submission_writer import write_submission
 
 
-def main():
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("prediction", type=Path, help="2D .npy or aligned single-band .tif")
-    ap.add_argument("output", type=Path)
-    ap.add_argument("--template", type=Path, default=ROOT / "data/bridge/sample_submission.tif")
-    ap.add_argument(
-        "--outside",
-        choices=("nan", "zero"),
-        default="zero",
-        help="exterior encoding; zero tests strict all-finite validation and does not authorize upload",
-    )
+def main() -> int:
+    ap = argparse.ArgumentParser(description="Write validated all-finite [0,1] GeoTIFF submission.")
+    ap.add_argument("npy", type=Path, help="Input 2-D float32 numpy array")
+    ap.add_argument("out_tif", type=Path, help="Output GeoTIFF path")
+    ap.add_argument("--name", required=True, help="Submission name (<=140 chars)")
+    ap.add_argument("--note", required=True, help="Submission note (<=140 chars)")
     args = ap.parse_args()
-    if _same_file(args.output, args.prediction):
-        raise SystemExit("Output must not overwrite the prediction input")
-    if args.prediction.suffix == ".npy":
-        a = np.load(args.prediction, allow_pickle=False)
-    else:
-        with rasterio.open(args.prediction) as s, rasterio.open(args.template) as t:
-            if (s.shape, s.crs, s.transform, s.count) != (t.shape, t.crs, t.transform, 1):
-                raise SystemExit("Prediction must match the template grid and be single-band")
-            a = s.read(1)
-    p = write_submission(a, args.template, args.output, outside=args.outside)
-    checks = check_variants(p, args.template)
-    print(json.dumps(checks, indent=2))
-    if not checks["format_valid"]:
-        raise SystemExit("Written file failed pinned-grid format validation")
+
+    grid = load_grid()
+    arr = np.load(args.npy)
+    receipt = write_submission(
+        args.out_tif,
+        arr,
+        ROOT / "data/sample_submission.tif",
+        grid.footprint,
+        name=args.name,
+        note=args.note,
+        catalogue=grid.catalogue,
+    )
+    print(json.dumps(receipt, indent=2))
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

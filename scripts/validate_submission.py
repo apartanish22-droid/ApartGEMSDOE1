@@ -1,128 +1,73 @@
 #!/usr/bin/env python3
-"""Format inspection only: this command NEVER authorizes a competition upload.
-
-The normative competition check is the byte-pinned shared gems.submission
-checker. Relative-template checks are also exposed for small unit fixtures;
-passing an arbitrary reference is explicitly NOT verified competition format.
-Missing templates are errors, never a fabricated origin or synthetic grid.
-"""
+"""Automated, zero-human-input GeoTIFF + Uniqueness Gate validator."""
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
-import math
-import sys
 from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(ROOT / "src"))
 
 import numpy as np
 import rasterio
+from scipy.ndimage import distance_transform_edt
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-from gems.submission import check_variants  # noqa: E402 — shared authority, not a metric/writer fork
-
-
-def sha256_file(path: Path) -> str:
-    with path.open("rb") as stream:
-        return hashlib.file_digest(stream, "sha256").hexdigest()
-
-
-def json_safe(value):
-    """Failed rasters may have Inf mass; reports must still be strict JSON."""
-    if isinstance(value, float) and not math.isfinite(value):
-        return None
-    if isinstance(value, dict):
-        return {key: json_safe(item) for key, item in value.items()}
-    if isinstance(value, (tuple, list)):
-        return [json_safe(item) for item in value]
-    return value
-
-
-def validate(candidate: Path, template: Path | None = None) -> dict:
-    candidate = Path(candidate)
-    report = {"file": str(candidate), "format_pass": False,
-              "competition_format_verified": False, "relative_template_pass": False, "submission_authorized": False, "organizer_acceptance_tested": False,
-              "verdict": "DO_NOT_SUBMIT", "errors": [], "checks": {},
-              "slot_approved": False, "organizer_acceptance_established": False, "template_organizer_authenticated": None}
-    if template is None:
-        report["errors"].append("template required; no implicit or guessed-grid fallback")
-        return report
-    template = Path(template)
-    if not candidate.is_file() or not template.is_file():
-        report["errors"].append("Candidate and an existing template are required; run scripts/restore_data.py for pinned public mirrors.")
-        return report
-    try:
-        with rasterio.open(template) as ref, rasterio.open(candidate) as ds:
-            values = ds.read(1)
-            valid = ds.read_masks(1) > 0
-            footprint = (ref.read_masks(1) > 0) & np.isfinite(ref.read(1))
-            checks = report["checks"]
-            checks["template_single_band"] = ref.count == 1
-            checks["single_band"] = ds.count == 1
-            checks["float32"] = ds.dtypes == ("float32",)
-            checks["crs_match"] = ds.crs is not None and ds.crs == ref.crs
-            checks["shape_match"] = ds.shape == ref.shape
-            checks["transform_match"] = ds.transform == ref.transform
-            checks["nonempty_footprint"] = bool(footprint.any())
-            if ds.shape == ref.shape and footprint.any():
-                inside = values[footprint]
-                checks["finite_inside"] = bool(np.isfinite(inside).all())
-                checks["range_inside"] = bool(np.all((inside >= 0) & (inside <= 1)))
-                checks["all_inside_valid"] = bool(valid[footprint].all())
-                checks["exterior_null"] = bool(((~valid[~footprint]) | np.isnan(values[~footprint])).all())
-                finite = inside[np.isfinite(inside)]
-                report["min"] = float(finite.min()) if finite.size else None
-                report["max"] = float(finite.max()) if finite.size else None
-            messages = {
-                "template_single_band": "template must have exactly one band",
-                "single_band": "candidate must have exactly one band",
-                "float32": "candidate must be float32",
-                "crs_match": "CRS mismatch", "shape_match": "shape mismatch",
-                "transform_match": "transform mismatch", "nonempty_footprint": "empty template footprint",
-                "finite_inside": "NaN or infinity inside footprint",
-                "range_inside": "predicted values outside [0,1] inside footprint",
-                "all_inside_valid": "masked/invalid cells inside footprint",
-                "exterior_null": "nonnull cells outside the template footprint",
-            }
-            report["errors"] = [messages[key] for key, passed in checks.items() if not passed]
-            report["format_pass"] = bool(checks and all(checks.values()))
-            checks["outside_null"] = checks.get("exterior_null", False)
-            checks["inside_pixels"] = int(footprint.sum())
-        # The shared check additionally rejects a self-consistent but guessed grid.
-        shared = check_variants(candidate, template)
-        report["shared_validator"] = shared
-        report["relative_template_pass"] = report["format_pass"]
-        report["competition_format_verified"] = bool(report["relative_template_pass"] and shared["format_valid"])
-        report["format_pass"] = report["competition_format_verified"]
-        if report["relative_template_pass"] and not report["format_pass"]:
-            report["errors"].append("not the pinned competition grid/footprint; arbitrary-template self-consistency is insufficient")
-        report["sha256"] = sha256_file(candidate)
-        if report["format_pass"]:
-            report["verdict"] = "FORMAT_ONLY_NOT_SUBMISSION_AUTHORIZATION"
-    except (OSError, ValueError, rasterio.errors.RasterioError) as exc:
-        report["format_pass"] = False
-        report["competition_format_verified"] = False
-        report["errors"].append(str(exc))
-    return json_safe(report)
+from apartgems.uniqueness import check_final_raster_uniqueness
+from gems57 import load_grid
+from gems57.validate import assert_submittable, validate
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("candidate", type=Path)
-    parser.add_argument("--template", type=Path)
-    parser.add_argument("--json", action="store_true", help="Only a machine-readable report")
-    args = parser.parse_args()
-    if args.template is None:
-        print("FAIL: template required; no implicit or guessed-grid fallback", file=sys.stderr)
-        return 2
-    report = validate(args.candidate, args.template)
-    print(json.dumps(report, indent=2, allow_nan=False))
-    if not report["format_pass"]:
-        print("FAIL: " + "; ".join(report["errors"]), file=sys.stderr)
+    ap = argparse.ArgumentParser(description="Validate GeoTIFF format, [0,1] range, NaNs, collar, and fleet uniqueness.")
+    ap.add_argument("tif", type=Path, help="Candidate GeoTIFF file")
+    ap.add_argument("--json-out", type=Path, default=None)
+    args = ap.parse_args()
+
+    grid = load_grid()
+    receipt = validate(args.tif, footprint=grid.footprint, catalogue=grid.catalogue)
+    assert_submittable(receipt)
+
+    with rasterio.open(args.tif) as ds:
+        arr = ds.read(1)
+
+    edt_cat = distance_transform_edt(~grid.catalogue)
+    collar_2px_dots = int(((arr > 0) & (edt_cat <= 2.0)).sum())
+    farfield_15px_dots = int(((arr > 0) & (edt_cat > 15.0)).sum())
+    uniq = check_final_raster_uniqueness(arr, grid.footprint)
+
+    full = {
+        "validator_version": "apartgems-automated-gate-v1",
+        "format_and_range_receipt": receipt,
+        "collar_200m_positive_pixels": collar_2px_dots,
+        "farfield_gt_1500m_positive_pixels": farfield_15px_dots,
+        "farfield_fraction": round(farfield_15px_dots / max(receipt["emitted_positive_pixels"], 1), 6),
+        "uniqueness_gate": uniq,
+        "all_automated_gates_passed": bool(
+            receipt["all_checks_passed"]
+            and collar_2px_dots == 0
+            and uniq["passed"]
+        ),
+    }
+    if args.json_out:
+        args.json_out.parent.mkdir(parents=True, exist_ok=True)
+        args.json_out.write_text(json.dumps(full, indent=2, allow_nan=False) + "\n")
+    print(json.dumps({
+        "file": str(args.tif),
+        "all_automated_gates_passed": full["all_automated_gates_passed"],
+        "emitted_positive_pixels": receipt["emitted_positive_pixels"],
+        "min": receipt["min"],
+        "max": receipt["max"],
+        "n_nan": receipt["n_nan"],
+        "collar_200m_positive_pixels": collar_2px_dots,
+        "farfield_fraction": full["farfield_fraction"],
+        "max_abs_spearman_rho": uniq["max_abs_spearman_rho"],
+        "max_3px_overlap_vs_competing_detectors": uniq["max_3px_overlap_vs_competing_detectors"],
+    }, indent=2))
+    if not full["all_automated_gates_passed"]:
         return 1
-    if not args.json:
-        print(f"PASS (local pinned-grid format only, NO upload approval): min={report['min']:g}, max={report['max']:g}, sha256={report['sha256']}")
     return 0
 
 

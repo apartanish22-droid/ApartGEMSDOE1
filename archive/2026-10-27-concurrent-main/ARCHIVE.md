@@ -1,3 +1,0 @@
-# Historical concurrent scaffold — not the current submission system
-
-Preserved from main commit `6d0252b6a009f2e739294dc1982e834f803de847` when integrating the AP1 lane. The earlier fallback-grid generator and independent evaluator are RETIRED; do not execute them or interpret their artifacts as approved submissions. Active evaluation/packaging now delegates to the byte-pinned shared GEMSDOE24 template. The original work remains in Git history and these snapshots for provenance/education only. Current decision and measured experiment: `docs/executive-summary.html`, `evidence/experiment.json`, `evidence/run-card.json`.
