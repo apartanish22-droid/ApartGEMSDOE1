@@ -1,0 +1,13 @@
+# Python/runtime caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+.cache/
+
+# Competition rasters and large downloads stay outside Git.
+data/*.tif
+data/*.tiff
+data/*.zip

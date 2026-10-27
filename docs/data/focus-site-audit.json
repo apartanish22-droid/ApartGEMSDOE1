@@ -1,0 +1,1133 @@
+{
+  "schema_version": 1,
+  "audit_type": "read-only historical final-raster uniqueness audit",
+  "generated_date_utc": "2026-10-27",
+  "source_manifest": {
+    "repository": "https://github.com/buffedlizard55-lab/GEMSDOE32",
+    "manifest_path": "registry/focus_registry_manifest.json",
+    "manifest_commit": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+    "manifest_generated_utc": "2026-10-27T17:30:53Z",
+    "provenance": "Owner-maintained GitHub archive and hash manifest; not an organizer-authenticated receipt."
+  },
+  "method": {
+    "selection": "One user-listed historical top TIFF per focus site, resolved by exact path in the pinned focus-registry manifest; hashes rechecked after GitHub API download.",
+    "read_only_artifacts": "Fetched into /tmp for comparison only; no historical TIFF was added to this repository or reused as a submission.",
+    "grid_comparison": "All selected files have the same shape, CRS and affine transform reported below.",
+    "binary_surface_spearman": "Pearson correlation on 0/1 full-grid masks, equal to Spearman correlation for binary values with ties; includes encoded outside-footprint zeros because the sample footprint raster is absent here.",
+    "dot_overlap": "Directional fraction of source positive pixels whose nearest target positive is at Euclidean distance <=3 grid pixels; distance transform in pixel coordinates.",
+    "limits": [
+      "This audits final binary dot rasters, not the pre-placement score surfaces.",
+      "No new candidate surface or dots were created.",
+      "The result is not a holdout score and not an organizer score.",
+      "No owner-reported submission score was verified.",
+      "Several prompt-listed -nan variants contain NaN outside the footprint; their allfinite companions have the same positive-pixel masks. This observation cannot prove the cause of the reported portal error."
+    ],
+    "selected_variants": "For sites whose prompt-listed historical name used a -nan suffix, the audit compares the corresponding hash-pinned allfinite companion. The positive-pixel mask was checked identical to the archived -nan variant; the -nan variants have NaNs outside the footprint, so their full-array range is not portal-safe. No TIF was copied into this repository."
+  },
+  "thresholds": {
+    "absolute_binary_grid_spearman_stop": ">0.90",
+    "directional_dot_overlap_stop": ">0.70 within <=3 px"
+  },
+  "grid": {
+    "shape": [
+      3730,
+      3292
+    ],
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ]
+  },
+  "artifacts": [
+    {
+      "site": "GEMSDOE24",
+      "sha256": "3e0730e8d4f7db095dd80246a98cba3bc0fc9a28f436b91db27ca34df4d0d1ce",
+      "band_count": 1,
+      "dtype": "float32",
+      "shape": [
+        3730,
+        3292
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "finite_cells": 12279160,
+      "nan_or_inf_cells": 0,
+      "minimum_finite": 0.0,
+      "maximum_finite": 1.0,
+      "unique_finite_values": [
+        0.0,
+        1.0
+      ],
+      "positive_cells": 60069,
+      "validator_scope": "Standalone metadata/value audit only; not compared with competition sample raster because that template is absent from this checkout.",
+      "max_final_dot_overlap": {
+        "peer": "GEMSDOE25",
+        "fraction": 1.0
+      },
+      "max_abs_spearman_binary_grid": {
+        "peer": "GEMSDOE27",
+        "absolute_correlation": 0.9896313054282785,
+        "signed_correlation": 0.9896313054282785
+      },
+      "passes_final_dot_uniqueness_gate_vs_selected_registry": false,
+      "source_repository": "https://github.com/buffedlizard55-lab/GEMSDOE24",
+      "source_commit": "2521cb676e172c141a4417e4925b73b6a896c1eb",
+      "source_path": "docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-allfinite.tif",
+      "manifest_sha256": "3e0730e8d4f7db095dd80246a98cba3bc0fc9a28f436b91db27ca34df4d0d1ce",
+      "manifest_bytes": 863902,
+      "reported_submission_id": "h25-1-dotted-h19-5-d1-5-20261002-989f59505db1",
+      "score_claim_status": "No organizer receipt archived; historical score intentionally not treated as verified or estimated.",
+      "nan_companion": {
+        "source_path": "docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+        "sha256": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+        "bytes": 1632732,
+        "manifest_ref": "2521cb676e172c141a4417e4925b73b6a896c1eb",
+        "positive_pixel_mask_identical_to_audited_allfinite_variant": true,
+        "finite_cells": 5167373,
+        "nan_cells_outside_footprint": 7111787,
+        "in_footprint_values_min_max": [
+          0.0,
+          1.0
+        ],
+        "portal_safe_full_array_range": false,
+        "note": "NaNs outside the footprint may trigger a range validator; the exact portal error cause is not established."
+      },
+      "audit_variant": "Hash-pinned allfinite companion; final positive-dot mask compared."
+    },
+    {
+      "site": "GEMSDOE25",
+      "sha256": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+      "band_count": 1,
+      "dtype": "float32",
+      "shape": [
+        3730,
+        3292
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "finite_cells": 12279160,
+      "nan_or_inf_cells": 0,
+      "minimum_finite": 0.0,
+      "maximum_finite": 1.0,
+      "unique_finite_values": [
+        0.0,
+        1.0
+      ],
+      "positive_cells": 44090,
+      "validator_scope": "Standalone metadata/value audit only; not compared with competition sample raster because that template is absent from this checkout.",
+      "max_final_dot_overlap": {
+        "peer": "GEMSDOE24",
+        "fraction": 1.0
+      },
+      "max_abs_spearman_binary_grid": {
+        "peer": "GEMSDOE30",
+        "absolute_correlation": 1.0,
+        "signed_correlation": 1.0
+      },
+      "passes_final_dot_uniqueness_gate_vs_selected_registry": false,
+      "source_repository": "https://github.com/buffedlizard55-lab/GEMSDOE25",
+      "source_commit": "5a60fb475b7171af93cfce795abe6d96c4021ea2",
+      "source_path": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+      "manifest_sha256": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+      "manifest_bytes": 836982,
+      "reported_submission_id": "dotted-h19-5-d2-8-20261002-e56ea318af89",
+      "score_claim_status": "No organizer receipt archived; historical score intentionally not treated as verified or estimated.",
+      "nan_companion": {
+        "source_path": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+        "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+        "bytes": 1603424,
+        "manifest_ref": "5a60fb475b7171af93cfce795abe6d96c4021ea2",
+        "positive_pixel_mask_identical_to_audited_allfinite_variant": true,
+        "finite_cells": 5167373,
+        "nan_cells_outside_footprint": 7111787,
+        "in_footprint_values_min_max": [
+          0.0,
+          1.0
+        ],
+        "portal_safe_full_array_range": false,
+        "note": "NaNs outside the footprint may trigger a range validator; the exact portal error cause is not established."
+      },
+      "audit_variant": "Hash-pinned allfinite companion; final positive-dot mask compared."
+    },
+    {
+      "site": "GEMSDOE27",
+      "sha256": "a9bf76b57453a5b3af74c8eef837df53c29a0931162aa540b8763220b36ba3bb",
+      "band_count": 1,
+      "dtype": "float32",
+      "shape": [
+        3730,
+        3292
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "finite_cells": 12279160,
+      "nan_or_inf_cells": 0,
+      "minimum_finite": 0.0,
+      "maximum_finite": 1.0,
+      "unique_finite_values": [
+        0.0,
+        1.0
+      ],
+      "positive_cells": 61328,
+      "validator_scope": "Standalone metadata/value audit only; not compared with competition sample raster because that template is absent from this checkout.",
+      "max_final_dot_overlap": {
+        "peer": "GEMSDOE24",
+        "fraction": 0.9801884946517089
+      },
+      "max_abs_spearman_binary_grid": {
+        "peer": "GEMSDOE24",
+        "absolute_correlation": 0.9896313054282784,
+        "signed_correlation": 0.9896313054282784
+      },
+      "passes_final_dot_uniqueness_gate_vs_selected_registry": false,
+      "source_repository": "https://github.com/buffedlizard55-lab/GEMSDOE27",
+      "source_commit": "69d6f0337581541e75480262bdb9fa436b9dd10d",
+      "source_path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif",
+      "manifest_sha256": "a9bf76b57453a5b3af74c8eef837df53c29a0931162aa540b8763220b36ba3bb",
+      "manifest_bytes": 866160,
+      "reported_submission_id": "topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1",
+      "score_claim_status": "No organizer receipt archived; historical score intentionally not treated as verified or estimated.",
+      "nan_companion": {
+        "source_path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+        "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+        "bytes": 1635084,
+        "manifest_ref": "69d6f0337581541e75480262bdb9fa436b9dd10d",
+        "positive_pixel_mask_identical_to_audited_allfinite_variant": true,
+        "finite_cells": 5167373,
+        "nan_cells_outside_footprint": 7111787,
+        "in_footprint_values_min_max": [
+          0.0,
+          1.0
+        ],
+        "portal_safe_full_array_range": false,
+        "note": "NaNs outside the footprint may trigger a range validator; the exact portal error cause is not established."
+      },
+      "audit_variant": "Hash-pinned allfinite companion; final positive-dot mask compared."
+    },
+    {
+      "site": "GEMSDOE28",
+      "sha256": "7c74270ad48fa0b865163853046a6d3815967c5bf37bbda5b74ca7fa22583a32",
+      "band_count": 1,
+      "dtype": "float32",
+      "shape": [
+        3730,
+        3292
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "finite_cells": 12279160,
+      "nan_or_inf_cells": 0,
+      "minimum_finite": 0.0,
+      "maximum_finite": 1.0,
+      "unique_finite_values": [
+        0.0,
+        1.0
+      ],
+      "positive_cells": 37660,
+      "validator_scope": "Standalone metadata/value audit only; not compared with competition sample raster because that template is absent from this checkout.",
+      "max_final_dot_overlap": {
+        "peer": "GEMSDOE24",
+        "fraction": 1.0
+      },
+      "max_abs_spearman_binary_grid": {
+        "peer": "GEMSDOE31",
+        "absolute_correlation": 0.7149515527674108,
+        "signed_correlation": 0.7149515527674108
+      },
+      "passes_final_dot_uniqueness_gate_vs_selected_registry": false,
+      "source_repository": "https://github.com/buffedlizard55-lab/GEMSDOE28",
+      "source_commit": "67dbdf4da84fc92a98dd9644ab816ed18ae36bcc",
+      "source_path": "docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif",
+      "manifest_sha256": "7c74270ad48fa0b865163853046a6d3815967c5bf37bbda5b74ca7fa22583a32",
+      "manifest_bytes": 825430,
+      "reported_submission_id": "h36-1-rung30-blind-r1-20261003-b531dae0a36f",
+      "score_claim_status": "No organizer receipt archived; historical score intentionally not treated as verified or estimated.",
+      "nan_companion": {
+        "source_path": "docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+        "sha256": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
+        "bytes": 1590848,
+        "manifest_ref": "67dbdf4da84fc92a98dd9644ab816ed18ae36bcc",
+        "positive_pixel_mask_identical_to_audited_allfinite_variant": true,
+        "finite_cells": 5167373,
+        "nan_cells_outside_footprint": 7111787,
+        "in_footprint_values_min_max": [
+          0.0,
+          1.0
+        ],
+        "portal_safe_full_array_range": false,
+        "note": "NaNs outside the footprint may trigger a range validator; the exact portal error cause is not established."
+      },
+      "audit_variant": "Hash-pinned allfinite companion; final positive-dot mask compared."
+    },
+    {
+      "site": "GEMSDOE30",
+      "sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "band_count": 1,
+      "dtype": "float32",
+      "shape": [
+        3730,
+        3292
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "finite_cells": 12279160,
+      "nan_or_inf_cells": 0,
+      "minimum_finite": 0.0,
+      "maximum_finite": 1.0,
+      "unique_finite_values": [
+        0.0,
+        1.0
+      ],
+      "positive_cells": 44090,
+      "validator_scope": "Standalone metadata/value audit only; not compared with competition sample raster because that template is absent from this checkout.",
+      "max_final_dot_overlap": {
+        "peer": "GEMSDOE24",
+        "fraction": 1.0
+      },
+      "max_abs_spearman_binary_grid": {
+        "peer": "GEMSDOE25",
+        "absolute_correlation": 1.0,
+        "signed_correlation": 1.0
+      },
+      "passes_final_dot_uniqueness_gate_vs_selected_registry": false,
+      "source_repository": "https://github.com/buffedlizard55-lab/GEMSDOE30",
+      "source_commit": "3c3d7255fdbb3a94375eff086522463a8eaca449",
+      "source_path": "docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "manifest_sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "manifest_bytes": 806758,
+      "reported_submission_id": "d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca",
+      "score_claim_status": "No organizer receipt archived; historical score intentionally not treated as verified or estimated.",
+      "audit_variant": "Hash-pinned allfinite companion; final positive-dot mask compared."
+    },
+    {
+      "site": "GEMSDOE31",
+      "sha256": "acd853936e5a7170b207f23411b1844caa0e7cfdfc303c600e520ccfe75159e6",
+      "band_count": 1,
+      "dtype": "float32",
+      "shape": [
+        3730,
+        3292
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "finite_cells": 12279160,
+      "nan_or_inf_cells": 0,
+      "minimum_finite": 0.0,
+      "maximum_finite": 1.0,
+      "unique_finite_values": [
+        0.0,
+        1.0
+      ],
+      "positive_cells": 40199,
+      "validator_scope": "Standalone metadata/value audit only; not compared with competition sample raster because that template is absent from this checkout.",
+      "max_final_dot_overlap": {
+        "peer": "GEMSDOE24",
+        "fraction": 1.0
+      },
+      "max_abs_spearman_binary_grid": {
+        "peer": "GEMSDOE32",
+        "absolute_correlation": 0.9677268365941182,
+        "signed_correlation": 0.9677268365941182
+      },
+      "passes_final_dot_uniqueness_gate_vs_selected_registry": false,
+      "source_repository": "https://github.com/buffedlizard55-lab/GEMSDOE31",
+      "source_commit": "fbebc01703a39a99528432892b7c11b716ca5ab3",
+      "source_path": "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif",
+      "manifest_sha256": "acd853936e5a7170b207f23411b1844caa0e7cfdfc303c600e520ccfe75159e6",
+      "manifest_bytes": 154580,
+      "reported_submission_id": "h27-4-solo-d28-20261004-8acb75e1",
+      "score_claim_status": "No organizer receipt archived; historical score intentionally not treated as verified or estimated.",
+      "nan_companion": {
+        "source_path": "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+        "sha256": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
+        "bytes": 199214,
+        "manifest_ref": "fbebc01703a39a99528432892b7c11b716ca5ab3",
+        "positive_pixel_mask_identical_to_audited_allfinite_variant": true,
+        "finite_cells": 5167373,
+        "nan_cells_outside_footprint": 7111787,
+        "in_footprint_values_min_max": [
+          0.0,
+          1.0
+        ],
+        "portal_safe_full_array_range": false,
+        "note": "NaNs outside the footprint may trigger a range validator; the exact portal error cause is not established."
+      },
+      "audit_variant": "Hash-pinned allfinite companion; final positive-dot mask compared."
+    },
+    {
+      "site": "GEMSDOE32",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "band_count": 1,
+      "dtype": "float32",
+      "shape": [
+        3730,
+        3292
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "finite_cells": 12279160,
+      "nan_or_inf_cells": 0,
+      "minimum_finite": 0.0,
+      "maximum_finite": 1.0,
+      "unique_finite_values": [
+        0.0,
+        1.0
+      ],
+      "positive_cells": 37654,
+      "validator_scope": "Standalone metadata/value audit only; not compared with competition sample raster because that template is absent from this checkout.",
+      "max_final_dot_overlap": {
+        "peer": "GEMSDOE24",
+        "fraction": 1.0
+      },
+      "max_abs_spearman_binary_grid": {
+        "peer": "GEMSDOE36",
+        "absolute_correlation": 0.9843882107277638,
+        "signed_correlation": 0.9843882107277638
+      },
+      "passes_final_dot_uniqueness_gate_vs_selected_registry": false,
+      "source_repository": "https://github.com/buffedlizard55-lab/GEMSDOE32",
+      "source_commit": "1398109a23f04a2ace71c1bd2f527cfba87860b5",
+      "source_path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "manifest_sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "manifest_bytes": 219065,
+      "reported_submission_id": "h33-h33-2-b2-20261004T220000Z-e5eb6e7e",
+      "score_claim_status": "No organizer receipt archived; historical score intentionally not treated as verified or estimated.",
+      "audit_variant": "Hash-pinned allfinite companion; final positive-dot mask compared."
+    },
+    {
+      "site": "GEMSDOE33",
+      "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "band_count": 1,
+      "dtype": "float32",
+      "shape": [
+        3730,
+        3292
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "finite_cells": 12279160,
+      "nan_or_inf_cells": 0,
+      "minimum_finite": 0.0,
+      "maximum_finite": 1.0,
+      "unique_finite_values": [
+        0.0,
+        1.0
+      ],
+      "positive_cells": 41865,
+      "validator_scope": "Standalone metadata/value audit only; not compared with competition sample raster because that template is absent from this checkout.",
+      "max_final_dot_overlap": {
+        "peer": "GEMSDOE27",
+        "fraction": 0.9970858712528365
+      },
+      "max_abs_spearman_binary_grid": {
+        "peer": "GEMSDOE31",
+        "absolute_correlation": 0.8201479066195103,
+        "signed_correlation": 0.8201479066195103
+      },
+      "passes_final_dot_uniqueness_gate_vs_selected_registry": false,
+      "source_repository": "https://github.com/buffedlizard55-lab/GEMSDOE33",
+      "source_commit": "122e2240a835c9c84831943ee3489dbb48fd6e85",
+      "source_path": "docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "manifest_sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "manifest_bytes": 917544,
+      "reported_submission_id": "h33d-analog-tip-stepover-r30-20261004-cb490425926e",
+      "score_claim_status": "No organizer receipt archived; historical score intentionally not treated as verified or estimated.",
+      "audit_variant": "Hash-pinned allfinite companion; final positive-dot mask compared."
+    },
+    {
+      "site": "GEMSDOE36",
+      "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "band_count": 1,
+      "dtype": "float32",
+      "shape": [
+        3730,
+        3292
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "finite_cells": 12279160,
+      "nan_or_inf_cells": 0,
+      "minimum_finite": 0.0,
+      "maximum_finite": 1.0,
+      "unique_finite_values": [
+        0.0,
+        1.0
+      ],
+      "positive_cells": 38854,
+      "validator_scope": "Standalone metadata/value audit only; not compared with competition sample raster because that template is absent from this checkout.",
+      "max_final_dot_overlap": {
+        "peer": "GEMSDOE27",
+        "fraction": 0.9757811293560509
+      },
+      "max_abs_spearman_binary_grid": {
+        "peer": "GEMSDOE32",
+        "absolute_correlation": 0.9843882107277637,
+        "signed_correlation": 0.9843882107277637
+      },
+      "passes_final_dot_uniqueness_gate_vs_selected_registry": false,
+      "source_repository": "https://github.com/buffedlizard55-lab/GEMSDOE36",
+      "source_commit": "7576942352382c557f074bae3f2c6eb72750fa44",
+      "source_path": "docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "manifest_sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "manifest_bytes": 318190,
+      "reported_submission_id": "anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6",
+      "score_claim_status": "No organizer receipt archived; historical score intentionally not treated as verified or estimated.",
+      "audit_variant": "Hash-pinned allfinite companion; final positive-dot mask compared."
+    }
+  ],
+  "pairwise": [
+    {
+      "source": "GEMSDOE25",
+      "target": "GEMSDOE24",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5782703870312426,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE27",
+      "target": "GEMSDOE24",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9896313054282784,
+      "source_dots_within_3px_of_target_fraction": 0.9801884946517089,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE28",
+      "target": "GEMSDOE24",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5330171036560618,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE30",
+      "target": "GEMSDOE24",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5782703870312426,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE31",
+      "target": "GEMSDOE24",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5488935008932178,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE32",
+      "target": "GEMSDOE24",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5347911289132204,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE33",
+      "target": "GEMSDOE24",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5678109391455329,
+      "source_dots_within_3px_of_target_fraction": 0.9970619849516302,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE36",
+      "target": "GEMSDOE24",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5263924725690156,
+      "source_dots_within_3px_of_target_fraction": 0.9756781798527822,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE24",
+      "target": "GEMSDOE25",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5782703870312426,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE27",
+      "target": "GEMSDOE25",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5722461382452319,
+      "source_dots_within_3px_of_target_fraction": 0.9801558831202714,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE28",
+      "target": "GEMSDOE25",
+      "binary_grid_spearman_equivalent_to_pearson": 0.6824900025751353,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE30",
+      "target": "GEMSDOE25",
+      "binary_grid_spearman_equivalent_to_pearson": 1.0,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": true,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE31",
+      "target": "GEMSDOE25",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9547035317235603,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE32",
+      "target": "GEMSDOE25",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9238922286397534,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE33",
+      "target": "GEMSDOE25",
+      "binary_grid_spearman_equivalent_to_pearson": 0.8105225042296286,
+      "source_dots_within_3px_of_target_fraction": 0.997038098650424,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE36",
+      "target": "GEMSDOE25",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9094533230547689,
+      "source_dots_within_3px_of_target_fraction": 0.9749832707057189,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE24",
+      "target": "GEMSDOE27",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9896313054282785,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE25",
+      "target": "GEMSDOE27",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5722461382452319,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE28",
+      "target": "GEMSDOE27",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5274640960750303,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE30",
+      "target": "GEMSDOE27",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5722461382452319,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE31",
+      "target": "GEMSDOE27",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5431748111340516,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE32",
+      "target": "GEMSDOE27",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5292199143626591,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE33",
+      "target": "GEMSDOE27",
+      "binary_grid_spearman_equivalent_to_pearson": 0.56189631386162,
+      "source_dots_within_3px_of_target_fraction": 0.9970858712528365,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE36",
+      "target": "GEMSDOE27",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5209267750524912,
+      "source_dots_within_3px_of_target_fraction": 0.9757811293560509,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE24",
+      "target": "GEMSDOE28",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5330171036560618,
+      "source_dots_within_3px_of_target_fraction": 0.9347916562619654,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE25",
+      "target": "GEMSDOE28",
+      "binary_grid_spearman_equivalent_to_pearson": 0.6824900025751353,
+      "source_dots_within_3px_of_target_fraction": 0.9318212746654571,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE27",
+      "target": "GEMSDOE28",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5274640960750303,
+      "source_dots_within_3px_of_target_fraction": 0.9161557526741456,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE30",
+      "target": "GEMSDOE28",
+      "binary_grid_spearman_equivalent_to_pearson": 0.6824900025751353,
+      "source_dots_within_3px_of_target_fraction": 0.9318212746654571,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE31",
+      "target": "GEMSDOE28",
+      "binary_grid_spearman_equivalent_to_pearson": 0.7149515527674108,
+      "source_dots_within_3px_of_target_fraction": 0.9956217816363591,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE32",
+      "target": "GEMSDOE28",
+      "binary_grid_spearman_equivalent_to_pearson": 0.6960964497564532,
+      "source_dots_within_3px_of_target_fraction": 0.9987517926382323,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE33",
+      "target": "GEMSDOE28",
+      "binary_grid_spearman_equivalent_to_pearson": 0.6942846001347072,
+      "source_dots_within_3px_of_target_fraction": 0.9705004180102711,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE36",
+      "target": "GEMSDOE28",
+      "binary_grid_spearman_equivalent_to_pearson": 0.6851998023695888,
+      "source_dots_within_3px_of_target_fraction": 0.9731301796468832,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE24",
+      "target": "GEMSDOE30",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5782703870312426,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE25",
+      "target": "GEMSDOE30",
+      "binary_grid_spearman_equivalent_to_pearson": 1.0,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": true,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE27",
+      "target": "GEMSDOE30",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5722461382452319,
+      "source_dots_within_3px_of_target_fraction": 0.9801558831202714,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE28",
+      "target": "GEMSDOE30",
+      "binary_grid_spearman_equivalent_to_pearson": 0.6824900025751353,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE31",
+      "target": "GEMSDOE30",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9547035317235603,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE32",
+      "target": "GEMSDOE30",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9238922286397534,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE33",
+      "target": "GEMSDOE30",
+      "binary_grid_spearman_equivalent_to_pearson": 0.8105225042296286,
+      "source_dots_within_3px_of_target_fraction": 0.997038098650424,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE36",
+      "target": "GEMSDOE30",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9094533230547689,
+      "source_dots_within_3px_of_target_fraction": 0.9749832707057189,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE24",
+      "target": "GEMSDOE31",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5488935008932178,
+      "source_dots_within_3px_of_target_fraction": 0.9407847641878506,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE25",
+      "target": "GEMSDOE31",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9547035317235603,
+      "source_dots_within_3px_of_target_fraction": 0.937151281469721,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE27",
+      "target": "GEMSDOE31",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5431748111340516,
+      "source_dots_within_3px_of_target_fraction": 0.9220910513957735,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE28",
+      "target": "GEMSDOE31",
+      "binary_grid_spearman_equivalent_to_pearson": 0.7149515527674108,
+      "source_dots_within_3px_of_target_fraction": 0.9975570897503983,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE30",
+      "target": "GEMSDOE31",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9547035317235603,
+      "source_dots_within_3px_of_target_fraction": 0.937151281469721,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE32",
+      "target": "GEMSDOE31",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9677268365941182,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE33",
+      "target": "GEMSDOE31",
+      "binary_grid_spearman_equivalent_to_pearson": 0.8201479066195103,
+      "source_dots_within_3px_of_target_fraction": 0.9747999522273976,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE36",
+      "target": "GEMSDOE31",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9526125561553342,
+      "source_dots_within_3px_of_target_fraction": 0.9745714726926442,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE24",
+      "target": "GEMSDOE32",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5347911289132206,
+      "source_dots_within_3px_of_target_fraction": 0.88476585260284,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE25",
+      "target": "GEMSDOE32",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9238922286397534,
+      "source_dots_within_3px_of_target_fraction": 0.8817192107053754,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE27",
+      "target": "GEMSDOE32",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5292199143626591,
+      "source_dots_within_3px_of_target_fraction": 0.8671895382207149,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE28",
+      "target": "GEMSDOE32",
+      "binary_grid_spearman_equivalent_to_pearson": 0.6960964497564532,
+      "source_dots_within_3px_of_target_fraction": 0.9547265002655337,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE30",
+      "target": "GEMSDOE32",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9238922286397534,
+      "source_dots_within_3px_of_target_fraction": 0.8817192107053754,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE31",
+      "target": "GEMSDOE32",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9677268365941182,
+      "source_dots_within_3px_of_target_fraction": 0.9539043259782581,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE33",
+      "target": "GEMSDOE32",
+      "binary_grid_spearman_equivalent_to_pearson": 0.7955906618216937,
+      "source_dots_within_3px_of_target_fraction": 0.9264301922847247,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE36",
+      "target": "GEMSDOE32",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9843882107277637,
+      "source_dots_within_3px_of_target_fraction": 0.9740309878004839,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE24",
+      "target": "GEMSDOE33",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5678109391455328,
+      "source_dots_within_3px_of_target_fraction": 0.9623932477650702,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE25",
+      "target": "GEMSDOE33",
+      "binary_grid_spearman_equivalent_to_pearson": 0.8105225042296286,
+      "source_dots_within_3px_of_target_fraction": 0.9605806305284645,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE27",
+      "target": "GEMSDOE33",
+      "binary_grid_spearman_equivalent_to_pearson": 0.56189631386162,
+      "source_dots_within_3px_of_target_fraction": 0.9432885468301592,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE28",
+      "target": "GEMSDOE33",
+      "binary_grid_spearman_equivalent_to_pearson": 0.6942846001347072,
+      "source_dots_within_3px_of_target_fraction": 0.9984067976633032,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE30",
+      "target": "GEMSDOE33",
+      "binary_grid_spearman_equivalent_to_pearson": 0.8105225042296286,
+      "source_dots_within_3px_of_target_fraction": 0.9605806305284645,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE31",
+      "target": "GEMSDOE33",
+      "binary_grid_spearman_equivalent_to_pearson": 0.8201479066195103,
+      "source_dots_within_3px_of_target_fraction": 0.9990547028533048,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE32",
+      "target": "GEMSDOE33",
+      "binary_grid_spearman_equivalent_to_pearson": 0.7955906618216938,
+      "source_dots_within_3px_of_target_fraction": 0.9998406543793488,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE36",
+      "target": "GEMSDOE33",
+      "binary_grid_spearman_equivalent_to_pearson": 0.7831450704209556,
+      "source_dots_within_3px_of_target_fraction": 0.9750347454573531,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE24",
+      "target": "GEMSDOE36",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5263924725690156,
+      "source_dots_within_3px_of_target_fraction": 0.8856148762256738,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE25",
+      "target": "GEMSDOE36",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9094533230547688,
+      "source_dots_within_3px_of_target_fraction": 0.8826491267861193,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE27",
+      "target": "GEMSDOE36",
+      "binary_grid_spearman_equivalent_to_pearson": 0.5209267750524912,
+      "source_dots_within_3px_of_target_fraction": 0.8680374380380903,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE28",
+      "target": "GEMSDOE36",
+      "binary_grid_spearman_equivalent_to_pearson": 0.6851998023695889,
+      "source_dots_within_3px_of_target_fraction": 0.9552044609665428,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE30",
+      "target": "GEMSDOE36",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9094533230547688,
+      "source_dots_within_3px_of_target_fraction": 0.8826491267861193,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE31",
+      "target": "GEMSDOE36",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9526125561553342,
+      "source_dots_within_3px_of_target_fraction": 0.9544018507923082,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE32",
+      "target": "GEMSDOE36",
+      "binary_grid_spearman_equivalent_to_pearson": 0.9843882107277638,
+      "source_dots_within_3px_of_target_fraction": 1.0,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    },
+    {
+      "source": "GEMSDOE33",
+      "target": "GEMSDOE36",
+      "binary_grid_spearman_equivalent_to_pearson": 0.7831450704209556,
+      "source_dots_within_3px_of_target_fraction": 0.9271228950197062,
+      "positive_masks_exactly_equal": false,
+      "fails_uniqueness_if_abs_rho_gt_0_90_or_overlap_gt_0_70": true
+    }
+  ],
+  "exact_prediction_mask_duplicates": [
+    {
+      "site_a": "GEMSDOE25",
+      "site_b": "GEMSDOE30",
+      "sha256_a": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+      "sha256_b": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd"
+    }
+  ],
+  "conclusion": "All nine selected historical predictions fail the final-dot uniqueness gate against at least one other selected site. GEMSDOE25 and GEMSDOE30 have exactly identical positive-pixel masks (their GeoTIFF byte hashes differ). No new submission is authorized. The comparison uses owner-archived, hash-verified historical output files, not official organizer receipts; correlation is a binary-grid final-mask diagnostic over all cells (not the pre-placement score surface)."
+}

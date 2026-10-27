@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Repository review, evidence audit, limitations, and next steps for ApartGEMSDOE1.">
+  <title>Audit &amp; Limits — ApartGEMSDOE1</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="ApartGEMSDOE1 home">
+      <span class="brand-mark" aria-hidden="true">AG</span>
+      <span>ApartGEMSDOE1 <small>DOE GEMS research</small></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="index.html">Executive summary</a>
+      <a href="research/hypotheses.html">Hypotheses</a>
+      <a href="submit.html">How to submit</a>
+      <a aria-current="page" href="review.html">Audit &amp; limits</a>
+    </nav>
+  </header>
+
+  <main class="article">
+    <p class="eyebrow">Three-pass review · 2026-10-27</p>
+    <h1>Repository review, evidence, and blockers</h1>
+    <p class="callout">Final decision: no new candidate or downloadable TIFF is authorized. This review makes no claim that a leaderboard score has been improved or that an organizer score was authenticated.</p>
+
+    <h2>Pass 1 — inventory and source review</h2>
+    <ul>
+      <li>The starting checkout contained exactly one tracked file, <code>README.md</code>, with only a title. There was no application, test suite, workflow, data, `.tif`, feature cache, registry, holdout evaluator, or submission writer.</li>
+      <li>The official <a href="https://github.com/drivendataorg/gems-prize-reference-solution">reference-solution repository</a> was inspected on GitHub. Its README asks users to download the competition rasters into <code>data/</code>, and its notebook presents a U-Net patch-training baseline. Its own README is not the missing shared hide-and-recover toolset for this checkout.</li>
+      <li>A related, owner-maintained <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">GEMSDOE32 repository</a> was reviewed read-only. It contains a focus-site manifest, historical TIFs, and a current negative release record; it is not an official organizer source and its files were not copied into this repository.</li>
+    </ul>
+
+    <h2>Pass 2 — independent checks and irregularities</h2>
+    <ul>
+      <li><strong>Historical file hash integrity:</strong> one allfinite companion TIF for each selected site was fetched through the pinned owner-registry manifest into a temporary directory. The SHA-256 of every fetched file matched its manifest entry. The nine companions were single-band <code>float32</code>, the same stored CRS/shape/transform, finite, and binary in <code>[0,1]</code>. For the five selected rows whose prompt-listed version used a <code>-nan</code> suffix, the positive-pixel mask was also checked identical against that pinned NaN variant; those variants contain NaNs outside the footprint. This may explain a range error, but cannot prove the cause without the exact failed upload bytes. This is a standalone file audit, not a comparison against the missing official sample-submission raster and not a claim that these are the exact artifacts previously uploaded by the user.</li>
+      <li><strong>Final-dot uniqueness:</strong> a pairwise read-only comparison shows every selected historical mask violates at least one required gate: absolute binary-grid Spearman correlation above <code>0.90</code> or more than <code>70%</code> of the source dots within <code>3 px</code> of another selected map. GEMSDOE25 and GEMSDOE30 are exactly equal as positive-pixel masks even though their byte hashes differ. The GEMSDOE32 dots are a strict subset of the selected GEMSDOE25 and GEMSDOE31 maps; the selected GEMSDOE36 map contains all GEMSDOE32 dots and has additional positives. See the complete pairwise data in <a href="data/focus-site-audit.json">focus-site-audit.json</a>.</li>
+      <li><strong>No pre-placement surface check:</strong> the archive exposed the final binary outputs used above, not all underlying unthresholded prediction surfaces. The pre-placement surface-correlation gate therefore remains unavailable; a final-dot failure is sufficient to reject the audited historical candidates.</li>
+      <li><strong>Score provenance:</strong> no submission-page receipt binding the quoted historical score to an exact hash was found in this checkout. The related owner repository explicitly distinguishes owner-reported claims from organizer-confirmed receipts. No historical score is used as a valid estimate here.</li>
+      <li><strong>Leaderboard freshness:</strong> the prompt contains different leader values and the related archive has its own timestamped snapshots. This sandbox did not fetch the official DrivenData leaderboard, so no value is labeled current.</li>
+      <li><strong>Lane omission:</strong> the parallel-run protocol asks for a single method paragraph, but none is provided in the current prompt or this checkout. The stop condition is followed; no lane was inferred.</li>
+      <li><strong>Metric-algebra inconsistency in the related archive:</strong> the H48 results note derives an isolated-credit bar of <code>alpha × DTI / (1 - alpha × DTI)</code>, while the same archive's current <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/src/gems32/metric.py">metric module</a> says that older form is not the isolated-pixel threshold and implements <code>alpha × DTI</code>, with a regression test. Treat the H48 prose derivation as internally inconsistent until reconciled with the organizer's exact metric specification. No inclusion-threshold calculation from that prose is used here.</li>
+      <li><strong>Holdout vs leaderboard:</strong> the related H48 record compares one HOLDOUT-DTI run with another HOLDOUT-DTI baseline. That does not show a higher organizer score. Its release record is negative due to a final uniqueness/release gate; this repository does not link or copy its TIFF.</li>
+      <li><strong>Reported portal range error:</strong> the nine archived TIFs audited here have finite stored binary values in <code>[0,1]</code>. Without the exact failed file's SHA-256, this cannot identify the cause of the reported portal error or prove that a different downloaded artifact was safe.</li>
+    </ul>
+
+    <h2>Pass 3 — implementation and final requirement check</h2>
+    <ul>
+      <li>Added this evidence-first executive-summary site, a submission walkthrough, and a ranked hypothesis page. The banner and every historical row clearly say <strong>NO — DO NOT SUBMIT</strong>.</li>
+      <li>Added a machine-readable, hash-pinned pairwise audit of the nine archived final masks. No TIFFs or external model code were added to the project.</li>
+      <li>Added a durable project charter and agent-start instruction so future work reads the requirements first.</li>
+      <li>Did not train a model, run a holdout, generate or copy a new TIFF, claim an estimated score, access DrivenData credentials, or spend a weekly slot. Those actions cannot be completed honestly with the files/tools in this checkout.</li>
+    </ul>
+
+    <h2>What the H33/B2 result suggests (and what it does not)</h2>
+    <p>The raster relationships support a <em>lineage</em> hypothesis: the H33/B2 mask is a sparser descendant of a shared, H19-5-derived pattern. Under the asymmetric distance-weighted Tversky objective specified in the task, removing predictions with little marginal credit can reduce the false-positive term while retaining nearby coverage. That is a plausible explanation for why a sparse mask could rank better than denser relatives.</p>
+    <p>It is not a verified causal explanation of an organizer score: there is no exact-byte submission receipt, no independent reconstruction of the hidden labels, and no compliant holdout of the archived candidate in this checkout. It does not establish that the surviving dots correspond to undiscovered geothermal faults. The only defensible test of a new method is the prescribed spatially blocked hide-and-recover evaluation, followed by a separately authorized live submission.</p>
+
+    <h2>Current limitations</h2>
+    <ul>
+      <li>No competition rasters (<code>training_features.tif</code>, <code>labels.tif</code>, <code>sample_submission.tif</code>) or cached stack are present.</li>
+      <li>No shared <code>evaluate_holdout.py</code> / <code>submission_writer.py</code> interface is present. Do not silently fork code from another repository.</li>
+      <li>The lane is unspecified; the required external-source downloads are not verified, and the official leaderboard/data pages were not fetched from this environment.</li>
+      <li>No unthresholded registry prediction surfaces are available for a complete pre-placement correlation check.</li>
+      <li>GitHub Pages is already enabled for the main-branch root (legacy builder, confirmed from the repository Pages API on 2026-10-27). The root landing page redirects to <code>docs/</code>; the Actions workflow checks content but does not deploy. This site is a static snapshot, not a live score feed, and it cannot authenticate the competition portal.</li>
+    </ul>
+
+    <h2>Follow-up queue</h2>
+    <ol>
+      <li>Provide or restore the assigned method-lane paragraph and read the README before any next-session work.</li>
+      <li>Restore and hash-verify the official competition inputs and shared cached feature stack in the intended template.</li>
+      <li>Confirm that the shared evaluator recomputes every catalogue-based feature and placement within each fold using visible faults only; fix it in the shared template if needed.</li>
+      <li>Reconcile the metric formula against the official competition description and regression-test the exact implementation before interpreting marginal-credit explanations.</li>
+      <li>Select one pre-registered hypothesis, run per-feature leakage canaries, and use at most the stated experiment/time budget.</li>
+      <li>Run surface and final-dot registry checks using the complete correct registry. Only proceed to a unique, byte-validated TIFF if the comparable holdout improves with its stated 95% CI.</li>
+      <li>Keep the actual portal slot decision separate; record a receipt before any score is called ORGANIZER-CONFIRMED.</li>
+    </ol>
+
+    <h2>Audit artifacts</h2>
+    <p><a class="button button-secondary" href="data/focus-site-audit.json">Read the pairwise raster audit JSON</a></p>
+    <p><a class="button button-secondary" href="data/run-card.json">Read this session's negative run card</a></p>
+    <p><a class="button button-primary" href="index.html">Return to the executive summary</a></p>
+  </main>
+
+  <footer class="site-footer">
+    <span>ApartGEMSDOE1 · Review records blockers instead of hiding them</span>
+    <span><a href="index.html">Executive summary</a> · <a href="submit.html">How to submit</a></span>
+  </footer>
+</body>
+</html>

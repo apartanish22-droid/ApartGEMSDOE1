@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Automated release gates and step-by-step instructions for submitting a DOE GEMS GeoTIFF.">
+  <title>How to Submit — ApartGEMSDOE1</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="ApartGEMSDOE1 home">
+      <span class="brand-mark" aria-hidden="true">AG</span>
+      <span>ApartGEMSDOE1 <small>DOE GEMS research</small></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="index.html">Executive summary</a>
+      <a href="research/hypotheses.html">Hypotheses</a>
+      <a aria-current="page" href="submit.html">How to submit</a>
+      <a href="review.html">Audit &amp; limits</a>
+    </nav>
+  </header>
+
+  <main class="article">
+    <p class="eyebrow">Submission workflow · fail-closed</p>
+    <h1>How to submit a GeoTIFF to the DOE GEMS competition</h1>
+    <p class="callout"><strong>Current status: DO NOT SUBMIT.</strong> This project does not currently provide an approved TIFF or ZIP. The steps below are the release procedure for a future candidate after every automated gate passes; they do not authorize any historical file.</p>
+
+    <h2>Automated release gates (before opening the portal)</h2>
+    <p>There is no manual inspector step. The project must fail closed unless a single machine-readable release record links the hypothesis, holdout evidence, registry audit, saved bytes, filename, and note.</p>
+    <dl class="status-list">
+      <dt>Current experiment lane</dt><dd>Missing from the current prompt. No method may be inferred from another session.</dd>
+      <dt>Training / evaluation data</dt><dd>Not present in this checkout. No local holdout can be run.</dd>
+      <dt>Shared writer / validator</dt><dd>Not present in this checkout. Do not create a private copy of the shared template tools.</dd>
+      <dt>Historical uniqueness</dt><dd>Fails: all nine selected historical final-dot maps exceed a registry stop threshold.</dd>
+      <dt>Approved candidate TIF</dt><dd><strong class="no">None.</strong> No download link is intentionally displayed.</dd>
+    </dl>
+
+    <h2>Pre-submission checklist for a future approved candidate</h2>
+    <ol class="steps">
+      <li><strong>Confirm the green decision first.</strong> On the executive-summary page, the exact candidate file must be marked <em>OK TO DOWNLOAD AND SUBMIT</em> and must link to a run card with verdict <code>promote</code>. “Format valid,” “research download,” a good holdout alone, or a projected score is not approval.</li>
+      <li><strong>Download the exact file once and preserve its bytes.</strong> Do not edit, reproject, resample, rename internally, or replace nodata values. Verify the SHA-256 against the run card after download.</li>
+      <li><strong>Check the saved GeoTIFF automatically.</strong> Require one band; exact sample-submission CRS, width, height, and transform; finite prediction values in <code>[0,1]</code> over the stored array; zero NaN inside the valid footprint; supported dtype; and a post-write hash. This strict all-array range check is intended to prevent the reported “Predicted values must be in range [0, 1]” error.</li>
+      <li><strong>Check scientific and uniqueness gates.</strong> Confirm the same versioned hide-and-recover evaluator, withheld-positive count, 95% CI, feature-alone canaries, surface correlation before placement, final-dot overlap after placement, and a passing separate selector decision. The current historical entries do not pass the uniqueness rule.</li>
+      <li><strong>Open the official competition page and sign in.</strong> Use the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData DOE GEMS competition page</a>, then choose the competition's submission action. The page wording supplied in the project request says the upload accepts a single-band GeoTIFF or a ZIP containing exactly one GeoTIFF; verify the current portal instructions before each upload.</li>
+      <li><strong>Select the approved artifact.</strong> Choose the exact <code>.tif</code> file, or its approved ZIP if supplied. Do not upload the explanatory HTML, JSON, a companion research raster, or two TIFFs in one ZIP.</li>
+      <li><strong>Enter a short distinguishing note.</strong> Use the exact run-card note (maximum <code>140</code> characters). It should identify the hypothesis/experiment and hash suffix; never put a projected leaderboard score in the note.</li>
+      <li><strong>Submit once and save the portal receipt.</strong> The organizer receipt is the only basis for labeling that leaderboard score <strong>ORGANIZER-CONFIRMED</strong>. Record the receipt, submission identifier, exact file hash, date, and result. Do not treat an owner-maintained webpage or a local holdout as an organizer receipt.</li>
+    </ol>
+
+    <h2>What is safe to do now?</h2>
+    <p>Review the source links, read the historical registry audit, and preregister one eligible hypothesis after a lane is supplied. The old TIFFs were downloaded only into a temporary directory for read-only comparison and are not included here. They must not be submitted as a new entry.</p>
+    <p><a class="button button-primary" href="index.html">Return to the executive summary</a></p>
+
+    <h2>Known access limitations</h2>
+    <ul>
+      <li>This repository has no DrivenData credentials, no data files, and no code capable of uploading a submission.</li>
+      <li>The DrivenData data page and the USGS / DOE external sources were not fetched in this run. Their availability and coverage must not be assumed from the links alone.</li>
+      <li>Authentication or a live competition submission must happen through the user's authorized account; credentials must never be pasted into this repository or chat.</li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <span>ApartGEMSDOE1 · Submission authorization is a separate step</span>
+    <span><a href="index.html">Executive summary</a> · <a href="review.html">Review log</a></span>
+  </footer>
+</body>
+</html>

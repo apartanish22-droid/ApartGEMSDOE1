@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Auditable DOE GEMS fault-discovery research, validation status, and submission guidance.">
+  <title>ApartGEMSDOE1 — Executive Summary</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="ApartGEMSDOE1 home">
+      <span class="brand-mark" aria-hidden="true">AG</span>
+      <span>ApartGEMSDOE1 <small>DOE GEMS research</small></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a aria-current="page" href="index.html">Executive summary</a>
+      <a href="research/hypotheses.html">Hypotheses</a>
+      <a href="submit.html">How to submit</a>
+      <a href="review.html">Audit &amp; limits</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Decision as of 2026-10-27 · Evidence-first</p>
+      <div class="decision-badge"><span aria-hidden="true">!</span> NOT APPROVED — NO SUBMISSION TIFF</div>
+      <h1>Do not download or submit a file from this project yet.</h1>
+      <p class="hero-lead">This checkout has no competition rasters, cached feature stack, designated method lane, shared holdout runner, or generated candidate. The historical rasters audited below also fail the requested cross-site uniqueness gate. No leaderboard score is estimated.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="submit.html">See the exact submission checklist</a>
+        <a class="button button-secondary" href="data/focus-site-audit.json">Open the read-only raster audit JSON</a>
+        <a class="button button-secondary" href="data/run-card.json">Open this session's negative run card</a>
+      </div>
+      <p class="small-note">There is intentionally no TIFF download button: a format-valid file is not the same as a scientifically validated, unique, authorized submission.</p>
+    </section>
+
+    <section class="summary-grid" aria-label="Release gates">
+      <article class="summary-card status-red">
+        <span class="card-label">Submission decision</span>
+        <strong>NO — do not submit</strong>
+        <p>No new artifact exists in this repository; no separate slot selector has approved a file.</p>
+      </article>
+      <article class="summary-card">
+        <span class="card-label">Score estimate</span>
+        <strong>Not available</strong>
+        <p>No compliant spatial HOLDOUT-DTI run was possible in this checkout. A projection is not a score.</p>
+      </article>
+      <article class="summary-card">
+        <span class="card-label">Historical uniqueness</span>
+        <strong>All nine fail</strong>
+        <p>Read-only final-dot comparisons exceed the 70% overlap gate for every selected historical raster.</p>
+      </article>
+      <article class="summary-card">
+        <span class="card-label">Data &amp; shared tools</span>
+        <strong>Missing here</strong>
+        <p>No template stack, labels, sample grid, evaluator, or submission writer is present in this repository.</p>
+      </article>
+    </section>
+
+    <section class="section" id="site-table">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Requested focus sites</p>
+          <h2>Historical best entries are audit-only</h2>
+        </div>
+        <p class="section-intro">The file names below identify the entries named in the request. Score estimates are deliberately withheld: no organizer receipt or compliant holdout for those rows is available here. “Registry overlap” is a raster-similarity diagnostic, not a score.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Site</th>
+              <th scope="col">Historical entry named in prompt</th>
+              <th scope="col">Score estimate</th>
+              <th scope="col">Unique vs selected sites?</th>
+              <th scope="col">Download / submit?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE24/">GEMSDOE24</a></th>
+              <td><code>h25-1-dotted-h19-5-d1-5-…-989f59505db1</code></td>
+              <td>Not estimated — no compliant holdout</td>
+              <td><strong class="no">NO.</strong> Registry audit: 100.0% of its dots are within 3 px of GEMSDOE25; binary-grid |ρ| 0.9896 vs GEMSDOE27.</td>
+              <td><strong class="no">NO — audit only.</strong></td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE25/">GEMSDOE25</a></th>
+              <td><code>dotted-h19-5-d2-8-…-e56ea318af89</code></td>
+              <td>Not estimated — no compliant holdout</td>
+              <td><strong class="no">NO.</strong> Its positive-pixel mask is exactly identical to GEMSDOE30's selected mask; 100.0% 3-px overlap vs GEMSDOE24.</td>
+              <td><strong class="no">NO — audit only.</strong></td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE27/">GEMSDOE27</a></th>
+              <td><code>topo-gap-closure-t-v2-on-d1-5-…-5512495c6bd1</code></td>
+              <td>Not estimated — no compliant holdout</td>
+              <td><strong class="no">NO.</strong> Registry audit: 98.0% 3-px overlap and binary-grid |ρ| 0.9896 vs GEMSDOE24.</td>
+              <td><strong class="no">NO — audit only.</strong></td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE28/">GEMSDOE28</a></th>
+              <td><code>h36-1-rung30-blind-r1-…-b531dae0a36f</code></td>
+              <td>Not estimated — no compliant holdout</td>
+              <td><strong class="no">NO.</strong> Registry audit: 100.0% 3-px overlap vs GEMSDOE24.</td>
+              <td><strong class="no">NO — audit only.</strong></td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE30/">GEMSDOE30</a></th>
+              <td><code>d28-poisson300m-offcat-44090-…-91eae1ca</code></td>
+              <td>Not estimated — no compliant holdout</td>
+              <td><strong class="no">NO.</strong> Its positive-pixel mask is exactly identical to GEMSDOE25's selected mask; 100.0% 3-px overlap vs GEMSDOE24.</td>
+              <td><strong class="no">NO — audit only.</strong></td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE31/docs/">GEMSDOE31</a></th>
+              <td><code>h27-4-solo-d28-…-8acb75e1</code></td>
+              <td>Not estimated — no compliant holdout</td>
+              <td><strong class="no">NO.</strong> Registry audit: 100.0% 3-px overlap vs GEMSDOE24; binary-grid |ρ| 0.9677 vs GEMSDOE32.</td>
+              <td><strong class="no">NO — audit only.</strong></td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html">GEMSDOE32</a></th>
+              <td><code>h33-h33-2-b2-…-e5eb6e7e-zeros</code></td>
+              <td>Not estimated — no compliant holdout for this checkout</td>
+              <td><strong class="no">NO.</strong> Registry audit: 100.0% 3-px overlap vs GEMSDOE24; binary-grid |ρ| 0.9844 vs GEMSDOE36.</td>
+              <td><strong class="no">NO — do not resubmit.</strong></td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE33/">GEMSDOE33</a></th>
+              <td><code>h33d-analog-tip-stepover-r30-…-cb490425926e</code></td>
+              <td>Not estimated — no compliant holdout</td>
+              <td><strong class="no">NO.</strong> Registry audit: 99.7% 3-px overlap vs GEMSDOE27 (binary-grid |ρ| does not exceed the threshold for this pair).</td>
+              <td><strong class="no">NO — audit only.</strong></td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE36/docs/">GEMSDOE36</a></th>
+              <td><code>anderson-geothermal-pinn-38854-…-9b9ea4e6-zeros</code></td>
+              <td>Not estimated — no compliant holdout</td>
+              <td><strong class="no">NO.</strong> Registry audit: 97.6% 3-px overlap vs GEMSDOE27; it also contains all GEMSDOE32 selected dots plus additional dots.</td>
+              <td><strong class="no">NO — audit only.</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="audit-note"><strong>How to read this table:</strong> The overlap and binary-grid correlations are from a read-only comparison of nine hash-verified allfinite owner-archived TIFF variants, not from an organizer audit. For the prompt-listed -nan variants, the positive masks were checked identical to their allfinite companions; those -nan files contain NaNs outside the footprint. The comparisons use final binary maps on the full common grid; pre-placement prediction surfaces and the official sample-footprint mask were not available. Values are reproducible from <a href="data/focus-site-audit.json">the audit JSON</a>. A failure on final-dot overlap is already enough to reject a file under the literal duplicate rule.</p>
+    </section>
+
+    <section class="section split" id="h33-analysis">
+      <article class="panel">
+        <p class="eyebrow">Forensic interpretation</p>
+        <h2>Why the cited GEMSDOE32 H33/B2 result may have ranked well</h2>
+        <p>The most plausible explanation in the related archive is <strong>sparse thinning/pruning of a shared H19-5-derived spatial field</strong>, not proof that the H33/B2 model discovered more geothermal vents. Removing low-marginal-credit dots can reduce false-positive mass while preserving useful spatial coverage under an asymmetric Tversky-style objective. That is a hypothesis about scoring behavior, not verified causality.</p>
+        <ul class="check-list">
+          <li>Hash-verified raster-mask comparison: the selected GEMSDOE32 H33/B2 dots are a strict subset of GEMSDOE25 D2.8 and GEMSDOE31 solo masks.</li>
+          <li>The selected GEMSDOE36 map contains all GEMSDOE32 dots plus additional dots; the two maps are not independent methods.</li>
+          <li>GEMSDOE25 and GEMSDOE30 have identical positive-pixel masks despite different GeoTIFF byte hashes.</li>
+          <li>No organizer receipt in this checkout binds the cited historical score to those exact bytes. Do not treat it as ORGANIZER-CONFIRMED.</li>
+          <li>The archived <code>-nan</code> versions have NaNs outside the footprint; their allfinite companions have the same dot masks. That could trigger a strict full-array range check, but the exact portal error cause is unconfirmed without the failed file hash.</li>
+        </ul>
+        <p><strong>Can this project claim a higher leaderboard score?</strong> No. It has no validated candidate and no authenticated competition score. Holdout improvement, if any, cannot be projected into a leaderboard score.</p>
+      </article>
+      <article class="panel panel-dark">
+        <p class="eyebrow">Context from a separate owner archive</p>
+        <h2>Holdout is not the leaderboard</h2>
+        <p>The related GEMSDOE32 H48 run card records <strong>HOLDOUT-DTI (GEMSDOE32-HIDE-RECOVER-v3.0, 22,232 withheld positives, 95% CI [0.100168, 0.130524]): 0.115341</strong>. That result was not rerun here, is not an organizer-confirmed score, and the archive labels its release verdict negative because the final uniqueness gate did not pass.</p>
+        <p>No H48 file is provided as a download from this site. It is linked only for audit context.</p>
+        <a class="text-link" href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/docs/research/h48-fbgr-results-and-nine-site-executive-summary-20261027.md">Read the related H48 evidence &amp; nine-site review ↗</a>
+      </article>
+    </section>
+
+    <section class="section next-step" id="next">
+      <div>
+        <p class="eyebrow">Before any new TIFF</p>
+        <h2>One lane, one hypothesis, full validation</h2>
+        <p>Four candidate ideas are ranked in the research page. None is tested or promoted. The lane paragraph and required data/cache are missing, so this project has not spent an experiment or a submission slot.</p>
+      </div>
+      <a class="button button-primary" href="research/hypotheses.html">Review the ranked hypotheses</a>
+    </section>
+
+    <section class="section sources" id="sources">
+      <p class="eyebrow">Sources &amp; provenance</p>
+      <h2>Official references and archive links</h2>
+      <div class="source-grid">
+        <div>
+          <h3>Competition / science links</h3>
+          <ul>
+            <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData competition overview</a> <span class="tag tag-muted">link supplied; not fetched here</span></li>
+            <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">Problem description and metric</a> <span class="tag tag-muted">link supplied; not fetched here</span></li>
+            <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">Competition data page</a> <span class="tag tag-muted">data absent here</span></li>
+            <li><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">DOE/NLR rules PDF</a> <span class="tag tag-muted">link supplied; not fetched here</span></li>
+            <li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN release</a> <span class="tag tag-muted">link supplied; not fetched here</span></li>
+            <li><a href="https://gdr.openei.org/submissions/1391">DOE Geothermal Data Repository submission 1391</a> and <a href="https://gbcge.org/current-projects/ingenious/">INGENIOUS project</a> <span class="tag tag-muted">links supplied; not fetched here</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Implementation / data</h3>
+          <ul>
+            <li><a href="https://github.com/drivendataorg/gems-prize-reference-solution">Official reference-solution repository</a> <span class="tag tag-good">inspected on GitHub</span></li>
+            <li><a href="https://www.usgs.gov/3d-elevation-program">USGS 3DEP</a> and <a href="https://earthquake.usgs.gov/fdsnws/event/1/">USGS FDSN event API</a> <span class="tag tag-muted">candidate sources; availability not verified</span></li>
+            <li><a href="https://epsg.io/32611">EPSG:32611</a> <span class="tag tag-muted">reference link supplied</span></li>
+            <li><a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Related owner-maintained GEMSDOE32 repository</a> <span class="tag tag-warn">not an official organizer source</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="small-note">This is a static audit snapshot dated 2026-10-27, not an auto-refreshing score feed. The user prompt contains conflicting leaderboard snapshots. This sandbox did not fetch the DrivenData pages or authenticate a submission receipt, so the site does not assert a current leaderboard leader. Automated refresh should be added only from pinned sources with provenance and rate-limit handling.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>ApartGEMSDOE1 · Evidence before upload</span>
+    <span><a href="https://github.com/apartanish22-droid/ApartGEMSDOE1/blob/main/README.md">Project charter</a> · <a href="review.html">Review log</a></span>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ranked, untested geological hypotheses for off-catalogue fault detection.">
+  <title>Hypotheses — ApartGEMSDOE1</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="ApartGEMSDOE1 home">
+      <span class="brand-mark" aria-hidden="true">AG</span>
+      <span>ApartGEMSDOE1 <small>DOE GEMS research</small></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="../index.html">Executive summary</a>
+      <a aria-current="page" href="hypotheses.html">Hypotheses</a>
+      <a href="../submit.html">How to submit</a>
+      <a href="../review.html">Audit &amp; limits</a>
+    </nav>
+  </header>
+
+  <main class="article">
+    <p class="eyebrow">Pre-registration shortlist · not results</p>
+    <h1>Candidate hypotheses for faults missing from the catalogue</h1>
+    <p class="callout">These are planning candidates, not validated models or score projections. The current request does not include the designated single-method lane paragraph. The competition feature stack, labels, shared evaluator, and writer are absent from this checkout. Therefore no candidate is selected for implementation and no holdout was run.</p>
+    <p>Ranking is qualitative by expected scientific value per implementation cost. Exact layer names below are reported in the related owner-maintained <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/data/prepared_manifest.json">GEMSDOE32 prepared-data manifest</a>; that manifest is not an official organizer data dictionary and the corresponding raster is not present here. Validate the band tags against the official competition raster before use.</p>
+
+    <div class="table-wrap">
+      <table class="hypothesis-table">
+        <thead>
+          <tr>
+            <th scope="col">Rank / candidate</th>
+            <th scope="col">Specific layers &amp; signature</th>
+            <th scope="col">Why it may find an unmapped fault</th>
+            <th scope="col">How it differs from documented work</th>
+            <th scope="col">Mimic, cost, and viability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1 · Signed potential-field phase pairing</th>
+            <td><code>tmi</code> / <code>rtp</code> magnetic anomalies and <code>iso_grav_anom</code>; scale-normalized signed curvature and paired zero-crossing/phase coherence, with cross-gradient orientation as a control.</td>
+            <td>A deep basement discontinuity can perturb susceptibility and density beneath a surface with little topographic expression. Requiring compatible signed geometry across fields could reject single-field lithologic edges while retaining concealed fault boundaries.</td>
+            <td>Prior owner-repository records include magnetic/gravity edge magnitudes, cross-gradient use, and Fourier upward continuation. This exact sign-sensitive, paired curvature/phase test is not shown as a completed result in the review material inspected. Novelty is narrow and must be checked against the shared experiment ledger before running.</td>
+            <td><strong>Named mimic:</strong> intrusive contacts and abrupt lithologic susceptibility/density changes. <strong>Expected improvement:</strong> moderate potential, low confidence; no numeric estimate. <strong>Cost:</strong> medium. It needs only the competition feature stack if these bands are present; that stack is missing here, so it is not currently testable.</td>
+          </tr>
+          <tr>
+            <th scope="row">2 · Fold-local conductivity residual corridors</th>
+            <td><code>cond_surf</code>, <code>depth_to_base_surf</code>, and elevation/relief channels; fit nuisance trends within each training fold, then detect directional residual ridges and coherent cross-scale persistence.</td>
+            <td>Fluid-altered or fractured rock may leave a conductivity corridor that is not simply a proxy for relief or basin position. The fold-local residual can suppress broad regional trends and isolate off-catalogue structures.</td>
+            <td>Related records use conductivity in fused surfaces, but the reviewed notes describe this fold-local nuisance residual as a proposal rather than a completed holdout result. Verify against the current shared ledger; do not assume untried status from a new name.</td>
+            <td><strong>Named mimic:</strong> saline playa brines, clay-rich basin fill, and alluvial aquifers. <strong>Expected improvement:</strong> low-to-moderate potential, mainly precision; no numeric estimate. <strong>Cost:</strong> medium. No new external data if the official competition bands are restored; unavailable in this checkout.</td>
+          </tr>
+          <tr>
+            <th scope="row">3 · Native-resolution scarplet-chain topology</th>
+            <td>Competition-linked 1 m DEM tiles or verified USGS 3DEP elevation; segment short scarplets and score aligned en-echelon chains, strike consistency, and bounded along-strike gaps before aggregation to the prediction grid.</td>
+            <td>A low-throw fault can appear as a chain of weak, discontinuous scarps that vanishes after coarse aggregation, even when the whole chain is structurally coherent.</td>
+            <td>Earlier records describe 100 m scarp/relief derivatives and gap-closure methods; native-resolution segmentation and chain topology is a different scale and representation, not a re-labeling of a 100 m ridge score.</td>
+            <td><strong>Named mimic:</strong> Lake Lahontan shorelines, roads, terrace risers, and lithologic benches. <strong>Expected improvement:</strong> moderate only where surface expression exists; no numeric estimate. <strong>Cost:</strong> high storage/compute. Official source candidate: <a href="https://www.usgs.gov/3d-elevation-program">USGS 3DEP</a>. Its coverage, tile access, and obtainability were not checked from this sandbox; therefore this is <strong>not viable yet</strong>.</td>
+          </tr>
+          <tr>
+            <th scope="row">4 · Relocated microseismicity plane fits</th>
+            <td>Raw event coordinates, depth, and uncertainty from the official USGS FDSN event service; fit uncertainty-aware local planes and project their traces rather than using only gridded event-density fields.</td>
+            <td>A buried active fault may produce a depth-coherent event plane with no mapped surface trace. Point-level geometry can preserve information lost by smoothing.</td>
+            <td>Related submissions have tested seismicity/strain-density features; this exact relocated point-cloud plane fit is different, but the seismicity family is not wholly novel and deserves a low priority until the ledger is checked.</td>
+            <td><strong>Named mimic:</strong> mining blasts, induced events, and diffuse swarms. <strong>Expected improvement:</strong> potentially useful in active corridors but likely sparse; no numeric estimate. <strong>Cost:</strong> high. Official source candidate: <a href="https://earthquake.usgs.gov/fdsnws/event/1/">USGS FDSN Event API</a>. Host access, spatial coverage, and event quality were not checked here; therefore this is <strong>not viable yet</strong>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Decision on the top-ranked candidate</h2>
+    <p><strong>Do not implement or spend a submission slot now.</strong> The top idea cannot be tested here because the required bands and labels are not in the checkout, the shared evaluator/writer are not in this repository, and the method lane is unspecified. This is an execution blocker, not a negative geological result. No new HOLDOUT-DTI value or 95% CI exists for this branch.</p>
+    <p>When the assigned lane and data are available: freeze the hypothesis; test each input feature alone as a leakage canary; derive all catalogue-based features from only visible segments in every fold; mask visible faults pixel-exactly; evaluate pooled DTI with the specified 300 m triangular kernel; compare against the same-fold incumbent; and check surface uniqueness before placement and dot overlap after placement. Stop at the declared experiment/time budget.</p>
+
+    <h2>External-data availability rule</h2>
+    <p>USGS 3DEP and the USGS FDSN service are named as official candidate sources, but their endpoints were not accessed in this environment. They are listed for future review only; neither is represented as reachable, complete, or suitable for this study area. No candidate needing them is called viable until coverage and a free, reproducible download are verified and recorded.</p>
+
+    <p><a class="button button-primary" href="../index.html">Back to the executive summary</a></p>
+  </main>
+
+  <footer class="site-footer">
+    <span>ApartGEMSDOE1 · Hypotheses are not evidence until tested</span>
+    <span><a href="../index.html">Executive summary</a> · <a href="../submit.html">How to submit</a></span>
+  </footer>
+</body>
+</html>

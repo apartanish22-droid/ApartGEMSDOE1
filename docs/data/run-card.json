@@ -1,0 +1,39 @@
+{
+  "schema_version": "gems-parallel-runcard-v3",
+  "generated_date_utc": "2026-10-27",
+  "candidate_id": null,
+  "hypothesis": "No candidate tested; the assigned method-lane paragraph is missing from this prompt.",
+  "mechanism": "Not evaluated. This checkout has no competition feature stack, labels, shared holdout evaluator, or submission writer.",
+  "named_non_fault_process": "Not applicable because no geological hypothesis was tested; candidate-specific mimics are listed in docs/research/hypotheses.html.",
+  "experiments_used": 0,
+  "experiment_budget_cap": 3,
+  "weekly_slots_used": 0,
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "status": "NOT RUN",
+    "evaluator_version": null,
+    "n_withheld_positives": null,
+    "pooled_dti": null,
+    "ci95": null,
+    "reason": "No lane, data, or shared evaluator in this checkout."
+  },
+  "correlation_overlap_vs_registry": {
+    "candidate_surface_preplacement": "NOT RUN — no candidate surface",
+    "candidate_final_dot_overlap": "NOT RUN — no candidate raster",
+    "historical_selected_sites_audit": "All nine audited historical final-dot masks fail the requested uniqueness gate against at least one selected site; see docs/data/focus-site-audit.json.",
+    "complete_registry_available": false
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "status": "NOT RUN — no candidate TIFF",
+    "no_nan_inside_footprint": null,
+    "values_in_range_0_1": null,
+    "single_band": null,
+    "crs_match": null,
+    "shape_match": null,
+    "transform_match": null
+  },
+  "submission_name": null,
+  "submission_note": "No approved candidate; do not submit.",
+  "verdict": "negative"
+}
