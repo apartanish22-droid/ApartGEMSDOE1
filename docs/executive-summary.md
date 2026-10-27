@@ -20,21 +20,21 @@ All historical values below are **unverified user reports, not organizer receipt
 
 | Site | Historical best claim | File inspected | Protocol-unique vs other leaders? | Estimated leaderboard score | New approved file |
 |---|---|---|---|---|---|
-| [GEMSDOE24](sites/GEMSDOE24.html) | 0.2477 (unverified) | `gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif` | No | Not estimable | None |
-| [GEMSDOE25](sites/GEMSDOE25.html) | 0.2600 (unverified) | `gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif` | No | Not estimable | None |
-| [GEMSDOE27](sites/GEMSDOE27.html) | 0.2449 (unverified) | `gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif` | No | Not estimable | None |
-| [GEMSDOE28](sites/GEMSDOE28.html) | 0.2710 (unverified) | `gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif` | No | Not estimable | None |
-| [GEMSDOE30](sites/GEMSDOE30.html) | 0.2600 (unverified) | `gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif` | No | Not estimable | None |
-| [GEMSDOE31](sites/GEMSDOE31.html) | 0.2708 (unverified) | `gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif` | No | Not estimable | None |
-| [GEMSDOE32](sites/GEMSDOE32.html) | 0.2778 (unverified) | `gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif` | No | Not estimable | None |
-| [GEMSDOE33](sites/GEMSDOE33.html) | 0.2632 (unverified) | `GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif` | No | Not estimable | None |
-| [GEMSDOE36](sites/GEMSDOE36.html) | 0.2750 (unverified) | `gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif` | No | Not estimable | None |
+| [GEMSDOE24](sites/GEMSDOE24.html) | No exact-file receipt | `gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif` | No | Not estimable | None |
+| [GEMSDOE25](sites/GEMSDOE25.html) | No exact-file receipt | `gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif` | No | Not estimable | None |
+| [GEMSDOE27](sites/GEMSDOE27.html) | No exact-file receipt | `gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif` | No | Not estimable | None |
+| [GEMSDOE28](sites/GEMSDOE28.html) | No exact-file receipt | `gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif` | No | Not estimable | None |
+| [GEMSDOE30](sites/GEMSDOE30.html) | No exact-file receipt | `gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif` | No | Not estimable | None |
+| [GEMSDOE31](sites/GEMSDOE31.html) | No exact-file receipt | `gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif` | No | Not estimable | None |
+| [GEMSDOE32](sites/GEMSDOE32.html) | No exact-file receipt | `gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif` | No | Not estimable | None |
+| [GEMSDOE33](sites/GEMSDOE33.html) | No exact-file receipt | `GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif` | No | Not estimable | None |
+| [GEMSDOE36](sites/GEMSDOE36.html) | No exact-file receipt | `gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif` | No | Not estimable | None |
 
 ## Why GEMSDOE32 led the reported family
 
-The restored H33-B2 prediction is exactly the 44,090-dot D2.8 mask after removing 6,436 dots within 200 m of the public catalogue. It contains 37,654 dots and zero new locations. Removing false-positive mass can increase DTI if weighted TP coverage is preserved. This is a plausible metric mechanism, not proof of the hidden cause or an authenticated 0.2778 receipt. New faults can exist within 300 m of known traces, so flank pruning is not universally safe.
+The restored H33-B2 prediction is exactly the 44,090-dot D2.8 mask after removing 6,436 dots within 200 m of the public catalogue. It contains 37,654 dots and zero new locations. Removing false-positive mass can increase DTI if weighted TP coverage is preserved. This is a plausible metric mechanism, not proof of the hidden cause or an authenticated exact-file receipt. New faults can exist within 300 m of known traces, so flank pruning is not universally safe.
 
-The live public page displayed 0.4544 for xiaofanhu on 2026-10-27 (**official-page observation, not an exact-file receipt**). The prompt’s older 0.3195/0.4413 claims are not current measurements.
+The public leaderboard was inspected on 2026-10-27 and did not match the two inherited top-value claims. Its observation is recorded in the source ledger, not presented as an exact-file organizer receipt. No leaderboard number is used to estimate this file’s performance.
 
 ## Exact forensic findings
 

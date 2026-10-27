@@ -1,0 +1,73 @@
+{
+  "schema": "apartgems-browser-verification-v1",
+  "checked_utc": "2026-10-27T21:49:16.772Z",
+  "scope": "Local rendered site; no organizer portal or live Pages browser acceptance claim",
+  "submission_authorized": false,
+  "checks": {
+    "entry_and_negative_decision": {
+      "passed": true,
+      "detail": "Root entry redirects correctly; explicit negative decision and local holdout metadata."
+    },
+    "exact_download_hash": {
+      "passed": true,
+      "detail": {
+        "filename": "apartgems1-snrc-e1-20000-20261027-735ea04bc35d-DO-NOT-SUBMIT.tif",
+        "bytes": 915864,
+        "sha256": "73fa21b7c558cd48dea20d1d63ddd43efd2ea8b9e57bbc98972153212625987a"
+      }
+    },
+    "clipboard_exact_note": {
+      "passed": true,
+      "detail": "Exact 115-character research-only note copied."
+    },
+    "clipboard_failure_is_honest": {
+      "passed": true,
+      "detail": "Denied clipboard does not falsely report success; note remains selectable."
+    },
+    "clipboard_legacy_fallback": {
+      "passed": true,
+      "detail": "Selection/execCommand fallback works without Clipboard API."
+    },
+    "desktop_accessibility": {
+      "passed": true,
+      "detail": {
+        "wcag_violations": 0,
+        "incomplete_checks": 1
+      }
+    },
+    "responsive_and_mobile_download": {
+      "passed": true,
+      "detail": {
+        "viewport_widths": [
+          320,
+          390,
+          768,
+          1024,
+          1512,
+          1920
+        ],
+        "mobile_download_top": 836.578125
+      }
+    },
+    "mobile_accessibility": {
+      "passed": true,
+      "detail": {
+        "wcag_violations": 0,
+        "incomplete_checks": 1
+      }
+    },
+    "nine_site_pages_and_guides": {
+      "passed": true,
+      "detail": "All nine executive subpages plus the site index, guide, research and sources render at mobile width."
+    },
+    "no_runtime_errors": {
+      "passed": true,
+      "detail": "No browser JavaScript exceptions."
+    }
+  },
+  "errors": [],
+  "screenshots": "Ignored .cache/browser/",
+  "browser_package": "chromium 153.0.0",
+  "browser_version": "153.0.8010.0",
+  "passed": true
+}

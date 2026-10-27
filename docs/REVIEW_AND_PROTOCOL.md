@@ -1,3 +1,5 @@
+> **Historical concurrent-pass document, superseded.** See `docs/executive-summary.html`, `research/hypotheses-2026-10-27.md`, and `evidence/run-card.json` for the measured AP1 result. Do not interpret this earlier state as the current data/validation status.
+
 # Repository review, evidence, and next-step protocol
 
 **Review date:** 2026-10-27 (UTC). **Scope:** inspected local checkout at `d681f75` on `arena/8564b8df-apartgemsdoe1`; only tracked file at review start was a 15-byte README. No changes or prior sessions were present in this repository.

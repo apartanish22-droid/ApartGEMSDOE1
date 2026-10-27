@@ -147,5 +147,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--refresh", action="store_true", help="Resolve and freeze current peer HEADs first")
     args = parser.parse_args()
+    if (ROOT / "evidence/experiment.json").exists():
+        parser.error("Frozen AP1 registry: a recorded experiment exists. Use scripts/source_health.py --github-only for non-mutating drift diagnostics; do not rewrite the stopped run's snapshot.")
     result = build_manifest(refresh=args.refresh)
     print(json.dumps({k: v for k, v in result.items() if k not in ("inventory", "entries", "source_pins")}, indent=2))

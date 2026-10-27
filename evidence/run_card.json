@@ -22,5 +22,6 @@
   "experiments_run": 0,
   "competition_slots_used": 0,
   "verdict": "negative",
-  "reason": "Scientific validation and uniqueness cannot be asserted. No leaderboard estimate or organizer receipt."
+  "reason": "Scientific validation and uniqueness cannot be asserted. No leaderboard estimate or organizer receipt.",
+  "scope": "Historical pre-data concurrent scaffold; not the active measured AP1 run. See evidence/run-card.json."
 }

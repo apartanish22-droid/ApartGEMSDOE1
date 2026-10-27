@@ -1,0 +1,29 @@
+name: Source health (no experiments or score monitoring)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 9 * * 2'
+permissions:
+  contents: read
+jobs:
+  source-health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Probe permitted sources and GitHub snapshot drift
+        run: python scripts/source_health.py --online --report .cache/source-health-ci.json
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-health-diagnostic
+          path: .cache/source-health-ci.json
+      # Deliberately no registry rewrite, artifact replacement, model/evaluator
+      # invocation, DrivenData monitoring, auto-commit, upload or slot selection.

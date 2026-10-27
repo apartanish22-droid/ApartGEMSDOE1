@@ -1,48 +1,289 @@
 {
-  "run_card_version": 1,
-  "created_at_utc": "2026-10-27T21:24:28Z",
-  "protocol": "Parallel-Run Protocol (lane, reuse, holdout-DTI labeling, leakage canary, run card, budget)",
-
-  "hypothesis": "H1 blind hydrothermal-conduit propensity: geothermal conduits host clay alteration (elevated airborne radiometric Th/K), magnetite destruction (TMI magnetic lows), and concave curvature at intersections/relay ramps. These signatures can occur on blind faults ABSENT from the USGS/INGENIOUS Quaternary catalogue, so dots are placed strictly outside a 2 px catalogue-exclusion collar. This targets catalogue-missing faults instead of re-dotting the catalogue (the H19-5 / B2 dotted family that overlaps at 100% within 3 px across GEMSDOE24/25/27/28/30/31/32/33/36).",
-
-  "mechanism": "Feature stack = 0.5*normalise(Th/K) + 0.3*normalise(-TMI) + 0.2*normalise(concave curvature), gated by catalogue-exclusion collar, then CELF-300 m dotted emission at min_sep 2.8 px to place 37,654 binary dots; raster = propensity surface at dots, 0 elsewhere, float32 [0,1], all-finite, EPSG:32611, 3730x3292, 100 m pixels, zeros outside footprint (-zeros encoding).",
-
-  "named_non_fault_mimic": "Paleo-geothermal sinter/tufa deposits and fossil hydrothermal alteration zones (Quaternary volcanics, paleo-springs) produce Th/K and magnetic signatures without an active fault; Lake Lahontan wave-cut shoreline benches and alluvial-fan terrace risers mimic concave curvature; these are suppressed by the piedmont-habitat window and along-strike continuity requirements in the full design (demo surface here is illustrative).",
-
-  "holdout_dti": "BLOCKED - labels.tif is DrivenData login-gated and was not downloadable from this sandbox; hide-and-recover pooled DTI (alpha 0.2, beta 0.8, 300 m triangular kernel) cannot be computed. No holdout-DTI number exists yet; none is asserted. Place labels.tif in data/ and run scripts/evaluate_holdout.py before any submission slot is spent.",
-
-  "correlation_overlap_vs_registry": "BLOCKED - registry rasters are not available in this environment. The generator's internal synthetic catalogue collar is respected (dots strictly > 2 px from synthetic traces). Real-registry uniqueness (Spearman <= 0.90; <= 70% of dots within 3 px) must be re-measured against the live registry once sample_submission.tif and registry rasters are present. The dot mask is cryptographically new (sha256 below) and not a copy of any prior submission file.",
-
-  "raster_sha256": "397648e33ad640acd32c2fedcdcdefaf7815fa21bd276264bd2bcdff61af6e9a",
-
-  "validator_output": {
-    "file": "docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
-    "format_pass": true,
-    "no_nan_inside_footprint": true,
-    "n_nan": 0,
-    "n_inf": 0,
-    "values_in_0_1": true,
-    "value_min": 0.0,
-    "value_max": 0.9999975562095642,
-    "crs": "EPSG:32611",
-    "crs_match": true,
-    "shape": [3730, 3292],
-    "shape_match": true,
-    "resolution_m": 100.0,
-    "resolution_match": true,
-    "n_positive_cells": 37654,
-    "geotransform_origin_verified": false,
-    "template_origin_note": "sample_submission.tif absent (DrivenData login-gated); origin UNVERIFIED - obtain official template before upload",
-    "verdict": "RESEARCH_ONLY_ORIGIN_UNVERIFIED"
+  "hypothesis": "AP1-SNRC scarp-normal radiometric contrast",
+  "mechanism": "Paired local K-vs-Th rank residual contrast across the LiDAR strike normal, corroborated by scarp curvature and RTP gradient",
+  "non_fault_mimic": "Alluvial lithologic contacts and fluvial terrace risers; paleolake shorelines and mine cuts",
+  "holdout": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "gems-segment-pooled-v1",
+    "TP_w": 2420.9094285724777,
+    "FP_w": 19059.831584874242,
+    "FN_w": 58567.09057142753,
+    "n_truth": 60988.0,
+    "n_emitted": 19999.0,
+    "dti": 0.04560306726526391,
+    "n_withheld_positive_pixels": 60988,
+    "n_unique_withheld_components": 3199,
+    "ci95": {
+      "level": 0.95,
+      "interval": [
+        0.039300845754966195,
+        0.05238619794057768
+      ],
+      "method": "percentile spatial-block bootstrap of pooled TPw/FPw/FNw",
+      "block_pixels": 100,
+      "block_size_m": 10000,
+      "n_blocks": 583,
+      "resamples": 1999,
+      "seed": 20261025,
+      "limitation": "Internal-validation uncertainty; geologic structures may cross blocks. Not a hidden-score interval."
+    },
+    "folds": [
+      {
+        "fold": "NW",
+        "TP_w": 520.613404918787,
+        "FP_w": 4260.903031524792,
+        "FN_w": 9644.386595081212,
+        "n_truth": 10165,
+        "n_emitted": 4469,
+        "dti": 0.057283894304144795,
+        "coverage": 0.05121627200381573
+      },
+      {
+        "fold": "NE_LidarGapHeavy",
+        "TP_w": 418.84685083891634,
+        "FP_w": 5357.699319736811,
+        "FN_w": 12092.153149161084,
+        "n_truth": 12511,
+        "n_emitted": 5526,
+        "dti": 0.0375172655562396,
+        "coverage": 0.03347828717439984
+      },
+      {
+        "fold": "SW",
+        "TP_w": 846.8642359469957,
+        "FP_w": 5201.556014725869,
+        "FN_w": 19687.135764053004,
+        "n_truth": 20534,
+        "n_emitted": 5529,
+        "dti": 0.04801665835840953,
+        "coverage": 0.041242049086733984
+      },
+      {
+        "fold": "SE",
+        "TP_w": 634.5849368677784,
+        "FP_w": 4239.673218886772,
+        "FN_w": 17143.415063132223,
+        "n_truth": 17778,
+        "n_emitted": 4475,
+        "dti": 0.04175655916381932,
+        "coverage": 0.03569495651185614
+      }
+    ],
+    "protocol": {
+      "aggregation": "pooled TPw/FPw/FNw, not mean fold DTI",
+      "buffer_m": 1500,
+      "whole_components_hidden_everywhere": true,
+      "visible_fault_mask": "pixel-exact, applied before credit and FP calculation",
+      "catalogue_features": "must be constructed from fold.visible only",
+      "alpha": 0.2,
+      "beta": 0.8,
+      "triangular_kernel_radius_m": 300
+    }
   },
-
-  "submission_name": "gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros",
-  "note": "GEMSDOE1 H1 blind-conduit CELF300 37654d B2 | 06281cc7efb3 | research demo; holdout not computable without labels.tif; DO NOT SUBMIT",
-  "note_chars": 140,
-
-  "budget": "experiment 1 of 3; ~5 minutes runtime; no weekly submission slot spent",
-
+  "paired_baseline_comparison": {
+    "evaluator_version": "gems-segment-pooled-v1",
+    "candidate_dti": 0.04560306726526391,
+    "baseline_dti": 0.04808935323273937,
+    "paired_delta_dti": -0.0024862859674754587,
+    "paired_delta_ci95": [
+      -0.0052729145796459155,
+      0.00023329453981966756
+    ],
+    "ci95_strictly_positive": false,
+    "fold_wins": 0,
+    "n_folds": 4,
+    "min_fold_delta": -0.004596329858757006,
+    "folds": [
+      {
+        "fold": "NW",
+        "candidate_dti": 0.057283894304144795,
+        "baseline_dti": 0.0618802241629018,
+        "delta_dti": -0.004596329858757006,
+        "candidate_wins": false
+      },
+      {
+        "fold": "NE_LidarGapHeavy",
+        "candidate_dti": 0.0375172655562396,
+        "baseline_dti": 0.039911269629783364,
+        "delta_dti": -0.0023940040735437665,
+        "candidate_wins": false
+      },
+      {
+        "fold": "SW",
+        "candidate_dti": 0.04801665835840953,
+        "baseline_dti": 0.04930318944363689,
+        "delta_dti": -0.0012865310852273604,
+        "candidate_wins": false
+      },
+      {
+        "fold": "SE",
+        "candidate_dti": 0.04175655916381932,
+        "baseline_dti": 0.04443979647015961,
+        "delta_dti": -0.0026832373063402915,
+        "candidate_wins": false
+      }
+    ]
+  },
+  "correlation_overlap_vs_registry": {
+    "surface": {
+      "stage": "surface_before_placement",
+      "passed": true,
+      "registry_unique_rasters": 237,
+      "raw_rank_scope": "exact over all footprint pixels",
+      "raw_rank_pixels": 5167373,
+      "kernel_rank_sample_size": 200000,
+      "rank_sample_seed": 20261025,
+      "rank_limit": 0.9,
+      "overlap_limit": 0.7,
+      "overlap_distance_px": 3,
+      "overlap_scope": "ALL candidate dots, not a sample",
+      "max_abs_rank_correlation": 0.5084629622885534,
+      "max_dot_overlap": null
+    },
+    "final_dots": {
+      "stage": "final_dots",
+      "passed": false,
+      "registry_unique_rasters": 237,
+      "raw_rank_scope": "exact over all footprint pixels",
+      "raw_rank_pixels": 5167373,
+      "kernel_rank_sample_size": 200000,
+      "rank_sample_seed": 20261025,
+      "rank_limit": 0.9,
+      "overlap_limit": 0.7,
+      "overlap_distance_px": 3,
+      "overlap_scope": "ALL candidate dots, not a sample",
+      "max_abs_rank_correlation": 0.538208212800669,
+      "max_dot_overlap": 1.0
+    },
+    "scope": "All .tif files in docs/, inputs/, archive/, evidence/ in the nine requested repository snapshots; other linked projects are NOT exhaustively inventoried.",
+    "global_all_sites_certified": false
+  },
+  "raster_sha256": "73fa21b7c558cd48dea20d1d63ddd43efd2ea8b9e57bbc98972153212625987a",
+  "validator": {
+    "file": "apartgems1-snrc-e1-20000-20261027-735ea04bc35d-DO-NOT-SUBMIT.tif",
+    "bytes": 915864,
+    "sha256": "73fa21b7c558cd48dea20d1d63ddd43efd2ea8b9e57bbc98972153212625987a",
+    "format_valid": true,
+    "ok_to_upload": false,
+    "upload_authorization": "not evaluated by a format validator; separate scientific selector required",
+    "format_acceptable": true,
+    "submission_authorized": false,
+    "scope": "Format only; this does not certify bias audit, holdout promotion or weekly-slot eligibility",
+    "hard_failures": [],
+    "official_format_compliant": false,
+    "in_footprint_positive_pixels": 20000,
+    "in_footprint_mass": 20000.0,
+    "checks": {
+      "official_template_grid_and_footprint": {
+        "pass": true,
+        "detail": "Template must be the pinned organizer grid, not just a self-consistent arbitrary raster",
+        "hard_requirement": true
+      },
+      "single_band": {
+        "pass": true,
+        "detail": "count=1",
+        "hard_requirement": true
+      },
+      "dtype_float32": {
+        "pass": true,
+        "detail": "dtypes=('float32',)",
+        "hard_requirement": true
+      },
+      "crs_epsg_32611": {
+        "pass": true,
+        "detail": "EPSG:32611",
+        "hard_requirement": true
+      },
+      "shape_matches_template": {
+        "pass": true,
+        "detail": "(3730, 3292) vs (3730, 3292)",
+        "hard_requirement": true
+      },
+      "geotransform_matches_template": {
+        "pass": true,
+        "detail": "(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)",
+        "hard_requirement": true
+      },
+      "footprint_all_finite": {
+        "pass": true,
+        "detail": "0 NaN/Inf inside the 5,167,373-pixel footprint",
+        "hard_requirement": true
+      },
+      "footprint_range_0_1": {
+        "pass": true,
+        "detail": "finite=5167373/5167373; range=0.0 to 1.0",
+        "hard_requirement": true
+      },
+      "outside_is_nan_official_text": {
+        "pass": false,
+        "detail": "0 of 7,111,787 outside pixels are NaN",
+        "hard_requirement": false
+      },
+      "nodata_tag_is_nan": {
+        "pass": false,
+        "detail": "nodata=None",
+        "hard_requirement": false
+      },
+      "variant_nan_aware_whole_array": {
+        "pass": true,
+        "detail": "np.nanmin/np.nanmax over the whole array",
+        "hard_requirement": true
+      },
+      "variant_masked_read": {
+        "pass": true,
+        "detail": "rasterio read(masked=True).compressed()",
+        "hard_requirement": true
+      },
+      "variant_strict_whole_array_no_nan_allowed": {
+        "pass": true,
+        "detail": "((a>=0)&(a<=1)).all() over the whole array - fails for ANY NaN, including the official sample's NaN outside",
+        "hard_requirement": false
+      },
+      "profile_matches_official_sample": {
+        "pass": false,
+        "detail": "driver/dtype/nodata/size/crs/transform equal to template; compress=lzw (template lzw)",
+        "hard_requirement": false
+      }
+    },
+    "all_values_finite_in_01": true,
+    "no_nan_inside_footprint": true,
+    "internal_mask_matches_footprint": true,
+    "outside_null_in_masked_read": true,
+    "files_are_single_tiff": true,
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "official_text_null_mask_interpretation": "Exterior has an internal validity mask (null on masked reads), not numeric NaN; organizer portal acceptance is untested."
+  },
+  "submission_name": "apartgems1-snrc-e1-20000-20261027-735ea04bc35d-DO-NOT-SUBMIT",
+  "submission_note": "AP1 SNRC e1; scarp-normal K-v-Th contrast, 20k dots; holdout-only; DO NOT SUBMIT: automatic gates pending/negative.",
+  "byte_unique": true,
+  "prediction_unique": true,
+  "protocol_unique": false,
   "verdict": "negative",
-  "verdict_reason": "Holdout-DTI blocked (no labels.tif) and template origin unverified (no sample_submission.tif). File passes every checkable format gate. Download OK for research/inspection; DO NOT upload to DrivenData until holdout-DTI passes and the origin is verified against the official template.",
-  "data_blocker": "training_features.tif, labels.tif, sample_submission.tif require DrivenData login (https://www.drivendata.org/competitions/306/competition-doe-gems/data/); Dropbox mirrors return empty from this sandbox egress"
+  "ok_to_download": true,
+  "ok_to_submit": false,
+  "competition_slots_used": 0,
+  "failed_gates": [
+    "final_dot_novelty",
+    "complete_registry",
+    "paired_local_improvement",
+    "beats_comparable_current_best",
+    "assigned_lane",
+    "authenticated_data_provenance",
+    "separate_selector_approved",
+    "weekly_quota_verified"
+  ]
 }

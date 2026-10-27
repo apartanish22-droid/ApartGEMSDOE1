@@ -5,6 +5,6 @@ requires-python = ">=3.11"
 description = "Auditable GEMS fault-discovery experiments and fail-closed submission readiness"
 
 [tool.pytest.ini_options]
-pythonpath = ["src", "scripts"]
+pythonpath = [".", "src", "scripts"]
 testpaths = ["tests"]
 addopts = "-ra"

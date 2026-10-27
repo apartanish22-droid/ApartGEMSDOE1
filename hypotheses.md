@@ -1,3 +1,5 @@
+> **Historical concurrent-pass document, superseded.** See `docs/executive-summary.html`, `research/hypotheses-2026-10-27.md`, and `evidence/run-card.json` for the measured AP1 result. Do not interpret this earlier state as the current data/validation status.
+
 # Candidate geological hypotheses (ranked)
 
 Source of truth for rankings: expected holdout-DTI improvement vs the current

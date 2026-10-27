@@ -6,6 +6,7 @@ independently organizer-authenticated. Raw rasters remain ignored by Git.
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import shutil
@@ -60,11 +61,12 @@ def restore_blob(repo, entry, dest):
         temp.unlink(missing_ok=True)
 
 
-def main():
+def main(root: Path = ROOT):
+    root = Path(root).resolve()
     mirrored = tree(MIRROR_REPO, MIRROR_REF)
     receipt = {"provenance": "public owner mirrors; integrity verified, not organizer-authenticated", "files": []}
     for source, dest_name, expected in PRODUCTS:
-        dest = ROOT / dest_name
+        dest = root / dest_name
         if not dest.exists() or checksum(dest) != expected:
             restore_blob(MIRROR_REPO, mirrored[source], dest)
         if checksum(dest) != expected:
@@ -72,8 +74,12 @@ def main():
         receipt["files"].append({"path": dest_name, "sha256": expected, "repo": MIRROR_REPO, "ref": MIRROR_REF, "source_path": source})
         print("Verified", dest_name, flush=True)
     for name in ("geodawn_rad.json", "geodawn_extensions.json", "lidar_scarp_features.json"):
-        restore_blob(MIRROR_REPO, mirrored[f"data/external/{name}"], ROOT / f"data/external/{name}")
-    training = ROOT / "data/training_features.tif"
+        source = f"data/external/{name}"
+        dest = root / source
+        restore_blob(MIRROR_REPO, mirrored[source], dest)
+        receipt["files"].append({"path": source, "sha256": checksum(dest), "repo": MIRROR_REPO,
+                                 "ref": MIRROR_REF, "blob_sha": mirrored[source]["sha"], "source_path": source})
+    training = root / "data/training_features.tif"
     expected = "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5"
     if not training.exists() or checksum(training) != expected:
         original = tree(ORIGINAL_REPO, ORIGINAL_REF)
@@ -83,7 +89,7 @@ def main():
         partial = training.with_suffix(".partial.tif")
         with partial.open("wb") as output:
             for i, name in enumerate(parts):
-                cached = ROOT / f".cache/restore/part-{i}"
+                cached = root / f".cache/restore/part-{i}"
                 restore_blob(ORIGINAL_REPO, original[name], cached)
                 with cached.open("rb") as handle:
                     shutil.copyfileobj(handle, output)
@@ -93,9 +99,12 @@ def main():
             raise ValueError("Reassembled feature-stack SHA-256 mismatch")
         partial.replace(training)
     receipt["files"].append({"path": "data/training_features.tif", "sha256": expected, "repo": ORIGINAL_REPO, "ref": ORIGINAL_REF, "source": "five ordered bridge parts"})
-    (ROOT / "evidence/data-restoration.json").write_text(json.dumps(receipt, indent=2) + "\n")
+    (root / "evidence").mkdir(parents=True, exist_ok=True)
+    (root / "evidence/data-restoration.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print("Restored pinned mirrored inputs; organizer authentication remains unverified")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=ROOT, help="Optional isolated restoration root for end-to-end integrity checks")
+    main(parser.parse_args().root)
