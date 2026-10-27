@@ -4,20 +4,22 @@
 
 ## Executive review
 
+This review was extended after parallel work merged into `main`; all statements below distinguish the initial empty checkout from the current tree. The current tree contains the static executive page, pinned site snapshots/inventory, preregistered hypotheses, a readiness gate, test/build scripts, and sibling-research snapshots. These are audit scaffolding, not a locally reproducible model or evidence package.
+
 | Area | Finding | Consequence |
 |---|---|---|
-| Code and tests | No application, model, evaluator, writer, website, or tests exist in this checkout. | There is no implementation here to run line-by-line or repair. |
-| Data | No `data/` directory or GeoTIFFs exist. `numpy` and `rasterio` are not installed in the environment. | No raster can be evaluated or written against the required grid. |
-| Shared template | No cached feature stack or shared holdout/writer code exists. | The requested “reuse, don't rebuild” workflow cannot be executed from this checkout. Do not silently substitute a private evaluator. |
-| Competition access | No DrivenData credentials/data are available in this environment. | The competition data page is access-controlled according to the supplied project context; no authenticated download was attempted. |
-| Existing candidate registry | The user supplied historical names and score-like values, but there are no registry rasters, receipts, or machine-readable records in the repo. | Cannot verify duplicates, reproduce the values, or label them ORGANIZER-CONFIRMED. |
-| Submission deliverable | No sample grid or inputs. | No TIF is generated. Any guessed or fabricated grid would be unsafe to submit. |
+| Code and tests | Current tree has a static executive-summary site, build/readiness scripts, focused unit tests, a format validator, and read-only sibling research/evaluator snapshots. It has no locally executable training pipeline. | Tests and page generation are runnable; scientific experiments remain blocked. |
+| Data | No competition rasters were found in the worktree; `.gitignore` excludes `data/` and GeoTIFFs. No cached feature-stack bytes or official sample grid are present. | No real-raster validation, holdout score, or output can be reproduced here. |
+| Shared template | Canonical paths expected by readiness (`scripts/evaluate_holdout.py`, `scripts/submission_writer.py`, cached stack) are absent. A sibling snapshot exists under `research/gems32/`, but its provenance disclaims organizer authentication and it is not the installed template. | Do not treat the snapshot as the requested shared runtime or silently substitute its metric/writer. |
+| Competition access | No DrivenData credentials/data are available. The repository contains user-supplied links and GitHub mirror snapshots, not authenticated competition package contents. | No authenticated download or live organizer receipt was obtained. |
+| Existing candidate registry | `evidence/site_inventory.json` and mirrored HTML pin source trees/pages and enumerate remote raster paths; the raster bytes and complete pixel registry are not present locally. | User-reported results can be summarized, but raster-level uniqueness cannot be certified here. |
+| Submission deliverable | No candidate GeoTIFF exists in the worktree; current root page says no approved file and no slot is authorized. | No TIF is generated. Any guessed or fabricated grid would be unsafe to submit. |
 
 ### Highest-score question (what can and cannot be concluded)
 
 The supplied record identifies `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` as the top reported GEMSDOE32 entry. It also gives inconsistent current-leaderboard claims in different parts of the prompt. Those are **user-provided, unverified reports**, not scores independently confirmed from organizer receipts. Reconcile them against a dated leaderboard snapshot. The GEMSDOE32 submission may be a useful candidate for study, but its name and reported result alone cannot establish why it scored well: one would need its actual raster, code/config, feature lineage, target/metric receipt, and comparable spatial holdout results.
 
-At most, the title and surrounding user-supplied result descriptions suggest a “h33 / b2” method with an all-zero outside convention; the semantics of `h33`, `b2`, and `zeros` are **not established here**. Do not infer the algorithm from a filename. The reported value is not evidence that a newly created raster will exceed it. No score estimate is available in this repository.
+The sibling-authored bundle metadata (`research/gems32/evidence/h33_submission_bundles.json`) describes this file as a sparse subset of a prior base map after removing points within a narrow catalogue-flank buffer; its `zeros` suffix denotes a zero-filled outside-footprint variant in that metadata. This gives a plausible precision/false-positive-mass explanation for why catalogue-flank pruning could improve the reported metric. It does **not** establish causality: the JSON is a sibling-authored mirror snapshot, not an organizer receipt, and its `predicted_leaderboard_dti` field is explicitly a projection. Its holdout fields do not provide the agreed evaluator version, withheld-positive count and 95% CI required by this run protocol. The separate H33 holdout record also reports different instruments/controls, so metrics cannot be pooled or treated as a score without re-running the shared evaluator. A new raster exceeding the historical report cannot be promised or estimated from these records.
 
 ## In-scope site summary (from the user's pasted record only)
 
@@ -88,6 +90,13 @@ A pass means only that the file passed the implemented structural/range checks. 
 6. Run the shared writer, then the validator, save a run card and SHA-256. Keep real-submission promotion as a separate selector step.
 7. Build the requested public executive-summary UI only after the evidence/data pipeline exists. The UI must never advertise a download as “OK to submit” unless all configured gates pass; public scores must have receipt provenance and date.
 
-## Run card
+## Three-pass review notes and irregularities
+
+- **Pass 1 — repository and scope:** the initial checkout was effectively empty. The parallel merge added an executive summary, nine pinned site pages, an evidence inventory, a research plan, readiness checks, and a site builder. These satisfy a documentation/UI scaffold, not model training or TIF generation.
+- **Pass 2 — bugs and edge cases:** the GitHub Actions workflow originally ran unit tests without installing `numpy`/`rasterio`, even though this branch's validator tests require them. The workflow now installs `requirements.txt` before tests. Validator tests cover valid grid/range, NaN, nodata inside footprint, CRS, shape, transform, and band count. A successful output includes the raster SHA-256.
+- **Pass 3 — request alignment:** the landing page clearly says no approved file and NO submission. The main site builder uses a hard-coded historical result list and a fixed date; it is a static snapshot, not an automatically current leaderboard feed. No GitHub Pages deployment workflow/settings or live leaderboard receipt was verified. The nested sibling research README advertised audit downloads through relative paths, but the referenced TIFF/ZIP bytes are not present in this checkout; a warning has been added so those links are not mistaken for a working download or submission authorization.
+- **Evidence boundary:** `research/gems32/scripts/evaluate_holdout.py` and `submission_writer.py` are sibling snapshot files, not an installed/reproducible shared template. The official feature cache, competition rasters, and complete pixel-level registry are absent. The `evidence/site_inventory.json` records source refs and raster paths; it cannot replace raster bytes for correlation/overlap checks.
+- **Hypothesis lane:** the user brief says a single assigned method paragraph defines the lane, but no such paragraph is present. Therefore no candidate was implemented or tested. The listed ideas are preregistrations only, not a recommendation to spend a submission slot.
+- **Submission decision:** no candidate TIF is locally available or authorized. Do not submit any artifact based on a filename, sibling README, score projection, or a passing format check alone.
 
 The canonical run card for this review is [`docs/run_card.json`](run_card.json). No experiment was run; all unavailable measurements remain `null` rather than being guessed.

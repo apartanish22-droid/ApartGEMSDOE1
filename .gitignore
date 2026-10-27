@@ -1,12 +1,8 @@
-# Python environments and caches
-.venv/
 __pycache__/
-*.py[cod]
-.pytest_cache/
-
-# Local competition data and generated rasters; keep out of Git by default
+.venv/
+.cache/
 data/
 outputs/
 *.tif
-*.tiff
-*.geotiff
+*.npy
+*.npz
