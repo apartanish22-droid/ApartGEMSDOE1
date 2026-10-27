@@ -36,3 +36,19 @@ def test_parallel_synthetic_demo_is_rejected_without_geospatial_claim():
     assert not report["basic_checks_passed"] and not report["checks"]["transform_match"]
     assert not report["approved_to_submit"] and not report["organizer_accepted"]
     assert "array-index diagnostic only" in report["footprint_comparison"]
+
+
+def test_legacy_demo_entrypoints_fail_closed():
+    import subprocess
+    import sys
+    for name in ("generate_submission", "evaluate_holdout", "submission_writer"):
+        run = subprocess.run([sys.executable, str(ROOT / "scripts" / (name + ".py"))], capture_output=True, text=True)
+        assert run.returncode != 0 and "STOP" in run.stderr
+
+
+def test_historical_parallel_card_does_not_claim_format_or_uniqueness():
+    card = json.loads((ROOT / "run_card.json").read_text())
+    assert card["verdict"] == "negative" and not card["validator_output"]["format_pass"]
+    assert not card["validator_output"]["template_transform_match_pinned_mirror"]
+    assert card["note_chars"] == len(card["note"]) <= 140
+    assert "do not prove" in card["correlation_overlap_vs_registry"]

@@ -21,3 +21,17 @@ jobs:
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm test
       - run: node --check docs/assets/app.js
+      - name: Restore pinned research inputs
+        run: python scripts/restore_inputs.py --group light
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Reproduce the lattice and lineage audit
+        run: |
+          python scripts/audit.py --out "$RUNNER_TEMP/audit.json" --run-card-out "$RUNNER_TEMP/run-card.json"
+          python -c 'import json, os; from pathlib import Path; a=json.loads(Path("docs/data/audit.json").read_text()); b=json.loads((Path(os.environ["RUNNER_TEMP"])/"audit.json").read_text()); assert all(a[k]==b[k] for k in ("preflight","lineage","nine_site_summary","run_card"))'
+      - name: Confirm the parallel demo fails the mirrored grid
+        run: |
+          if python scripts/validate_raster.py docs/assets/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif --template .cache/inputs/sample_submission.tif --profile all-finite > "$RUNNER_TEMP/demo.json"; then
+            echo "Unexpected demo validation pass" >&2; exit 1
+          fi
+          python -c 'import json, os; from pathlib import Path; a=json.loads(Path("docs/data/parallel-demo-validation.json").read_text()); b=json.loads((Path(os.environ["RUNNER_TEMP"])/"demo.json").read_text()); assert a["sha256"]==b["sha256"] and not b["checks"]["transform_match"] and not b["approved_to_submit"]'

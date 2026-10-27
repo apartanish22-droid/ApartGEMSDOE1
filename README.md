@@ -22,7 +22,7 @@ Before a geological implementation, rank 3–5 plausible, distinct hypotheses by
 ## What this checkout actually does
 
 - Restores hash-pinned **owner-hosted mirrors** of the sample, labels, nine historical rasters and a registered lattice into an ignored cache; can separately restore the 19-band feature mirror. These hashes establish integrity, **not organizer authentication**.
-- Runs an independent read-only geometry/lineage audit and a saved-byte TIFF inspection. It does not implement a replacement holdout evaluator or submission writer.
+- Runs an independent read-only geometry/lineage audit and a saved-byte TIFF inspection. It does not implement a replacement holdout evaluator or submission writer. Legacy parallel demo generator/evaluator/writer entry points are disabled safety stubs; their earlier source remains in Git history.
 - Uses the unmodified, pinned GEMSDOE32 preparation script after an extra grid/hash preflight. A 19-band mirror was restored and prepared in this session; the large data and prepared arrays are deliberately not in Git. This is data preparation, not a trained model or an experiment.
 - Publishes static executive and per-site pages, a source-freshness check for public GitHub refs, and a negative run card. The [DrivenData Terms of Use](https://www.drivendata.org/termsofuse/) restrict automated/manual monitoring or copying without written consent; the dashboard does not scrape or auto-refresh its leaderboard.
 

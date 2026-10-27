@@ -1,11 +1,18 @@
-# Local data and regenerable raster/model caches are not source artifacts.
+# Local inputs and regenerable model/data caches are not source artifacts.
 .cache/
 /data/
+/outputs/
 .venv/
 __pycache__/
 .pytest_cache/
 *.py[cod]
 *.partial
+*.tif
+*.npy
+*.npz
+# Explicitly approved future publication artifacts may live here.
+!docs/downloads/
+!docs/downloads/*.tif
 
 # Node test dependencies
 node_modules/
