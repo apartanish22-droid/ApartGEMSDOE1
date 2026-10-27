@@ -1,0 +1,30 @@
+{
+  "hypothesis": "No experiment run: the exact method lane, competition rasters, cached feature stack, shared holdout evaluator/writer, and registry rasters are absent from this checkout.",
+  "mechanism": null,
+  "named_non_fault_process_that_could_mimic_it": null,
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "value": null,
+    "evaluator_version": null,
+    "withheld_positive_count": null,
+    "confidence_interval_95": null,
+    "status": "not run; required method definition, data, and shared evaluator unavailable"
+  },
+  "correlation_overlap_vs_registry": {
+    "rank_correlation": null,
+    "fraction_of_dots_within_3px": null,
+    "status": "not assessed; no candidate or registry raster/dot sets"
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "status": "not run on a candidate",
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "reason": "no candidate TIFF or official sample template",
+    "synthetic_regression_tests": "passed; synthetic rasters only, not a competition candidate"
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "verdict": "negative"
+}
