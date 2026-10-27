@@ -1,26 +1,18 @@
-# Large competition rasters are restored on demand (hash-pinned, see scripts/download_competition_data.sh)
-# and never committed. Snapshots exclude .cache/ anyway.
+# Local inputs and regenerable model/data caches are not source artifacts.
 .cache/
-data/*.tif
-data/*.zip
-data/bridge/
-data/external/
-data/scored/
-data/raw_parts/
-
-# Regenerable caches and scratch
-__pycache__/
-*.pyc
-*.npz
-.npy_cache/
+/data/
+/outputs/
 .venv/
-venv/
-.env
-.DS_Store
-.ipynb_checkpoints/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.partial
+*.tif
+*.npy
+*.npz
+# Explicitly approved future publication artifacts may live here.
+!docs/downloads/
+!docs/downloads/*.tif
 
-# OS
-Thumbs.db
-
-# The published submission GeoTIFF (under docs/downloads) and the committed submission bundle
-# are deliverables: track them explicitly with `git add -f` if a global rule ever ignores *.tif.
+# Node test dependencies
+node_modules/
