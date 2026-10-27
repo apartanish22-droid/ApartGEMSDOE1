@@ -34,13 +34,13 @@
     "no_nan_inside_footprint": null,
     "values_in_0_1": null,
     "crs_shape_transform_match": null,
-    "result": "NOT RUN: no new output raster exists; historical reference diagnostics are in evidence/fleet_audit.json."
+    "result": "NOT RUN on a new candidate from this review; the prior synthetic demo was audited separately under parallel_demo."
   },
   "submission": {
     "name": null,
     "note": null,
     "slot_selected": false,
-    "reason": "No candidate was produced or approved; do not upload a historical file."
+    "reason": "No competition candidate was produced or approved by this review; do not upload historical files or the synthetic demo."
   },
   "verdict": "negative",
   "weekly_slots_spent": 0,
@@ -57,6 +57,19 @@
     "mechanism": "Simulated alteration-like and magnetic-low Gaussian patterns; no real geological inputs or inferred faults",
     "named_non_fault_mimicker": "Lithologic contacts and fossil hydrothermal alteration (not tested)",
     "holdout_dti": null,
-    "holdout_ci95": null
+    "holdout_ci95": null,
+    "validator": {
+      "whole_array_nan_count": 0,
+      "whole_array_values_in_0_1": true,
+      "no_nan_inside_mirrored_footprint": null,
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform_matches_mirrored_template": false,
+      "template_organizer_authenticated": null,
+      "result": "DO_NOT_SUBMIT_FORMAT_FAILURE"
+    }
   }
 }
