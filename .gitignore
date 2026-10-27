@@ -1,5 +1,10 @@
 /.venv/
 __pycache__/
-**/__pycache__/
+.cache/
+data/
 *.py[cod]
-/data/
+*.npy
+*.npz
+
+# Do not blanket-ignore GeoTIFFs: an explicitly approved submission artifact
+# may need to be published. Keep raw/private datasets under ignored data/.
