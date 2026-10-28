@@ -34,8 +34,11 @@
     "GEMSDOE33": 0.379539,
     "GEMSDOE25": 0.401333,
     "GEMSDOE30": 0.401333,
-    "GEMSDOE24": 0.413220,
+    "GEMSDOE24": 0.41322,
     "GEMSDOE27": 0.430151
   },
-  "scientific_resolution": "Removed derived_sgmc_faults_100m.tif (which is a pre-Quaternary bedrock fault map rather than a blind geophysical/geothermal sensor, and historically underperformed live in GEMSDOE30 MSDB1 at 0.1462 because Mesozoic/Tertiary mountain-block thrusts are not active Quaternary basin geothermal conduits). Replaced with 100% sensor-derived updip potential-field + drainage-orthogonal scarp + hydrothermal alteration/upflow concordance (`hmcs_updip_alteration_concordance`)."
+  "scientific_resolution": "Removed derived_sgmc_faults_100m.tif (which is a pre-Quaternary bedrock fault map rather than a blind geophysical/geothermal sensor, and historically underperformed live in GEMSDOE30 MSDB1 at 0.1462 because Mesozoic/Tertiary mountain-block thrusts are not active Quaternary basin geothermal conduits). Replaced with 100% sensor-derived updip potential-field + drainage-orthogonal scarp + hydrothermal alteration/upflow concordance (`hmcs_updip_alteration_concordance`).",
+  "historical_only": true,
+  "promotion_eligible": false,
+  "warning": "Historical account; later literal lattice audit overrides any uniqueness or release conclusion."
 }

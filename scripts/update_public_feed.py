@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timezone
 from html.parser import HTMLParser
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -84,6 +85,24 @@ def parse_public_leaderboard(html: str) -> float:
     return found[0]
 
 
+def table_diagnostics(html: str) -> dict:
+    """Record only public table structure, never participant names or page HTML."""
+    parser = TableParser()
+    parser.feed(html)
+    tables = []
+    for table in parser.tables[:5]:
+        # First-row categories and rank-shaped cells only: no participant names.
+        rank_cells = [row[0] for row in table[1:4] if row and re.fullmatch(r'[#\s0-9]+', row[0])]
+        categories = []
+        for cell in (table[0] if table else []):
+            lower = cell.casefold()
+            categories.append([word for word in ('rank', 'tversky', 'participant', 'team') if word in lower])
+        tables.append({'header_categories': categories, 'first_rank_cells': rank_cells})
+    return {'response_bytes': len(html.encode('utf-8')),
+            'response_sha256': hashlib.sha256(html.encode('utf-8')).hexdigest(),
+            'table_count': len(parser.tables), 'tables': tables}
+
+
 def make_snapshot(html: str, *, now: datetime | None = None) -> dict:
     stamp = (now or datetime.now(timezone.utc)).astimezone(timezone.utc).isoformat()
     try:
@@ -97,7 +116,9 @@ def make_snapshot(html: str, *, now: datetime | None = None) -> dict:
             "caveat": "Public leaderboard only; not a forecast, private score, or a score for a file in this repository.",
         }
     except ValueError as exc:
-        return unavailable(str(exc), stamp=stamp)
+        result = unavailable(str(exc), stamp=stamp)
+        result['parse_diagnostics'] = table_diagnostics(html)
+        return result
 
 
 def unavailable(reason: str, *, stamp: str | None = None) -> dict:

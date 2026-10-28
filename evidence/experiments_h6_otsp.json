@@ -11,7 +11,8 @@
       0.099365,
       0.136129
     ],
-    "withheld_positive_pixels": 11360
+    "withheld_positive_pixels": 11360,
+    "status": "Historical v2 comparator only; not a current promoted baseline."
   },
   "leakage_canary": {
     "evidence_class": "LEAKAGE-CANARY-HOLDOUT",
@@ -222,8 +223,7 @@
   ],
   "selected_holdout_winner": "E1",
   "winner_holdout_dti": 0.11093012659855961,
-  "beats_current_holdout_best": false,
-  "selector_verdict": "negative_stop",
+  "selector_verdict": "negative_stop_archived_v2",
   "weekly_submission_slots_used": 0,
   "elapsed_seconds": 108.393,
   "bootstrap": {
@@ -233,5 +233,14 @@
     "seed": 520810,
     "confidence": 0.95,
     "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
-  }
+  },
+  "evidence_status": "ARCHIVED-NONCOMPARABLE: run before literal lattice witness and v3 mask correction; never promotion-cleared.",
+  "subsequent_registry_stop": {
+    "evidence": "evidence/literal_witness_audit.json",
+    "candidate_forward_overlap_3px": 0.9967865299835342,
+    "limit": 0.7,
+    "stop_required": true,
+    "effect": "No current file is safe to submit; archived H6 v2 evidence cannot authorize promotion."
+  },
+  "beats_historical_v2_baseline": false
 }

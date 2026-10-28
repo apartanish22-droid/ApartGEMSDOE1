@@ -1,0 +1,18 @@
+{
+  "generated_utc": "2026-10-28T22:59:40.561725+00:00",
+  "evidence_class": "MASK-REGRESSION (not a model score)",
+  "evaluator_version": "gems57-pooled-hide-v3",
+  "split_seed": 2026,
+  "withheld_positive_pixels": 11360,
+  "buffer_removed_nonhidden_catalogue_pixels": 1094,
+  "buffer_removed_nonhidden_in_scored_regions": 1088,
+  "visible_equals_score_mask_all_folds": true,
+  "model_score_run": false,
+  "note": "Buffer-removed catalogue pixels are not confirmed negatives; they remain unmasked in the conservative v3 proxy.",
+  "implementation_sha256": {
+    "evaluate_holdout.py": "e2df86349b7612af6e93588729c92a51f38b993a8d08c864821908853b536620",
+    "holdout.py": "7afc84bca991892c0bc56fbb5078986837f72d7fb5232b5b07260d83d614cbb1",
+    "metric.py": "87424499e817a9237a74fd738a45f38447f703c74f2d3bf2ae8cf44bd25b06fa",
+    "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+  }
+}

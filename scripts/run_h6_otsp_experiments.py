@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Run the three pre-registered H-APART-6 OTSP holdout experiments.
+"""Archived H-APART-6 OTSP experiment runner with a literal-duplicate stop.
 
-This script deliberately stops at selector evidence.  It does not consume a weekly
-submission slot and does not write a submission GeoTIFF.  A separate promotion
-step is permitted only when the winner beats the recorded H-APART-2 holdout best.
+The three recorded v2 experiments predate the independently discovered lattice
+witness. This entry point now fails closed before loading data whenever that
+witness requires a stop. It never writes a submission GeoTIFF or uses a slot.
 """
 from __future__ import annotations
 
@@ -155,6 +155,15 @@ def _leakage_canaries(surfaces: dict[str, np.ndarray], folds: list[dict], fp: np
 
 
 def main() -> int:
+    witness_path = ROOT / "evidence/literal_witness_audit.json"
+    if witness_path.exists() and json.loads(witness_path.read_text()).get("stop_required"):
+        print(
+            "H-APART-6 is stopped: the current literal registry witness exceeds "
+            "the 70% overlap limit; archived v2 evidence must not be promoted or rerun.",
+            file=sys.stderr,
+        )
+        return 2
+
     started = time.time()
     grid = load_grid()
     fp = grid.footprint

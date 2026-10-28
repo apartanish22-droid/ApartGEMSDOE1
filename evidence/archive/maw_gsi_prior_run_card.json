@@ -1,0 +1,109 @@
+{
+  "protocol": "GEMS Parallel-Run Protocol v2",
+  "branch": "arena/23b55aaa-apartgemsdoe1",
+  "generated_utc": "2026-10-28T09:10:21.515350+00:00",
+  "hypothesis": "H-APART-2 (MAW-GSI): Multi-Azimuth Strike-Worm, Antislope Piedmont Dipole & Faulds-Hinz Geothermal Structural-Intersection Submodular Synthesis (100% Zero-SGMC)",
+  "mechanism": "Distributed Quaternary slip in NW Great Basin piedmonts, relay ramps, horse-tail splays, and conjugate Walker-Lane/Basin-and-Range cross-fault intersections produces sub-meter antislope/piedmont scarps and oxidized/demagnetized hydrothermal conduits missing from existing_faults.tif while hosting >93% of blind geothermal vents (Faulds & Hinz, 2015). Coupling 8-azimuth 1.1-1.5 km flank-subtracted strike worms, orthogonal 2nd-azimuth intersection index I_vent = sqrt(W_(1)*W_perp), relief-normalized 1m LiDAR + 10m 3DEP scarp dipoles, Gallardo-Meju cross-gradient alignment, shallow TMI_up150-RTP demagnetization + sanitized GDR #1391 thermal/2m-probe/sinter fields, Stage-2 OOF axial worms, and collar-tempered (clip(d_vis, 8, 45)) tip/relay transfer with exact 300 m Minoux CELF submodular coverage recovers hidden fault traces and vent conduits within the 300 m DTI kernel.",
+  "named_non_fault_mimic_process": "Incised dendritic alluvial-fan washes (suppressed via cross_max denominator & 1.1 km flank-subtracted worm coherence), rugged mountain-interior cliffs (suppressed via relief normalization), circular Cenozoic volcanic plugs/calderas (suppressed via Gallardo-Meju curl |grad(g)xgrad(m)|), and Interstate/railroad embankment berms (suppressed via US Census TIGER/Line 2024 road-proximity indicator).",
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "split": "gems57-pooled-hide-v2 (seed=2026, buffer_px=3, 20 km block bootstrap)",
+    "withheld_positive_pixels": 11360,
+    "dti": 0.117438,
+    "ci95": [
+      0.099365,
+      0.136129
+    ],
+    "prior_v1_holdout_dti": 0.052325,
+    "fold_honest_gemsdoe32_b2_holdout_dti": 0.097441,
+    "detached_gt_800m_blind_dti": 0.084019,
+    "seed_20_stability_dti": 0.124957,
+    "experiments_progression": {
+      "E1_maw_scarp_geophys_blind": 0.077376,
+      "E2_maw_gsi_blind_vent": 0.079485,
+      "E3_maw_gsi_oof_axial_relay": 0.117438
+    }
+  },
+  "leakage_canary": {
+    "features_tested": 45,
+    "max_symmetric_auc": 0.776456,
+    "cap": 0.9,
+    "all_passed": true
+  },
+  "registry_uniqueness": {
+    "repositories_checked": 50,
+    "unique_rasters_checked": 806,
+    "competing_sparse_detectors_checked": 660,
+    "blanket_or_flood_surfaces_disclosed": 146,
+    "pre_placement_surface_max_abs_spearman": 0.691092,
+    "post_placement_final_max_abs_spearman": 0.092522,
+    "post_placement_max_3px_overlap_vs_competing": 0.642641,
+    "closest_competing_detector": {
+      "repo": "GEMSDOE10",
+      "file": "docs/downloads/gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif",
+      "positive_pixels": 69281,
+      "overlap_3px_fraction": 0.642641,
+      "spearman_rho": 0.022218
+    },
+    "vs_gemsdoe32_02778_3px_overlap": 0.467095,
+    "vs_gemsdoe32_02778_spearman": 0.036929,
+    "spearman_cap": 0.9,
+    "overlap_3px_cap": 0.7,
+    "passed": true
+  },
+  "spatial_anatomy_and_external_audit": {
+    "emitted_dots": 37654,
+    "dots_le_200m_collar": 0,
+    "dots_200m_to_600m_fraction": 0.278669,
+    "dots_600m_to_1500m_fraction": 0.363759,
+    "dots_gt_1500m_farfield_fraction": 0.357572,
+    "median_dot_slope_deg": 7.903,
+    "depth_gt_20m_basin_piedmont_fraction": 0.963385,
+    "external_sgmc_posthoc_audit": {
+      "metric": "C_pied_FAR_gt1km (auxiliary post-hoc geologic audit ONLY; zero SGMC in model)",
+      "sgmc_far_piedmont_pixels": 15112,
+      "dti": 0.047397,
+      "tpw": 933.44
+    }
+  },
+  "raster_sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
+  "decoded_footprint_sha256": "87f83db9e3127aeb240d35bfbeddb5f15c638b7d1ce4d3ebd0505678ccbccfae",
+  "validator_output": {
+    "file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+    "zip_file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.zip",
+    "bytes": 145748,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "min": 0.0,
+    "max": 1.0,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "emitted_positive_pixels": 37654,
+    "on_catalogue_positive_pixels": 0,
+    "within_200m_collar_pixels": 0,
+    "farfield_gt_1500m_pixels": 13464,
+    "all_checks_passed": true
+  },
+  "submission_name": "apartgems1-maw-gsi-e3-20261028-87f83db9",
+  "submission_note": "H-APART-2 MAW-GSI (E3): 8-az strike worms + I_vent intersection + demag/GDR1391 + CELF300m; [0,1] zeros (37654 px).",
+  "submission_note_chars": 115,
+  "verdict": "promote",
+  "historical_only": true,
+  "superseded_by": "evidence/run_card.json and evidence/literal_witness_audit.json",
+  "promotion_eligible": false,
+  "warning": "Prior promote verdict is withdrawn: the uniqueness gate exempted dense/lattice rasters and the v2 scoring mask excluded buffer-removed, non-visible catalogue cells. This receipt is historical, not submission approval."
+}

@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
-"""Restore, SHA-256-verify, and cache the DOE GEMS competition & public-domain feature stack.
+"""Restore and hash-check pinned *owner-mirror* bytes; not organizer authentication.
 
-Reuses the canonical 57GEMSDOE pinned bridge (buffedlizard55-lab/6GEMSDOE @ e2fe3f41c6)
-plus hash-pinned public-domain USGS 3DEP (1m LiDAR + seamless 10m DEM), USGS GeoDAWN
-radiometric/magnetic extensions, DOE GDR #1391 INGENIOUS thermal/geochemical tables,
-USGS SGMC bedrock fault layers, and US Census TIGER 2024 road distance rasters.
-
-All large binary rasters and band caches reside in git-ignored `.cache/` with clean
-relative symlinks in `data/` so Git and turn snapshots remain lightweight.
+Pinned mirror features may describe USGS, DOE or Census source data, but their
+scientific derivation and licenses have not been independently reconstructed.
+Some pins are historical first-observed digests rather than official checksums.
+Large binaries and band caches stay in git-ignored `.cache/`.
 """
 from __future__ import annotations
 
@@ -73,7 +70,7 @@ EXTERNAL_PINS = [
     {
         "name": "derived_sgmc_faults_100m.tif",
         "repo": "buffedlizard55-lab/57GEMSDOE",
-        "ref": "HEAD",
+        "ref": "822a0ce5546c7b6749cdd82eb145b6b3e616603d",
         "path": "data/external/derived_sgmc_faults_100m.tif",
         "sha256": "643cbe992ef4ba37588fb469163ed8291e3ceb23d6c1f78a3cfaa462430c2da0",
         "official_source": "https://pubs.usgs.gov/ds/1052/",
@@ -81,7 +78,7 @@ EXTERNAL_PINS = [
     {
         "name": "sgmc_faults_100m.tif",
         "repo": "buffedlizard55-lab/57GEMSDOE",
-        "ref": "HEAD",
+        "ref": "822a0ce5546c7b6749cdd82eb145b6b3e616603d",
         "path": "data/external/sgmc_faults_100m.tif",
         "sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c",
         "official_source": "https://pubs.usgs.gov/ds/1052/",
@@ -91,7 +88,7 @@ EXTERNAL_PINS = [
         "repo": "buffedlizard55-lab/GEMSDOE24",
         "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
         "path": "data/external/lidar_scarp_features_u8.tif",
-        "sha256": None,
+        "sha256": "d580bb8bdcdb941e32fefb8b38044bc5bf04e199bf2e83498c3576e6fc465568",
         "official_source": "https://www.usgs.gov/3d-elevation-program",
     },
     {
@@ -99,7 +96,7 @@ EXTERNAL_PINS = [
         "repo": "buffedlizard55-lab/GEMSDOE24",
         "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
         "path": "data/external/lidar_scarp_features.json",
-        "sha256": None,
+        "sha256": "9ef0df6e87598a8b0cd52fe821661e5fdb3a00568c5d9b1c5d61fd6b242dcd41",
         "official_source": "https://www.usgs.gov/3d-elevation-program",
     },
     {
@@ -107,7 +104,7 @@ EXTERNAL_PINS = [
         "repo": "buffedlizard55-lab/GEMSDOE24",
         "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
         "path": "data/external/geodawn_rad_u8.tif",
-        "sha256": None,
+        "sha256": "c22420f75999030d7cc65c9e31e50d232ea6158423bca051613a18a8b20ba682",
         "official_source": "https://www.sciencebase.gov/catalog/item/61955dcad34eb622f6908d6c",
     },
     {
@@ -115,7 +112,7 @@ EXTERNAL_PINS = [
         "repo": "buffedlizard55-lab/GEMSDOE24",
         "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
         "path": "data/external/geodawn_rad.json",
-        "sha256": None,
+        "sha256": "d917fd08f89c160d2a0ba91af9c3321c8c8b5677fcdba39b10e684384cbc7488",
         "official_source": "https://www.sciencebase.gov/catalog/item/61955dcad34eb622f6908d6c",
     },
     {
@@ -123,7 +120,7 @@ EXTERNAL_PINS = [
         "repo": "buffedlizard55-lab/GEMSDOE24",
         "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
         "path": "data/external/geodawn_extensions_u8.tif",
-        "sha256": None,
+        "sha256": "a35a9c6d2a14786f4dab85481ee59769213072f5dab5b2535ea82ae4d9bb7d9b",
         "official_source": "https://www.sciencebase.gov/catalog/item/61955dcad34eb622f6908d6c",
     },
     {
@@ -131,7 +128,7 @@ EXTERNAL_PINS = [
         "repo": "buffedlizard55-lab/GEMSDOE24",
         "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
         "path": "data/external/geodawn_extensions.json",
-        "sha256": None,
+        "sha256": "56556f24c051043fd7a85587786118f8064624f2ad0604aaa3e6614f1a9f6d2f",
         "official_source": "https://www.sciencebase.gov/catalog/item/61955dcad34eb622f6908d6c",
     },
     {
@@ -139,7 +136,7 @@ EXTERNAL_PINS = [
         "repo": "buffedlizard55-lab/GEMSDOE24",
         "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
         "path": "data/external/gdr_wellspring_in_footprint.csv",
-        "sha256": None,
+        "sha256": "122718e65bdf55aab0ee12ad20d80062f0deb1de957225a61ad880dd5dc196ea",
         "official_source": "https://gdr.openei.org/submissions/1391",
     },
     {
@@ -147,7 +144,7 @@ EXTERNAL_PINS = [
         "repo": "buffedlizard55-lab/GEMSDOE24",
         "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
         "path": "data/external/2m_temperature_probe_INGENIOUS_regional_data.zip",
-        "sha256": None,
+        "sha256": "1301f70d230058e616ea5d34d1c7a32fabf7d49198172f376c59c89bd652eca3",
         "official_source": "https://gdr.openei.org/submissions/1391",
     },
     {
@@ -155,7 +152,7 @@ EXTERNAL_PINS = [
         "repo": "buffedlizard55-lab/GEMSDOE24",
         "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
         "path": "data/external/paleo_geothermal_regional.zip",
-        "sha256": None,
+        "sha256": "faffcf697f32dbbf6cbb317cd1effb3e305538ce38eb239d72d0c6fa071e91ca",
         "official_source": "https://gdr.openei.org/submissions/1391",
     },
     {
@@ -231,7 +228,12 @@ def sha256(path: Path) -> str:
 
 def fetch_raw(repo: str, source: str, ref: str, dest: Path,
               expected_sha: str | None = None, expected_bytes: int | None = None) -> None:
-    if dest.exists() and (expected_sha is None or sha256(dest) == expected_sha):
+    if (not isinstance(expected_sha, str) or len(expected_sha) != 64
+            or any(c not in '0123456789abcdef' for c in expected_sha)):
+        raise ValueError(f'refusing unpinned source: {repo}:{source}')
+    if dest.is_file() and sha256(dest) == expected_sha:
+        if expected_bytes is not None and dest.stat().st_size != expected_bytes:
+            raise ValueError(f'cached size mismatch on {source}')
         return
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_name(dest.name + ".partial")
@@ -261,7 +263,7 @@ def ensure_symlink(link: Path, target_rel: str) -> None:
     if link.is_symlink() or link.exists():
         if link.is_symlink() and os.readlink(link) == target_rel:
             return
-        link.unlink()
+        raise FileExistsError(f'refusing to replace existing data path: {link}')
     link.symlink_to(target_rel)
 
 
@@ -305,6 +307,8 @@ def assemble_features(root: Path) -> dict:
         "assembled_sha256": TRAINING_FEATURES_SHA256,
         "bytes": cache_target.stat().st_size,
         "parts": part_receipts,
+        "verified": True,
+        "verification_scope": "matches pinned owner-mirror bytes, not an organizer-origin receipt",
     }
 
 
@@ -318,34 +322,47 @@ def cache_bands(root: Path) -> dict:
     cache_dir = root / ".cache/features"
     cache_dir.mkdir(parents=True, exist_ok=True)
 
+    source_hash = sha256(feature_tif)
+    provenance_file = cache_dir / 'cache_provenance.json'
+    try:
+        previous = json.loads(provenance_file.read_text())
+    except (OSError, ValueError):
+        previous = {}
+    previous_hashes = previous.get('band_sha256', {}) if previous.get('source_sha256') == source_hash else {}
     bands = []
     with rasterio.open(feature_tif) as src, rasterio.open(sample_tif) as sample:
         if src.shape != sample.shape or src.crs != sample.crs or src.transform != sample.transform:
             raise ValueError("training_features.tif grid does not match sample_submission.tif")
+        grid_metadata = {'shape': list(src.shape), 'crs': str(src.crs),
+                         'transform': list(tuple(src.transform)[:6])}
         fp = np.isfinite(sample.read(1))
         for number, description in enumerate(src.descriptions, 1):
             path = cache_dir / f"band-{number:02d}.npy"
-            if path.exists():
-                arr_existing = np.load(path, mmap_mode="r")
-                if arr_existing.shape == src.shape and arr_existing.dtype == np.float32:
-                    n_missing = int((~np.isfinite(arr_existing)).sum())
-                    n_fp_missing = int((~np.isfinite(arr_existing[fp])).sum())
-                    bands.append({
-                        "band": number,
-                        "description": description,
-                        "cache_file": str(path.relative_to(root)),
-                        "missing_pixels_total": n_missing,
-                        "sentinel_or_missing_in_footprint": n_fp_missing,
-                        "sha256": sha256(path),
-                    })
-                    continue
+            expected_cache_hash = previous_hashes.get(str(number))
+            if path.is_file() and expected_cache_hash and sha256(path) == expected_cache_hash:
+                try:
+                    arr_existing = np.load(path, mmap_mode="r", allow_pickle=False)
+                    if arr_existing.shape == src.shape and arr_existing.dtype == np.float32:
+                        n_missing = int((~np.isfinite(arr_existing)).sum())
+                        n_fp_missing = int((~np.isfinite(arr_existing[fp])).sum())
+                        bands.append({
+                            "band": number,
+                            "description": description,
+                            "cache_file": str(path.relative_to(root)),
+                            "missing_pixels_total": n_missing,
+                            "sentinel_or_missing_in_footprint": n_fp_missing,
+                            "sha256": expected_cache_hash,
+                        })
+                        continue
+                except (OSError, ValueError):
+                    pass  # a corrupt cache is rebuilt from the pinned source
             a = np.lib.format.open_memmap(path, mode="w+", dtype="float32", shape=src.shape)
             n_missing = 0
             n_fp_missing = 0
             for y in range(0, src.height, 256):
                 h = min(256, src.height - y)
                 b = src.read(number, window=Window(0, y, src.width, h), masked=True).filled(np.nan).astype("float32")
-                # Sanitize GDAL Float32-min (-3.4028235e+38) sentinels so they never cause [0, 1] range errors
+                # Represent extreme feature sentinels as NaN; the writer must still validate model output.
                 bad = (~np.isfinite(b)) | (np.abs(b) > 1e30)
                 b[bad] = np.nan
                 n_missing += int(bad.sum())
@@ -365,24 +382,26 @@ def cache_bands(root: Path) -> dict:
     report = {
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "evidence_class": "DATA-MEASUREMENT",
-        "source_sha256": sha256(feature_tif),
-        "shape": [3730, 3292],
-        "crs": "EPSG:32611",
-        "transform": [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0],
+        "source_sha256": source_hash,
+        **grid_metadata,
         "count": len(bands),
         "bands": bands,
         "irregularity_flags": [
             {
                 "id": "IR-SENTINEL-F32MIN",
-                "detail": "Bands 1-19 contain 1,521-1,533 GDAL float32 minimum (-3.4028235e+38) sentinel cells inside the valid footprint; sanitized to NaN on load so downstream models never emit out-of-[0,1] values.",
+                "detail": "Non-finite and extreme source values are converted to NaN in the feature cache; per-band counts above are measured, not a guarantee about model outputs.",
             },
             {
-                "id": "IR-BAND6-TC-RADIOMETRIC",
-                "detail": "Band 6 ('tc') description mentions magnetic tilt/curvature, but its physical values (~3-89) match USGS GeoDAWN airborne gamma-ray Total Count; genuine magnetic & gravity phase-tilt angles are computed analytically from (tmi_vg, tmi_hg) and (iso_grav_anom_vg, iso_grav_anom_hg).",
+                "id": "IR-BAND6-TC-AMBIGUOUS",
+                "detail": "The mirror's description and physical interpretation of band 6 require independent source-metadata verification; do not assume a particular measurement.",
             },
         ],
         "provenance": "Hash-verified public mirror bridge; organizer DrivenData login receipt not present in sandbox.",
     }
+    provenance_file.write_text(json.dumps({
+        'source_sha256': source_hash,
+        'band_sha256': {str(b['band']): b['sha256'] for b in bands},
+    }, indent=2, allow_nan=False) + '\n')
     (root / "evidence").mkdir(exist_ok=True)
     (root / "evidence/feature_cache.json").write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
     return report
@@ -391,13 +410,14 @@ def cache_bands(root: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--fetch", action="store_true", help="Fetch missing core, external, and 10m 3DEP layers")
-    ap.add_argument("--cache-bands", action="store_true", default=True, help="Extract 19 float32 band caches")
+    ap.add_argument("--cache-bands", action=argparse.BooleanOptionalAction, default=True,
+                    help="Extract sanitized float32 band caches; use --no-cache-bands to skip")
     args = ap.parse_args()
 
     receipt: dict = {
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "evidence_class": "OWNER-MIRROR-INTEGRITY",
-        "provenance_note": "SHA-256 verified against pinned public GitHub mirrors and official USGS/DOE/TIGER public-domain releases; DrivenData organizer portal authentication is not available in sandbox.",
+        "provenance_note": "SHA-256 checks verify pinned GitHub mirror bytes only. Derived layers have not been independently rebuilt or authenticated against official sources; no organizer receipt is available.",
         "core_files": [],
         "external_files": [],
         "dem10_files": [],
@@ -419,24 +439,38 @@ def main() -> int:
     ensure_symlink(ROOT / "data/external", "../.cache/external")
     ensure_symlink(ROOT / "data/dem10", "../.cache/dem10")
 
-    # Always use the same integrity path so a cached rerun preserves full source,
-    # commit, part-size, and part-hash provenance instead of degrading the receipt.
-    receipt["training_features_assembly"] = assemble_features(ROOT)
+    tf_path = ROOT / ".cache/training_features.tif"
+    if args.fetch:
+        receipt["training_features_assembly"] = assemble_features(ROOT)
+    else:
+        if not tf_path.is_file():
+            raise FileNotFoundError('training feature cache missing; use --fetch to restore the pinned mirror')
+        actual_tf_sha = sha256(tf_path)
+        if actual_tf_sha != TRAINING_FEATURES_SHA256:
+            raise ValueError('cached training feature SHA256 differs from the pinned mirror')
+        ensure_symlink(ROOT / "data/official/training_features.tif", "../../.cache/training_features.tif")
+        ensure_symlink(ROOT / "data/training_features.tif", "../.cache/training_features.tif")
+        receipt["training_features_assembly"] = {
+            "assembled_sha256": actual_tf_sha,
+            "bytes": tf_path.stat().st_size,
+            "verified": True,
+            "verification_scope": "matches pinned owner-mirror bytes, not an organizer-origin receipt",
+        }
 
     ext_dir = ROOT / ".cache/external"
     ext_dir.mkdir(parents=True, exist_ok=True)
     for item in EXTERNAL_PINS:
         dest = ext_dir / item["name"]
         if args.fetch and (
-            not dest.exists() or (item["sha256"] is not None and sha256(dest) != item["sha256"])
+            not dest.exists() or sha256(dest) != item["sha256"]
         ):
             fetch_raw(item["repo"], item["path"], item["ref"], dest, item["sha256"])
-        if not dest.exists():
-            raise FileNotFoundError(
-                f"Missing pinned external input {item['name']}; rerun with --fetch"
-            )
+        if not dest.is_file():
+            raise FileNotFoundError(f"External mirror missing: {item['name']}; use --fetch")
+        if not item["sha256"]:
+            raise ValueError(f"External mirror has no trusted SHA256 pin: {item['name']}")
         actual = sha256(dest)
-        if item["sha256"] and actual != item["sha256"]:
+        if actual != item["sha256"]:
             raise ValueError(f"External file hash mismatch: {item['name']}")
         receipt["external_files"].append({
             "name": item["name"],
@@ -444,6 +478,7 @@ def main() -> int:
             "sha256": actual,
             "official_source": item["official_source"],
             "verified": True,
+            "verification_scope": "matches pinned owner-mirror bytes; official derivation not independently verified",
         })
 
     dem10_dir = ROOT / ".cache/dem10"
@@ -460,14 +495,22 @@ def main() -> int:
     else:
         for ch, dig in DEM10_WANTED.items():
             dest = dem10_dir / f"{ch}.f32.npy"
-            if not dest.exists():
-                raise FileNotFoundError(f"Missing pinned DEM10 channel {ch}; rerun with --fetch")
+            if not dest.is_file():
+                raise FileNotFoundError(f"DEM10 mirror missing: {ch}; use --fetch")
             actual = sha256(dest)
             if actual != dig:
                 raise ValueError(f"DEM10 hash mismatch: {ch}")
             receipt["dem10_files"].append({"channel": ch, "bytes": dest.stat().st_size, "sha256": actual, "verified": True})
 
-    receipt["all_pins_verified"] = True
+    receipt["all_pins_verified"] = bool(
+        len(receipt["core_files"]) == len(CORE_PINS)
+        and receipt["training_features_assembly"]["verified"]
+        and len(receipt["external_files"]) == len(EXTERNAL_PINS)
+        and len(receipt["dem10_files"]) == len(DEM10_WANTED)
+        and all(x["verified"] for x in receipt["core_files"] + receipt["external_files"] + receipt["dem10_files"])
+    )
+    if not receipt["all_pins_verified"]:
+        raise RuntimeError('incomplete mirror verification; refusing a success receipt')
     (ROOT / "evidence").mkdir(exist_ok=True)
     (ROOT / "evidence/data_preparation.json").write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")
     (ROOT / "data/manifest.json").write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")

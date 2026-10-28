@@ -35,6 +35,7 @@ def test_refresh_failures_clear_score_instead_of_publishing_stale_value(tmp_path
     assert '::warning title=Public leaderboard refresh failed::' in p.stdout
     feed = json.loads(out.read_text())
     assert feed['status'] == 'unavailable' and feed['top_public_dti'] is None
+    assert feed['parse_diagnostics']['table_count'] == 0
     assert 'not a submission receipt' in feed['evidence_class'].lower()
 
 

@@ -209,6 +209,7 @@
       "tpw": 933.44
     }
   },
-  "uniqueness_passed": true,
-  "ready_to_submit_verdict": "PASS_OK_TO_DOWNLOAD_AND_SUBMIT"
+  "uniqueness_passed": false,
+  "ready_to_submit_verdict": "DO_NOT_SUBMIT_DUPLICATE",
+  "warning": "Historical format report remains a local check only. Prior release verdict is withdrawn; see literal_witness_audit.json."
 }

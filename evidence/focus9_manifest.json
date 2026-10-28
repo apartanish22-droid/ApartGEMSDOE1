@@ -1,0 +1,77 @@
+{
+  "description": "Highest historical submission named for each requested focus site in the user prompt. Scores are user-reported claims, not organizer receipts, predictions, or current leaderboard measurements.",
+  "sites": [
+    {
+      "site": "GEMSDOE24",
+      "path": "docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "reported_claim": 0.2477,
+      "commit": "9e185929eeaa6244f96c3022cf3462faa8ca4de0",
+      "sha256": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+      "method_summary": "Owner-described 1.5-pixel thinning of H19-5 ridges."
+    },
+    {
+      "site": "GEMSDOE25",
+      "path": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "reported_claim": 0.26,
+      "commit": "fb1db37274776a29dbc48abe55b2e531f2ba6aad",
+      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "method_summary": "Owner-described 2.8-pixel thinning of H19-5 ridges."
+    },
+    {
+      "site": "GEMSDOE27",
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "reported_claim": 0.2449,
+      "commit": "6704fa2a5133e751df2516feb2e32565ad5fc1df",
+      "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+      "method_summary": "Owner-described topographic gap closure added to a D1.5 dotted map."
+    },
+    {
+      "site": "GEMSDOE28",
+      "path": "docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "reported_claim": 0.271,
+      "commit": "9509b73eaf35f66d0b23fce63b2540ceff2a88e0",
+      "sha256": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
+      "method_summary": "Owner-described one-pixel collar prune plus blind step-over rungs on D2.8."
+    },
+    {
+      "site": "GEMSDOE30",
+      "path": "docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "reported_claim": 0.26,
+      "commit": "31696c6541cfc54620ff850a748c51625461f27f",
+      "sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "method_summary": "Owner-described D2.8 Poisson-disk baseline; footprint values equal GEMSDOE25."
+    },
+    {
+      "site": "GEMSDOE31",
+      "path": "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "reported_claim": 0.2708,
+      "commit": "06930b9d03473a9313094a4f2312c4fc6efd4fbb",
+      "sha256": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
+      "method_summary": "Owner-described solo / one-pixel catalogue-collar pruning on D2.8."
+    },
+    {
+      "site": "GEMSDOE32",
+      "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "reported_claim": 0.2778,
+      "commit": "97597a066d1c61d2c226fdba349716f41b30c1c6",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "method_summary": "D2.8 set minus points at distance \u22642 pixels from mapped catalogue (verified support identity)."
+    },
+    {
+      "site": "GEMSDOE33",
+      "path": "docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "reported_claim": 0.2632,
+      "commit": "3eaf85efb49f364b84f8be04e8b084b12d0303b9",
+      "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "method_summary": "Owner-described analog fault-tip and step-over additions on D2.8."
+    },
+    {
+      "site": "GEMSDOE36",
+      "path": "docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "reported_claim": 0.275,
+      "commit": "e280188adbbe762e6b7ac6f3b8e105e8e7915026",
+      "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "method_summary": "Owner-described Andersonian geothermal PINN additions to the B2 base."
+    }
+  ]
+}

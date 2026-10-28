@@ -1,5 +1,5 @@
 {
-  "protocol": "GEMS Parallel-Run Protocol v2",
+  "protocol": "GEMS Parallel-Run Protocol; archived v2 experiment with subsequent literal uniqueness stop",
   "generated_utc": "2026-10-28T23:09:20.168705+00:00",
   "hypothesis": "H-APART-6 OTSP: Orientation-Transported Scale Persistence",
   "mechanism": "Transport a tangent estimated strictly from fold-visible fault pixels into independently measured topographic and gravity contact fields; prioritize off-trace contacts whose axial strike persists across 200-1200 m scales.",
@@ -15,19 +15,24 @@
     "evaluator_version": "gems57-pooled-hide-v2",
     "withheld_positive_pixels": 11360,
     "dti": 0.11093,
-    "ci95": [0.094184, 0.128997],
+    "ci95": [
+      0.094184,
+      0.128997
+    ],
     "detached_gt_800m_dti": 0.071086,
-    "current_promoted_baseline_dti": 0.117438,
-    "delta_vs_current_promoted_baseline": -0.006508,
     "experiments": {
       "E1_topographic": 0.11093,
       "E2_topography_gravity": 0.100016,
       "E3_multiscale_persistence": 0.091037
-    }
+    },
+    "historical_v2_baseline_dti": 0.117438,
+    "delta_vs_historical_v2_baseline": -0.006508,
+    "warning": "v2 result is not comparable to the corrected v3 evaluator and is not a leaderboard projection."
   },
   "correlation_overlap_vs_registry": {
-    "status": "NOT_RUN_BY_DESIGN",
-    "reason": "The holdout selector failed before live-surface placement; protocol requires stopping rather than manufacturing a submission candidate.",
+    "status": "SUBSEQUENT_STOP",
+    "reason": "No H6 live surface or final dots were produced. A later literal audit found the prior MAW-GSI candidate overlaps one pinned lattice witness at 0.996787, above the 0.70 limit.",
+    "evidence": "evidence/literal_witness_audit.json",
     "pre_placement_surface_max_abs_spearman": null,
     "post_placement_final_max_abs_spearman": null,
     "post_placement_max_3px_overlap": null
@@ -43,7 +48,9 @@
   "submission_name": null,
   "submission_note": null,
   "weekly_submission_slots_used": 0,
-  "retained_promoted_submission": "apartgems1-maw-gsi-e3-20261028-87f83db9",
-  "retained_promoted_tif": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
-  "verdict": "negative"
+  "verdict": "negative",
+  "evidence_status": "ARCHIVED-NONCOMPARABLE: measured before the lattice witness and v3 mask correction.",
+  "current_release_decision": "NO FILE READY TO SUBMIT",
+  "prior_maw_gsi_file_status": "Research-only protocol duplicate; do not submit.",
+  "reason": "All H6 v2 arms lost to the historical v2 comparator; no H6 raster was made. Subsequent literal witness also mandates a global stop."
 }

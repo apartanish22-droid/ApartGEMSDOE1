@@ -1,7 +1,8 @@
 """Study-area grid: CRS, shape, geotransform and the scored footprint.
 
-Every constant here is read from the two bridged files committed in
-``data/bridge/`` and re-verified by ``scripts/run_lane.py verify`` (writes ``evidence/verify_grid.json``):
+Constants are based on the two owner-mirror files committed in ``data/bridge/``.
+``load_grid`` checks their SHA-256 values, but this does not authenticate them
+against the organizer's login-protected data portal:
 
 * ``existing_faults.tif``  sha256 ``7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093``
   (byte-identical to the ``labels.tif`` recorded in
@@ -23,6 +24,7 @@ independently authenticated by the bridge hashes.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
 from pathlib import Path
 
 import numpy as np
@@ -74,6 +76,14 @@ def _check(src, what: str) -> None:
 
 def load_grid(data_dir: Path | None = None) -> Grid:
     d = Path(data_dir) if data_dir else DATA_DIR
+    for name, expected in (("existing_faults.tif", SHA256_EXISTING_FAULTS),
+                           ("sample_submission.tif", SHA256_SAMPLE_SUBMISSION)):
+        digest = hashlib.sha256()
+        with (d / name).open('rb') as stream:
+            for chunk in iter(lambda: stream.read(1 << 20), b''):
+                digest.update(chunk)
+        if digest.hexdigest() != expected:
+            raise ValueError(f'{name}: SHA-256 differs from the pinned owner mirror')
     with rasterio.open(d / "existing_faults.tif") as src:
         _check(src, "existing_faults.tif")
         cat = src.read(1)
@@ -89,15 +99,16 @@ def load_grid(data_dir: Path | None = None) -> Grid:
 def write_submission(path: Path, values: np.ndarray, *, mode: str = "zeros") -> dict:
     """Serialize a pre-normalized array on the pinned grid without repairing it.
 
-    ``mode="zeros"`` is the only submission-compatible mode: callers must pass
-    an all-finite field already in ``[0,1]`` (normally with cells outside the
-    footprint explicitly set to zero). Out-of-range and non-finite values are
-    rejected; nothing is clipped or silently replaced.
+    ``mode="zeros"`` enforces the project's current all-finite local policy:
+    callers pass values already in ``[0,1]`` (normally with cells outside the
+    footprint set to zero). Nothing is clipped or silently replaced. This is
+    not proof of organizer compliance: the public instructions say data outside
+    the bounds must be null/NaN, and how that maps to the authenticated template
+    footprint has not been verified.
 
-    ``mode="nan"`` is retained for local diagnostics only. The organizer's
-    nodata handling is not inferred here, and a prior portal range error does
-    not establish NaN as its cause. Prefer the stricter all-finite zeros policy
-    for any future candidate.
+    ``mode="nan"`` is retained for local diagnostics only. A prior portal range
+    error does not establish NaN as its cause; reconcile the official template,
+    outside-bounds rule and portal validator before any future submission.
     """
     values = np.asarray(values)
     if values.shape != (HEIGHT, WIDTH):
