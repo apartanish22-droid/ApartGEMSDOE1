@@ -62,4 +62,5 @@ def test_new_json_is_consistent_and_historical_approval_is_withdrawn():
 def test_pages_workflow_is_read_only_for_repository_content():
     text = (ROOT/'.github/workflows/pages.yml').read_text()
     assert 'contents: read' in text and 'actions/deploy-pages@' in text
+    assert 'cp index.html _site/index.html' in text and 'cp -a docs _site/docs' in text
     assert 'git push' not in text and 'workflow_dispatch' in text and 'schedule:' in text
