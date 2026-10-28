@@ -49,7 +49,8 @@
     "vs_gemsdoe32_02778_spearman": 0.020004,
     "spearman_cap": 0.9,
     "overlap_3px_cap": 0.7,
-    "passed": true
+    "passed": false,
+    "recheck_status": "FAILED: raw support of dense lattice was wrongly excluded; see evidence/recheck_20261028.json"
   },
   "raster_sha256": "16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede",
   "decoded_footprint_sha256": "50e7b33477943944475784c2f5d0bcbe5622f9ec3c77dfae1f58e556ed92fc1b",
@@ -86,5 +87,7 @@
   "submission_name": "apartgems1-udth-submod-e3-50e7b334",
   "submission_note": "H-APART-1 UDTH-Submod (E3): updip grav/mag tilt + 1m/10m scarp + GDR1391 thermal; all-finite [0,1], >200m collar (38500 px).",
   "submission_note_chars": 124,
-  "verdict": "promote"
+  "verdict": "negative",
+  "original_verdict_before_recheck": "promote",
+  "superseded_by": "evidence/recheck_20261028.json"
 }

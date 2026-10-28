@@ -30,8 +30,9 @@ def test_html_pages_local_links_and_no_localhost():
         assert p.exists(), f"Missing {page_name}"
         txt = p.read_text(encoding="utf-8")
         assert "127.0.0.1" not in txt and "localhost" not in txt
-        assert rc["raster_sha256"] in txt
-        assert html.escape(rc["submission_note"]) in txt
+        if page_name == "index.html":
+            assert rc["raster_sha256"] in txt
+        assert "Do not submit" in txt or "do not upload" in txt
 
         parser = _AttrCollector()
         parser.feed(txt)
@@ -48,7 +49,7 @@ def test_readme_standing_prompt_and_local_links():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     rc = json.loads((ROOT / "evidence/run_card.json").read_text())
     assert rc["raster_sha256"] in readme
-    assert "Standing Reference: Original Competition Task & Protocol Specification" in readme
+    assert "standing project brief" in readme
     assert "GEMSDOE32" in readme and "0.2778" in readme
 
     # Verify all relative markdown links [label](path)

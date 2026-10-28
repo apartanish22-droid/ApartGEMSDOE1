@@ -221,7 +221,7 @@ def ensure_symlink(link: Path, target_rel: str) -> None:
     if link.is_symlink() or link.exists():
         if link.is_symlink() and os.readlink(link) == target_rel:
             return
-        link.unlink()
+        raise FileExistsError(f"refusing to replace existing path: {link}")
     link.symlink_to(target_rel)
 
 
@@ -353,7 +353,7 @@ def main() -> int:
     receipt: dict = {
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "evidence_class": "OWNER-MIRROR-INTEGRITY",
-        "provenance_note": "SHA-256 verified against pinned public GitHub mirrors and official USGS/DOE/TIGER public-domain releases; DrivenData organizer portal authentication is not available in sandbox.",
+        "provenance_note": "GitHub mirror integrity only where a prior digest is pinned; official origin and derived-layer provenance are not independently verified.",
         "core_files": [],
         "external_files": [],
         "dem10_files": [],
@@ -379,6 +379,8 @@ def main() -> int:
     if args.fetch or not tf_path.exists():
         receipt["training_features_assembly"] = assemble_features(ROOT)
     else:
+        if sha256(tf_path) != TRAINING_FEATURES_SHA256:
+            raise ValueError("cached training feature hash mismatch")
         ensure_symlink(ROOT / "data/official/training_features.tif", "../../.cache/training_features.tif")
         ensure_symlink(ROOT / "data/training_features.tif", "../.cache/training_features.tif")
         receipt["training_features_assembly"] = {
@@ -402,7 +404,8 @@ def main() -> int:
                 "bytes": dest.stat().st_size,
                 "sha256": actual,
                 "official_source": item["official_source"],
-                "verified": True,
+                "verified": bool(item["sha256"]),
+                "verification": "pinned mirror hash" if item["sha256"] else "unpinned mirror; origin not verified",
             })
 
     dem10_dir = ROOT / ".cache/dem10"
@@ -425,7 +428,10 @@ def main() -> int:
                     raise ValueError(f"DEM10 hash mismatch: {ch}")
                 receipt["dem10_files"].append({"channel": ch, "bytes": dest.stat().st_size, "sha256": actual, "verified": True})
 
-    receipt["all_pins_verified"] = True
+    receipt["all_pins_verified"] = (len(receipt["external_files"]) == len(EXTERNAL_PINS)
+        and len(receipt["dem10_files"]) == len(DEM10_WANTED)
+        and all(f["verified"] for f in receipt["external_files"])
+        and receipt["training_features_assembly"].get("assembled_sha256") == TRAINING_FEATURES_SHA256)
     (ROOT / "evidence").mkdir(exist_ok=True)
     (ROOT / "evidence/data_preparation.json").write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")
     (ROOT / "data/manifest.json").write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")
@@ -434,7 +440,7 @@ def main() -> int:
         band_report = cache_bands(ROOT)
         print(f"[prepare_data] Cached & verified {band_report['count']} bands in .cache/features/")
 
-    print("[prepare_data] ALL PINS & CACHES VERIFIED")
+    print("[prepare_data] Pinned mirror hashes checked; unpinned external layers and official origin remain unverified.")
     return 0
 
 

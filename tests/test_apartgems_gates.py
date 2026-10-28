@@ -69,7 +69,7 @@ def test_leakage_canary_and_holdout_progression():
 
 def test_promoted_geotiff_submission_and_uniqueness_gates():
     rc = json.loads((ROOT / "evidence/run_card.json").read_text())
-    assert rc["verdict"] == "promote"
+    assert rc["verdict"] == "negative"
     assert rc["submission_note_chars"] <= 140
     assert len(rc["submission_name"]) <= 140
 
@@ -102,7 +102,10 @@ def test_promoted_geotiff_submission_and_uniqueness_gates():
         assert zf.read(tif_path.name) == tif_path.read_bytes()
 
     uniq = json.loads((ROOT / "evidence/uniqueness_gate.json").read_text())
-    assert uniq["overall_uniqueness_passed"] is True
+    # Historical result used a top-K/dense-lattice exception, and is superseded.
+    assert uniq["overall_uniqueness_passed"] is False
+    recheck = json.loads((ROOT / "evidence/recheck_20261028.json").read_text())
+    assert recheck["duplicate"] and recheck["fraction_within_3_pixels"] > 0.70
     assert uniq["pre_placement_surface_gate"]["max_abs_spearman_rho"] <= 0.90
     assert uniq["post_placement_final_raster_gate"]["max_abs_spearman_rho"] <= 0.90
     assert uniq["post_placement_final_raster_gate"]["max_3px_overlap_vs_competing_detectors"] <= 0.70
