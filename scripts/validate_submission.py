@@ -36,7 +36,21 @@ def main() -> int:
     edt_cat = distance_transform_edt(~grid.catalogue)
     collar_2px_dots = int(((arr > 0) & (edt_cat <= 2.0)).sum())
     farfield_15px_dots = int(((arr > 0) & (edt_cat > 15.0)).sum())
-    uniq = check_final_raster_uniqueness(arr, grid.footprint)
+    try:
+        uniq = check_final_raster_uniqueness(arr, grid.footprint)
+    except FileNotFoundError as exc:
+        if "registry_manifest.json" in str(exc):
+            raise SystemExit(
+                "FLEET-UNIQUENESS GATE BLOCKED: .cache/registry_index/registry_manifest.json is missing. "
+                "Format+range checks passed, but the 806-raster fleet uniqueness gate cannot run in this "
+                "sandbox (registry rebuild requires downloading peer rasters from hosts outside this "
+                "environment's outbound allowlist). Re-run on an unrestricted host via:\n"
+                "  bash scripts/download_competition_data.sh\n"
+                "  .venv/bin/python scripts/prepare_data.py --cache-bands\n"
+                "  .venv/bin/python scripts/audit_focus_sites_and_registry.py\n"
+                "  .venv/bin/python scripts/validate_submission.py " + str(args.tif)
+            ) from exc
+        raise
 
     full = {
         "validator_version": "apartgems-automated-gate-v1",
