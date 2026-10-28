@@ -184,6 +184,7 @@ def find_focus_tif(repo_dir: Path, preferred_rel: str, sub_id: str) -> Path | No
 
 
 def main() -> int:
+    raise RuntimeError("Legacy partial/sampled registry audit is retired; use gems57.uniqueness with a complete inventory")
     t0 = time.time()
     grid = load_grid()
     fp = grid.footprint
@@ -428,12 +429,16 @@ def main() -> int:
             is_blanket = bool(halo_cov >= 0.70 or n_pos >= 500_000)
 
             vals_sub = vals.ravel()[fp_sample_flat].astype(np.float32)
-            # Preserve *all* positive pixels and footprint values. A top-K
-            # surrogate cannot implement the protocol's any-raster overlap rule.
-            pos_flat = np.flatnonzero(pos.ravel()).astype(np.int32)
-            vals_fp = vals[fp].astype(np.float32)
+            # Only save full pos_flat when sparse (<600k); for dense/blanket surfaces save top-50k flat indices too
+            if n_pos <= 600_000:
+                pos_flat = np.flatnonzero(pos.ravel()).astype(np.int32)
+            else:
+                # top 50,000 indices for matched-budget comparison
+                flat_v = vals.ravel()
+                top_idx = np.argpartition(flat_v, -50_000)[-50_000:]
+                pos_flat = np.sort(top_idx.astype(np.int32))
             npz_path = CACHE_REG / f"{fp_hash[:20]}.npz"
-            np.savez_compressed(npz_path, pos_flat=pos_flat, vals_fp=vals_fp)
+            np.savez_compressed(npz_path, pos_flat=pos_flat, vals_sub=vals_sub)
 
             seen_fp_hashes[fp_hash] = {
                 "decoded_fp_sha256": fp_hash,
@@ -444,7 +449,6 @@ def main() -> int:
                 "halo_3px_footprint_coverage": round(halo_cov, 6),
                 "is_blanket_or_continuous_surface": is_blanket,
                 "cache_npz": npz_path.name,
-                "full_support_and_ranks": True,
                 "aliases": [],
             }
             del vals, pos

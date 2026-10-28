@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
 import numpy as np
 import rasterio
-from apartgems.uniqueness import fast_near_3px
+from gems57.uniqueness import dot_overlap
 from gems57 import load_grid
 from gems57.validate import sha256, validate
 
@@ -37,7 +37,7 @@ def main():
     dots = (a > 0) & grid.footprint
     if not dots.any():
         raise ValueError('candidate contains no dots')
-    overlap = float(fast_near_3px(np.isfinite(r) & (r > 0) & grid.footprint)[dots].mean())
+    overlap = dot_overlap(dots, np.isfinite(r) & (r > 0) & grid.footprint)
     result = {'registry_repo': 'buffedlizard55-lab/GEMSDOE24', 'registry_commit': PIN,
               'registry_path': REL, 'registry_sha256': HASH,
               'candidate_sha256': sha256(CANDIDATE), 'candidate_positive_pixels': int(dots.sum()),

@@ -1,0 +1,57 @@
+{
+  "hypothesis": "H-APART-1 UDTH-Submod, prior run; no new experiment in this review",
+  "mechanism": "Combine projected magnetic/gravity contacts, terrain scarps, hydrothermal proxies and visible fault context.",
+  "named_non_fault_mimic": "Alluvial-fan channels and lake shorelines can mimic scarps.",
+  "holdout_dti": {
+    "status": "historical, not reproduced in this checkout; not a leaderboard estimate",
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 11360,
+    "dti": 0.052331,
+    "ci95": [
+      0.037549,
+      0.068701
+    ]
+  },
+  "correlation_overlap_vs_registry": {
+    "historical_surface_max_abs_spearman": 0.734881,
+    "historical_final_max_abs_spearman": 0.058238,
+    "historical_spearman_status": "sampled, incomplete, not reproduced; not clearance",
+    "lattice_forward_overlap": 0.9894805194805195,
+    "lattice_overlap_limit": 0.7,
+    "scope": "one pinned witness; full registry not rechecked"
+  },
+  "raster_sha256": "16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede",
+  "validator_output": {
+    "all_checks_passed": true,
+    "sample_grid_matches": true,
+    "nan": 0,
+    "infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "metadata": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    }
+  },
+  "submission_name": "apartgems1-udth-submod-e3-50e7b334",
+  "note": "Historical UDTH E3 raster; duplicate stop, DO NOT SUBMIT.",
+  "verdict": "negative",
+  "submission_slots_used_this_review": 0,
+  "limitations": "Existing TIFF not a new submission; no new candidate, no selector approval or organizer receipt; prior canary/holdout not reproduced."
+}

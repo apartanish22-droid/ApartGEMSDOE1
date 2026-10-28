@@ -1,0 +1,44 @@
+{
+  "candidate": "docs/downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif",
+  "candidate_sha256": "16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede",
+  "reference": "buffedlizard55-lab/13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_zerofill.tif",
+  "reference_commit": "92ee6f074323f161eed837b80ec3ee5b662e26f5",
+  "reference_git_blob": "5c1a159439735522659ee78969df3f34efddcdde",
+  "reference_sha256": "c12533bb980234c3a706af641d4f1d514bbbe482714b2ebcac3b10f3e72a7a3f",
+  "candidate_positive_pixels": 38500,
+  "reference_positive_pixels_in_footprint": 206895,
+  "candidate_dots_within_3px": 38095,
+  "forward_overlap": 0.9894805194805195,
+  "overlap_limit": 0.7,
+  "duplicate": true,
+  "format_local": {
+    "all_checks_passed": true,
+    "sample_grid_matches": true,
+    "nan": 0,
+    "infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "metadata": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    }
+  },
+  "scope": "Single pinned witness; not a complete registry scan or organizer acceptance.",
+  "verdict": "negative",
+  "submission_slots_used": 0
+}

@@ -318,5 +318,7 @@
     ],
     "passed": true
   },
-  "all_automated_gates_passed": true
+  "all_automated_gates_passed": false,
+  "historical_all_automated_gates_passed_before_review": true,
+  "review_status": "Superseded: old private registry gate exempted blanket rasters; see lattice_stop.json."
 }

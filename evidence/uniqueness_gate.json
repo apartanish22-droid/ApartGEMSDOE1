@@ -312,6 +312,5 @@
     "passed": true
   },
   "overall_uniqueness_passed": false,
-  "superseded_by": "evidence/recheck_20261028.json",
-  "supersession_reason": "Prior gate omitted raw positive support of dense/continuous rasters; candidate fails against GEMSDOE24 lattice."
+  "review_status": "Superseded prior sampled/exemption report; literal gate failed on lattice_stop.json."
 }

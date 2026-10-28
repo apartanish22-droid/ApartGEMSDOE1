@@ -1,64 +1,13 @@
-import hashlib
-import json
+"""Additional edge and ordering checks for the shared gate and model."""
 import numpy as np
 import pytest
-from apartgems import uniqueness as u
+from gems57.uniqueness import dot_overlap
 
 
-def registry(tmp_path, monkeypatch, reference):
-    monkeypatch.setattr(u, 'CACHE_REG', tmp_path)
-    fp = np.ones(reference.shape, dtype=bool)
-    values = reference.astype('float32')[fp]
-    digest = hashlib.sha256(values.tobytes()).hexdigest()
-    pos = np.flatnonzero(reference.ravel() > 0).astype('int32')
-    np.savez_compressed(tmp_path / 'r.npz', vals_fp=values, pos_flat=pos)
-    (tmp_path / 'registry_manifest.json').write_text(json.dumps({'entries': [{
-        'primary_repo':'test', 'primary_rel':'lattice.tif', 'positive_pixels':len(pos),
-        'decoded_fp_sha256':digest, 'cache_npz':'r.npz', 'full_support_and_ranks':True,
-        'is_blanket_or_continuous_surface': True}]}))
-    return fp
-
-
-def test_dense_lattice_is_not_exempt(tmp_path, monkeypatch):
-    ref = np.zeros((20, 20), dtype='float32')
-    ref[::5, ::5] = 1
-    fp = registry(tmp_path, monkeypatch, ref)
-    candidate = np.zeros_like(ref)
-    candidate[1::5, 1::5] = 1
-    result = u.check_final_raster_uniqueness(candidate, fp)
-    assert result['max_3px_overlap_vs_competing_detectors'] == 1
-    assert not result['passed']
-
-
-def test_old_topk_or_sampled_cache_fails_closed(tmp_path, monkeypatch):
-    ref = np.eye(8, dtype='float32')
-    fp = registry(tmp_path, monkeypatch, ref)
-    p = tmp_path / 'registry_manifest.json'
-    doc = json.loads(p.read_text()); doc['entries'][0]['full_support_and_ranks'] = False
-    p.write_text(json.dumps(doc))
-    with pytest.raises(ValueError, match='incomplete or sampled'):
-        u.check_surface_uniqueness(ref, fp)
-
-
-def test_tampered_support_and_empty_registry_fail_closed(tmp_path, monkeypatch):
-    ref = np.eye(8, dtype='float32')
-    fp = registry(tmp_path, monkeypatch, ref)
-    np.savez_compressed(tmp_path / 'r.npz', vals_fp=ref[fp], pos_flat=np.arange(8))
-    with pytest.raises(ValueError, match='support'):
-        u.check_final_raster_uniqueness(ref, fp)
-    (tmp_path / 'registry_manifest.json').write_text('{"entries": []}')
-    with pytest.raises(ValueError, match='empty registry'):
-        u.check_surface_uniqueness(ref, fp)
-
-
-def test_nonfinite_and_constant_candidate_fail_closed(tmp_path, monkeypatch):
-    fp = registry(tmp_path, monkeypatch, np.eye(8, dtype='float32'))
-    candidate = np.ones((8, 8), dtype='float32')
-    with pytest.raises(ValueError, match='constant'):
-        u.check_surface_uniqueness(candidate, fp)
-    candidate[0,0] = np.nan
-    with pytest.raises(ValueError, match='non-finite'):
-        u.check_surface_uniqueness(candidate, fp)
+def test_three_pixel_halo_works_for_small_grids():
+    candidate = np.ones((2, 2), dtype=np.float32)
+    registry = np.array([[1, 0], [0, 0]], dtype=np.float32)
+    assert dot_overlap(candidate, registry) == 1.0
 
 
 def test_surface_gate_runs_before_placement(monkeypatch):
@@ -74,8 +23,3 @@ def test_surface_gate_runs_before_placement(monkeypatch):
         raise ValueError('surface duplicate')
     with pytest.raises(ValueError, match='surface duplicate'):
         model.build_final_live_submission_arrays(grid, winner, {}, np.ones((5, 5)), before_placement=reject)
-
-
-def test_three_pixel_halo_works_for_small_grids():
-    p = np.array([[True, False], [False, False]])
-    assert u.fast_near_3px(p).all()
