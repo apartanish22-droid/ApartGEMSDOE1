@@ -66,3 +66,12 @@ def test_evaluate_holdout_cli_script_smoke():
     assert (ROOT / "scripts/submission_writer.py").exists()
     assert (ROOT / "scripts/validate_submission.py").exists()
     assert (ROOT / "scripts/download_competition_data.sh").exists()
+
+
+def test_pages_do_not_promote_historical_submission():
+    for name in ('index.html', 'executive-summary.html'):
+        text = (ROOT / 'docs' / name).read_text().lower()
+        assert 'no new submission' in text
+        assert 'do not submit' in text
+        assert 'organizer-confirmed' in text
+        assert 'ok to download &amp; submit' not in text
