@@ -299,5 +299,15 @@
       "dots": 97608,
       "overlap_3px_fraction": 0.351171
     }
+  ],
+  "ApartGEMSDOE1_session2_archived_PLKC_E3": [
+    {
+      "file": "docs/downloads/archive/apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif",
+      "dots": 37654,
+      "holdout_dti_seed2026": 0.079473,
+      "our_maw_gsi_holdout_dti_seed2026": 0.117438,
+      "overlap_3px_fraction": 0.428188,
+      "spearman_rho": 0.032277
+    }
   ]
 }

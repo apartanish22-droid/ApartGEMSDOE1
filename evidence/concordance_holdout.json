@@ -1,0 +1,136 @@
+{
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "alpha": 0.2,
+  "beta": 0.8,
+  "triangular_radius_m": 300.0,
+  "pooled": true,
+  "scores": {
+    "GEMSDOE32_B2_control": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.004164141043813069,
+      "ci95": [
+        0.003364810062630643,
+        0.005012244030308744
+      ],
+      "withheld_positive_pixels": 11360,
+      "tpw": 67.2937310691102,
+      "fpw": 35294.16131221384,
+      "fnw": 11292.706268930886
+    },
+    "UDTH_E3_control": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.0012402549765979968,
+      "ci95": [
+        0.0007467962433613743,
+        0.0017746020552596971
+      ],
+      "withheld_positive_pixels": 11360,
+      "tpw": 19.25069675467015,
+      "fpw": 32148.56833201697,
+      "fnw": 11340.749303245331
+    },
+    "EXP2_hybrid_ours_positions_only": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.0007164727983537004,
+      "ci95": [
+        0.0003938482441937115,
+        0.0010572322991635648
+      ],
+      "withheld_positive_pixels": 11360,
+      "tpw": 7.3178969175396364,
+      "fpw": 5621.591727806387,
+      "fnw": 11352.682103082461
+    },
+    "EXP3_b2_concordance_prune30k": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.004143768110343867,
+      "ci95": [
+        0.0033017772839605978,
+        0.005019477870301174
+      ],
+      "withheld_positive_pixels": 11360,
+      "tpw": 61.03115157692177,
+      "fpw": 28141.06216992551,
+      "fnw": 11298.968848423076
+    },
+    "EXP1_concordance_hybrid": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.00425677663995973,
+      "ci95": [
+        0.003461687620255232,
+        0.0050673873172812686
+      ],
+      "withheld_positive_pixels": 11360,
+      "tpw": 69.02990938471532,
+      "fpw": 35573.34206276598,
+      "fnw": 11290.97009061528
+    }
+  },
+  "best_comparable_control": "GEMSDOE32_B2_control",
+  "paired_differences": {
+    "GEMSDOE32_B2_control": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": 9.263559614666045e-05,
+      "ci95": [
+        -0.00012791545357669114,
+        0.00031358789190597555
+      ],
+      "withheld_positive_pixels": 11360
+    },
+    "UDTH_E3_control": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": 0.003016521663361733,
+      "ci95": [
+        0.002171245423699547,
+        0.00392950245095027
+      ],
+      "withheld_positive_pixels": 11360
+    },
+    "EXP2_hybrid_ours_positions_only": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": 0.003540303841606029,
+      "ci95": [
+        0.002719445110602806,
+        0.004353297572710398
+      ],
+      "withheld_positive_pixels": 11360
+    },
+    "EXP3_b2_concordance_prune30k": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": 0.00011300852961586283,
+      "ci95": [
+        -0.00018171676431214223,
+        0.0004304003359383622
+      ],
+      "withheld_positive_pixels": 11360
+    }
+  },
+  "bootstrap": {
+    "method": "paired physical spatial-cluster percentile",
+    "clusters": 157,
+    "draws": 1000,
+    "seed": 520810,
+    "confidence": 0.95,
+    "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
+  },
+  "implementation_sha256": {
+    "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+    "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+    "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+    "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+  },
+  "evaluation_kind": "Historical static-raster diagnostic; predecessor predictions were not rebuilt with fold-visible catalogue inputs.",
+  "independently_replayed_in_this_review": false,
+  "promotion_eligible": false,
+  "supersession_note": "Preserved as measured in a parallel run; the literal uniqueness stop and potential catalogue leakage preclude promotion."
+}
