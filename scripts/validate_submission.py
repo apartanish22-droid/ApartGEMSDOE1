@@ -43,7 +43,6 @@ def main() -> int:
     if args.format_only and (args.surface or args.registry_index):
         parser.error("--format-only cannot be combined with registry gate options")
 
-    grid = load_grid()
     errors = []
     report = {
         "validator_version": "apartgems-fail-closed-v2",
@@ -56,7 +55,9 @@ def main() -> int:
         "weekly_slot_approved": False,
         "caveat": "Checks are local and bridge-relative. Holdout performance, organizer acceptance, complete external history and the separate slot selector are not established here.",
     }
+    grid = None
     try:
+        grid = load_grid()
         report["format_preflight"] = validate(args.tif, footprint=grid.footprint, catalogue=grid.catalogue)
         report["template_preflight"] = format_report(
             args.tif, ROOT / "data/bridge/sample_submission.tif", footprint=grid.footprint

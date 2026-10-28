@@ -33,8 +33,10 @@ def validate(path: Path, footprint: np.ndarray | None = None,
     path = Path(path)
     with rasterio.open(path) as ds:
         a = ds.read(1)
+        nodata = ds.nodata
+        nodata = (None if nodata is None else float(nodata) if np.isfinite(nodata) else str(nodata))
         meta = dict(crs=str(ds.crs), shape=[ds.height, ds.width], dtype=ds.dtypes[0],
-                    count=ds.count, nodata=None if ds.nodata is None else float(ds.nodata),
+                    count=ds.count, nodata=nodata,
                     transform=list(tuple(ds.transform)[:6]),
                     profile_compress=ds.profile.get("compress"))
         desc = ds.descriptions
@@ -42,6 +44,8 @@ def validate(path: Path, footprint: np.ndarray | None = None,
 
     if a.ndim != 2:
         raise ValueError('prediction TIFF must contain a 2-D first band')
+    if np.iscomplexobj(a):
+        raise ValueError('prediction TIFF values must be real numbers')
     for mask_name, mask in (("footprint", footprint), ("catalogue", catalogue)):
         if mask is not None and np.asarray(mask).shape != a.shape:
             raise ValueError(f"{mask_name} shape {np.asarray(mask).shape} != raster shape {a.shape}")
@@ -53,7 +57,7 @@ def validate(path: Path, footprint: np.ndarray | None = None,
     finite_values = a[finite]
     lo = float(finite_values.min()) if has_finite else None
     hi = float(finite_values.max()) if has_finite else None
-    mean = float(finite_values.mean()) if has_finite else None
+    mean = float(finite_values.mean(dtype=np.float64)) if has_finite else None
     in_range = bool(has_finite and lo >= 0.0 and hi <= 1.0)
     checks = {
         "single_band": meta["count"] == 1,

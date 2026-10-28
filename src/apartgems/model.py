@@ -549,16 +549,26 @@ def build_final_live_submission_arrays(
     feature_paths: dict[str, Path],
     crest_map: np.ndarray,
     target_dots: int = 38_500,
+    before_placement=None,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Generate full-footprint continuous probability surface + final all-finite [0, 1] GeoTIFF array.
 
-    Ensembles the 4 LOQO models across the full valid footprint using `grid.catalogue` (`existing_faults.tif`)
-    as the visible catalogue, masks `EDT(~grid.catalogue) <= 2.0 px` (`200 m`), and encodes confidence-graded
-    dot weights in `[0.85, 1.00]` on emitted dots (`0.0` everywhere else, `0.0` outside footprint, zero NaNs).
+    Historical code path, not an approved pipeline. The required callback must
+    return a passing shared-gate receipt before any dot placement. A format or
+    inventory-scope pass is not a holdout win or a weekly-slot approval.
     """
     fp = grid.footprint
     cat = grid.catalogue
     allowed_live = fp & ~cat
+    if before_placement is None:
+        raise ValueError("pre-placement uniqueness gate is required")
+
+    def require_surface_clear(surface):
+        receipt = before_placement(surface, fp)
+        if (not isinstance(receipt, dict) or receipt.get("unique") is not True
+                or receipt.get("complete_accessible_scan") is not True
+                or receipt.get("stop_required") is not False):
+            raise ValueError("pre-placement uniqueness gate did not return a passing complete-scope receipt")
 
     feat_cols = E1_BLIND_FEATURES if winner.exp_id == "E1" else E2_HYDRO_STRESS_FEATURES
     p_blind_ens = np.zeros(grid.shape, dtype=np.float32)
@@ -582,9 +592,11 @@ def build_final_live_submission_arrays(
             p_meta_ens += mclf.predict_proba(X_live)[:, 1].astype(np.float32)
         p_meta_ens /= float(len(winner.meta_models))
 
-        # Scale calibrated live rate (~42,000 hidden test fault pixels across 5.11M off-catalogue cells)
+        # Historical scaling and truth budget were assumptions, not verified
+        # organizer hidden-label counts; this path remains research-only.
         surface = np.zeros(grid.shape, dtype=np.float32)
         surface.ravel()[flat_idx] = np.clip(p_meta_ens * 1.45, 0.0, 0.98)
+        require_surface_clear(surface)
         emitted_mask = allocate_udth_dots(
             surface,
             crest_map,
@@ -599,6 +611,7 @@ def build_final_live_submission_arrays(
     else:
         surface = np.clip(p_blind_ens * 0.35, 0.0, 0.98).astype(np.float32)
         surface[~allowed_live] = 0.0
+        require_surface_clear(surface)
         emitted_mask = allocate_udth_dots(
             surface,
             crest_map,
@@ -610,10 +623,8 @@ def build_final_live_submission_arrays(
             blind_farfield_min_frac=0.0,
         )
 
-    # Note on DTI continuous vs binary dot values:
-    # Under DrivenData continuous DTI (`max_{d<=300m} a(y)*k(d)`), any dot value a(y) < 1.0 strictly reduces
-    # TP credit k(d)*a(y) while reducing FP penalty by the same factor, whereas for accepted dots above the
-    # break-even precision bar (p > alpha*DTI / (1 + (1-alpha)*DTI)), full weight 1.0 maximizes exact DTI!
-    # Therefore emitted dots take exact float32 value 1.0, and all other cells take exact float32 value 0.0.
+    # This historical implementation emits binary values. Their optimality is
+    # not established; multi-truth credit and overlapping predictions make
+    # pointwise break-even claims inadequate for general soft predictions.
     final_arr = np.where(emitted_mask & fp & ~cat, np.float32(1.0), np.float32(0.0)).astype(np.float32)
     return surface, final_arr

@@ -72,6 +72,22 @@ def test_writer_rejects_invalid_values_without_creating_artifacts(tmp_path, smal
     assert not any(tmp_path.glob('bad.*'))
 
 
+def test_nan_nodata_produces_json_failure_receipts(tmp_path, small_grid):
+    ref, fp, cat = small_grid
+    path = tmp_path / 'nan.tif'
+    arr = np.zeros(SHAPE, np.float32)
+    arr[0, 0] = np.nan
+    with rasterio.open(path, 'w', driver='GTiff', height=SHAPE[0], width=SHAPE[1],
+                       count=1, dtype='float32', crs='EPSG:32611', transform=TRANSFORM,
+                       nodata=np.nan) as ds:
+        ds.write(arr, 1)
+    receipt = validmod.validate(path, footprint=fp, catalogue=cat)
+    template = gates.format_report(path, ref, footprint=fp)
+    assert not receipt['all_checks_passed'] and not template['ok']
+    assert receipt['meta']['nodata'] == 'nan'
+    json.dumps({'format': receipt, 'template': template}, allow_nan=False)
+
+
 def test_writer_never_overwrites_racing_file(tmp_path, small_grid, monkeypatch):
     ref, fp, cat = small_grid
     pred = np.zeros(SHAPE, np.float32)
@@ -103,6 +119,20 @@ def test_validator_cli_fails_closed_without_saved_surface_and_registry():
     receipt = json.loads(formatted.stdout)
     assert receipt['diagnostic_format_only'] and receipt['local_checks_passed']
     assert not receipt['submission_ready'] and not receipt['weekly_slot_approved']
+
+
+def test_missing_or_corrupt_bridge_returns_structured_failure(monkeypatch, capsys, tmp_path):
+    spec = importlib.util.spec_from_file_location('validator_cli_bad_grid', ROOT / 'scripts/validate_submission.py')
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    def bad_grid():
+        raise ValueError('bridge hash mismatch')
+    monkeypatch.setattr(mod, 'load_grid', bad_grid)
+    monkeypatch.setattr(sys, 'argv', ['validate_submission', '--format-only', str(tmp_path/'candidate.tif')])
+    assert mod.main() == 1
+    receipt = json.loads(capsys.readouterr().out)
+    assert not receipt['local_checks_passed'] and not receipt['submission_ready']
+    assert 'bridge hash mismatch' in receipt['errors'][0]
 
 
 def test_surface_failure_stops_before_final_dot_gate(monkeypatch, capsys, tmp_path):

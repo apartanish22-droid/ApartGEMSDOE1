@@ -26,7 +26,7 @@ def shell(title: str, active: str, body: str) -> str:
 <nav aria-label="Main navigation"><a {'aria-current="page"' if active == 'overview' else ''} href="index.html">Overview</a><a {'aria-current="page"' if active == 'summary' else ''} href="executive-summary.html">Executive summary</a><a href="data/current-run-card.json">Run card ↗</a></nav>
 <a class="nav-source" href="https://github.com/apartanish22-droid/ApartGEMSDOE1">View repository <span aria-hidden="true">↗</span></a></div></header>
 <main id="main">{body}</main>
-<footer><div class="footer-inner"><div><strong>APART GEMS</strong><p>Evidence before upload. Research in service of better fault mapping.</p></div><div class="footer-links"><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Official challenge ↗</a><a href="data/review_20261028.json">Audit data ↗</a><a href="research/2026-10-28-preregistration.md">Research plan ↗</a></div><p class="footer-note">Static research dashboard · no competition submission is made by this site</p></div></footer></body></html>'''
+<footer><div class="footer-inner"><div><strong>APART GEMS</strong><p>Evidence before upload. Research in service of better fault mapping.</p></div><div class="footer-links"><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Official challenge ↗</a><a href="data/review_20261028.json">Audit data ↗</a><a href="research/2026-10-28-review-passes.md">Review passes ↗</a><a href="research/2026-10-28-preregistration.md">Research plan ↗</a></div><p class="footer-note">Static research dashboard · no competition submission is made by this site</p></div></footer></body></html>'''
 
 
 def main() -> int:
@@ -35,6 +35,16 @@ def main() -> int:
     if audit["verdict"] != "negative" or card["verdict"] != "negative":
         raise ValueError("This renderer only supports the current negative decision")
     previous = audit["previous_apart_submission"]
+    parallel_path = ROOT / "evidence/run_card_cah.json"
+    parallel = json.loads(parallel_path.read_text(encoding="utf-8"))
+    if parallel["verdict"] != "negative":
+        raise ValueError("Parallel historical card must be negative for this renderer")
+    (DOCS / "data/parallel-run-card.json").write_text(parallel_path.read_text(encoding="utf-8"), encoding="utf-8")
+    (DOCS / "data/parallel-static-holdout.json").write_text(
+        (ROOT / "evidence/concordance_holdout.json").read_text(encoding="utf-8"), encoding="utf-8")
+    cah_score = parallel["holdout_dti"]["dti"]
+    cah_ci = parallel["holdout_dti"]["ci95"]
+    cah_overlap = parallel["correlation_overlap_vs_registry"]["vs_GEMSDOE32_B2"]["dot_overlap_3px_frac"]
     prior_file = Path(previous["file"]).name
     prior_url = "downloads/" + prior_file
     lattice_pct = previous["forward_overlap_3px_with_lattice"] * 100
@@ -48,7 +58,7 @@ def main() -> int:
         score = row["owner_reported_historical_result"]
         pct = row["forward_3px_overlap_worst_focus9"] * 100
         peer = row["worst_focus9_peer"].replace("GEMSDOE", "")
-        fmt = "All-finite local preflight" if row["all_grid_finite_0_1_local_policy"] else "Exterior NaNs · local policy fails"
+        fmt = "All cells finite and in [0,1]" if row["all_grid_finite_0_1_local_policy"] else "Exterior NaNs · local all-finite policy fails"
         table_rows.append(f'''<tr><td><a class="site-number" href="{ESC(row["source_url"])}">{ESC(row["site"])}</a></td>
 <td class="file-cell"><a href="{ESC(row["download_url"])}">{ESC(row["research_file"])}</a><small>Research copy · SHA-256 {ESC(row["sha256"][:12])}…<br>{ESC(fmt)}</small></td>
 <td><strong>{score:.4f}</strong><small>OWNER-REPORTED<br>not receipt-confirmed</small></td><td><span class="muted">Unavailable</span></td>
@@ -76,7 +86,7 @@ def main() -> int:
 <div class="metrics"><article><span class="metric-label">BEST FOCUS-SITE REPORT</span><strong>0.2778</strong><p>GEMSDOE32 · owner-reported, not receipt-confirmed</p></article>
 <article><span class="metric-label">OLD FILE / LATTICE</span><strong>{lattice_pct:.2f}%</strong><p>of old dots within 3 pixels · literal limit 70%</p></article>
 <article><span class="metric-label">PUBLIC LEADERBOARD</span><strong id="public-score">—</strong><p id="public-feed-state">Loading dated official observation…</p></article>
-<article><span class="metric-label">NEW EXPERIMENTS</span><strong>0 <i>/ 3</i></strong><p>Stopped at the blocking preflight · 0 slots used</p></article></div></section>
+<article><span class="metric-label">EXPERIMENTS THIS REVIEW</span><strong>0 <i>/ 3</i></strong><p>0 slots used · a parallel historical run used 3 arms</p></article></div></section>
 
 <section class="section wrap" id="decision"><div class="section-heading"><div><span class="kicker">THE DECISION</span><h2>A valid file is not<br><em>a valid submission.</em></h2></div><p>Format, scientific performance, uniqueness and slot selection are different gates. The old green “OK to submit” banner was incorrect and has been withdrawn.</p></div>
 <div class="insight-grid"><article class="insight accent"><span class="card-number">01</span><h3>What we verified</h3><p>The previously shipped TIFF is single-band float32; all its cells are finite and in [0, 1]. Its grid matches the committed mirror sample. This is a local preflight, not organizer acceptance.</p><a href="{ESC(prior_url)}" download>Download historical TIFF for research only ↗</a><small class="hash">SHA-256 {ESC(previous["sha256"])}</small></article>
@@ -94,7 +104,8 @@ def main() -> int:
 <div class="research-list"><a href="research/2026-10-28-preregistration.md"><span>01</span><div><strong>Gravity–magnetic axial consensus</strong><small>Multi-scale aligned gradients in low-relief terrain; unfaulted contacts are a mimic.</small></div><b>READ PLAN ↗</b></a>
 <a href="research/2026-10-28-preregistration.md"><span>02</span><div><strong>Conductance contrast across a structural edge</strong><small>Potential buried contacts; clay and salinity can mimic the signal.</small></div><b>READ PLAN ↗</b></a>
 <a href="research/2026-10-28-preregistration.md"><span>03</span><div><strong>Radiometric change-point asymmetry</strong><small>Requires authoritative aligned channel metadata before validation.</small></div><b>DATA NEEDED ↗</b></a>
-<a href="research/2026-10-28-preregistration.md"><span>04</span><div><strong>Paleolake shoreline counterfactual</strong><small>Official maps are listed; aligned layers and coverage are not yet verified.</small></div><b>DATA NEEDED ↗</b></a></div></section>
+<a href="research/2026-10-28-preregistration.md"><span>04</span><div><strong>Paleolake shoreline counterfactual</strong><small>Official maps are listed; aligned layers and coverage are not yet verified.</small></div><b>DATA NEEDED ↗</b></a></div>
+<div class="notice"><strong>Parallel research, also negative.</strong> A separate historical concordance run recorded three static-file arms; its leading arm had HOLDOUT-DTI {cah_score:.4f} (95% CI [{cah_ci[0]:.4f}, {cah_ci[1]:.4f}], <code>gems57-pooled-hide-v2</code>, 11,360 withheld positives) and {cah_overlap*100:.2f}% overlap with GEMSDOE32. It was not independently replayed here, used full-catalogue-derived predecessor rasters rather than fold-local reconstructions, and cannot approve a slot or forecast a leaderboard score. <a href="data/parallel-run-card.json">Parallel run card ↗</a></div></section>
 
 <section class="section wrap sources" id="sources"><div class="section-line"><span class="kicker">SOURCES &amp; LIMITATIONS</span><span>04 / PROVENANCE</span></div><div class="source-grid"><div><h2>Trace the evidence.</h2><p>The cached feature stack was restored and hash-checked from a public owner mirror. That proves mirror integrity, not identity with authenticated organizer data. The official data page redirects to login here.</p><p>The contest asks for fault probabilities; a predicted anomaly is not proof of a geothermal vent. The official rules require disclosure of generative-AI use in the narrative where applicable.</p></div><ul><li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData · task, metric &amp; format ↗</a></li><li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData · live public leaderboard ↗</a></li><li><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">NLR · official rules &amp; weekly limit ↗</a></li><li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS · GeoDAWN data release ↗</a></li><li><a href="https://gdr.openei.org/submissions/1391">DOE GDR · INGENIOUS compilation ↗</a></li><li><a href="https://github.com/drivendataorg/gems-prize-reference-solution">DrivenData · reference solution ↗</a></li></ul></div></section>'''
 
@@ -106,7 +117,7 @@ def main() -> int:
 <div><span>03</span><div><h3>Confirm eligibility and quota</h3><p>The published rules say three submissions per week; the remaining account-specific quota is unknown here. A separate selector must approve the candidate. Review the rules and AI-use disclosure requirements.</p></div></div>
 <div><span>04</span><div><h3>Submit the selected file</h3><p>Sign in to <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData</a>, choose Submit → Make new submission, select the approved .tif, and add the generated short note (at most 140 characters). No filename or note is assigned to this negative run.</p></div></div>
 <div><span>05</span><div><h3>Save the receipt</h3><p>Record the submitted file’s SHA-256, exact note, timestamp and organizer receipt. Only then may that result be labeled ORGANIZER-CONFIRMED; keep the public and private rounds distinct.</p></div></div></div></section>
-<section class="section wrap"><div class="notice"><strong>Known limitations.</strong> Organizer data and individual receipts require authentication; the full parallel registry is not present in this checkout. Prior E3 canaries omitted its composite crest feature and its E1 arm also consumed a hydrothermal composite. Its earlier promotion is withdrawn. Band-15 basement-thickness assumptions require authoritative metadata.</div><p><a href="research/2026-10-28-preregistration.md">Read the preregistered research directions ↗</a> &nbsp; · &nbsp; <a href="data/review_20261028.json">Read the saved-byte audit ↗</a></p></section>'''
+<section class="section wrap"><div class="notice"><strong>Known limitations.</strong> Organizer data and individual receipts require authentication; the full parallel registry is not present in this checkout. Prior E3 canaries omitted its composite crest feature and its E1 arm also consumed a hydrothermal composite. Its earlier promotion is withdrawn. Band-15 basement-thickness assumptions require authoritative metadata. A separate parallel concordance run recorded three static-file arms and failed uniqueness at {cah_overlap*100:.2f}% overlap; its inputs were not rebuilt fold-locally. <a href="data/parallel-run-card.json">Historical parallel card ↗</a></div><p><a href="research/2026-10-28-preregistration.md">Read the preregistered research directions ↗</a> &nbsp; · &nbsp; <a href="data/review_20261028.json">Read the saved-byte audit ↗</a></p></section>'''
 
     (DOCS / "index.html").write_text(shell("Decision dashboard", "overview", body), encoding="utf-8")
     (DOCS / "executive-summary.html").write_text(shell("Executive summary", "summary", summary), encoding="utf-8")
@@ -115,7 +126,7 @@ def main() -> int:
 
 > **NOT READY TO SUBMIT.** No new TIFF was generated and no weekly slot was used in this run. The previously shipped file passes a local format preflight but fails the literal 3-pixel uniqueness rule. Its previous “PASS — OK TO SUBMIT” recommendation is withdrawn.
 >
-> [Open the decision dashboard](docs/index.html) · [Executive summary and future submission instructions](docs/executive-summary.html) · [Current run card](evidence/run_card_20261028.json) · [Reproducible audit](evidence/review_20261028.json)
+> [Open the decision dashboard](docs/index.html) · [Executive summary and future submission instructions](docs/executive-summary.html) · [Current run card](evidence/run_card_20261028.json) · [Reproducible audit](evidence/review_20261028.json) · [Three review passes](docs/research/2026-10-28-review-passes.md)
 
 The [historical TIFF]({previous["file"]}) is available **for research only**. SHA-256 `{previous["sha256"]}`. The user reports an earlier result for the same submission ID, but no organizer receipt links it to these bytes. Do not upload it as a new candidate.
 
@@ -140,6 +151,10 @@ The pinned GEMSDOE32 dot support is exactly the pinned GEMSDOE25 D2.8 support wi
 * A [registered continuous raster]({audit["continuous_witness"]["source_url"]}) covers every allowed cell under the shared finite-positive support definition. Under that literal interpretation every nonempty candidate is blocked. Do not silently exempt it or place dots in lattice holes to manufacture a PASS.
 * The previous run's **HOLDOUT-DTI** was recorded as 0.0523, 95% CI [0.0375, 0.0687], `gems57-pooled-hide-v2`, 11,360 withheld positives. It was not replayed here; its canary omitted `crest_prominence`, and E1 also used that hydrothermal composite. It is not a leaderboard estimate or a current promotion gate.
 * The user did not supply the single assigned method paragraph referenced in the protocol. This run preregistered a **provisional** direction for discussion but did not run a new experiment after the blocking preflight. The full current registry and organizer-authenticated template are not available.
+
+## Parallel historical concordance run
+
+A separate session recorded **three exploratory static-raster arms** and no submission file. Its leading arm recorded **HOLDOUT-DTI {cah_score:.6f}**, 95% CI [{cah_ci[0]:.6f}, {cah_ci[1]:.6f}], `gems57-pooled-hide-v2`, 11,360 withheld positives, but had **{cah_overlap*100:.2f}%** directional overlap with GEMSDOE32 B2 and a negative verdict. Its predecessor TIFFs were built with the full catalogue, not rebuilt using fold-visible inputs; the static replay is not a clean model holdout. The measured score and CI are retained without treating them as a leaderboard forecast or an approved release. See the [historical card](evidence/run_card_cah.json) and [diagnostic terms](evidence/concordance_holdout.json). Its runner is retired; this review performed zero further experiments and spent zero slots. Preserve the separate [concurrent review card](evidence/run_card_20261028_concurrent_review.json) and [one-witness lattice check](evidence/lattice_stop.json).
 
 ## Research and source inventory
 

@@ -100,12 +100,18 @@
     },
     "submission_name": null,
     "submission_note": "No new file is approved for upload; literal uniqueness gate is blocked.",
-    "experiments_used": 0,
-    "submission_slots_used": 0,
+    "experiments_used_this_review": 0,
+    "parallel_historical_run": {
+      "path": "evidence/run_card_cah.json",
+      "experiments_recorded": 3,
+      "verdict": "negative",
+      "scope": "A separate historical static-raster run; not reproduced in this review or counted as this run's new experiments."
+    },
+    "submission_slots_used_this_review": 0,
     "verdict": "negative"
   },
   "audit": {
-    "generated_utc": "2026-10-28T05:51:57.294064+00:00",
+    "generated_utc": "2026-10-28T06:07:02.298662+00:00",
     "evidence_class": "PINNED-RASTER-REVIEW",
     "scope": "Nine pinned historical research copies plus two pinned blocking witnesses; not a full or current registry, not organizer-authenticated inputs, and no submission-page receipts.",
     "bridge_sample_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",

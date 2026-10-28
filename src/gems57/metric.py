@@ -113,8 +113,10 @@ def marginal_accept(dT: float, k_self: float, T: float, M: float, n: int,
     Implemented by recomputing DTI before and after rather than by algebra, so
     the test cannot drift from the metric.
     """
-    D0 = alpha * (T + n - M) + beta * K + EPS
-    D1 = alpha * (T + dT + (n + 1) - (M + k_self)) + beta * K + EPS
+    # General weights: the shorter alpha*(T+n-M)+beta*K only applies
+    # when alpha + beta == 1 (as in the competition's 0.2 / 0.8 setting).
+    D0 = (1.0 - beta) * T + alpha * (n - M) + beta * K + EPS
+    D1 = (1.0 - beta) * (T + dT) + alpha * (n + 1 - M - k_self) + beta * K + EPS
     return (T + dT) / D1 > T / D0
 
 

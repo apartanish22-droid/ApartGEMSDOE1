@@ -99,7 +99,13 @@
   },
   "submission_name": null,
   "submission_note": "No new file is approved for upload; literal uniqueness gate is blocked.",
-  "experiments_used": 0,
-  "submission_slots_used": 0,
+  "experiments_used_this_review": 0,
+  "parallel_historical_run": {
+    "path": "evidence/run_card_cah.json",
+    "experiments_recorded": 3,
+    "verdict": "negative",
+    "scope": "A separate historical static-raster run; not reproduced in this review or counted as this run's new experiments."
+  },
+  "submission_slots_used_this_review": 0,
   "verdict": "negative"
 }

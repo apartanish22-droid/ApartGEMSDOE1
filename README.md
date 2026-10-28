@@ -2,7 +2,7 @@
 
 > **NOT READY TO SUBMIT.** No new TIFF was generated and no weekly slot was used in this run. The previously shipped file passes a local format preflight but fails the literal 3-pixel uniqueness rule. Its previous “PASS — OK TO SUBMIT” recommendation is withdrawn.
 >
-> [Open the decision dashboard](docs/index.html) · [Executive summary and future submission instructions](docs/executive-summary.html) · [Current run card](evidence/run_card_20261028.json) · [Reproducible audit](evidence/review_20261028.json)
+> [Open the decision dashboard](docs/index.html) · [Executive summary and future submission instructions](docs/executive-summary.html) · [Current run card](evidence/run_card_20261028.json) · [Reproducible audit](evidence/review_20261028.json) · [Three review passes](docs/research/2026-10-28-review-passes.md)
 
 The [historical TIFF](docs/downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif) is available **for research only**. SHA-256 `16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede`. The user reports an earlier result for the same submission ID, but no organizer receipt links it to these bytes. Do not upload it as a new candidate.
 
@@ -35,6 +35,10 @@ The pinned GEMSDOE32 dot support is exactly the pinned GEMSDOE25 D2.8 support wi
 * A [registered continuous raster](https://github.com/buffedlizard55-lab/57GEMSDOE/blob/822a0ce5546c7b6749cdd82eb145b6b3e616603d/docs/downloads/h57-continuous-anatomy-20261009T201252Z-f44b207a70f0.tif) covers every allowed cell under the shared finite-positive support definition. Under that literal interpretation every nonempty candidate is blocked. Do not silently exempt it or place dots in lattice holes to manufacture a PASS.
 * The previous run's **HOLDOUT-DTI** was recorded as 0.0523, 95% CI [0.0375, 0.0687], `gems57-pooled-hide-v2`, 11,360 withheld positives. It was not replayed here; its canary omitted `crest_prominence`, and E1 also used that hydrothermal composite. It is not a leaderboard estimate or a current promotion gate.
 * The user did not supply the single assigned method paragraph referenced in the protocol. This run preregistered a **provisional** direction for discussion but did not run a new experiment after the blocking preflight. The full current registry and organizer-authenticated template are not available.
+
+## Parallel historical concordance run
+
+A separate session recorded **three exploratory static-raster arms** and no submission file. Its leading arm recorded **HOLDOUT-DTI 0.004257**, 95% CI [0.003462, 0.005067], `gems57-pooled-hide-v2`, 11,360 withheld positives, but had **89.06%** directional overlap with GEMSDOE32 B2 and a negative verdict. Its predecessor TIFFs were built with the full catalogue, not rebuilt using fold-visible inputs; the static replay is not a clean model holdout. The measured score and CI are retained without treating them as a leaderboard forecast or an approved release. See the [historical card](evidence/run_card_cah.json) and [diagnostic terms](evidence/concordance_holdout.json). Its runner is retired; this review performed zero further experiments and spent zero slots. Preserve the separate [concurrent review card](evidence/run_card_20261028_concurrent_review.json) and [one-witness lattice check](evidence/lattice_stop.json).
 
 ## Research and source inventory
 

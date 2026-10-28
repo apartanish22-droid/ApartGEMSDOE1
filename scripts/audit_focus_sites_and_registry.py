@@ -238,6 +238,16 @@ def audit(*, offline: bool = False) -> dict:
 def make_run_card(report: dict) -> dict:
     """Represent this run only; do not reuse historical scores as new results."""
     previous = report["previous_apart_submission"]
+    parallel_card = ROOT / "evidence/run_card_cah.json"
+    parallel_history = None
+    if parallel_card.is_file():
+        prior = json.loads(parallel_card.read_text(encoding="utf-8"))
+        parallel_history = {
+            "path": "evidence/run_card_cah.json",
+            "experiments_recorded": prior.get("experiments_recorded"),
+            "verdict": prior.get("verdict"),
+            "scope": "A separate historical static-raster run; not reproduced in this review or counted as this run's new experiments.",
+        }
     return {
         "protocol": "parallel-run; literal registry support",
         "branch": "arena/23e0730c-apartgemsdoe1",
@@ -264,8 +274,9 @@ def make_run_card(report: dict) -> dict:
         },
         "submission_name": None,
         "submission_note": "No new file is approved for upload; literal uniqueness gate is blocked.",
-        "experiments_used": report["new_experiments"],
-        "submission_slots_used": report["submission_slots_used"],
+        "experiments_used_this_review": report["new_experiments"],
+        "parallel_historical_run": parallel_history,
+        "submission_slots_used_this_review": report["submission_slots_used"],
         "verdict": "negative",
     }
 
@@ -279,9 +290,12 @@ def main() -> int:
     text = json.dumps(report, indent=2, allow_nan=False) + "\n"
     (ROOT / "evidence/review_20261028.json").write_text(text, encoding="utf-8")
     (ROOT / "docs/data/review_20261028.json").write_text(text, encoding="utf-8")
-    card = json.dumps(make_run_card(report), indent=2, allow_nan=False) + "\n"
+    card_dict = make_run_card(report)
+    card = json.dumps(card_dict, indent=2, allow_nan=False) + "\n"
     (ROOT / "evidence/run_card_20261028.json").write_text(card, encoding="utf-8")
     (ROOT / "docs/data/current-run-card.json").write_text(card, encoding="utf-8")
+    (ROOT / "docs/data/run_summary.json").write_text(
+        json.dumps({"run_card": card_dict, "audit": report}, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     print(json.dumps({
         "verdict": report["verdict"],
         "focus_sites_checked": len(report["focus_sites"]),
