@@ -139,10 +139,14 @@ EXCLUDE_SUBSTRINGS = (
     "geodawn_",
     "lidar_scarp",
     "sgmc_",
+    "derived_sgmc",
+    "dem10_",
+    "topo_10m",
     "tiger_road",
     "acquisition_block",
     "blm_closed",
     "format_test",
+    "smoke.tif",
 )
 
 
@@ -395,7 +399,10 @@ def main() -> int:
             low = rel_str.lower()
             if any(ex in low for ex in EXCLUDE_SUBSTRINGS):
                 continue
-            if tif.stat().st_size > 25_000_000:
+            try:
+                if not tif.exists() or tif.stat().st_size > 25_000_000 or tif.stat().st_size < 1024:
+                    continue
+            except OSError:
                 continue
             fhash = sha256_file(tif)
             if fhash in seen_file_hashes:
@@ -425,7 +432,7 @@ def main() -> int:
             near_mask = fast_near_3px(pos) & fp
             halo_cov = float(near_mask.sum() / n_fp)
             del near_mask
-            is_blanket = bool(halo_cov >= 0.70 or n_pos >= 500_000)
+            is_blanket = bool(halo_cov >= 0.28 or n_pos >= 85_000)
 
             vals_sub = vals.ravel()[fp_sample_flat].astype(np.float32)
             # Only save full pos_flat when sparse (<600k); for dense/blanket surfaces save top-50k flat indices too

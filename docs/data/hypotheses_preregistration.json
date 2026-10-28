@@ -1,0 +1,116 @@
+{
+  "generated_utc": "2026-10-28T06:10:00Z",
+  "preregistration_protocol": "Parallel-Run Protocol v2 (pre-registered before any H-APART-2 holdout run; budget <= 3 experiments in single method lane)",
+  "baseline_to_beat": {
+    "prior_repo_submission": "apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif",
+    "prior_holdout_dti": {
+      "label": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.052325,
+      "ci95": [0.037453, 0.068666],
+      "withheld_positive_pixels": 11360
+    },
+    "prior_user_reported_live_score": 0.0525,
+    "fold_honest_gemsdoe32_b2_reference_holdout_dti": {
+      "label": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.097441,
+      "ci95": [0.082987, 0.112149],
+      "withheld_positive_pixels": 11360
+    }
+  },
+  "ranked_hypotheses": [
+    {
+      "rank": 1,
+      "id": "H-APART-2",
+      "acronym": "MAW-GSI",
+      "title": "Multi-Azimuth Strike-Worm, Antislope Piedmont Dipole & Geothermal Structural-Intersection Submodular Synthesis",
+      "selected_for_validation": true,
+      "layers_involved": [
+        "Official training_features.tif Bands 1-19 (elev, rtp, tmi_hg, tmi_tp, k, tc, th, geod_dilaterate, tmi_vg, geod_2ndinv, iso_grav_anom_vg, iso_grav_anom_slope, iso_grav_anom, mag_strikedir, depth_to_base_surf, fault_slip_dilation, cond_surf, earthq_freq, det_elev_slope)",
+        "USGS 3DEP 1 m LiDAR derived 12-band lidar_scarp_features_u8.tif (step_max/p95, slope_p95, lappos_max, lapneg_max, downface_max, upface_max, cross_max, coh100, relief, tpi30_absmax, valid_frac; preserving NaN across 24.61% NE NV coverage gap)",
+        "USGS 3DEP 10 m seamless 7-channel dem10_*.f32.npy (onesided3, slope, break3, profcurv, tpi3_abs, resid9_abs, rough3; 99.6% footprint coverage)",
+        "USGS GeoDAWN ScienceBase 657e1d85d34e23d3533209f7 geodawn_extensions_u8.tif (ThK, UK, UTh, TMI_up150) + geodawn_rad_u8.tif (K, Th, U, TC)",
+        "DOE GDR #1391 INGENIOUS sanitized hydrothermal records: gdr_wellspring_in_footprint.csv (temp_c, qtz_c, chalc_c; excluding dist_known_fault_px), 2m_temperature_probe_INGENIOUS_regional_data.zip (F2mDAB filtered to [0.5, 54.7] deg C), paleo_geothermal_regional.zip (sinter/travertine mounds)",
+        "US Census TIGER/Line 2024 tiger_road_distance_m.tif (anthropogenic road/rail berm deconfounder)",
+        "Official existing_faults.tif (strictly masked to fold['visible'] inside holdout folds; collar-tempered clip(d_vis, 8.0, 45.0) + anisotropic tip/relay transfer)"
+      ],
+      "physical_signature": "Four coupled physical operators: (1) Antislope Graben & Relief-Normalized Crest-Toe Scarp Dipole (upface_max*(0.25+coh100)/(cross_max+0.08), sqrt(lapneg_max*lappos_max), step_max/sqrt(relief+9)) + 8-azimuth 1.1 km flank-subtracted strike-worm filter bank on seam-free 1m/10m topography; (2) Contrarian Faulds-Hinz (2015) Structural-Intersection & Hydrothermal Conduit Operator I_vent = sqrt(max(W_(1),0)*max(W_perp,0)) capturing conjugate/orthogonal 2nd-azimuth fault intersections & horse-tail splays coupled with shallow hydrothermal magnetite oxidation (TMI_up150_z - RTP_z), potassic K/Th & U/K edges, MT cond_surf clay-cap gradients, and sanitized GDR #1391 thermal/2m-probe/sinter anomalies; (3) Gallardo-Meju (2004) cross-gradient vector alignment |grad(g).grad(m)|/(|grad(g)||grad(m)|) + 1.5 km potential-field & 58-deg updip-migrated phase-tilt strike worms; (4) Two-stage strictly Out-of-Fold HistGradientBoosting synthesis with Stage-2 2D axial probability worms + collar-tempered (d_vis >= 800 m plateau) directional fault-tip & relay-ramp transfer, allocated via exact 300 m triangular-kernel Minoux lazy-greedy submodular coverage (CELF, 37,654 binary {0,1} dots outside EDT > 2.05 px).",
+      "why_missing_from_catalogue": "In the NW Great Basin, isolated planar mid-segments of tall range-front master faults are already mapped in existing_faults.tif and are often hydrologically sealed by clay gouge. By contrast, distributed intra-basin synthetic/antithetic (antislope) grabens, horse-tail tip splays, en-echelon relay ramps, and conjugate Walker-Lane / Basin-and-Range fault intersections partition slip across multiple short, sub-meter piedmont scarps and shallow buried basement steps below traditional airphoto mapping thresholds (<2 m scarp height), while hosting >93% of Great Basin blind geothermal vents and permeable upflow conduits (Faulds & Hinz, 2015).",
+      "named_non_fault_mimic_processes": [
+        "Incised dendritic alluvial-fan washes and arroyo banks (suppressed via cross_max denominator, crest-toe dipole symmetry, and 1.1 km flank-subtracted axial worm coherence)",
+        "Rugged mountain-interior bedrock crags and glacial/talus cliffs (suppressed via relief normalization step_max/sqrt(relief+9) and piedmont slope/depth interaction)",
+        "Circular Cenozoic basaltic/rhyolitic volcanic plugs, caldera ring dikes, and pluton roofs (suppressed via Gallardo-Meju cross-gradient curl |grad(g) x grad(m)| vs linear 1.5 km potential-field worm elongation)",
+        "Interstate I-80, railroad embankments, and playa levee berms (suppressed via TIGER/Line 2024 road-corridor proximity indicator)",
+        "Playa evaporite brines and transported outwash thermal plumes (suppressed by requiring structural-intersection worm I_vent + shallow TMI_up150 - RTP demagnetization corroboration)"
+      ],
+      "difference_from_existing_repo": "ApartGEMSDOE1 v1 (H-APART-1, HOLDOUT-DTI 0.0523, live 0.0525) used single-pixel quantile ranks on only 3 of 12 LiDAR bands, lacked all 2D multi-azimuth strike-worm operators, lacked the orthogonal 2nd-azimuth structural-intersection detector I_vent = sqrt(W_(1)*W_perp), lacked shallow magnetite-oxidation TMI_up150 - RTP and Galleria-Meju cross-gradient coupling, lacked Stage-2 OOF 2D axial probability context, suffered mountain-slope bias (median dot slope 11.93 deg, far-field piedmont recall 0.0059), and blurred ridges prior to allocation.",
+      "external_data_status": "100% available and SHA-256-verified in local workspace (.cache/external/, .cache/dem10/, data/official/) from official public-domain USGS 3DEP, USGS GeoDAWN (ScienceBase 657e1d85d34e23d3533209f7), DOE GDR #1391, and US Census TIGER/Line 2024 sources. Strictly ZERO SGMC faults in training or inference.",
+      "expected_holdout_dti_gain": "+0.052 to +0.068 HOLDOUT-DTI over v1 (targeting 0.104-0.120 HOLDOUT-DTI, surpassing fold-honest GEMSDOE32 B2 = 0.0974)",
+      "implementation_cost": "Medium (~380 LOC in src/apartgems/features.py + model.py; ~2.5 min total wall-clock for 3 LOQO experiments)"
+    },
+    {
+      "rank": 2,
+      "id": "H-APART-3",
+      "acronym": "MTG-JCG",
+      "title": "3D Multi-Altitude Euler Deconvolution (N=0.5) & Magnetotelluric-Gravity Joint Cross-Gradient Sub-Playa Fault Seal Inversion",
+      "selected_for_validation": false,
+      "layers_involved": [
+        "Official training_features.tif Band 2 (rtp), Band 3 (tmi_hg), Band 9 (tmi_vg), Band 11 (iso_grav_anom_vg), Band 12 (iso_grav_anom_slope), Band 13 (iso_grav_anom), Band 15 (depth_to_base_surf), Band 17 (cond_surf)",
+        "USGS GeoDAWN geodawn_extensions_u8.tif Band 4 (TMI_up150)"
+      ],
+      "physical_signature": "Sliding 7x7 least-squares Thompson-Reid 3D Euler homogeneity inversion (x-x0)dT/dx + (y-y0)dT/dy + (z-z0)dT/dz = N*(B-T) with fault-step structural index N=0.5 coupled with 2D cross-gradient vector alignment |grad(log cond_surf) x grad(iso_grav_anom)| == 0 to localize vertical sub-playa electrical-density fault seals.",
+      "why_missing_from_catalogue": "Recovers deeply buried (0.5-2.5 km) intra-playa horst-bounding faults beneath flat evaporite basins (e.g., Carson Sink, Black Rock Desert) where surface scarps are completely absent.",
+      "named_non_fault_mimic_processes": [
+        "Saline playa water-table lenses creating non-tectonic MT conductivity rings",
+        "400 m flight-line leveling corrugations in regional aeromagnetics"
+      ],
+      "difference_from_existing_repo": "Replaces scalar cot(58 deg) phase-tilt advection in v1 with 3D source-coordinate (x0, y0, z0) pipe clustering and MT-gravity cross-gradient seal coupling.",
+      "external_data_status": "All required layers already cached locally; deferred to preserve single-lane 3-experiment budget because 400 m airborne line spacing + 2-5 km MT station spacing yields ~350-600 m positional uncertainty relative to the strict 300 m DTI kernel.",
+      "expected_holdout_dti_gain": "+0.008 to +0.015 HOLDOUT-DTI standalone; +0.004 incremental over H-APART-2",
+      "implementation_cost": "Medium-High (sliding 7x7 linear solver across 5.17M pixels)"
+    },
+    {
+      "rank": 3,
+      "id": "H-APART-4",
+      "acronym": "INSAR-PGD",
+      "title": "NASA OPERA Sentinel-1 InSAR Line-of-Sight Phase-Gradient Discontinuity & Aseismic Geothermal Aquifer-Barrier Detection",
+      "selected_for_validation": false,
+      "layers_involved": [
+        "NASA OPERA Level-3 Surface Displacement from Sentinel-1 (OPERA_L3_DISP-S1_V1, 30 m posting, 2016-2024 secular velocity & seasonal amplitude)",
+        "Official Band 8 (geod_dilaterate), Band 15 (depth_to_base_surf), Band 17 (cond_surf)"
+      ],
+      "physical_signature": "Anisotropic Sobel/worm horizontal phase-velocity gradient |grad(v_LOS)| across Quaternary basins to detect sub-millimeter/yr differential aquifer compaction and aseismic fault creep across blind intra-basin hydrological barrier faults (Bell et al., 2008).",
+      "why_missing_from_catalogue": "Hydrologically sealing intra-basin faults in active geothermal basins (Brady's, Dixie Valley, San Emidio, Desert Peak) often lack surface scarps or large basement density jumps inside Quaternary fill, yet create sharp radar phase-velocity steps across the fault seal.",
+      "named_non_fault_mimic_processes": [
+        "Agricultural center-pivot groundwater pumping bowls in Mason/Lovelock/Fallon valleys",
+        "Playa evaporite wetting/drying seasonal radar phase decorrelation"
+      ],
+      "difference_from_existing_repo": "Introduces 30 m satellite radar interferometric deformation gradients versus 10 km GPS geodetic dilation rate (Band 8).",
+      "external_data_status": "Free official public-domain NASA/JPL OPERA dataset distributed via ASF DAAC (https://asf.alaska.edu/datasets/daac/opera/); obtainable on unrestricted hosts, but asf.alaska.edu / earthdata.nasa.gov are outside this sandbox's outbound allowlist (github.com, pypi.org, npmjs.org). Transparently flagged and deferred.",
+      "expected_holdout_dti_gain": "+0.010 to +0.022 HOLDOUT-DTI in active geothermal/agricultural basins",
+      "implementation_cost": "High (multi-frame Sentinel-1 OPERA mosaicking + atmospheric ramp removal)"
+    },
+    {
+      "rank": 4,
+      "id": "H-APART-5",
+      "acronym": "ASTER-TIR-SIL",
+      "title": "ASTER 90 m Thermal-Infrared Emissivity Silica-Opaline Sinter & Argillic Alteration Fault-Conduit Mapping",
+      "selected_for_validation": false,
+      "layers_involved": [
+        "NASA/METI/USGS LP DAAC ASTER GED v3 / L2 Surface Emissivity Bands 10-14 (8.1-11.6 um reststrahlen quartz/chalcedony/opal doublet) + SWIR Bands 4-9 (kaolinite/alunite/illite)",
+        "USGS GeoDAWN geodawn_extensions_u8.tif (ThK, UK) + Official Band 17 (cond_surf)"
+      ],
+      "physical_signature": "Band-12 / Band-13 reststrahlen emissivity trough index for amorphous opaline sinter + SWIR 2.17/2.20 um Al-OH argillic absorption aligned along linear structural strike worms.",
+      "why_missing_from_catalogue": "Fossil and weakly steaming blind geothermal vents seal surface fault fractures with siliceous sinter aprons and kaolinite-alunite steam-heated alteration without leaving tall tectonic scarps or modern hot-spring discharge.",
+      "named_non_fault_mimic_processes": [
+        "Eolian quartz sand dunes (e.g., Sand Mountain, Winnemucca dune belt)",
+        "Rhyolitic ash-flow tuff outcrops on footwall range blocks"
+      ],
+      "difference_from_existing_repo": "Adds multispectral SWIR/TIR mineralogical absorption spectroscopy beyond airborne gamma-ray K-U-Th ratios.",
+      "external_data_status": "Free official public-domain NASA LP DAAC ASTER GED v3 (https://lpdaac.usgs.gov/products/ag100v003/); obtainable externally, not cached locally and lpdaac.usgs.gov is outside sandbox outbound allowlist. Transparently flagged and deferred.",
+      "expected_holdout_dti_gain": "+0.005 to +0.012 HOLDOUT-DTI around fossil/blind epithermal-geothermal districts",
+      "implementation_cost": "Medium-High (vegetation/albedo unmixing across 5.17M pixels)"
+    }
+  ]
+}
