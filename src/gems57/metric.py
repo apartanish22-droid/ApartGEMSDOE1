@@ -37,16 +37,16 @@ carried by the shared template's prose and corrected here; the template's own
 :func:`dti_algebra` keeps ``T``, ``S`` and ``M`` separate and is right.
 
 Adding one dot with self-credit ``k = max_g k(d(x,g))`` and marginal truth credit
-``dT`` (``dT <= k``, with equality when the dot covers only truth cells no
-earlier dot already covered) gives ``dD = alpha*(dT + 1 - k)`` and, writing
+``dT`` gives ``dD = alpha*(dT + 1 - k)`` and, writing
 ``DTI = T / D``,
 
     new DTI = (T + dT) / (D + alpha*(dT + 1 - k))
     dDTI > 0  <=>  (T + dT)*D > T*(D + alpha*(dT + 1 - k))
               <=>  dT > alpha * DTI * (dT + 1 - k)
 
-For a non-redundant dot (``dT == k``) this reduces to the simple bar
-``k > alpha * DTI``, which is the form quoted in the competition literature.
+In the special case ``dT == k`` this reduces to the simple bar
+``k > alpha * DTI``. A dot can credit multiple truth cells, so non-redundancy
+alone does not imply ``dT == k``; the exact test is needed in general.
 
 .. warning:: an earlier revision of this module tested ``dT * D > DTI * alpha *
    (dT + 1 - k)``, which is the same inequality multiplied through by ``D`` on
@@ -96,11 +96,9 @@ OFF_DY, OFF_DX, OFF_K = offsets()
 
 
 def marginal_inclusion_threshold(current_dti: float, alpha: float = ALPHA) -> float:
-    """Minimum realised kernel credit ``k`` for one more **non-redundant** dot.
-
-    ``dDTI > 0 <=> k > alpha * DTI`` when the dot's marginal truth credit equals
-    its self-credit.  For a redundant dot use :func:`marginal_accept`, which
-    applies the exact two-sided test.
+    """Inclusion bar for the special case where marginal truth credit equals
+    self-credit. One dot can credit multiple truth cells, including without
+    redundancy; use :func:`marginal_accept` for the general case.
     """
     return alpha * float(current_dti)
 

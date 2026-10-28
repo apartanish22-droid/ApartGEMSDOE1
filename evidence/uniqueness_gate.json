@@ -50,7 +50,8 @@
         "is_blanket": true
       }
     ],
-    "passed": true
+    "passed": false,
+    "historical_exempted_policy_passed": true
   },
   "post_placement_final_raster_gate": {
     "gate": "POST_PLACEMENT_FINAL_RASTER",
@@ -309,7 +310,16 @@
         "spearman_rho": -0.002177
       }
     ],
-    "passed": true
+    "passed": false,
+    "historical_exempted_policy_passed": true
   },
-  "overall_uniqueness_passed": true
+  "overall_uniqueness_passed": false,
+  "superseded_by": "evidence/review_20261028.json",
+  "supersession_reason": "Superseded 2026-10-28: literal 3-px gate includes all registry rasters; previous candidate overlaps the lattice and a continuous witness above 70%. The original pre-placement surface was not rechecked.",
+  "historical_exempted_policy_passed": true,
+  "literal_witness_measurements": {
+    "previous_candidate_forward_overlap_lattice_3px": 0.9894805194805195,
+    "previous_candidate_forward_overlap_continuous_3px": 1.0,
+    "overlap_limit": 0.7
+  }
 }

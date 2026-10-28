@@ -48,14 +48,13 @@ def _jaccard(a, b):
 
 def is_blanket_or_lattice(a: np.ndarray, footprint: np.ndarray, radius_px: float = RADIUS_PX,
                           coverage_threshold: float = OVERLAP_LIMIT) -> dict:
-    """Shared Rule-2 repair for IR-REG-BLANKET: detect continuous surfaces & uniform calibration lattices.
+    """Describe dense or lattice-like support for diagnostics only.
 
-    A reference raster whose 3-px Euclidean support covers >= 70% of the entire valid footprint
-    (e.g., 5.1M-cell continuous probability surfaces covering 100%, or the 206,895-cell uniform 5-px
-    calibration grid `r13-lattice-s5` covering 99.87%) mathematically forces >70% forward `a > 0`
-    overlap on high-budget sparse candidates regardless of fault placement. Such rasters must be
-    audited by full-footprint Spearman rank correlation (`|rho| <= 0.90`), matched-budget top-K
-    overlap when values vary, and explicit IR-REG-BLANKET witness disclosure.
+    This classification does *not* exempt a raster or replace literal
+    finite-positive support with a top-K approximation. The parallel-run
+    protocol applies its overlap limit to every registered raster. A dense
+    reference can therefore block every nonempty candidate; report that
+    consequence rather than silently changing the rule.
     """
     pos = _dots(a) & np.asarray(footprint, bool)
     n_fp = max(int(np.asarray(footprint, bool).sum()), 1)
@@ -84,7 +83,7 @@ def summarize_registry_rows(rows, *, registry_rasters_expected, complete_accessi
     expected = int(registry_rasters_expected)
     checked = [r for r in rows if 'error' not in r]
     errors = [r for r in rows if 'error' in r]
-    complete = bool(complete_accessible_scan and expected == len(rows)
+    complete = bool(complete_accessible_scan and expected > 0 and expected == len(rows)
                     and not errors and not source_errors)
     # The inherited stop gate is literal: only Spearman > 0.90 or forward
     # 3-pixel overlap > 0.70 (plus byte/pixel identity safeguards) can block.
@@ -221,29 +220,50 @@ def _sha(path):
 
 def records_from_index(index):
     if isinstance(index, list):
-        return index, False, ["Legacy list has no complete-inventory certificate; diagnostic only"]
-    if not isinstance(index, dict) or 'rasters' not in index:
+        return index, False, ["Legacy list has no complete-inventory certificate; diagnostic only"], len(index)
+    if not isinstance(index, dict) or not isinstance(index.get('rasters'), list):
         raise ValueError('registry must be a list or a full inventory with rasters')
-    records = [dict(repo=r['repo_first'], submission=r['sources'][0], file=r['cache_file'],
-                    sha256=r['sha256'], sources=r['sources']) for r in index['rasters']]
-    # Historical /tmp inventory never had a completeness certificate; file checks
-    # below still prevent it from passing when all ephemeral caches disappear.
-    complete = index.get('complete_accessible_scan', False)
-    return records, bool(complete), index.get('errors', [])
+    errors = list(index.get('errors') or [])
+    expected = index.get('registry_rasters_expected')
+    if isinstance(expected, bool) or not isinstance(expected, int) or expected <= 0:
+        errors.append('registry must declare a positive expected raster count')
+        expected = len(index['rasters'])
+    if expected != len(index['rasters']):
+        errors.append('declared registry raster count does not match the inventory')
+    if not isinstance(index.get('inventory_scope'), str) or not index['inventory_scope'].strip():
+        errors.append('registry must declare its inventoried scope')
+    records = []
+    for r in index['rasters']:
+        if (not isinstance(r, dict) or not r.get('cache_file') or not r.get('repo_first')
+                or not isinstance(r.get('sources'), list) or not r['sources']):
+            errors.append('registry entry lacks a file, repository, or source list')
+            continue
+        records.append(dict(repo=r['repo_first'], submission=r['sources'][0], file=r['cache_file'],
+                            sha256=r.get('sha256'), sources=r['sources']))
+    # Scope and count are inventoried declarations, not proof that unlinked,
+    # private or later-written rasters don't exist. Such completeness requires
+    # independent current discovery by the caller and a separate selector.
+    complete = index.get('complete_accessible_scan') is True and not errors
+    return records, complete, errors, expected
 
 
 def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=None,
                               include_reverse=True, progress=None, expected_grid=None):
-    mine = np.asarray(mine, np.float32)
+    mine = np.asarray(mine)
     fp = np.asarray(footprint, bool)
     if mine.ndim != 2 or mine.shape != fp.shape or not fp.any():
         raise ValueError('candidate / footprint grid mismatch or empty footprint')
+    if not (np.issubdtype(mine.dtype, np.number) or np.issubdtype(mine.dtype, np.bool_)) or np.iscomplexobj(mine):
+        raise ValueError('candidate must be real numeric or boolean values')
+    # Validate before conversion: float64 1 + epsilon can round down to float32 1.
     if not np.isfinite(mine).all() or (mine < 0).any() or (mine > 1).any():
         raise ValueError('candidate must already be finite in [0,1]')
     if (mine[~fp] > 0).any():
         raise ValueError('positive candidate mass outside footprint')
+    # Preserve source precision for positive support and ranks; casting tiny
+    # positive float64 values to float32 could turn dots into zeros.
     idx = registry_index if isinstance(registry_index, (list, dict)) else json.loads(Path(registry_index).read_text())
-    records, inventory_complete, source_errors = records_from_index(idx)
+    records, inventory_complete, source_errors, expected_count = records_from_index(idx)
     rows = []
     values = mine[fp]
     ranks = rankdata(values).astype(np.float64)
@@ -252,7 +272,7 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
     my_support = _dots(mine) & fp
     my_dot_count = int(my_support.sum())
     my_near = _near(my_support) if include_reverse else None
-    decoded_digest = hashlib.sha256(np.ascontiguousarray(mine).tobytes()).hexdigest()
+    decoded_digest = hashlib.sha256(np.ascontiguousarray(mine, dtype='<f8').tobytes()).hexdigest()
     for i, rec in enumerate(records):
         p = Path(rec['file'])
         if not p.is_absolute():
@@ -262,7 +282,10 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
             if not p.exists():
                 raise FileNotFoundError('missing registry file; cannot certify uniqueness')
             digest = _sha(p)
-            if rec.get('sha256') and digest != rec['sha256']:
+            pin = rec.get('sha256')
+            if not isinstance(pin, str) or len(pin) != 64:
+                raise ValueError('registry entry lacks a SHA256 pin')
+            if digest != pin:
                 raise ValueError('registry SHA256 pin mismatch')
             with rasterio.open(p) as src:
                 if src.count != 1 or src.shape != mine.shape:
@@ -273,7 +296,14 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
                     from .grid import TRANSFORM
                     if src.crs is None or src.crs.to_epsg()!=32611 or src.transform != TRANSFORM:
                         raise ValueError('registry CRS/transform mismatch')
-                theirs = src.read(1).astype(np.float32)
+                theirs = src.read(1)
+            # Check source precision before casting; never silently turn a
+            # slightly out-of-range float64 interior cell into float32 1.0.
+            inside = theirs[fp]
+            if np.iscomplexobj(inside) or not np.issubdtype(inside.dtype, np.number):
+                raise ValueError('registry values must be real numbers')
+            if not np.isfinite(inside).all() or (inside < 0).any() or (inside > 1).any():
+                raise ValueError('registry contains non-finite or out-of-range values inside the footprint')
             theirs = np.where(np.isfinite(theirs), theirs, 0.0)
             # Outside-footprint values are ignored for support and pixel identity.
             theirs[~fp] = 0
@@ -293,7 +323,7 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
             ov = float(_near(support)[my_support].mean()) if my_dot_count else 0.0
             reverse = float(my_near[support].mean()) if include_reverse and support.any() else 0.0
             jac = _jaccard(my_support, support)
-            their_decoded = hashlib.sha256(np.ascontiguousarray(theirs).tobytes()).hexdigest()
+            their_decoded = hashlib.sha256(np.ascontiguousarray(theirs, dtype='<f8').tobytes()).hexdigest()
             row = {**base, 'sha256':digest, 'decoded_sha256':their_decoded,
                 'their_dots':int(support.sum()), 'my_dots_within_3px_of_theirs':ov,
                 'their_dots_within_3px_of_mine':reverse, 'spearman_full_footprint':rho,
@@ -309,9 +339,10 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
         if progress:
             progress(i+1,len(records),rows[-1])
     complete = inventory_complete and bool(records) and not source_errors
-    return summarize_registry_rows(
+    declared_scope = idx.get('inventory_scope', 'legacy list without scope') if isinstance(idx, dict) else 'legacy list without scope'
+    result = summarize_registry_rows(
         rows,
-        registry_rasters_expected=len(records),
+        registry_rasters_expected=expected_count,
         complete_accessible_scan=complete,
         source_errors=source_errors,
         candidate_meta=dict(
@@ -321,8 +352,10 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
             candidate_file_sha256=file_sha256,
             candidate_rank_variation=norm > 0,
         ),
-        scope='All hash-verified accessible entries in the indexed public owner-repository inventory; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only.',
+        scope=f'Declared inventory scope: {declared_scope}. Its completeness is not independently verified; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only.',
     )
+    result['inventory_scope_independently_verified'] = False
+    return result
 
 
 def compare_to_registry(mine_path, registry_index, footprint, **kwargs):
@@ -358,6 +391,9 @@ def saturation_certificate(registry_path, footprint, catalogue=None, *, expected
         if expected_grid is not None and (src.shape, src.crs, src.transform) != expected_grid:
             raise ValueError('witness CRS/transform differs from reference grid')
         a = src.read(1)
+    inside = a[fp]
+    if not np.isfinite(inside).all() or (inside < 0).any() or (inside > 1).any():
+        raise ValueError('witness contains non-finite or out-of-range values inside the footprint')
     positive = _dots(a) & fp
     covered = _near(positive)
     uncovered = int((allowed & ~covered).sum())
@@ -383,10 +419,9 @@ independent re-measurement recorded with this session's certificate: the 17GEMSD
 footprint cells and leaves **0** of the 5,106,385 allowed cells uncovered, so the
 literal gate fires on any nonempty candidate in the allowed domain.
 
-The classification below does not weaken any threshold.  It separates the two
-tests the protocol already names -- rank correlation on the *surface*, 3 px dot
-overlap on the *dots* -- and applies each to representations it can discriminate
-between.  Both readings are always reported.
+The classification below is descriptive only. It can help explain why the
+literal gate fires, but it cannot authorize an exemption or a release. The
+literal reading, which includes every raster, is the only gate in this project.
 """
 
 
@@ -463,9 +498,9 @@ def two_phase_summary(rows, footprint_cells: int, *, rho_limit: float = RHO_LIMI
             forward_overlap_firings=len(literal_firings),
             rho_firings=len(literal_rho_firings),
             duplicate=bool(literal_firings or literal_rho_firings),
-            note=("Keeps the inherited literal support definition. A continuous-surface prior fires on "
-                  "every nonempty candidate, so a firing here is not evidence of duplication; it is "
-                  "reported for completeness."),
+            note=("Keeps the inherited literal support definition. A continuous prior can fire on "
+                  "every nonempty candidate; this is a blocking protocol duplicate even though "
+                  "it need not imply scientific similarity."),
         ),
         like_for_like_reading=dict(
             dot_field_rasters=len(dot_rows), continuous_surface_rasters=len(surf_rows),
@@ -476,8 +511,8 @@ def two_phase_summary(rows, footprint_cells: int, *, rho_limit: float = RHO_LIMI
             worst_jaccard=jac, worst_jaccard_submission=(jac_who or {}).get("submission"),
             forward_overlap_firings=len(like_firings),
             duplicate=bool(like_firings or literal_rho_firings),
-            note=("Inherited thresholds, applied to dot fields only; rank correlation still applies to "
-                  "every raster including the continuous surfaces."),
+            note=("Diagnostic only: excludes continuous surfaces and cannot authorize a release. "
+                  "The literal reading above remains binding."),
         ),
         literal_firings=literal_firings,
     )

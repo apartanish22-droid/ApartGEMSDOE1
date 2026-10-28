@@ -115,7 +115,7 @@
   "approved_for_weekly_slot": false,
   "promoted": false,
   "submission_slots_used": 0,
-  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "status": "DO NOT SUBMIT \u2014 historical research artifact; literal uniqueness failed and owner reports prior submission.",
   "metadata": {
     "hypothesis": "H-APART-1 (UDTH-Submod)",
     "winner_experiment": "E3",
@@ -126,5 +126,7 @@
     ],
     "surface_max_abs_spearman": 0.734881,
     "dot_max_3px_overlap": 0.624831
-  }
+  },
+  "superseded_by": "../../data/review_20261028.json",
+  "supersession_reason": "Superseded 2026-10-28: literal 3-px gate includes all registry rasters; previous candidate overlaps the lattice and a continuous witness above 70%. The original pre-placement surface was not rechecked."
 }

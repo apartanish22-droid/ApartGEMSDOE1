@@ -5,22 +5,35 @@
   "experiment_budget_cap": 3,
   "holdout_evaluator": {
     "name": "gems57-pooled-hide-v2",
-    "hide_frac": 0.20,
+    "hide_frac": 0.2,
     "buffer_px": 3,
-    "alpha_fp": 0.20,
-    "beta_fn": 0.80,
+    "alpha_fp": 0.2,
+    "beta_fn": 0.8,
     "kernel_radius_m": 300.0,
     "catalogue_features_policy": "Strictly computed from fold['visible'] inside every fold; final submission masks full existing_faults.tif + 200 m (2.0 px) collar only at export."
   },
   "automated_gates": {
-    "leakage_canary_max_sym_auc": 0.90,
-    "surface_spearman_abs_cap": 0.90,
-    "dot_3px_overlap_cap": 0.70,
-    "geotiff_range": [0.0, 1.0],
+    "leakage_canary_max_sym_auc": 0.9,
+    "surface_spearman_abs_cap": 0.9,
+    "dot_3px_overlap_cap": 0.7,
+    "geotiff_range": [
+      0.0,
+      1.0
+    ],
     "geotiff_all_grid_finite_required": true,
     "geotiff_crs": "EPSG:32611",
-    "geotiff_shape": [3730, 3292],
-    "geotiff_transform": [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0]
+    "geotiff_shape": [
+      3730,
+      3292
+    ],
+    "geotiff_transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ]
   },
   "ranked_hypotheses": [
     {
@@ -117,5 +130,7 @@
       "name": "UDTH-Submod Full Synthesis (+ Visible-Only Tip/Step-Over Relay Continuation & Calibrated Off-Catalogue Budget)",
       "description": "Combines E2 blind structural-geothermal probability surface with strictly fold-visible fault tip/relay continuation (computed solely from fold['visible'] during holdout and existing_faults.tif at final export) and exact 25-offset 300 m submodular expected-gain dot allocation outside the 200 m (2.0 px) catalogue collar."
     }
-  ]
+  ],
+  "historical_only": true,
+  "superseded_note": "Prior expected gains and physical interpretations are hypotheses, not measured scores; band-15 basement-thickness interpretation requires official verification."
 }

@@ -98,7 +98,29 @@ def run_leakage_canaries(
             "passed": bool(sym_auc <= canary_cap),
         })
 
-    # Also check the 3 strictly fold-visible VTRB features
+    # The model also consumes the composite crest feature, not just its
+    # constituent maps. It must have its own canary before fitting.
+    crest_inputs = [np.load(feature_paths[name], mmap_mode="r") for name in (
+        "udpc_grav_updip", "dopsr_road_deconfounded", "udpc_mag_updip", "hmcs_mag_destruction"
+    )]
+    crest = compute_ridge_crest_prominence(*crest_inputs, fp)
+    crest_auc = float(roc_auc_score(y_sub, crest.ravel()[sample_idx]))
+    crest_sym = max(crest_auc, 1.0 - crest_auc)
+    rows.append({
+        "feature": "crest_prominence",
+        "group": "blind_composite",
+        "roc_auc": round(crest_auc, 6),
+        "symmetric_auc": round(crest_sym, 6),
+        "canary_cap": canary_cap,
+        "passed": bool(crest_sym <= canary_cap),
+    })
+    del crest, crest_inputs
+
+    # buffered_component_draw supplies the same global withheld catalogue to
+    # each quadrant. Refuse a different fold scheme instead of accidentally
+    # deriving catalogue features from another fold's visible faults.
+    if any(not np.array_equal(f["visible"], folds[0]["visible"]) for f in folds[1:]):
+        raise ValueError("canaries require a shared buffered visible catalogue across folds")
     vtrb_maps = compute_visible_relay_features(folds[0]["visible"], fp)
     for name, arr in vtrb_maps.items():
         vals = arr.ravel()[sample_idx].astype(np.float64)

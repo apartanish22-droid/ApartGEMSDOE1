@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """CLI wrapper delegating directly to the unmodified shared `gems57.evaluate_holdout` module.
 
-Note: Passing a live-submission GeoTIFF that has already zeroed out `<=200 m` around the full
-`existing_faults.tif` catalogue measures static post-mask replay (erasing predictions on the 20%
-withheld catalogue segments). Full out-of-fold LOQO hide-and-recover evaluation (masking only
-`fold['visible']` per fold per Rule 2) is executed by `scripts/run_apartgems_pipeline.py` and
-recorded in `evidence/experiments_holdout.json`.
+This static-file replay is diagnostic only, NOT a fold-local evaluation of a
+model that used catalogue inputs. In particular a full-catalogue mask may erase
+withheld truths. It cannot establish eligibility for promotion. The legacy
+H-APART-1 runner is retired; historical fold-local results are retained in
+`evidence/experiments_holdout.json` but have not been independently replayed.
 """
 from __future__ import annotations
 
@@ -35,12 +35,21 @@ def main() -> int:
     grid = load_grid()
     folds, _ = buffered_component_draw(grid, seed=args.seed, hide_frac=0.20, buffer_px=3)
     with rasterio.open(args.tif) as src:
+        if src.count != 1 or (src.shape, src.crs, src.transform) != (grid.shape, grid.crs, grid.transform):
+            raise ValueError("candidate does not match the bridge grid and single-band format")
         pred = src.read(1).astype(np.float64)
-    pred = np.where(np.isfinite(pred) & grid.footprint, pred, 0.0)
+    # Research TIFFs may have NaNs outside the bridge footprint; never repair
+    # invalid interior predictions or values outside [0,1].
+    values = pred[grid.footprint]
+    if not np.isfinite(values).all() or (values < 0).any() or (values > 1).any():
+        raise ValueError("candidate contains invalid values inside the footprint")
+    pred = np.where(grid.footprint, pred, 0.0)
 
     terms = sum(EH.evaluate(pred, f, grid.footprint)[1] for f in folds)
     zero_terms = sum(EH.evaluate(np.zeros_like(pred), f, grid.footprint)[1] for f in folds)
     summary = EH.pooled_summary({"candidate": terms, "zero_control": zero_terms}, candidate="candidate")
+    summary["evaluation_kind"] = "static-file diagnostic; not a fold-local model replay"
+    summary["promotion_eligible"] = False
     out_txt = json.dumps(summary, indent=2, allow_nan=False)
     if args.out:
         args.out.write_text(out_txt + "\n")
