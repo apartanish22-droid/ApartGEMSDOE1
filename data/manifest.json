@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-28T05:44:22.134260+00:00",
+  "generated_utc": "2026-10-28T22:40:21.665809+00:00",
   "evidence_class": "OWNER-MIRROR-INTEGRITY",
   "provenance_note": "SHA-256 verified against pinned public GitHub mirrors and official USGS/DOE/TIGER public-domain releases; DrivenData organizer portal authentication is not available in sandbox.",
   "core_files": [
@@ -117,41 +117,6 @@
       "bytes": 10492276,
       "sha256": "e5350423508968fa2d32b0a6ae0d3fb4ae3ea645e3b8736f0c8e7ad9ff2f2988",
       "official_source": "https://www2.census.gov/geo/tiger/TIGER2024/PRISECROADS/",
-      "verified": true
-    },
-    {
-      "name": "topo_10m_derived_100m_u8.tif",
-      "bytes": 32523329,
-      "sha256": "a6398d9950965dec6aae6ccecdaa6ced48645d133eab222cbdd11def9bdabfa4",
-      "official_source": "https://www.usgs.gov/3d-elevation-program",
-      "verified": true
-    },
-    {
-      "name": "topo_10m_derived_100m_u8.manifest.json",
-      "bytes": 2720,
-      "sha256": "181d5527ba7ed2990031918a8b6c9d5d94e3998b2daf656de0c33322ca94120a",
-      "official_source": "https://www.usgs.gov/3d-elevation-program",
-      "verified": true
-    },
-    {
-      "name": "dem10_chi_100m_i16.tif",
-      "bytes": 12777098,
-      "sha256": "8897ba9c30ef1cd7ad5f23c16c6dfd7bb070e7e757f36fd9486eb45edfd973a5",
-      "official_source": "https://www.usgs.gov/3d-elevation-program",
-      "verified": true
-    },
-    {
-      "name": "gdr_volcanic_vents_in_footprint.csv",
-      "bytes": 672,
-      "sha256": "f91bafbaccaaf2754e71d60434fc0f9eb2c7b880c6e714883f4974542ff6a0bf",
-      "official_source": "https://gdr.openei.org/submissions/1391",
-      "verified": true
-    },
-    {
-      "name": "acquisition_block_id_100m.tif",
-      "bytes": 85031,
-      "sha256": "2c0785c4b3ec46c734d1be7a7aedbb3e816201100ab358033a3af074418c894a",
-      "official_source": "https://www.sciencebase.gov/catalog/item/657e1d85d34e23d3533209f7",
       "verified": true
     }
   ],
