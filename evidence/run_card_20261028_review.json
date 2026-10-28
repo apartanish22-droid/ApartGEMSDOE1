@@ -1,0 +1,14 @@
+{
+  "hypothesis": "No new lane selected: the prompt does not identify an unambiguous single method paragraph and the full feature stack and registry are unavailable.",
+  "mechanism": null,
+  "named_non_fault_mimic_process": null,
+  "holdout_dti": null,
+  "holdout_dti_reason": "No experiment run in this session; historical results have not been reproduced.",
+  "correlation_overlap_vs_registry": null,
+  "correlation_overlap_reason": "Registry cache absent; old gate excluded lattice references and truncated dense masks.",
+  "raster_sha256": null,
+  "validator_output": "No new raster to validate. Historical TIFF passed local format/range preflight against the bundled unauthenticated mirror; see evidence/format_recheck_20261028.json.",
+  "submission_name": null,
+  "submission_note": null,
+  "verdict": "negative"
+}

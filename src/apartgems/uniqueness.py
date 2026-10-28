@@ -1,12 +1,9 @@
-"""Automated Dual Uniqueness Gate against the 22-repo / 352-raster Fleet Registry.
+"""Fail-closed registry uniqueness checks.
 
-Enforces Parallel-Run Protocol Rule 1 automatically in code:
-  1. Pre-placement continuous surface check: |Spearman rho| <= 0.90 vs every registry raster.
-  2. Post-placement final dot check:
-     - |Spearman rho| <= 0.90 vs every registry raster, AND
-     - <= 0.70 fraction of emitted dots within 3 px (300 m) of any competing sparse detector's dots
-       (plus matched-budget top-K 3-px overlap <= 0.70 against the 10 blanket/continuous surfaces,
-        with raw `a > 0` blanket witnesses disclosed transparently per IR-REG-BLANKET).
+Historical dense-reference caches retain only top-ranked pixels, and lattice
+references were excluded from the old threshold. Those caches cannot prove
+compliance with the requested all-registry overlap rule. Any such reference
+makes the final gate fail until full-mask checking is implemented.
 """
 from __future__ import annotations
 
@@ -52,6 +49,8 @@ def check_surface_uniqueness(
     if not manifest_p.exists():
         raise FileNotFoundError("Missing .cache/registry_index/registry_manifest.json; run audit_focus_sites_and_registry.py")
     manifest = json.loads(manifest_p.read_text())
+    if not manifest.get("entries"):
+        raise ValueError("Registry is empty; uniqueness cannot be established")
     fp_sample_flat = np.load(CACHE_REG / "fp_sample_flat.npy")
 
     surf_clean = np.where(footprint & np.isfinite(surface), surface, 0.0).astype(np.float32)
@@ -99,6 +98,8 @@ def check_final_raster_uniqueness(
 ) -> dict:
     """Post-placement final raster uniqueness gate (Spearman + 3-px dot overlap across 352 rasters)."""
     manifest = json.loads((CACHE_REG / "registry_manifest.json").read_text())
+    if not manifest.get("entries"):
+        raise ValueError("Registry is empty; uniqueness cannot be established")
     fp_sample_flat = np.load(CACHE_REG / "fp_sample_flat.npy")
     H, W = final_raster.shape
 
@@ -198,6 +199,10 @@ def check_final_raster_uniqueness(
         and max_abs_rho <= spearman_cap
         and max_sparse_overlap <= overlap_cap
         and max_blanket_matched_overlap <= overlap_cap
+        # Dense references are cached as top-K, not their full positive masks.
+        # Lattice references were also exempted by the old gate. Neither can
+        # establish the protocol requirement against every registry raster.
+        and not blanket_disclosures
     )
     return {
         "gate": "POST_PLACEMENT_FINAL_RASTER",
@@ -207,6 +212,7 @@ def check_final_raster_uniqueness(
         "rasters_checked": len(manifest["entries"]),
         "competing_sparse_detectors_checked": sum(1 for e in manifest["entries"] if not e["is_blanket_or_continuous_surface"]),
         "blanket_surfaces_disclosed": len(blanket_disclosures),
+        "blanket_gate_status": "unverified: rebuild using full positive masks" if blanket_disclosures else "no blanket references",
         "exact_hash_collision": exact_hash_collision,
         "spearman_abs_cap": spearman_cap,
         "overlap_3px_cap": overlap_cap,
