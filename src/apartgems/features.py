@@ -1,4 +1,10 @@
-"""Physical feature engineering for H-APART-1 (UDTH-Submod).
+"""Historical physical feature engineering for H-APART-1 (UDTH-Submod).
+
+Research only: the runner is disabled. In particular, the physical meaning of
+band 15 as sedimentary basement-cover thickness is not established by the
+organizer description; it must not be used as a validated dip-backprojection
+without authoritative metadata. Other physical interpretations are hypotheses,
+not proof of faults or geothermal resources.
 
 Modules:
   1. UDPC  : Updip dip-backprojected gravity & RTP magnetic phase-tilt contacts
@@ -60,7 +66,9 @@ def _load_band_imputed(band_idx: int, fp: np.ndarray) -> np.ndarray:
     """Load cached float32 band (1..19), impute ~3k missing footprint cells with median."""
     arr = np.load(ROOT / f".cache/features/band-{band_idx:02d}.npy").astype(np.float32)
     valid = np.isfinite(arr) & fp
-    med = float(np.median(arr[valid])) if valid.any() else 0.0
+    if not valid.any():
+        raise ValueError(f"band {band_idx} has no finite in-footprint data to impute")
+    med = float(np.median(arr[valid]))
     out = np.where(valid, arr, med).astype(np.float32)
     out[~fp] = med
     return out
@@ -72,7 +80,7 @@ def _rank_unit(arr: np.ndarray, mask: np.ndarray) -> np.ndarray:
     v = arr[mask]
     finite = np.isfinite(v)
     if not finite.any():
-        return out
+        raise ValueError("cannot normalize a feature with no finite in-footprint values")
     med = float(np.median(v[finite]))
     v_clean = np.where(finite, v, med)
     # Subsample quantile LUT for speed & low RAM (5.17M cells -> exact interp on 2049 knots)

@@ -23,3 +23,7 @@ def test_surface_gate_runs_before_placement(monkeypatch):
         raise ValueError('surface duplicate')
     with pytest.raises(ValueError, match='surface duplicate'):
         model.build_final_live_submission_arrays(grid, winner, {}, np.ones((5, 5)), before_placement=reject)
+    with pytest.raises(ValueError, match='did not return a passing'):
+        model.build_final_live_submission_arrays(grid, winner, {}, np.ones((5, 5)), before_placement=lambda *_: {'unique': False})
+    with pytest.raises(ValueError, match='pre-placement uniqueness gate is required'):
+        model.build_final_live_submission_arrays(grid, winner, {}, np.ones((5, 5)))

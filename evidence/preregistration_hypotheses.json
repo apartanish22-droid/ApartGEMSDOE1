@@ -131,5 +131,6 @@
       "description": "Combines E2 blind structural-geothermal probability surface with strictly fold-visible fault tip/relay continuation (computed solely from fold['visible'] during holdout and existing_faults.tif at final export) and exact 25-offset 300 m submodular expected-gain dot allocation outside the 200 m (2.0 px) catalogue collar."
     }
   ],
-  "review_status": "Historical unverified preregistration; assumed DTI gains, causality and data provenance are not confirmed. Lane stopped per lattice_stop.json."
+  "historical_only": true,
+  "superseded_note": "Prior expected gains and physical interpretations are hypotheses, not measured scores; band-15 basement-thickness interpretation requires official verification."
 }

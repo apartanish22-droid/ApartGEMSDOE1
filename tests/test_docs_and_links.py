@@ -1,7 +1,6 @@
-"""Pass-2 & Pass-3 automated verification of HTML pages, links, hashes, and protocol invariants."""
+"""Current dashboard, links, and superseded receipts must agree on NO UPLOAD."""
 from __future__ import annotations
 
-import html
 from html.parser import HTMLParser
 import json
 from pathlib import Path
@@ -10,68 +9,57 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class _AttrCollector(HTMLParser):
-    def __init__(self) -> None:
+class Collector(HTMLParser):
+    def __init__(self):
         super().__init__()
-        self.refs: list[str] = []
+        self.refs = []
+    def handle_starttag(self, tag, attrs):
+        for key, value in attrs:
+            if key in ('href', 'src') and value:
+                self.refs.append(value)
 
-    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        for k, v in attrs:
-            if k in ("href", "src") and v:
-                self.refs.append(v)
 
-
-def test_html_pages_local_links_and_no_localhost():
-    docs = ROOT / "docs"
-    rc = json.loads((ROOT / "evidence/run_card.json").read_text())
-
-    for page_name in ("index.html", "executive-summary.html"):
-        p = docs / page_name
-        assert p.exists(), f"Missing {page_name}"
-        txt = p.read_text(encoding="utf-8")
-        assert "127.0.0.1" not in txt and "localhost" not in txt
-        assert "NO NEW SUBMISSION CLEARED" in txt
-        assert "Do not submit the existing TIFF" in txt
-
-        parser = _AttrCollector()
-        parser.feed(txt)
-        assert parser.refs, f"No links found in {page_name}"
+def test_pages_have_negative_status_and_working_local_links():
+    docs = ROOT / 'docs'
+    old_sha = json.loads((ROOT / 'evidence/review_20261028.json').read_text())['previous_apart_submission']['sha256']
+    for page in ('index.html', 'executive-summary.html'):
+        text = (docs / page).read_text(encoding='utf-8')
+        assert 'DO NOT SUBMIT' in text and old_sha in text
+        assert 'OWNER-REPORTED' in text and 'Unavailable' in text
+        assert 'OK TO SUBMIT' not in text and '127.0.0.1' not in text and 'localhost' not in text
+        parser = Collector()
+        parser.feed(text)
+        assert parser.refs
         for ref in parser.refs:
-            if ref.startswith(("http://", "https://", "#", "mailto:", "javascript:")):
+            if ref.startswith(('http://', 'https://', '#', 'mailto:')):
                 continue
-            clean = ref.split("#", 1)[0].split("?", 1)[0]
-            target = (docs / clean).resolve()
-            assert target.exists() and target.stat().st_size > 0, f"Broken local ref {ref} in {page_name} -> {target}"
+            target = docs / ref.split('#', 1)[0].split('?', 1)[0]
+            assert target.is_file() and target.stat().st_size > 0, f'Broken {page}: {ref}'
 
 
-def test_readme_standing_prompt_and_local_links():
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    rc = json.loads((ROOT / "evidence/run_card.json").read_text())
-    assert rc["raster_sha256"] in readme
-    assert "Standing project brief" in readme
-    assert "GEMSDOE32" in readme and "0.2778" in readme
-
-    # Verify all relative markdown links [label](path)
-    for m in re.finditer(r"\]\(([^)]+)\)", readme):
-        ref = m.group(1).strip()
-        if ref.startswith(("http://", "https://", "#")):
+def test_readme_has_standing_protocol_focus_table_and_valid_links():
+    readme = (ROOT / 'README.md').read_text(encoding='utf-8')
+    assert 'Standing Reference: Original Competition Task & Protocol Specification' in readme
+    assert 'NOT READY TO SUBMIT' in readme and '0.2778' in readme
+    assert 'not ORGANIZER-CONFIRMED' in readme
+    for site in (24, 25, 27, 28, 30, 31, 32, 33, 36):
+        assert f'GEMSDOE{site}' in readme
+    for match in re.finditer(r'\]\(([^)]+)\)', readme):
+        ref = match.group(1).strip()
+        if ref.startswith(('http://', 'https://', '#')):
             continue
-        target = (ROOT / ref).resolve()
-        assert target.exists(), f"Broken README link: {ref}"
+        assert (ROOT / ref).exists(), f'Broken README link: {ref}'
 
 
-def test_evaluate_holdout_cli_script_smoke():
-    """Verify scripts/evaluate_holdout.py exists and imports cleanly."""
-    assert (ROOT / "scripts/evaluate_holdout.py").exists()
-    assert (ROOT / "scripts/submission_writer.py").exists()
-    assert (ROOT / "scripts/validate_submission.py").exists()
-    assert (ROOT / "scripts/download_competition_data.sh").exists()
+def test_new_json_is_consistent_and_historical_approval_is_withdrawn():
+    assert json.loads((ROOT/'docs/data/current-run-card.json').read_text()) == json.loads((ROOT/'evidence/run_card_20261028.json').read_text())
+    assert json.loads((ROOT/'docs/data/review_20261028.json').read_text()) == json.loads((ROOT/'evidence/review_20261028.json').read_text())
+    old = json.loads((ROOT/'evidence/validation_receipt.json').read_text())
+    assert not old['uniqueness_passed'] and old['ready_to_submit_verdict'] == 'DO_NOT_SUBMIT'
+    assert 'docs/' in (ROOT/'index.html').read_text()
 
 
-def test_pages_do_not_promote_historical_submission():
-    for name in ('index.html', 'executive-summary.html'):
-        text = (ROOT / 'docs' / name).read_text().lower()
-        assert 'no new submission' in text
-        assert 'do not submit' in text
-        assert 'organizer-confirmed' in text
-        assert 'ok to download &amp; submit' not in text
+def test_pages_workflow_is_read_only_for_repository_content():
+    text = (ROOT/'.github/workflows/pages.yml').read_text()
+    assert 'contents: read' in text and 'actions/deploy-pages@' in text
+    assert 'git push' not in text and 'workflow_dispatch' in text and 'schedule:' in text

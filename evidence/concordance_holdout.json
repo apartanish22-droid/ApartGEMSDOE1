@@ -128,5 +128,9 @@
     "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
     "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
     "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
-  }
+  },
+  "evaluation_kind": "Historical static-raster diagnostic; predecessor predictions were not rebuilt with fold-visible catalogue inputs.",
+  "independently_replayed_in_this_review": false,
+  "promotion_eligible": false,
+  "supersession_note": "Preserved as measured in a parallel run; the literal uniqueness stop and potential catalogue leakage preclude promotion."
 }

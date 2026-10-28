@@ -1,42 +1,111 @@
 {
-  "hypothesis": "H-APART-1 UDTH-Submod (prior run; no new lane method supplied)",
-  "mechanism": "Prior candidate combined potential-field contact projections, topographic scarp and hydrothermal proxies with visible-fault context. Scientific benefit is unverified.",
-  "named_non_fault_mimic": "Alluvial-fan incised channels can create linear topographic scarps.",
+  "protocol": "parallel-run; literal registry support",
+  "branch": "arena/23e0730c-apartgemsdoe1",
+  "hypothesis": "Provisional multi-scale gravity\u2013magnetic axial consensus in low-relief terrain; not executed because no explicit lane was supplied and the literal gate is saturated.",
+  "mechanism": "A subsurface offset may produce aligned gravity and magnetic gradients despite weak surface relief; no physical inference was validated in this run.",
+  "named_non_fault_process": "Unfaulted lithologic contacts or mafic dikes can also generate aligned potential-field gradients.",
   "holdout_dti": {
-    "label": "HOLDOUT-DTI (prior run, not independently rerun)",
+    "label": "HOLDOUT-DTI",
     "evaluator_version": "gems57-pooled-hide-v2",
-    "withheld_positives": 11360,
-    "value": 0.052331,
-    "ci95": [
-      0.037549,
-      0.068701
-    ]
+    "withheld_positives": null,
+    "value": null,
+    "ci95": null,
+    "reason": "No new experiment was run after the blocking preflight."
   },
-  "correlation_overlap_vs_registry": {
-    "surface_max_abs_spearman_prior_sampled": 0.734881,
-    "final_max_abs_spearman_prior_sampled": 0.058238,
-    "raw_overlap_fraction_3px_lattice_rechecked": 0.9894805194805195,
-    "status": "FAIL: lattice alone exceeds 0.70; registry incomplete"
+  "registry": {
+    "candidate_surface_spearman": null,
+    "candidate_surface_overlap": null,
+    "candidate_final_spearman": null,
+    "candidate_final_overlap": null,
+    "universal_continuous_witness": {
+      "evidence_class": "REGISTRY-MEASUREMENT",
+      "witness_file": ".cache/review/h57-continuous.tif",
+      "witness_sha256": "66e8ea67c86374ed67075812e6ab7c7b17d5eaa714b521dcd35c57f58454a46e",
+      "positive_pixels": 5106385,
+      "allowed_pixels": 5106385,
+      "uncovered_allowed_pixels": 0,
+      "covered_allowed_fraction": 1.0,
+      "universal_overlap_blocker": true,
+      "overlap_limit": 0.7,
+      "support_definition": "finite prediction > 0 (inherited literal support rule)",
+      "implication": "Every nonempty candidate dot set in the allowed domain has forward overlap 1.0 with this prior; therefore it cannot pass the 0.70 gate.",
+      "source_url": "https://github.com/buffedlizard55-lab/57GEMSDOE/blob/822a0ce5546c7b6749cdd82eb145b6b3e616603d/docs/downloads/h57-continuous-anatomy-20261009T201252Z-f44b207a70f0.tif"
+    },
+    "previous_raster_lattice_overlap": 0.9894805194805195,
+    "previous_raster_continuous_overlap": 1.0,
+    "scope": "Nine pinned historical research copies plus two pinned blocking witnesses; not a full or current registry, not organizer-authenticated inputs, and no submission-page receipts."
   },
-  "raster_sha256": "16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede",
+  "raster_sha256": null,
   "validator_output": {
-    "no_nan_inside_footprint": true,
-    "no_nan_or_inf_anywhere": true,
-    "range": [
-      0.0,
-      1.0
-    ],
-    "crs_shape_transform_match_bridge": true,
-    "official_template_origin_independently_authenticated": false
+    "new_raster": "Not generated; no new format validation exists.",
+    "previous_raster_sha256": "16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede",
+    "previous_raster_format_preflight": {
+      "file": "docs/downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif",
+      "bytes": 93217,
+      "sha256": "16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede",
+      "meta": {
+        "crs": "EPSG:32611",
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "count": 1,
+        "nodata": null,
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "profile_compress": "deflate"
+      },
+      "band_description": [
+        null
+      ],
+      "n_finite": 12279160,
+      "n_nan": 0,
+      "n_infinite": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.0031353936064988375,
+      "emitted_positive_pixels": 38500,
+      "checks": {
+        "single_band": true,
+        "dtype_float32": true,
+        "dimensions_3730x3292": true,
+        "crs_epsg_32611": true,
+        "transform_matches_sample_submission": true,
+        "no_nan_anywhere": true,
+        "no_inf_anywhere": true,
+        "no_sentinel_values": true,
+        "range_0_1_guaranteed": true,
+        "min_ge_0": true,
+        "max_le_1": true,
+        "in_footprint_all_finite": true,
+        "in_footprint_range_0_1": true,
+        "outside_footprint_zero": true,
+        "zero_dots_on_mapped_catalogue": true
+      },
+      "all_checks_passed": true,
+      "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+      "on_catalogue_positive_pixels": 0,
+      "in_footprint_positive_pixels": 38500,
+      "footprint_fraction": 0.0074505943348777024
+    },
+    "reference": "Committed mirror sample; not independently authenticated by the organizer."
   },
-  "submission_name": "apartgems1-udth-submod-e3-50e7b334",
-  "note": "Prior UDTH-Submod E3 research artifact; duplicate gate failed; do not submit.",
-  "verdict": "negative",
-  "experiments_this_session": 0,
-  "submission_slots_used_this_session": 0,
-  "blockers": [
-    "No clearly identified current lane method paragraph",
-    "Prior candidate exceeds 3-pixel overlap cap",
-    "Registry coverage and official template provenance not established"
-  ]
+  "submission_name": null,
+  "submission_note": "No new file is approved for upload; literal uniqueness gate is blocked.",
+  "experiments_used_this_review": 0,
+  "parallel_historical_run": {
+    "path": "evidence/run_card_cah.json",
+    "experiments_recorded": 3,
+    "verdict": "negative",
+    "scope": "A separate historical static-raster run; not reproduced in this review or counted as this run's new experiments."
+  },
+  "submission_slots_used_this_review": 0,
+  "verdict": "negative"
 }

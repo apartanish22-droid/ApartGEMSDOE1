@@ -53,7 +53,8 @@
   },
   "organizer_context": {
     "GEMSDOE32_B2": "0.2778 USER-REPORTED (prompt ledger, no portal receipt in repo)",
-    "live_projection": "PROJECTION ONLY (not a score): if hybrid retains >=60% of B2 kernel credit and UDTH-only dots have >= break-even precision p*=0.071, DTI algebra anchored at 0.2778* gives ~0.24-0.30; wide uncertainty, unproven until portal receipt."
+    "historical_forecast_withdrawn": "PROJECTION ONLY (not a score): if hybrid retains >=60% of B2 kernel credit and UDTH-only dots have >= break-even precision p*=0.071, DTI algebra anchored at 0.2778* gives ~0.24-0.30; wide uncertainty, unproven until portal receipt.",
+    "live_projection": null
   },
   "correlation_overlap_vs_registry": {
     "vs_GEMSDOE32_B2": {
@@ -75,5 +76,11 @@
   "submission_name": "apartgems1-cah-exp1-20261028-57a3ef37-zeros",
   "submission_note": "H-APART-2 CAH: cross-lineage concordance hybrid, 2.8px spacing, >200m collar, all-finite [0,1] (38500 dots).",
   "verdict": "negative",
-  "runtime_s": 45.7
+  "runtime_s": 45.7,
+  "historical_only": true,
+  "evaluation_warning": "Static predecessor rasters used the full catalogue and were not rebuilt fold-locally. The recorded DTI/CI is diagnostic, not a clean model holdout, leaderboard forecast, or submission approval. The registry comparison checked two neighbors, not a complete inventory.",
+  "current_protocol_decision": "negative",
+  "runner_status": "retired",
+  "experiments_recorded": 3,
+  "submission_slots_used": 0
 }

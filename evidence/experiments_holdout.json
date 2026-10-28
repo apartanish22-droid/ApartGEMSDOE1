@@ -356,5 +356,7 @@
       }
     }
   },
-  "selected_winner": "E3"
+  "selected_winner": "E3",
+  "historical_only": true,
+  "superseded_note": "Recorded prior run, not replayed on 2026-10-28. Its composite crest feature was omitted from the canary and E1 also used that hydrothermal composite; comparisons are not an approved release gate."
 }

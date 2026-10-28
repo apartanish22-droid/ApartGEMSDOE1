@@ -36,7 +36,11 @@
     "features_tested": 17,
     "max_symmetric_auc": 0.767905,
     "cap": 0.9,
-    "all_passed": true
+    "all_passed": false,
+    "complete_for_model": false,
+    "missing_feature": "crest_prominence",
+    "historical_listed_features_passed": true,
+    "omitted_feature": "crest_prominence"
   },
   "registry_uniqueness": {
     "repositories_checked": 22,
@@ -49,7 +53,8 @@
     "vs_gemsdoe32_02778_spearman": 0.020004,
     "spearman_cap": 0.9,
     "overlap_3px_cap": 0.7,
-    "passed": false
+    "passed": false,
+    "historical_exempted_policy_passed": true
   },
   "raster_sha256": "16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede",
   "decoded_footprint_sha256": "50e7b33477943944475784c2f5d0bcbe5622f9ec3c77dfae1f58e556ed92fc1b",
@@ -87,6 +92,7 @@
   "submission_note": "H-APART-1 UDTH-Submod (E3): updip grav/mag tilt + 1m/10m scarp + GDR1391 thermal; all-finite [0,1], >200m collar (38500 px).",
   "submission_note_chars": 124,
   "verdict": "negative",
-  "historical_verdict_before_20261028_review": "promote",
-  "review_status": "Superseded: literal 3-px lattice overlap exceeds threshold; historical experiments not reproduced. See evidence/lattice_stop.json."
+  "historical_original_verdict": "promote",
+  "superseded_by": "evidence/run_card_20261028.json",
+  "supersession_reason": "Superseded 2026-10-28: literal 3-px gate includes all registry rasters; previous candidate overlaps the lattice and a continuous witness above 70%. The original pre-placement surface was not rechecked."
 }

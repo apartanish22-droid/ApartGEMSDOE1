@@ -4,7 +4,7 @@
   "candidate_file": "docs/downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif",
   "max_3px_overlap_vs_sibling_runs": 0.294727,
   "max_abs_spearman_vs_sibling_runs": 0.003914,
-  "all_passed": true,
+  "all_passed": false,
   "sibling_comparisons": [
     {
       "origin_main_path": "archive/2026-10-27-concurrent-main/downloads/gemsdoe1-h1-blind-conduit-20261027T212428Z-06281cc7efb3-zeros.tif",
@@ -34,5 +34,9 @@
       "spearman_rho": 0.003025,
       "passed": true
     }
-  ]
+  ],
+  "historical_listed_siblings_passed": true,
+  "current_decision": "negative",
+  "scope_warning": "Only four historical sibling files were compared. This incomplete subset is not a registry clearance; the candidate fails the later lattice and continuous-witness audit.",
+  "superseded_by": "evidence/review_20261028.json"
 }

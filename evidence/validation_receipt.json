@@ -195,6 +195,7 @@
   "farfield_gt_1500m_dots": 15440,
   "farfield_gt_1500m_fraction": 0.401039,
   "uniqueness_passed": false,
-  "ready_to_submit_verdict": "STOP_DUPLICATE_NOT_AUTHORIZED",
-  "review_status": "Supersedes prior positive uniqueness verdict. Local format check does not authorize submission; see lattice_stop.json."
+  "ready_to_submit_verdict": "DO_NOT_SUBMIT",
+  "superseded_by": "evidence/review_20261028.json",
+  "supersession_reason": "Superseded 2026-10-28: literal 3-px gate includes all registry rasters; previous candidate overlaps the lattice and a continuous witness above 70%. The original pre-placement surface was not rechecked."
 }

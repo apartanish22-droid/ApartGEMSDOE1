@@ -316,9 +316,10 @@
         "spearman_rho": -0.002177
       }
     ],
-    "passed": true
+    "passed": false,
+    "historical_exempted_policy_passed": true
   },
   "all_automated_gates_passed": false,
-  "historical_all_automated_gates_passed_before_review": true,
-  "review_status": "Superseded: old private registry gate exempted blanket rasters; see lattice_stop.json."
+  "superseded_by": "evidence/review_20261028.json",
+  "supersession_reason": "Superseded 2026-10-28: literal 3-px gate includes all registry rasters; previous candidate overlaps the lattice and a continuous witness above 70%. The original pre-placement surface was not rechecked."
 }

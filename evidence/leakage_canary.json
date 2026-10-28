@@ -5,7 +5,7 @@
   "negative_sample_pixels": 250000,
   "canary_cap": 0.9,
   "max_symmetric_auc": 0.767905,
-  "all_passed": true,
+  "all_passed": false,
   "features": [
     {
       "feature": "udpc_grav_tilt_zero",
@@ -143,5 +143,9 @@
       "canary_cap": 0.9,
       "passed": true
     }
-  ]
+  ],
+  "complete_for_model": false,
+  "omitted_feature": "crest_prominence",
+  "superseded_note": "The 17 listed features passed, but the composite crest input was omitted; no full canary clearance for the historical run.",
+  "historical_listed_features_passed": true
 }

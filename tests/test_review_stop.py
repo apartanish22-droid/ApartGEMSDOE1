@@ -47,11 +47,13 @@ def test_old_private_gate_refuses_missing_inventory():
         check_final_raster_uniqueness(np.zeros((3, 3)), np.ones((3, 3), bool))
 
 
-def test_old_generators_fail_closed():
-    for script in ('run_apartgems_pipeline.py', 'build_pages_and_readme.py', 'audit_focus_sites_and_registry.py'):
+def test_unsafe_historical_runners_fail_closed():
+    # The replacement audit and page builder are safe negative-only tools; the
+    # two historical candidate generators remain deliberately unavailable.
+    for script in ('run_apartgems_pipeline.py', 'run_concordance_hybrid.py'):
         result = subprocess.run([sys.executable, str(ROOT / 'scripts' / script)], capture_output=True, text=True)
         assert result.returncode != 0
-        assert 'RuntimeError' in result.stderr
+        assert any(word in result.stderr.lower() for word in ('retired', 'disabled'))
 
 
 def test_marginal_accept_works_for_noncomplementary_weights():
