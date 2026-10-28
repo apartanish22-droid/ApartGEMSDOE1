@@ -11,6 +11,7 @@ import argparse
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 import json
+import os
 from pathlib import Path
 import re
 import urllib.request
@@ -129,6 +130,11 @@ def main() -> int:
     temporary.write_text(json.dumps(snapshot, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     temporary.replace(args.out)
     print(json.dumps(snapshot, indent=2, allow_nan=False))
+    if snapshot["status"] != "ok" and os.environ.get("GITHUB_ACTIONS") == "true":
+        # Expose only the non-sensitive failure reason in the workflow's
+        # annotation, so a blocked refresh is diagnosable without raw logs.
+        reason = str(snapshot.get("reason", "unknown")).replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+        print(f"::warning title=Public leaderboard refresh failed::{reason}")
     return 0 if snapshot["status"] == "ok" else 1
 
 

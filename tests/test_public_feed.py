@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 from pathlib import Path
 import json
+import os
 import subprocess
 import sys
 
@@ -27,8 +28,10 @@ def test_refresh_failures_clear_score_instead_of_publishing_stale_value(tmp_path
     fixture = tmp_path / 'login.html'
     fixture.write_text('<html><p>Sign in</p></html>')
     script = Path(__file__).resolve().parents[1] / 'scripts/update_public_feed.py'
-    p = subprocess.run([sys.executable, str(script), '--html', str(fixture), '--out', str(out)], capture_output=True, text=True)
+    env = {**os.environ, 'GITHUB_ACTIONS': 'true'}
+    p = subprocess.run([sys.executable, str(script), '--html', str(fixture), '--out', str(out)], capture_output=True, text=True, env=env)
     assert p.returncode == 1
+    assert '::warning title=Public leaderboard refresh failed::' in p.stdout
     feed = json.loads(out.read_text())
     assert feed['status'] == 'unavailable' and feed['top_public_dti'] is None
     assert 'not a submission receipt' in feed['evidence_class'].lower()
