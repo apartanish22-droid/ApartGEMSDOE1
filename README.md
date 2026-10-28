@@ -36,3 +36,18 @@ This is a one-witness negative test, not a complete registry scan. The formerly 
 3. Rebuild the released pipeline around the shared full-inventory gate, ensuring surface check occurs *before* placement, visible-only catalogue features and feature canaries, a matched fold-local incumbent, and an independent slot selector. No experiment was run in this review. Fixed the shared `metric.marginal_accept` denominator for non-complementary alpha/beta (the specified 0.2/0.8 behavior is unchanged); the historical holdout was not recalculated.
 4. The historical proposal list in `evidence/preregistration_hypotheses.json` includes unverified numerical gain predictions and assumptions; treat as ideas only. New hypotheses, detailed in [research notes](docs/research-notes.md), are untested and cannot be ranked by demonstrated DTI.
 5. Verify licensing/provenance from official sources and authenticate the official sample and training inputs before release. [Competition description](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) · [official reference solution](https://github.com/drivendataorg/gems-prize-reference-solution) · [USGS GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and) · [GDR INGENIOUS](https://gdr.openei.org/submissions/1391) · [USGS 3DEP](https://www.usgs.gov/3d-elevation-program).
+
+---
+
+## 2026-10-28 (this session) — H-APART-2 Concordance Lane: NEGATIVE, lane closed
+
+New lane tested end-to-end (`scripts/run_concordance_hybrid.py`, `evidence/run_card_cah.json`, `evidence/concordance_holdout.json`; ≤3 experiments, leakage canary sym-AUC 0.5699 ≤ 0.90 PASS):
+
+| Candidate | HOLDOUT-DTI static (`gems57-pooled-hide-v2`, 11,360 withheld px) | Uniqueness vs GEMSDOE32 B2 | Verdict |
+| :--- | :--- | :--- | :--- |
+| EXP1 Concordance-Anchored Hybrid 38,500 | 0.0043 [0.0035, 0.0051] | **89.06% 3-px overlap (>70% cap)**, ρ=0.865 | ❌ NEGATIVE — duplicate, no file written |
+| EXP2 hybrid, own positions only | 0.0007 [0.0004, 0.0011] | not promoted | ❌ NEGATIVE |
+| EXP3 B2 concordance-prune 30k | 0.0041 [0.0033, 0.0050] | B2-derived | ❌ NEGATIVE |
+| Controls (static): GEMSDOE32 B2 / historical UDTH raster | 0.0042 / 0.0012 | — | controls |
+
+**Irregularities flagged:** (1) concordance ranking mechanically duplicates the proven lineage (89%) — concordance with B2 cannot pass the ≤70% cap at 38.5k budget; lane closed. (2) The historical raster's 0.0523 headline is an *out-of-fold* HOLDOUT-DTI; static scoring of the shipped raster on the same evaluator is 0.0012 — not interchangeable, and no live-score projection or "beats 0.2778" claim is supported. Consistent with the STOP banner above: **no file is cleared for submission this session**; promotion remains a separate selector step. Next ranked untried hypotheses: N1 3D Euler deconvolution contacts (GeoDAWN, sciencebase.gov/catalog/item/61955dcad34eb622f6908d6c), N2 Lahontan bench subtraction (USGS 3DEP + MF-2323), N3 InSAR/geodetic strain localisation, N4 relocated microseismicity lineation (USGS earthquake catalogue).
