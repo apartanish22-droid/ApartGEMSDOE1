@@ -18,6 +18,9 @@ import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+# The public leaderboard page loads its table from this public HTML fragment;
+# requesting the page shell alone does not include the leaderboard rows.
+PARTIAL_URL = "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard_partial/"
 
 
 class TableParser(HTMLParser):
@@ -88,6 +91,7 @@ def make_snapshot(html: str, *, now: datetime | None = None) -> dict:
             "status": "ok",
             "observed_utc": stamp,
             "source": URL,
+            "data_endpoint": PARTIAL_URL,
             "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",
             "top_public_dti": parse_public_leaderboard(html),
             "caveat": "Public leaderboard only; not a forecast, private score, or a score for a file in this repository.",
@@ -101,6 +105,7 @@ def unavailable(reason: str, *, stamp: str | None = None) -> dict:
         "status": "unavailable",
         "observed_utc": stamp or datetime.now(timezone.utc).isoformat(),
         "source": URL,
+        "data_endpoint": PARTIAL_URL,
         "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",
         "top_public_dti": None,
         "reason": reason,
@@ -117,7 +122,7 @@ def main() -> int:
         if args.html:
             html = args.html.read_text(encoding="utf-8")
         else:
-            request = urllib.request.Request(URL, headers={"User-Agent": "ApartGEMSDOE1-public-feed/1.0"})
+            request = urllib.request.Request(PARTIAL_URL, headers={"User-Agent": "ApartGEMSDOE1-public-feed/1.0"})
             with urllib.request.urlopen(request, timeout=25) as response:
                 html = response.read(5_000_001).decode("utf-8", errors="replace")
             if len(html) > 5_000_000:

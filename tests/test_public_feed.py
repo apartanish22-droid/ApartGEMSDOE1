@@ -6,6 +6,7 @@ import subprocess
 import sys
 
 import pytest
+from scripts import update_public_feed
 from scripts.update_public_feed import make_snapshot, parse_public_leaderboard
 
 HTML = '''<!doctype html><table><thead><tr><th>Rank</th><th>Team</th><th>Best public DW-Tversky</th></tr></thead>
@@ -42,3 +43,19 @@ def test_public_score_is_not_a_file_level_receipt_or_forecast():
     assert snap['status'] == 'ok' and snap['top_public_dti'] == .4544
     assert 'NOT A SUBMISSION RECEIPT' in snap['evidence_class']
     assert 'not a forecast' in snap['caveat']
+    assert snap['source'].endswith('/leaderboard/')
+    assert snap['data_endpoint'].endswith('/leaderboard_partial/')
+
+
+def test_fetch_uses_public_html_fragment_not_empty_page_shell(tmp_path, monkeypatch, capsys):
+    import io
+    requested = []
+    def fetch(request, timeout):
+        requested.append(request.full_url)
+        return io.BytesIO(HTML.encode())
+    monkeypatch.setattr(update_public_feed.urllib.request, 'urlopen', fetch)
+    out = tmp_path / 'feed.json'
+    monkeypatch.setattr(sys, 'argv', ['update_public_feed', '--out', str(out)])
+    assert update_public_feed.main() == 0
+    assert requested == [update_public_feed.PARTIAL_URL]
+    assert json.loads(out.read_text())['top_public_dti'] == .4544
