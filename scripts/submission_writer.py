@@ -30,7 +30,7 @@ def main() -> int:
     receipt = write_submission(
         args.out_tif,
         arr,
-        ROOT / "data/sample_submission.tif",
+        ROOT / "data/bridge/sample_submission.tif",
         grid.footprint,
         name=args.name,
         note=args.note,

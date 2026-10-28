@@ -65,7 +65,7 @@ def evaluate_distance_only_control(grid, folds) -> tuple[np.ndarray, float, int]
 
 
 def main() -> int:
-    raise RuntimeError("Historical runner disabled: restore and independently audit the holdout and full registry; promotion requires a separate selector. See README.md.")
+    raise RuntimeError("Lane stopped: prior raster exceeds literal registry overlap limit; see evidence/lattice_stop.json. Do not use this legacy pipeline to promote or overwrite artifacts.")
     t0 = time.time()
     grid = load_grid()
     fp = grid.footprint

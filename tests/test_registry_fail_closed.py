@@ -1,35 +1,21 @@
-"""Regression tests for incomplete and blanket registry references."""
-import json
+"""Incomplete and empty registries cannot clear a lane."""
 import numpy as np
 import pytest
 from apartgems import uniqueness as u
 
 
-def test_empty_registry_never_passes(tmp_path, monkeypatch):
-    monkeypatch.setattr(u, 'CACHE_REG', tmp_path)
-    (tmp_path / 'registry_manifest.json').write_text(json.dumps({'entries': []}))
+def test_missing_registry_never_passes():
     a = np.ones((4, 4), dtype=np.float32)
-    with pytest.raises(ValueError, match='empty'):
-        u.check_surface_uniqueness(a, a > 0)
-    with pytest.raises(ValueError, match='empty'):
-        u.check_final_raster_uniqueness(a, a > 0)
+    for check in (u.check_surface_uniqueness, u.check_final_raster_uniqueness):
+        with pytest.raises(RuntimeError, match='Full registry index'):
+            check(a, a > 0)
 
 
-def test_blanket_reference_cannot_pass_even_with_low_sample_overlap(tmp_path, monkeypatch):
-    monkeypatch.setattr(u, 'CACHE_REG', tmp_path)
-    sample = np.arange(100, dtype=np.int64)
-    np.save(tmp_path / 'fp_sample_flat.npy', sample)
-    ref = np.zeros(100, dtype=np.float32)
-    ref[0] = 1
-    np.savez(tmp_path / 'ref.npz', pos_flat=np.array([0]), vals_sub=ref)
-    entry = {'cache_npz': 'ref.npz', 'decoded_fp_sha256': 'not-candidate',
-             'primary_repo': 'example', 'primary_rel': 'lattice.tif',
-             'is_blanket_or_continuous_surface': True, 'positive_pixels': 1,
-             'halo_3px_footprint_coverage': 1.0}
-    (tmp_path / 'registry_manifest.json').write_text(json.dumps({'entries': [entry]}))
-    cand = np.zeros((10, 10), dtype=np.float32)
-    cand[9, 9] = 1
-    result = u.check_final_raster_uniqueness(cand, np.ones_like(cand, dtype=bool))
-    assert result['passed'] is False
-    assert result['blanket_surfaces_disclosed'] == 1
-    assert 'unverified' in result['blanket_gate_status']
+def test_empty_registry_never_passes():
+    a = np.zeros((4, 4), dtype=np.float32)
+    a[1, 1] = 1
+    registry = {'complete_accessible_scan': True, 'errors': [], 'rasters': []}
+    for check in (u.check_surface_uniqueness, u.check_final_raster_uniqueness):
+        result = check(a, np.ones_like(a, dtype=bool), registry_index=registry)
+        assert not result['unique']
+        assert result['stop_required']

@@ -48,15 +48,7 @@ def _jaccard(a, b):
 
 def is_blanket_or_lattice(a: np.ndarray, footprint: np.ndarray, radius_px: float = RADIUS_PX,
                           coverage_threshold: float = OVERLAP_LIMIT) -> dict:
-    """Shared Rule-2 repair for IR-REG-BLANKET: detect continuous surfaces & uniform calibration lattices.
-
-    A reference raster whose 3-px Euclidean support covers >= 70% of the entire valid footprint
-    (e.g., 5.1M-cell continuous probability surfaces covering 100%, or the 206,895-cell uniform 5-px
-    calibration grid `r13-lattice-s5` covering 99.87%) mathematically forces >70% forward `a > 0`
-    overlap on high-budget sparse candidates regardless of fault placement. Such rasters must be
-    audited by full-footprint Spearman rank correlation (`|rho| <= 0.90`), matched-budget top-K
-    overlap when values vary, and explicit IR-REG-BLANKET witness disclosure.
-    """
+    """Diagnostic only: identify dense support; never exempt it from the literal overlap gate."""
     pos = _dots(a) & np.asarray(footprint, bool)
     n_fp = max(int(np.asarray(footprint, bool).sum()), 1)
     cov = float((_near(pos, radius_px) & footprint).sum() / n_fp) if pos.any() else 0.0
