@@ -161,6 +161,10 @@ def main() -> int:
         # annotation, so a blocked refresh is diagnosable without raw logs.
         reason = str(snapshot.get("reason", "unknown")).replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
         print(f"::warning title=Public leaderboard refresh failed::{reason}")
+        if snapshot.get('parse_diagnostics'):
+            detail = json.dumps(snapshot['parse_diagnostics'], separators=(',', ':'), ensure_ascii=True)
+            detail = detail.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+            print(f"::warning title=Public leaderboard table structure::{detail}")
     return 0 if snapshot["status"] == "ok" else 1
 
 

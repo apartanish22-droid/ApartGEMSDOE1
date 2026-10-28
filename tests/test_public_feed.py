@@ -33,6 +33,7 @@ def test_refresh_failures_clear_score_instead_of_publishing_stale_value(tmp_path
     p = subprocess.run([sys.executable, str(script), '--html', str(fixture), '--out', str(out)], capture_output=True, text=True, env=env)
     assert p.returncode == 1
     assert '::warning title=Public leaderboard refresh failed::' in p.stdout
+    assert '::warning title=Public leaderboard table structure::' in p.stdout
     feed = json.loads(out.read_text())
     assert feed['status'] == 'unavailable' and feed['top_public_dti'] is None
     assert feed['parse_diagnostics']['table_count'] == 0
