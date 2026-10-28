@@ -1,0 +1,626 @@
+{
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "sgmc-piedmont-basin-v1",
+  "concealed_piedmont_positive_pixels": 10579,
+  "registry_summary": {
+    "n_indexed_unique_submission_rasters": 950,
+    "n_repos_scanned": 53,
+    "spearman_cap": 0.9,
+    "overlap_3px_cap": 0.7
+  },
+  "instrument_calibration_spearman_vs_live": {
+    "n_live_submissions": 18,
+    "spearman_rho": 0.54545,
+    "p_value": 0.019216837466367445
+  },
+  "benchmarks": [
+    {
+      "key": "GEMSDOE32_B2_02778",
+      "site": "GEMSDOE32",
+      "role": "focus_9_ledger_high",
+      "file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "organizer_confirmed_score": 0.2778,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "H19-5 d=2.8 + >200m collar prune (37,654 dots; highest listed GEMSDOE site)",
+      "geometry": {
+        "n_dots": 37654,
+        "min_nn_px": 2.8284,
+        "median_nn_px": 3.0,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.0,
+        "frac_ge3_neighbors_in_3px": 0.00693,
+        "mean_neighbors_in_3px": 0.6301,
+        "frac_in_lidar": 0.7642,
+        "frac_gt_1500m_farfield": 0.58398,
+        "frac_le_200m_collar": 0.0
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.095385,
+        "ci95": [
+          0.078799,
+          0.113005
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE36_PINN_02750",
+      "site": "GEMSDOE36",
+      "role": "focus_9_ledger_high",
+      "file": "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "organizer_confirmed_score": 0.275,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "GEMSDOE32 B2 + 1,200 Anderson PINN dots (38,854 dots)",
+      "geometry": {
+        "n_dots": 38854,
+        "min_nn_px": 2.8284,
+        "median_nn_px": 3.0,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.0,
+        "frac_ge3_neighbors_in_3px": 0.00767,
+        "mean_neighbors_in_3px": 0.6382,
+        "frac_in_lidar": 0.7704,
+        "frac_gt_1500m_farfield": 0.58087,
+        "frac_le_200m_collar": 0.0
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.09703,
+        "ci95": [
+          0.080351,
+          0.115036
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE28_H36_02710",
+      "site": "GEMSDOE28",
+      "role": "focus_9_ledger_high",
+      "file": "gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif",
+      "sha256": "7c74270ad48fa0b865163853046a6d3815967c5bf37bbda5b74ca7fa22583a32",
+      "organizer_confirmed_score": 0.271,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "H19-5 1-px prune + stepover rungs (37,660 dots)",
+      "geometry": {
+        "n_dots": 37660,
+        "min_nn_px": 3.0,
+        "median_nn_px": 3.1623,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.0,
+        "frac_ge3_neighbors_in_3px": 0.00125,
+        "mean_neighbors_in_3px": 0.3238,
+        "frac_in_lidar": 0.76596,
+        "frac_gt_1500m_farfield": 0.54851,
+        "frac_le_200m_collar": 0.06248
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.095565,
+        "ci95": [
+          0.079016,
+          0.112729
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE31_SOLOD28_02708",
+      "site": "GEMSDOE31",
+      "role": "focus_9_ledger_high",
+      "file": "gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif",
+      "sha256": "acd853936e5a7170b207f23411b1844caa0e7cfdfc303c600e520ccfe75159e6",
+      "organizer_confirmed_score": 0.2708,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "H19-5 + H27-4 solo d=2.8 1-px prune (40,199 dots)",
+      "geometry": {
+        "n_dots": 40199,
+        "min_nn_px": 2.8284,
+        "median_nn_px": 3.0,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.0,
+        "frac_ge3_neighbors_in_3px": 0.00699,
+        "mean_neighbors_in_3px": 0.6394,
+        "frac_in_lidar": 0.76669,
+        "frac_gt_1500m_farfield": 0.547,
+        "frac_le_200m_collar": 0.06331
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.094637,
+        "ci95": [
+          0.078656,
+          0.112079
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE33_H33D_02632",
+      "site": "GEMSDOE33",
+      "role": "focus_9_ledger_high",
+      "file": "GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "organizer_confirmed_score": 0.2632,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "H19-5 + H33D analog tip-stepover (44,120 dots)",
+      "geometry": {
+        "n_dots": 41865,
+        "min_nn_px": 2.0,
+        "median_nn_px": 3.1623,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.00026,
+        "frac_ge3_neighbors_in_3px": 0.00568,
+        "mean_neighbors_in_3px": 0.6122,
+        "frac_in_lidar": 0.76821,
+        "frac_gt_1500m_farfield": 0.52911,
+        "frac_le_200m_collar": 0.09301
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.094283,
+        "ci95": [
+          0.077967,
+          0.111323
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE25_D28_02600",
+      "site": "GEMSDOE25",
+      "role": "focus_9_ledger_high",
+      "file": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+      "sha256": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+      "organizer_confirmed_score": 0.26,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "H19-5 thinned at d=2.8 px without 2-px collar prune (44,090 dots)",
+      "geometry": {
+        "n_dots": 44090,
+        "min_nn_px": 2.8284,
+        "median_nn_px": 3.0,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.0,
+        "frac_ge3_neighbors_in_3px": 0.00735,
+        "mean_neighbors_in_3px": 0.6666,
+        "frac_in_lidar": 0.77197,
+        "frac_gt_1500m_farfield": 0.49873,
+        "frac_le_200m_collar": 0.14597
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.091044,
+        "ci95": [
+          0.075464,
+          0.108146
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE30_D28_02600",
+      "site": "GEMSDOE30",
+      "role": "focus_9_ledger_high",
+      "file": "gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "organizer_confirmed_score": 0.26,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "Byte-identical footprint support to GEMSDOE25 D2.8 (44,090 dots)",
+      "geometry": {
+        "n_dots": 44090,
+        "min_nn_px": 2.8284,
+        "median_nn_px": 3.0,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.0,
+        "frac_ge3_neighbors_in_3px": 0.00735,
+        "mean_neighbors_in_3px": 0.6666,
+        "frac_in_lidar": 0.77197,
+        "frac_gt_1500m_farfield": 0.49873,
+        "frac_le_200m_collar": 0.14597
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.091044,
+        "ci95": [
+          0.075464,
+          0.108146
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE24_D15_02477",
+      "site": "GEMSDOE24",
+      "role": "focus_9_ledger_high",
+      "file": "gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-allfinite.tif",
+      "sha256": "3e0730e8d4f7db095dd80246a98cba3bc0fc9a28f436b91db27ca34df4d0d1ce",
+      "organizer_confirmed_score": 0.2477,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "H19-5 thinned at d=1.5 px (60,069 dots)",
+      "geometry": {
+        "n_dots": 60069,
+        "min_nn_px": 2.0,
+        "median_nn_px": 2.2361,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.78147,
+        "frac_ge3_neighbors_in_3px": 0.15539,
+        "mean_neighbors_in_3px": 1.6038,
+        "frac_in_lidar": 0.76912,
+        "frac_gt_1500m_farfield": 0.49553,
+        "frac_le_200m_collar": 0.14598
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.086508,
+        "ci95": [
+          0.070729,
+          0.103524
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE27_TV2_02449",
+      "site": "GEMSDOE27",
+      "role": "focus_9_ledger_high",
+      "file": "gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif",
+      "sha256": "a9bf76b57453a5b3af74c8eef837df53c29a0931162aa540b8763220b36ba3bb",
+      "organizer_confirmed_score": 0.2449,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "H19-5 d=1.5 + topographic gap closure T-v2",
+      "geometry": {
+        "n_dots": 61328,
+        "min_nn_px": 1.0,
+        "median_nn_px": 2.2361,
+        "frac_nn_le_1_5px": 0.00142,
+        "frac_nn_lt_2_8px": 0.76823,
+        "frac_ge3_neighbors_in_3px": 0.15329,
+        "mean_neighbors_in_3px": 1.5838,
+        "frac_in_lidar": 0.76852,
+        "frac_gt_1500m_farfield": 0.48583,
+        "frac_le_200m_collar": 0.14471
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.088121,
+        "ci95": [
+          0.072843,
+          0.104903
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE70_P8_02478",
+      "site": "GEMSDOE70",
+      "role": "independent_non_h19_5_live",
+      "file": "gems70-p5-dual-submod300-oof38k-20261020.tif",
+      "sha256": "d0e41ce921afcf3af33b7d86d75f6a258653dfbb4d050e864babe643245f0ea8",
+      "organizer_confirmed_score": 0.2478,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "P8 Dual-Submod300 OOF HGB (37,654 dots; highest independent non-H19-5 live detector)",
+      "geometry": {
+        "n_dots": 37654,
+        "min_nn_px": 1.0,
+        "median_nn_px": 2.2361,
+        "frac_nn_le_1_5px": 0.03739,
+        "frac_nn_lt_2_8px": 0.56706,
+        "frac_ge3_neighbors_in_3px": 0.15111,
+        "mean_neighbors_in_3px": 1.3087,
+        "frac_in_lidar": 0.74321,
+        "frac_gt_1500m_farfield": 0.54881,
+        "frac_le_200m_collar": 0.0
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.085443,
+        "ci95": [
+          0.067064,
+          0.103943
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE76_PTCF_02343",
+      "site": "GEMSDOE76",
+      "role": "independent_non_h19_5_live",
+      "file": "gems76-ptcf-tiltworm-submod39k-20261021T034000Z-6316481d-zeros.tif",
+      "sha256": "54c978399d0a875ba89aacc465e7efd8644420e6ba1dfa7c0a1390328be2c514",
+      "organizer_confirmed_score": 0.2343,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "PTCF potential-field tilt worm + submodular 39k",
+      "geometry": {
+        "n_dots": 39200,
+        "min_nn_px": 3.0,
+        "median_nn_px": 3.0,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.0,
+        "frac_ge3_neighbors_in_3px": 0.03408,
+        "mean_neighbors_in_3px": 0.9115,
+        "frac_in_lidar": 0.79776,
+        "frac_gt_1500m_farfield": 0.35268,
+        "frac_le_200m_collar": 0.0
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.096212,
+        "ci95": [
+          0.079776,
+          0.112742
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE63_CVAR_02303",
+      "site": "GEMSDOE63",
+      "role": "independent_non_h19_5_live",
+      "file": "gems63-cvar-pruned-dotted-d3p2-36057-20261011T2200Z-allfinite.tif",
+      "sha256": "706d80695ab8b9e480e68e1cd62303a609af3702b4ecb3663ce41ec94c1e2cf3",
+      "organizer_confirmed_score": 0.2303,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "CVaR robust greedy pruned d=3.2 px (36,057 dots)",
+      "geometry": {
+        "n_dots": 36057,
+        "min_nn_px": 1.0,
+        "median_nn_px": 2.0,
+        "frac_nn_le_1_5px": 0.12511,
+        "frac_nn_lt_2_8px": 0.83989,
+        "frac_ge3_neighbors_in_3px": 0.19153,
+        "mean_neighbors_in_3px": 1.7802,
+        "frac_in_lidar": 0.79707,
+        "frac_gt_1500m_farfield": 0.0,
+        "frac_le_200m_collar": 1.0
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.01201,
+        "ci95": [
+          0.009877,
+          0.014044
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE27_H31_02250",
+      "site": "GEMSDOE27",
+      "role": "independent_non_h19_5_live",
+      "file": "gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-allfinite.tif",
+      "sha256": "2c002b02792419864bd3b29a218e543cb41e3f07b3b57c29ef35c6e39e184bfe",
+      "organizer_confirmed_score": 0.225,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "H31 Dual-Regime LiDAR+Sub quantile-calibrated 2-stage OOF + CELF d>=2.8",
+      "geometry": {
+        "n_dots": 37654,
+        "min_nn_px": 2.8284,
+        "median_nn_px": 4.1231,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.0,
+        "frac_ge3_neighbors_in_3px": 0.00186,
+        "mean_neighbors_in_3px": 0.2335,
+        "frac_in_lidar": 0.79081,
+        "frac_gt_1500m_farfield": 0.52395,
+        "frac_le_200m_collar": 0.0
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.083271,
+        "ci95": [
+          0.069775,
+          0.096864
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE36_KPL36_01647",
+      "site": "GEMSDOE36",
+      "role": "independent_non_h19_5_live",
+      "file": "gemsdoe36-kpl36-exp3-20261026-fc869911e88c-zeros.tif",
+      "sha256": "86fc8243ad573bcdbfac8b432daf0ec5b6800b991b2c3278706358be7eb9922d",
+      "organizer_confirmed_score": 0.1647,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "KPL36 OOF HGB before S2D spacing fix (42.6% >=3-nbr crowding)",
+      "geometry": {
+        "n_dots": 37654,
+        "min_nn_px": 2.0,
+        "median_nn_px": 2.2361,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.83139,
+        "frac_ge3_neighbors_in_3px": 0.42569,
+        "mean_neighbors_in_3px": 2.3528,
+        "frac_in_lidar": 0.80345,
+        "frac_gt_1500m_farfield": 0.49495,
+        "frac_le_200m_collar": 0.0
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.056045,
+        "ci95": [
+          0.040195,
+          0.071769
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE36_S2D36_UNSUB",
+      "site": "GEMSDOE36",
+      "role": "independent_non_h19_5_candidate",
+      "file": "gemsdoe36-s2d36-exp2-20261027-31189d084a83-zeros.tif",
+      "sha256": "d3ba2fdb987bec34fc0c61148829032a431a95b8921b1bd66d61ddd047f56b72",
+      "organizer_confirmed_score": null,
+      "score_label": "UNSUBMITTED",
+      "family": "S2D36 Stage-2 directional OOF + 300 m spacing (4.5% crowding)",
+      "geometry": {
+        "n_dots": 37654,
+        "min_nn_px": 2.0,
+        "median_nn_px": 2.2361,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.75416,
+        "frac_ge3_neighbors_in_3px": 0.30589,
+        "mean_neighbors_in_3px": 1.9923,
+        "frac_in_lidar": 0.75997,
+        "frac_gt_1500m_farfield": 0.50868,
+        "frac_le_200m_collar": 0.0
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.075958,
+        "ci95": [
+          0.056439,
+          0.098118
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE30_MSDB1_01462",
+      "site": "GEMSDOE30",
+      "role": "independent_non_h19_5_live",
+      "file": "gems30-MSDB1-edge44090-20261025-e7856ec3f14a.tif",
+      "sha256": "22850984a68c393f60c6cc9aeafd8d74fd8a3479654bdfcfd3626a4b99ff0381",
+      "organizer_confirmed_score": 0.1462,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "MSDB-1 multi-scale boundary OOF (44,090 dots)",
+      "geometry": {
+        "n_dots": 44090,
+        "min_nn_px": 1.0,
+        "median_nn_px": 4.0,
+        "frac_nn_le_1_5px": 0.00281,
+        "frac_nn_lt_2_8px": 0.11579,
+        "frac_ge3_neighbors_in_3px": 0.02901,
+        "mean_neighbors_in_3px": 0.4031,
+        "frac_in_lidar": 0.77528,
+        "frac_gt_1500m_farfield": 0.22797,
+        "frac_le_200m_collar": 0.18172
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.086315,
+        "ci95": [
+          0.072829,
+          0.099117
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE33_S33_00963",
+      "site": "GEMSDOE33",
+      "role": "independent_non_h19_5_live",
+      "file": "gemsdoe33-s33-seisdil-strain-seismicity-37654-20261026-3463540a7e02-zeros.tif",
+      "sha256": "5eb9572946fa62356ebc0cbfef22bb54aa2ef094cb8b4a84b52e6b80e120db96",
+      "organizer_confirmed_score": 0.0963,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "S33 seismogenic dilation OOF (37,654 dots)",
+      "geometry": {
+        "n_dots": 37654,
+        "min_nn_px": 2.8284,
+        "median_nn_px": 3.0,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.0,
+        "frac_ge3_neighbors_in_3px": 0.01402,
+        "mean_neighbors_in_3px": 0.7186,
+        "frac_in_lidar": 0.84889,
+        "frac_gt_1500m_farfield": 0.51851,
+        "frac_le_200m_collar": 0.0
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.08541,
+        "ci95": [
+          0.067282,
+          0.103016
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "GEMSDOE25_H66_00742",
+      "site": "GEMSDOE25",
+      "role": "independent_non_h19_5_live",
+      "file": "gems25-h66-mgd-flank-sapd3-0-k3p5-20261025-da617550a0e9-zeros.tif",
+      "sha256": "7503f4d498694c0107e0efad92cd06613b56d6fe402712532c1805e778166c1a",
+      "organizer_confirmed_score": 0.0742,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "H66 magnetic gradient flank detector",
+      "geometry": {
+        "n_dots": 44832,
+        "min_nn_px": 3.0,
+        "median_nn_px": 3.1623,
+        "frac_nn_le_1_5px": 0.0,
+        "frac_nn_lt_2_8px": 0.0,
+        "frac_ge3_neighbors_in_3px": 0.0012,
+        "mean_neighbors_in_3px": 0.2943,
+        "frac_in_lidar": 0.80262,
+        "frac_gt_1500m_farfield": 0.09139,
+        "frac_le_200m_collar": 0.00986
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.108061,
+        "ci95": [
+          0.092503,
+          0.123378
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    },
+    {
+      "key": "ApartGEMSDOE1_S1_00525",
+      "site": "ApartGEMSDOE1",
+      "role": "archived_session1_baseline",
+      "file": "apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif",
+      "sha256": "16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede",
+      "organizer_confirmed_score": 0.0525,
+      "score_label": "ORGANIZER-CONFIRMED (prompt ledger)",
+      "family": "Session-1 UDTH-Submod-E3 (pre-CELF-fix, 99.37% NN<=1.5px blob crowding, 75% in-sample PU)",
+      "geometry": {
+        "n_dots": 38500,
+        "min_nn_px": 1.0,
+        "median_nn_px": 1.0,
+        "frac_nn_le_1_5px": 0.99369,
+        "frac_nn_lt_2_8px": 0.99426,
+        "frac_ge3_neighbors_in_3px": 0.97304,
+        "mean_neighbors_in_3px": 13.5156,
+        "frac_in_lidar": 0.74579,
+        "frac_gt_1500m_farfield": 0.40104,
+        "frac_le_200m_collar": 0.0
+      },
+      "concealed_piedmont_dti": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "sgmc-piedmont-basin-v1",
+        "dti": 0.021384,
+        "ci95": [
+          0.015788,
+          0.027501
+        ],
+        "withheld_positive_pixels": 10579
+      }
+    }
+  ]
+}

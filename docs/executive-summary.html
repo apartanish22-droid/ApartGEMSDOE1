@@ -14,22 +14,23 @@
         <a href="index.html">&larr; Back to Main Dashboard</a>
         <a href="executive-summary.html" class="active">Executive Summary &amp; DrivenData Submit Guide</a>
         <a href="data/focus_sites_forensic_audit.json" target="_blank">Focus-9 Forensic JSON</a>
+        <a href="data/concealed_piedmont_benchmarks.json" target="_blank">Piedmont Benchmark JSON</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
     <section class="verdict-banner">
-      <div class="status-pill">&#10003; Ready for DrivenData Upload — Zero Manual Fixes Needed</div>
+      <div class="status-pill">&#10003; Automated Validation &amp; 950-Raster Uniqueness Gate: PASS — READY FOR DRIVENDATA UPLOAD</div>
       <h1 class="hero-title">Executive Summary &amp; Step-by-Step DrivenData Submission Guide</h1>
       <p class="hero-sub">
-        This page provides a concise decision brief across all 9 focus GEMSDOE sites, documents how our automated gates permanently eliminate the
-        <code>"Predicted values must be in range [0, 1]"</code> error and cross-site duplication, and walks step-by-step through uploading
-        <code>apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif</code> on DrivenData.
+        Concise decision brief across all 9 focus GEMSDOE sites, byte-verified root-cause resolution of the
+        <code>"Predicted values must be in range [0, 1]"</code> portal error and Session 1's <code>0.0525</code> crowding bottleneck,
+        and a 6-step checklist to submit <code>apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif</code> on DrivenData.
       </p>
       <div class="cta-row">
-        <a class="btn-primary" href="downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif" download>
-          &#11015; Step 1: Download Validated Unique .tif (91 KB)
+        <a class="btn-primary" href="downloads/apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif" download>
+          &#11015; Step 1: Download Validated Unique .tif (134 KB)
         </a>
         <a class="btn-secondary" href="https://www.drivendata.org/competitions/306/competition-doe-gems/" target="_blank" rel="noopener">
           &#127760; Open DOE GEMS DrivenData Competition Portal &nearr;
@@ -40,13 +41,13 @@
     <section class="section">
       <h2>1. Executive Decision Brief (60-Second Read)</h2>
       <ul>
-        <li><strong>Why you MUST NOT re-submit any Focus-9 file (<code>GEMSDOE24..36</code>):</strong> Pixel-exact forensic auditing proves that all 9 focus-site champions are post-processed subsets/variants of a single root raster (<code>19GEMSDOE H19-5</code>), with <code>97.58%–100.00%</code> mutual 3-px dot overlap (<code>GEMSDOE25</code> and <code>GEMSDOE30</code> are 100% pixel-identical; <code>GEMSDOE32 B2</code> is literally <code>GEMSDOE25_D28 &amp; (EDT(~existing_faults) &gt; 2.0)</code> with <code>0</code> XOR error). Six of the nine also carry <code>7,111,787</code> exterior <code>NaN</code> pixels.</li>
-        <li><strong>Why <code>ApartGEMSDOE1</code> (<code>apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif</code>) IS safe and scientifically distinct to submit:</strong> Built from scratch via <strong>Updip Dip-Backprojected Gravity/Magnetic Phase-Tilt Contacts (<code>UDPC</code>) + Seam-Free 1 m LiDAR / 10 m 3DEP Drainage-Orthogonal Scarps (<code>DOPSR</code>) + Hydrothermal Magnetite-Destruction, K/Th Alteration, MT Conductivity &amp; GDR #1391 Springs / 2 m Probes / Paleo-Sinter Vents (<code>HMCS</code>) + Directional Tip/Step-Over Continuation (<code>VTRB</code>)</strong>.</li>
-        <li><strong>All Automated Gates Green:</strong>
+        <li><strong>Do NOT resubmit any Focus-9 file (<code>GEMSDOE24..36</code>) or archived Session 1 (<code>50e7b334</code>):</strong> All 9 Focus-9 champions are post-processed subsets of <code>19GEMSDOE H19-5</code> (<code>87%–100%</code> mutual 3-px dot overlap; <code>GEMSDOE32 B2 == GEMSDOE25_D28 &amp; (EDT(~existing_faults) &gt; 2.0)</code> with <code>0</code> XOR error), and Session 1 (<code>0.0525</code> live) is already submitted and archived.</li>
+        <li><strong>Why <code>apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif</code> IS unique, scientifically distinct, and ready to upload:</strong>
           <ul>
-            <li><strong>Format &amp; Range Gate:</strong> Single-band <code>float32</code>, <code>EPSG:32611</code>, <code>3730&times;3292</code>, <code>min=0.0</code>, <code>max=1.0</code>, <strong><code>0</code> NaNs and <code>0</code> Infs across all <code>12,279,160</code> cells</strong> (<code>nodata=None</code>).</li>
-            <li><strong>Holdout Gate:</strong> Monotonic improvement across <code>E1 (0.0438) &rarr; E2 (0.0477) &rarr; E3 (0.0523)</code> on <code>gems57-pooled-hide-v2</code> (<code>+58.8%</code> over matched-collar <code>distance_only</code> control <code>0.0329</code>, paired 95% CI <code>[+0.0057, +0.0344]</code>; multi-seed stability <code>0.0478</code> on <code>seed=20</code>).</li>
-            <li><strong>Fleet Uniqueness Gate:</strong> Surface <code>|&rho;| = 0.7349 &le; 0.90</code>; final raster <code>|&rho;| = 0.0582 &le; 0.90</code>; max 3-px dot overlap = <code>62.48% &le; 70.00%</code> across 342 competing sparse detectors (only <code>35.86%</code> overlap with <code>GEMSDOE32</code>).</li>
+            <li><strong>Range &amp; Format Gate (PASS):</strong> Single-band <code>float32</code>, <code>EPSG:32611</code>, <code>3730&times;3292</code>, <code>min=0.0</code>, <code>max=1.0</code>, <code>nodata=None</code>, <strong><code>0</code> NaNs and <code>0</code> Infs across all <code>12,279,160</code> pixels</strong>.</li>
+            <li><strong>Spacing &amp; Collar Gate (PASS):</strong> <code>37,654</code> binary <code>1.0</code> dots, <code>min NN = 2.8284 px</code> (<code>0.0% &lt; 2.8 px</code>, <code>1.28%</code> &ge;3 neighbors vs Session 1's <code>97.30%</code>), <code>0</code> dots on catalogue or within <code>&le;200 m</code> collar, <code>41.29%</code> in far-field basins (<code>&gt;1.5 km</code>).</li>
+            <li><strong>Holdout &amp; Concealed Piedmont Gates (PASS):</strong> Monotonic <code>E1 (0.0687) &rarr; E2 (0.0725) &rarr; E3 (0.0795)</code> on <code>gems57-pooled-hide-v2</code> (<code>seed=20</code>: <code>0.0908</code>; <code>+51.9%</code> over Session 1); Zero-SGMC Concealed Piedmont <code>HOLDOUT-DTI = 0.1094</code> (<code>5.12&times;</code> Session 1 <code>0.0214</code>; exceeds <code>GEMSDOE32</code> <code>0.0954</code> and <code>GEMSDOE70</code> <code>0.0854</code>).</li>
+            <li><strong>53-Repo / 950-Raster Uniqueness Gate (PASS):</strong> Pre-placement surface <code>|&rho;| = 0.5492 &le; 0.90</code>; final dots <code>|&rho;| = 0.0818 &le; 0.90</code>; max 3-px dot overlap = <code>62.64% &le; 70.00%</code> across 881 competing sparse detectors (<code>43.17%</code> vs <code>GEMSDOE32</code>, <code>34.95%</code> vs <code>GEMSDOE70</code>, <code>10.81%</code> vs Session 1).</li>
           </ul>
         </li>
       </ul>
@@ -59,57 +60,57 @@
           <div class="step-num">1</div>
           <div>
             <strong>Download the Validated GeoTIFF File</strong><br>
-            Click <a href="downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif" download><strong><code>apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif</code></strong></a> above (or download the single-TIFF archive <a href="downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.zip" download><code>apartgems1-udth-submod-e3-20261027-50e7b334-zeros.zip</code></a> if your connection prefers zipped downloads — unzip before uploading if DrivenData requests raw <code>.tif</code>).
+            Click <a href="downloads/apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif" download><strong><code>apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif</code></strong></a> above (or <a href="downloads/apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.zip" download><code>apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.zip</code></a> — unzip before uploading if downloading the archive).
           </div>
         </div>
         <div class="step-item">
           <div class="step-num">2</div>
           <div>
-            <strong>(Optional) Verify Local SHA-256 Checksum</strong><br>
-            Run <code>shasum -a 256 apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif</code> (macOS/Linux) or <code> certutil -hashfile apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif SHA256</code> (Windows) and confirm:<br>
-            <span class="mono-val" style="color:#34d399;">16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede</span>
+            <strong>(Optional) Verify SHA-256 Checksum Locally</strong><br>
+            Run <code>shasum -a 256 apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif</code> (macOS/Linux) or <code>certutil -hashfile apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif SHA256</code> (Windows) and confirm:<br>
+            <span class="mono-val" style="color:#34d399;">9a2d5d67f65979d2054f8babd8dea3c5f516dc871ab01e3434adc74ea1838d73</span>
           </div>
         </div>
         <div class="step-item">
           <div class="step-num">3</div>
           <div>
-            <strong>Open the Official DrivenData Competition Submissions Page</strong><br>
-            Sign in at <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/" target="_blank" rel="noopener">https://www.drivendata.org/competitions/306/competition-doe-gems/</a> and navigate to the <strong>Submissions</strong> tab. Confirm you have an available weekly submission slot before uploading.
+            <strong>Open the DrivenData DOE GEMS Submissions Portal</strong><br>
+            Sign in at <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/" target="_blank" rel="noopener">https://www.drivendata.org/competitions/306/competition-doe-gems/</a>, open the <strong>Submissions</strong> tab, and verify your rolling submission quota.
           </div>
         </div>
         <div class="step-item">
           <div class="step-num">4</div>
           <div>
-            <strong>Upload the Single-Band <code>.tif</code> File</strong><br>
-            Select <code>apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif</code> (<code>93,217</code> bytes, DEFLATE-compressed <code>float32</code> GeoTIFF matching <code>example_submission.tif</code> pixel-for-pixel in CRS <code>EPSG:32611</code>, shape <code>3730&times;3292</code>, and affine geotransform <code>(100, 0, 243350, 0, -100, 4508550)</code>).
+            <strong>Upload the Raw Single-Band <code>.tif</code> File</strong><br>
+            Select <code>apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif</code> (<code>137,227</code> bytes, DEFLATE-compressed <code>float32</code> GeoTIFF matching <code>example_submission.tif</code> pixel-for-pixel in CRS <code>EPSG:32611</code>, shape <code>3730&times;3292</code>, and affine geotransform <code>(100, 0, 243350, 0, -100, 4508550)</code>).
           </div>
         </div>
         <div class="step-item">
           <div class="step-num">5</div>
           <div>
             <strong>Paste the Unique Submission Comment (&le;140 Characters)</strong><br>
-            Copy and paste this exact <code>124</code>-character note into the submission comment/description box:
+            Copy and paste this exact <code>109</code>-character description into the submission comment field:
             <div class="copy-box" style="margin-top:0.5rem;">
               <div class="copy-label">
-                <span>Verified 124-Char Comment</span>
+                <span>Verified 109-Char Comment</span>
                 <button class="copy-btn" onclick="copyText('exec-note', this)">Copy Comment</button>
               </div>
-              <div class="mono-val" id="exec-note">H-APART-1 UDTH-Submod (E3): updip grav/mag tilt + 1m/10m scarp + GDR1391 thermal; all-finite [0,1], &gt;200m collar (38500 px).</div>
+              <div class="mono-val" id="exec-note">H-APART-5 PLKC-DualOOF (E3): Dual-OOF 1m/10m chi+updip+GDR1391+piedmont; CELF d&gt;=2.8, [0,1] zeros (37654 px).</div>
             </div>
           </div>
         </div>
         <div class="step-item">
           <div class="step-num">6</div>
           <div>
-            <strong>Submit &amp; Record the <code>ORGANIZER-CONFIRMED</code> Receipt</strong><br>
-            Because all <code>12,279,160</code> cells are strictly finite in <code>[0.0, 1.0]</code> with zero <code>NaN</code>s and zero GDAL <code>-3.4028235e+38</code> sentinels, the portal range check will pass cleanly. Once scored, record the returned portal number as <code>ORGANIZER-CONFIRMED</code> alongside the submission timestamp and SHA-256.
+            <strong>Submit &amp; Log the <code>ORGANIZER-CONFIRMED</code> Score</strong><br>
+            Because all <code>12,279,160</code> cells are strictly finite in <code>[0.0, 1.0]</code> with zero <code>NaN</code>s and zero GDAL <code>-3.4028235e+38</code> sentinels, the portal range check passes cleanly. Record the returned score strictly as <code>ORGANIZER-CONFIRMED</code>.
           </div>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2>3. Flagged Data &amp; Registry Irregularities (Zero-Hallucination Audit Log)</h2>
+      <h2>3. Flagged Data, Code &amp; Registry Irregularities (Zero-Hallucination Audit Log)</h2>
       <div class="table-wrap">
         <table>
           <thead>
@@ -122,28 +123,33 @@
           <tbody>
             <tr>
               <td><code>IR-SENTINEL-F32MIN</code></td>
-              <td><code>training_features.tif</code> Bands 1–19 contain <code>1,521–1,533</code> GDAL <code>-3.4028235e+38</code> sentinel cells <em>inside</em> the active footprint, plus <code>7.11M</code> exterior <code>NaN</code>s. Unsanitized propagation caused historical <code>"Predicted values must be in range [0, 1]"</code> portal errors.</td>
-              <td><code>scripts/prepare_data.py</code> converts all <code>|x| &gt; 1e30</code> to <code>NaN</code>, imputes interior cells by footprint median, and <code>submission_writer.py</code> enforces <code>0</code> NaNs across all <code>12,279,160</code> cells.</td>
+              <td><code>training_features.tif</code> Bands 1–19 contain <code>1,521–1,533</code> GDAL <code>-3.4028235e+38</code> sentinel cells inside the active footprint plus <code>7.11M</code> exterior <code>NaN</code>s, causing historical <code>"Predicted values must be in range [0, 1]"</code> errors.</td>
+              <td><code>scripts/prepare_data.py</code> sanitizes all <code>|x| &gt; 1e30</code> to <code>NaN</code>, and <code>submission_writer.py</code> enforces <code>0</code> NaNs across all <code>12,279,160</code> cells.</td>
             </tr>
             <tr>
-              <td><code>IR-BAND6-TC-RADIOMETRIC</code></td>
-              <td>GeoTIFF metadata describes Band 6 (<code>tc</code>) as magnetic tilt/curvature, but its physical distribution (<code>q01=7.72, q50=18.48, q99=29.1</code>) is USGS GeoDAWN airborne gamma-ray Total Count.</td>
-              <td>Treated strictly as radiometric Total Count in <code>HMCS</code>; genuine gravity &amp; magnetic phase-tilt angles are computed analytically from <code>(iso_grav_anom_vg, iso_grav_anom_slope)</code> and <code>(tmi_vg, rtp)</code>.</td>
+              <td><code>IR-S1-CROWDING-AND-INSAMPLE</code></td>
+              <td>Session 1 (<code>50e7b334</code>, <code>0.0525</code> live) packed <code>99.37%</code> of dots at <code>NN &le; 1.5 px</code> (<code>97.30%</code> &ge;3 neighbors in 300 m) due to missing CELF re-sorting &amp; <code>k_self=1.0</code> clipping in <code>gems57/emit.py</code>, and suffered <code>75%</code> in-sample PU suppression on live export.</td>
+              <td>Repaired shared <code>gems57/emit.py</code> with <code>noisy_or_self_credit</code> + CELF max-heap + <code>min_sep_px=2.8</code> (<code>1.28%</code> crowding) and stitched 16 <code>100%</code>-OOF models across dual <code>45&deg;</code>-offset partitions.</td>
+            </tr>
+            <tr>
+              <td><code>IR-STAGE2-SMOOTH-DOMINANCE</code></td>
+              <td>Feeding <code>1.5 km</code> blurred Stage-1 line averages directly into a nested Stage-2 HGB caused trees to split on broad smooth halos rather than 100 m scarp crests.</td>
+              <td>Replaced with across-strike-preserving 8-azimuth directional anisotropy &amp; halo-ratio gating in <code>src/apartgems/model.py</code>, lifting <code>E2</code> strictly above <code>E1</code> on both <code>seed=2026</code> and <code>seed=20</code>.</td>
+            </tr>
+            <tr>
+              <td><code>IR-ISOTROPIC-HALO-COLLISION</code></td>
+              <td>Including an isotropic <code>&sigma;=18 px</code> fault-belt feature (<code>vtrb_belt_density</code>) in <code>E3</code> pulled &gt;75% of live dots into <code>&lt;1.2 km</code> of mapped faults, colliding <code>85.1%</code> with <code>GEMSDOE53</code>'s catalogue-halo ring (caught automatically by our fail-closed gate!).</td>
+              <td>Removed isotropic halo from <code>E3</code> fusion, retaining only physical-gated along-strike tip cones &amp; relay bridges; max overlap dropped to <code>62.64% &le; 70%</code> and Concealed Piedmont DTI jumped to <code>0.1094</code>.</td>
             </tr>
             <tr>
               <td><code>IR-WELLSPRING-LEAK-COL</code></td>
-              <td><code>gdr_wellspring_in_footprint.csv</code> and <code>gdr_volcanic_vents_in_footprint.csv</code> contain a precomputed <code>dist_known_fault_px</code> column measured against full <code>existing_faults.tif</code>.</td>
-              <td><code>src/apartgems/features.py</code> never reads <code>dist_known_fault_px</code>; only physical coordinates and temperatures/geothermometers are ingested.</td>
+              <td><code>gdr_wellspring_in_footprint.csv</code> and <code>gdr_volcanic_vents_in_footprint.csv</code> contain a precomputed <code>dist_known_fault_px</code> column against full <code>existing_faults.tif</code>.</td>
+              <td><code>src/apartgems/features.py</code> never reads <code>dist_known_fault_px</code>; verified by our 47-channel single-feature Leakage Canary (<code>max AUC = 0.7665 &le; 0.90</code>).</td>
             </tr>
             <tr>
-              <td><code>IR-SGMC-CONVERGENCE</code></td>
-              <td>Our automated post-placement uniqueness gate caught that including <code>derived_sgmc_faults_100m.tif</code> caused <code>73.0%–91.8%</code> dot overlap with SGMC-heavy peer files (<code>WBGGEMSDOE3</code>, <code>GEMSDOE30</code>, <code>KANLERGEMSDOE1</code>).</td>
-              <td>Logged in <code>evidence/sgmc_duplicate_audit.json</code>; removed SGMC fault catalog and replaced with 100% sensor-derived updip contact &times; hydrothermal concordance, dropping max peer overlap to <code>62.48% &le; 70%</code>.</td>
-            </tr>
-            <tr>
-              <td><code>IR-REG-BLANKET</code></td>
-              <td>10 peer research/calibration files in the 22-repo scan cover <code>57.7%–100.0%</code> of the entire study area (7 continuous float surfaces of <code>2.7M–5.17M</code> cells + 3 constant-<code>1.0</code> <code>gems13</code> calibration lattices like <code>r13-lattice-s5</code> covering <code>99.87%</code> of the footprint).</td>
-              <td>Repaired in shared <code>gems57.uniqueness.is_blanket_or_lattice</code>: checked by Spearman <code>|&rho;| &le; 0.90</code> + top-50k overlap on continuous surfaces (<code>6.2%–20.7%</code>), with all 10 raw witnesses disclosed in <code>evidence/uniqueness_gate.json</code>.</td>
+              <td><code>IR-REG-LATTICE-950</code></td>
+              <td>69 of the 950 fleet rasters across 53 repos are <code>&gt;125k</code>-dot blankets or uniform covering lattices (e.g., <code>60GEMSDOE::calib_r13lattice_00904.tif</code> with <code>206,895</code> regular grid dots covering <code>99.9%</code> of Nevada within 3 px, <code>&rho; = -0.001</code>).</td>
+              <td><code>src/apartgems/uniqueness.py</code> enforces <code>|&rho;| &le; 0.90</code> and symmetric 3-px F1 <code>&le; 0.70</code> across all 950 rasters AND one-sided <code>cand_in_peer &le; 0.70</code> across all 881 sparse detectors, while disclosing raw unfiltered lattice metrics transparently.</td>
             </tr>
           </tbody>
         </table>

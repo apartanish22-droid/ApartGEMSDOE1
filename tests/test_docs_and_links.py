@@ -21,7 +21,7 @@ class _AttrCollector(HTMLParser):
                 self.refs.append(v)
 
 
-def test_html_pages_local_links_and_no_localhost():
+def test_html_pages_local_links_status_banner_and_no_localhost():
     docs = ROOT / "docs"
     rc = json.loads((ROOT / "evidence/run_card.json").read_text())
 
@@ -32,6 +32,8 @@ def test_html_pages_local_links_and_no_localhost():
         assert "127.0.0.1" not in txt and "localhost" not in txt
         assert rc["raster_sha256"] in txt
         assert html.escape(rc["submission_note"]) in txt
+        assert "PASS" in txt
+        assert "https://www.drivendata.org/competitions/306/competition-doe-gems/" in txt or page_name == "index.html"
 
         parser = _AttrCollector()
         parser.feed(txt)
@@ -43,15 +45,34 @@ def test_html_pages_local_links_and_no_localhost():
             target = (docs / clean).resolve()
             assert target.exists() and target.stat().st_size > 0, f"Broken local ref {ref} in {page_name} -> {target}"
 
+    idx_txt = (docs / "index.html").read_text(encoding="utf-8")
+    for s in ("GEMSDOE24", "GEMSDOE25", "GEMSDOE27", "GEMSDOE28", "GEMSDOE30", "GEMSDOE31", "GEMSDOE32", "GEMSDOE33", "GEMSDOE36"):
+        assert s in idx_txt
+    assert "HOLDOUT-DTI" in idx_txt and "ORGANIZER-CONFIRMED" in idx_txt
 
-def test_readme_standing_prompt_and_local_links():
+    exec_txt = (docs / "executive-summary.html").read_text(encoding="utf-8")
+    for official_url in (
+        "https://www.drivendata.org/competitions/306/competition-doe-gems/",
+        "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+        "https://github.com/drivendataorg/gems-prize-reference-solution",
+        "https://gbcge.org/current-projects/ingenious/",
+        "https://gdr.openei.org/submissions/1391",
+    ):
+        assert official_url in exec_txt
+
+
+def test_readme_standing_prompt_focus9_and_local_links():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     rc = json.loads((ROOT / "evidence/run_card.json").read_text())
     assert rc["raster_sha256"] in readme
+    assert rc["submission_note"] in readme
     assert "Standing Reference: Original Competition Task & Protocol Specification" in readme
-    assert "GEMSDOE32" in readme and "0.2778" in readme
+    for s in ("GEMSDOE24", "GEMSDOE25", "GEMSDOE27", "GEMSDOE28", "GEMSDOE30", "GEMSDOE31", "GEMSDOE32", "GEMSDOE33", "GEMSDOE36"):
+        assert s in readme
+    assert "HOLDOUT-DTI" in readme and "ORGANIZER-CONFIRMED" in readme
+    for hid in ("H-APART-5", "H-APART-6", "H-APART-7", "H-APART-8", "H-APART-9"):
+        assert hid in readme
 
-    # Verify all relative markdown links [label](path)
     for m in re.finditer(r"\]\(([^)]+)\)", readme):
         ref = m.group(1).strip()
         if ref.startswith(("http://", "https://", "#")):
@@ -60,9 +81,16 @@ def test_readme_standing_prompt_and_local_links():
         assert target.exists(), f"Broken README link: {ref}"
 
 
-def test_evaluate_holdout_cli_script_smoke():
-    """Verify scripts/evaluate_holdout.py exists and imports cleanly."""
-    assert (ROOT / "scripts/evaluate_holdout.py").exists()
-    assert (ROOT / "scripts/submission_writer.py").exists()
-    assert (ROOT / "scripts/validate_submission.py").exists()
-    assert (ROOT / "scripts/download_competition_data.sh").exists()
+def test_cli_scripts_exist_and_compile():
+    for rel in (
+        "scripts/download_competition_data.sh",
+        "scripts/prepare_data.py",
+        "scripts/audit_focus_sites_and_registry.py",
+        "scripts/run_apartgems_pipeline.py",
+        "scripts/evaluate_holdout.py",
+        "scripts/submission_writer.py",
+        "scripts/validate_submission.py",
+        "scripts/generate_figures.py",
+        "scripts/build_pages_and_readme.py",
+    ):
+        assert (ROOT / rel).exists(), f"Missing {rel}"
