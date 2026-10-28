@@ -1,87 +1,46 @@
 #!/usr/bin/env python3
-"""Automated, zero-human-input GeoTIFF + Uniqueness Gate validator."""
-from __future__ import annotations
+"""Validate local format and the literal full-inventory uniqueness gate.
 
+Local checks cannot grant organizer acceptance or select a weekly slot.
+"""
+from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
 import sys
-
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(ROOT / "src"))
-
-import numpy as np
+sys.path.insert(0, str(ROOT / 'src'))
 import rasterio
-from scipy.ndimage import distance_transform_edt
-
-from apartgems.uniqueness import check_final_raster_uniqueness
 from gems57 import load_grid
-from gems57.validate import assert_submittable, validate
+from gems57.gates import format_report
+from gems57.uniqueness import compare_array_to_registry
+from gems57.validate import validate
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description="Validate GeoTIFF format, [0,1] range, NaNs, collar, and fleet uniqueness.")
-    ap.add_argument("tif", type=Path, help="Candidate GeoTIFF file")
-    ap.add_argument("--json-out", type=Path, default=None)
-    args = ap.parse_args()
-
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('tif', type=Path)
+    p.add_argument('--registry-index', type=Path, required=True,
+                   help='complete accessible inventory for shared literal gate')
+    p.add_argument('--json-out', type=Path)
+    args = p.parse_args()
     grid = load_grid()
     receipt = validate(args.tif, footprint=grid.footprint, catalogue=grid.catalogue)
-    assert_submittable(receipt)
-
+    fmt = format_report(args.tif, ROOT / 'data/bridge/sample_submission.tif', footprint=grid.footprint)
     with rasterio.open(args.tif) as ds:
         arr = ds.read(1)
-
-    edt_cat = distance_transform_edt(~grid.catalogue)
-    collar_2px_dots = int(((arr > 0) & (edt_cat <= 2.0)).sum())
-    farfield_15px_dots = int(((arr > 0) & (edt_cat > 15.0)).sum())
-    try:
-        uniq = check_final_raster_uniqueness(arr, grid.footprint)
-    except FileNotFoundError as e:
-        # Fresh checkouts lack the git-ignored registry cache (.cache/ is excluded
-        # from snapshots). Degrade to an explicit SKIP instead of crashing:
-        # format/range gates above are still fully enforced, but uniqueness is
-        # NOT cleared by this run. Rebuild the registry with
-        # scripts/audit_focus_sites_and_registry.py to clear it.
-        uniq = {"passed": False, "skipped": True,
-                "reason": f"registry cache unavailable: {e}",
-                "max_abs_spearman_rho": None,
-                "max_3px_overlap_vs_competing_detectors": None}
-
-    full = {
-        "validator_version": "apartgems-automated-gate-v1",
-        "format_and_range_receipt": receipt,
-        "collar_200m_positive_pixels": collar_2px_dots,
-        "farfield_gt_1500m_positive_pixels": farfield_15px_dots,
-        "farfield_fraction": round(farfield_15px_dots / max(receipt["emitted_positive_pixels"], 1), 6),
-        "uniqueness_gate": uniq,
-        "all_automated_gates_passed": bool(
-            receipt["all_checks_passed"]
-            and collar_2px_dots == 0
-            and uniq["passed"]
-        ),
-    }
+    uniq = compare_array_to_registry(arr, args.registry_index, grid.footprint,
+                                     file_sha256=receipt['sha256'],
+                                     expected_grid=(grid.shape, grid.crs, grid.transform))
+    result = {'format_and_range_receipt': receipt, 'template_check': fmt, 'uniqueness_gate': uniq,
+              'all_automated_gates_passed': bool(receipt['all_checks_passed'] and fmt['ok'] and uniq['unique']),
+              'slot_approved': False}
+    text = json.dumps(result, indent=2, allow_nan=False) + '\n'
     if args.json_out:
         args.json_out.parent.mkdir(parents=True, exist_ok=True)
-        args.json_out.write_text(json.dumps(full, indent=2, allow_nan=False) + "\n")
-    print(json.dumps({
-        "file": str(args.tif),
-        "all_automated_gates_passed": full["all_automated_gates_passed"],
-        "emitted_positive_pixels": receipt["emitted_positive_pixels"],
-        "min": receipt["min"],
-        "max": receipt["max"],
-        "n_nan": receipt["n_nan"],
-        "collar_200m_positive_pixels": collar_2px_dots,
-        "farfield_fraction": full["farfield_fraction"],
-        "max_abs_spearman_rho": uniq.get("max_abs_spearman_rho"),
-        "max_3px_overlap_vs_competing_detectors": uniq.get("max_3px_overlap_vs_competing_detectors"),
-        "uniqueness_skipped": bool(uniq.get("skipped")),
-    }, indent=2))
-    if not full["all_automated_gates_passed"]:
-        return 1
-    return 0
+        args.json_out.write_text(text)
+    print(text, end='')
+    return 0 if result['all_automated_gates_passed'] else 1
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     raise SystemExit(main())

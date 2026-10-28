@@ -194,6 +194,7 @@
   "collar_le_200m_dots": 0,
   "farfield_gt_1500m_dots": 15440,
   "farfield_gt_1500m_fraction": 0.401039,
-  "uniqueness_passed": true,
-  "ready_to_submit_verdict": "PASS_OK_TO_DOWNLOAD_AND_SUBMIT"
+  "uniqueness_passed": false,
+  "ready_to_submit_verdict": "STOP_DUPLICATE_NOT_AUTHORIZED",
+  "review_status": "Supersedes prior positive uniqueness verdict. Local format check does not authorize submission; see lattice_stop.json."
 }

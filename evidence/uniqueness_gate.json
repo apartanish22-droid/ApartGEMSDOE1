@@ -311,5 +311,6 @@
     ],
     "passed": true
   },
-  "overall_uniqueness_passed": true
+  "overall_uniqueness_passed": false,
+  "review_status": "Superseded prior sampled/exemption report; literal gate failed on lattice_stop.json."
 }
