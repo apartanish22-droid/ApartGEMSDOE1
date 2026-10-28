@@ -248,14 +248,22 @@ def wilson_ci(k_success_mass: float, n_mass: float, z: float = 1.959963985) -> t
     return (float(max(0.0, centre - half)), float(min(1.0, centre + half)))
 
 
-def score(prediction, fold, valid, restrict_to_region=True, extra=False):
-    """Compatibility adapter for the shared template's dictionary-fold callers.
+def visible_score_mask(fold):
+    """Return the exact visible catalogue, rejecting extra truth-shaped masks."""
+    if 'visible' not in fold:
+        raise ValueError('holdout fold must provide the visible catalogue')
+    visible = np.asarray(fold['visible'], dtype=bool)
+    if 'masked_known' in fold and not np.array_equal(
+            np.asarray(fold['masked_known'], dtype=bool), visible):
+        raise ValueError('masked_known must match the visible catalogue pixel-exactly')
+    return visible
 
-    v2 fixes the missing adapter; official arithmetic remains in metric.py.
-    """
+
+def score(prediction, fold, valid, restrict_to_region=True, extra=False):
+    """Compatibility adapter using the same visible-only scoring mask as v3."""
     from .metric import dti_exact
     region = fold['region'] if restrict_to_region else np.ones_like(valid, bool)
-    known = fold.get('masked_known', fold['visible'])
+    known = visible_score_mask(fold)
     r = dti_exact(prediction, fold['truth'], valid=np.asarray(valid, bool) & region, known=known)
     return {**r, 'tpw': r['tp'], 'fpw': r['fp'], 'fnw': r['fn']}
 
@@ -269,8 +277,11 @@ def buffered_component_draw(grid, seed=20, hide_frac=0.20, buffer_px=3,
     The same globally hidden draw supplies every outer LOQO model, so a tested
     component cannot reappear in a training quadrant's catalogue features.
     Buffer-removal is for FEATURE context, not a truth-shaped evaluation halo.
-    Other catalogue pixels in that context collar remain pixel-exactly masked
-    from scoring; they are not invented negatives or silently clipped truth.
+    Only the catalogue pixels actually visible to the model are masked from
+    scoring. Other catalogue pixels removed by the context buffer are therefore
+    unlabelled in this proxy, not confirmed negatives; any prediction on them
+    is counted as a false positive under this conservative local evaluation.
+    This limitation must be stated with the resulting HOLDOUT-DTI.
     """
     if not 0 < hide_frac < 1 or buffer_px < 0 or boundary_px < buffer_px:
         raise ValueError('invalid holdout fraction/buffer')
@@ -300,7 +311,10 @@ def buffered_component_draw(grid, seed=20, hide_frac=0.20, buffer_px=3,
         raise ValueError('no eligible withheld components')
     collar = ndi.distance_transform_edt(~hidden) <= buffer_px
     visible = cat & ~collar
-    masked_known = cat & ~hidden
+    # Protocol: the scoring mask must be pixel-identical to model-visible
+    # catalogue context. Using `cat & ~hidden` here also masks buffer-removed
+    # pixels and makes the scoring domain depend on withheld labels.
+    masked_known = visible.copy()
     if not visible.any():
         raise ValueError('no visible catalogue context')
     if (visible & hidden).any() or np.any(visible & collar):
@@ -311,6 +325,8 @@ def buffered_component_draw(grid, seed=20, hide_frac=0.20, buffer_px=3,
     folds = [dict(fold=i, name=FOLD_NAMES[i], region=regions[i], truth=hidden & regions[i],
                   visible=visible, masked_known=masked_known, hidden_all=hidden,
                   receipt={**receipts[i], 'nearest_visible_to_truth_px': minimum,
-                           'split_version': 'buffered-whole-components-loqo-v2',
+                           'split_version': 'buffered-whole-components-loqo-v3',
+                           'masked_known_equals_visible': True,
+                           'buffer_removed_catalogue_pixels_not_withheld': int((cat & ~hidden & ~visible).sum()),
                            'evaluation_region_label_blind': True}) for i in range(4)]
     return folds, quad

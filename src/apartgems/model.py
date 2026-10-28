@@ -18,7 +18,7 @@ from sklearn.preprocessing import StandardScaler
 
 from gems57 import evaluate_holdout as EH
 from gems57.grid import Grid
-from gems57.holdout import FOLD_NAMES, quadrant_ids
+from gems57.holdout import FOLD_NAMES, quadrant_ids, visible_score_mask
 from gems57.metric import OFF_DX, OFF_DY, OFF_K
 
 from .features import (
@@ -145,7 +145,7 @@ def run_leakage_canaries(
     eval_2d = np.zeros(grid.shape, dtype=bool)
     truth_2d = np.zeros(grid.shape, dtype=bool)
     for f in folds:
-        active = f["region"] & fp & ~f["masked_known"]
+        active = f["region"] & fp & ~visible_score_mask(f)
         eval_2d |= active
         truth_2d |= f["truth"] & active
 
@@ -201,7 +201,11 @@ def run_leakage_canaries(
         "negative_sample_pixels": int(len(neg_idx)),
         "canary_cap": canary_cap,
         "max_symmetric_auc": round(max_sym, 6),
-        "all_passed": passed_all,
+        "tested_features_passed": passed_all,
+        "all_passed": False,
+        "complete_feature_coverage": False,
+        "missing_feature_groups": ["stage-2 axial and interaction features"],
+        "reason": "This historical canary covers static and visible-relay inputs only; it cannot clear a model with additional generated features.",
         "features": rows,
     }
 
@@ -647,7 +651,8 @@ def run_three_loqo_experiments(
     live_target_dots: int = 37_654,
     fast_stability: bool = False,
 ) -> dict[str, ExperimentResult]:
-    """Execute the <= 3 pre-registered H-APART-2 (MAW-GSI) LOQO experiments on gems57-pooled-hide-v2."""
+    """Retired H-APART-2 experiment entry point; the duplicate stop is final."""
+    raise RuntimeError('H-APART-2 hit the mandatory duplicate stop; no further experiments may run in this lane')
     fp = grid.footprint
     quad_fp = quadrant_ids(fp)[fp]
     X_full_fp = _load_fp_matrix(E2_HYDRO_STRESS_FEATURES, feature_paths)
@@ -857,13 +862,18 @@ def run_three_loqo_experiments(
     return results
 
 
-def build_final_live_submission_arrays(
+def build_final_live_submission_surfaces(
     grid: Grid,
     winner: ExperimentResult,
     feature_paths: dict[str, Path],
-    target_dots: int = 37_654,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Generate full-footprint continuous probability surface + final all-finite [0, 1] GeoTIFF array."""
+    """Generate both continuous surfaces, without placing any dots.
+
+    Both surfaces must pass the literal shared registry gate before the
+    separate placement function can be called. A returned surface is not a
+    submission and has not been cleared for any weekly slot.
+    """
+    raise RuntimeError('H-APART-2 hit the mandatory duplicate stop; no live surfaces may be generated in this lane')
     fp = grid.footprint
     cat = grid.catalogue
     allowed_live = fp & ~cat
@@ -909,7 +919,41 @@ def build_final_live_submission_arrays(
     vent_surf_2d = np.zeros(grid.shape, dtype=np.float32)
     vent_surf_2d[fp] = np.clip(vent_live_fp, 0.0, 1.0)
     vent_surf_2d[~allowed_live] = 0.0
+    return surface, vent_surf_2d
 
+
+def place_final_live_submission(
+    grid: Grid,
+    winner: ExperimentResult,
+    surface: np.ndarray,
+    vent_surf_2d: np.ndarray,
+    *,
+    surface_gate: dict,
+    vent_surface_gate: dict,
+    target_dots: int = 37_654,
+) -> np.ndarray:
+    """Place dots only after each exact surface cleared a complete literal audit.
+
+    The gate attests the full float32 array hash. A proof from a different
+    surface, a partial inventory, or a duplicate cannot be reused here. The
+    returned dots still need an independently passing final-dot gate and
+    writer validation; this function never approves a submission slot.
+    """
+    fp = grid.footprint
+    cat = grid.catalogue
+    allowed_live = fp & ~cat
+    for name, values, gate in (("surface", surface, surface_gate),
+                                ("vent surface", vent_surf_2d, vent_surface_gate)):
+        a = np.asarray(values, dtype=np.float32)
+        digest = hashlib.sha256(np.ascontiguousarray(a).tobytes()).hexdigest()
+        if a.shape != grid.shape or not np.isfinite(a).all() or (a < 0).any() or (a > 1).any():
+            raise ValueError(f"{name} must be a finite, grid-aligned [0,1] surface")
+        if not (gate.get('phase') == 'surface' and gate.get('unique') is True
+                and gate.get('complete_accessible_scan') is True
+                and gate.get('candidate_decoded_sha256') == digest):
+            raise ValueError(f"{name} needs a matching complete literal pre-placement gate")
+
+    raise RuntimeError('H-APART-2 hit the mandatory duplicate stop; placement is disabled in this lane')
     if winner.exp_id == "E3":
         emitted_mask = allocate_maw_gsi_dual_submodular(
             surface,
@@ -929,4 +973,4 @@ def build_final_live_submission_arrays(
             collar_px=2.05,
         )
     final_arr = np.where(emitted_mask & fp & ~cat, np.float32(1.0), np.float32(0.0)).astype(np.float32)
-    return surface, final_arr
+    return final_arr

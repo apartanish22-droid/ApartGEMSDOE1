@@ -1,37 +1,42 @@
 {
   "generated_utc": "2026-10-28T22:40:21.665809+00:00",
   "evidence_class": "OWNER-MIRROR-INTEGRITY",
-  "provenance_note": "SHA-256 verified against pinned public GitHub mirrors and official USGS/DOE/TIGER public-domain releases; DrivenData organizer portal authentication is not available in sandbox.",
+  "provenance_note": "Historical owner-mirror receipt: many external entries lacked predeclared pins at the time. SHA values record observed mirror bytes, not independently authenticated official derivation. External caches were not fully restored during the 2026-10-28 audit.",
   "core_files": [
     {
       "path": "data/bridge/existing_faults.tif",
       "bytes": 425830,
       "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
-      "verified": true
+      "verified": true,
+      "verification_scope": "Owner-mirror bytes; local hash rechecked 2026-10-28, not organizer authentication."
     },
     {
       "path": "data/bridge/sample_submission.tif",
       "bytes": 1599597,
       "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
-      "verified": true
+      "verified": true,
+      "verification_scope": "Owner-mirror bytes; local hash rechecked 2026-10-28, not organizer authentication."
     },
     {
       "path": "data/official/labels.tif",
       "bytes": 425830,
       "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
-      "verified": true
+      "verified": true,
+      "verification_scope": "Owner-mirror bytes; local hash rechecked 2026-10-28, not organizer authentication."
     },
     {
       "path": "data/official/existing_faults.tif",
       "bytes": 425830,
       "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
-      "verified": true
+      "verified": true,
+      "verification_scope": "Owner-mirror bytes; local hash rechecked 2026-10-28, not organizer authentication."
     },
     {
       "path": "data/official/sample_submission.tif",
       "bytes": 1599597,
       "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
-      "verified": true
+      "verified": true,
+      "verification_scope": "Owner-mirror bytes; local hash rechecked 2026-10-28, not organizer authentication."
     }
   ],
   "external_files": [
@@ -40,84 +45,99 @@
       "bytes": 198602,
       "sha256": "643cbe992ef4ba37588fb469163ed8291e3ceb23d6c1f78a3cfaa462430c2da0",
       "official_source": "https://pubs.usgs.gov/ds/1052/",
-      "verified": true
+      "verified": true,
+      "verification_scope": "Historical comparison to a pinned owner-mirror digest, not proof of official origin.",
+      "independent_2026_10_28_mirror_sha_match": true
     },
     {
       "name": "sgmc_faults_100m.tif",
       "bytes": 213034,
       "sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c",
       "official_source": "https://pubs.usgs.gov/ds/1052/",
-      "verified": true
+      "verified": true,
+      "verification_scope": "Historical comparison to a pinned owner-mirror digest, not proof of official origin.",
+      "independent_2026_10_28_mirror_sha_match": true
     },
     {
       "name": "lidar_scarp_features_u8.tif",
       "bytes": 36943606,
       "sha256": "d580bb8bdcdb941e32fefb8b38044bc5bf04e199bf2e83498c3576e6fc465568",
       "official_source": "https://www.usgs.gov/3d-elevation-program",
-      "verified": true
+      "verified": false,
+      "verification_scope": "Historical observed digest only; no predeclared hash comparison at the time."
     },
     {
       "name": "lidar_scarp_features.json",
       "bytes": 3531,
       "sha256": "9ef0df6e87598a8b0cd52fe821661e5fdb3a00568c5d9b1c5d61fd6b242dcd41",
       "official_source": "https://www.usgs.gov/3d-elevation-program",
-      "verified": true
+      "verified": false,
+      "verification_scope": "Historical observed digest only; no predeclared hash comparison at the time."
     },
     {
       "name": "geodawn_rad_u8.tif",
       "bytes": 26612970,
       "sha256": "c22420f75999030d7cc65c9e31e50d232ea6158423bca051613a18a8b20ba682",
       "official_source": "https://www.sciencebase.gov/catalog/item/61955dcad34eb622f6908d6c",
-      "verified": true
+      "verified": false,
+      "verification_scope": "Historical observed digest only; no predeclared hash comparison at the time."
     },
     {
       "name": "geodawn_rad.json",
       "bytes": 7985,
       "sha256": "d917fd08f89c160d2a0ba91af9c3321c8c8b5677fcdba39b10e684384cbc7488",
       "official_source": "https://www.sciencebase.gov/catalog/item/61955dcad34eb622f6908d6c",
-      "verified": true
+      "verified": false,
+      "verification_scope": "Historical observed digest only; no predeclared hash comparison at the time."
     },
     {
       "name": "geodawn_extensions_u8.tif",
       "bytes": 27132925,
       "sha256": "a35a9c6d2a14786f4dab85481ee59769213072f5dab5b2535ea82ae4d9bb7d9b",
       "official_source": "https://www.sciencebase.gov/catalog/item/61955dcad34eb622f6908d6c",
-      "verified": true
+      "verified": false,
+      "verification_scope": "Historical observed digest only; no predeclared hash comparison at the time."
     },
     {
       "name": "geodawn_extensions.json",
       "bytes": 8927,
       "sha256": "56556f24c051043fd7a85587786118f8064624f2ad0604aaa3e6614f1a9f6d2f",
       "official_source": "https://www.sciencebase.gov/catalog/item/61955dcad34eb622f6908d6c",
-      "verified": true
+      "verified": false,
+      "verification_scope": "Historical observed digest only; no predeclared hash comparison at the time."
     },
     {
       "name": "gdr_wellspring_in_footprint.csv",
       "bytes": 2146771,
       "sha256": "122718e65bdf55aab0ee12ad20d80062f0deb1de957225a61ad880dd5dc196ea",
       "official_source": "https://gdr.openei.org/submissions/1391",
-      "verified": true
+      "verified": false,
+      "verification_scope": "Historical observed digest only; no predeclared hash comparison at the time."
     },
     {
       "name": "2m_temperature_probe_INGENIOUS_regional_data.zip",
       "bytes": 1080530,
       "sha256": "1301f70d230058e616ea5d34d1c7a32fabf7d49198172f376c59c89bd652eca3",
       "official_source": "https://gdr.openei.org/submissions/1391",
-      "verified": true
+      "verified": false,
+      "verification_scope": "Historical observed digest only; no predeclared hash comparison at the time.",
+      "independent_2026_10_28_mirror_sha_match": true
     },
     {
       "name": "paleo_geothermal_regional.zip",
       "bytes": 84008,
       "sha256": "faffcf697f32dbbf6cbb317cd1effb3e305538ce38eb239d72d0c6fa071e91ca",
       "official_source": "https://gdr.openei.org/submissions/1391",
-      "verified": true
+      "verified": false,
+      "verification_scope": "Historical observed digest only; no predeclared hash comparison at the time."
     },
     {
       "name": "tiger_road_distance_m.tif",
       "bytes": 10492276,
       "sha256": "e5350423508968fa2d32b0a6ae0d3fb4ae3ea645e3b8736f0c8e7ad9ff2f2988",
       "official_source": "https://www2.census.gov/geo/tiger/TIGER2024/PRISECROADS/",
-      "verified": true
+      "verified": true,
+      "verification_scope": "Historical comparison to a pinned owner-mirror digest, not proof of official origin."
     }
   ],
   "dem10_files": [
@@ -197,5 +217,7 @@
       }
     ]
   },
-  "all_pins_verified": true
+  "all_pins_verified": false,
+  "historical_only": true,
+  "merge_note": "Retains the concurrent main cleanup of obsolete external inventory entries; historical hash labels remain corrected."
 }

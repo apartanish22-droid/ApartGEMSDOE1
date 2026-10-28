@@ -1,9 +1,9 @@
 """Local preflight validation for a GEMS submission GeoTIFF.
 
 Checks grid metadata and the project's conservative all-finite, ``[0,1]``
-export policy. The portal error's cause remains unproven (IR-57-NAN-02); the
-all-finite policy is a local precaution, not a claim about organizer nodata
-handling. A local PASS is not organizer acceptance or a uniqueness clearance.
+export policy. The portal error's cause remains unproven (IR-57-NAN-02); zero
+outside the mirror footprint may not satisfy the organizer's outside-bounds
+null/NaN instruction. A local PASS is not organizer acceptance or uniqueness.
 """
 
 from __future__ import annotations

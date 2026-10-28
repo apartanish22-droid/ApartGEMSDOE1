@@ -52,9 +52,8 @@ For a non-redundant dot (``dT == k``) this reduces to the simple bar
    (dT + 1 - k)``, which is the same inequality multiplied through by ``D`` on
    the wrong side only.  Because ``D`` is of order ``beta*K`` (tens of
    thousands), that form makes the bar smaller by a factor of ``D`` and the
-   greedy allocation never terminates -- it ran to its hard cap and emitted
-   960,000 dots for a HOLDOUT-DTI of 0.0797.  Caught by the DTI-vs-brute-force
-   test suite; see irregularity ``IR-57-BAR-01``.
+   greedy allocation never terminates and can emit an excessive number of dots.
+   Caught by the DTI-vs-brute-force test suite; see irregularity ``IR-57-BAR-01``.
 :func:`gems57.emit.greedy_allocate` uses the **exact** two-sided test above,
 tracking both ``T`` and ``M``.  All of it is verified against
 :func:`dti_bruteforce` by ``tests/test_metric.py``.
@@ -137,7 +136,7 @@ def dti_binary(pred_bool, truth, valid=None, known=None,
     truth = np.asarray(truth, bool)
     valid_ = np.ones(pred_bool.shape, bool) if valid is None else np.asarray(valid, bool)
     known_ = np.zeros(pred_bool.shape, bool) if known is None else np.asarray(known, bool)
-    if pred_bool.shape != truth.shape or pred_bool.shape != valid_.shape:
+    if pred_bool.ndim != 2 or any(a.shape != pred_bool.shape for a in (truth, valid_, known_)):
         raise ValueError("grid shape mismatch")
     active = valid_ & ~known_
     p = pred_bool & active
@@ -190,6 +189,8 @@ def dti_exact(pred, truth, valid=None, known=None,
     truth = np.asarray(truth, bool)
     valid_ = np.ones(pred.shape, bool) if valid is None else np.asarray(valid, bool)
     known_ = np.zeros(pred.shape, bool) if known is None else np.asarray(known, bool)
+    if pred.ndim != 2 or any(a.shape != pred.shape for a in (truth, valid_, known_)):
+        raise ValueError("grid shape mismatch")
     active = valid_ & ~known_
     vals = pred[active]
     if not np.isfinite(vals).all() or (vals < 0).any() or (vals > 1).any():

@@ -10,8 +10,11 @@ import hashlib
 from pathlib import Path
 import numpy as np
 from . import metric
+from .holdout import visible_score_mask
 
-VERSION = 'gems57-pooled-hide-v2'
+# v3 rejects the v2 mask that also removed catalogue pixels hidden by the
+# context buffer. Historical v2 scores cannot be compared to v3 scores.
+VERSION = 'gems57-pooled-hide-v3'
 
 
 def implementation_hashes():
@@ -36,7 +39,7 @@ def evaluate(prediction, fold, valid, block_side=200, *, origin=(0, 0),
         raise ValueError('predictions must be finite in [0,1] before masking')
     valid = np.asarray(valid, bool)
     region = np.asarray(fold['region'], bool)
-    known = np.asarray(fold.get('masked_known', fold['visible']), bool)
+    known = visible_score_mask(fold)
     truth_all = np.asarray(fold['truth'], bool)
     if p.ndim != 2 or any(a.shape != p.shape for a in (valid, region, known, truth_all)):
         raise ValueError('fold/prediction grid shape mismatch')

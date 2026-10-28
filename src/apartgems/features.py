@@ -350,7 +350,8 @@ def _build_sanitized_hydrothermal_fields(shape: tuple[int, int], fp: np.ndarray)
 
 
 def ensure_blind_feature_cache(grid: Grid, force: bool = False) -> dict[str, Path]:
-    """Compute or load all 40 footprint-packed float32 MAW-GSI blind physical features."""
+    """Retired lane: the legacy derived cache is not bound to every source."""
+    raise RuntimeError('H-APART-2 lane stopped; its legacy derived-feature cache requires a source-bound redesign before any future lane can use it')
     FEAT_CACHE_DIR.mkdir(parents=True, exist_ok=True)
     paths = {name: FEAT_CACHE_DIR / f"{name}.fp.f32.npy" for name in E2_HYDRO_STRESS_FEATURES}
     manifest_p = FEAT_CACHE_DIR / "blind_features_manifest.json"

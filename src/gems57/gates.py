@@ -69,7 +69,7 @@ def format_report(path, sample, epsg=32611, cell=100.0, footprint=None):
         finite = np.isfinite(a)
         out.update(nan_pixels=int(np.isnan(a).sum()), infinity_pixels=int(np.isinf(a).sum()), n_nan=int((~finite).sum()))
         if not finite.all():
-            problems.append(f"{out['n_nan']} NaN/infinite pixels: fail our all-finite export policy (public spec permits outside-footprint NaN)")
+            problems.append(f"{out['n_nan']} NaN/infinite pixels: fail our local all-finite policy (public spec requires null/NaN outside bounds; template interpretation is unresolved)")
         if finite.any():
             lo, hi = float(a[finite].min()), float(a[finite].max())
             out.update(min=lo, max=hi, mean=float(a[finite].mean()), n_nonzero=int(((a > 0) & finite).sum()), mass=float(a[finite].sum(dtype=np.float64)))
@@ -112,14 +112,8 @@ def find_priors(roots, exclude=None, *, min_bytes=1000):
                 continue
             if exclude is not None and path.resolve() == Path(exclude).resolve():
                 continue
-            # ... and never a *copy* of the candidate either.  scripts/refresh_feed.py stages every
-            # built raster into docs/downloads/ so the site can serve it, and docs/downloads/ is one
-            # of the roots this function scans; without the basename check the file is compared
-            # against itself and reports "identical-to-a-prior, novel = 0", which is the one verdict
-            # that would stop a legitimate submission.  Caught by scripts/check_site.py on the H55
-            # build, not by reasoning about it.  IR-52-026; regression test in tests/test_gates.py.
-            if exclude is not None and path.name == Path(exclude).name:
-                continue
+            # Exclude only the exact candidate path, never another prior with the
+            # same basename: a renamed/copied submission is still a duplicate.
             if path.stat().st_size < min_bytes:
                 continue
             if path.resolve() not in seen:
@@ -129,8 +123,11 @@ def find_priors(roots, exclude=None, *, min_bytes=1000):
 
 
 def canonical(a):
-    # Normalize only invalid/nodata prior cells, never a valid probability.
-    return np.where(np.isfinite(a) & (a >= 0) & (a <= 1), a, 0).astype('<f4')
+    # Do not turn invalid evidence into zero-valued predictions.
+    a = np.asarray(a)
+    if not np.isfinite(a).all() or (a < 0).any() or (a > 1).any():
+        raise ValueError('invalid prior cannot be silently normalized')
+    return a.astype('<f4')
 
 
 def write_report(path, report):
@@ -168,9 +165,9 @@ def lane_uniqueness_report(candidate, footprint, priors=None, *, sample, phase,
     if np.asarray(candidate).shape != expected[0]:
         raise ValueError('candidate shape differs from reference')
     report = compare_array_to_registry(candidate, registry_index, footprint,
-        expected_grid=expected,
+        expected_grid=expected, phase='surface' if phase == 'surface' else 'final',
         progress=(lambda i, n, row: log(f'{phase} registry gate {i}/{n}')) if log else None)
-    return dict(report, phase=phase, ok=report['unique'], duplicate=report['duplicate_count'] > 0,
+    return dict(report, ok=report['unique'], duplicate=report['duplicate_count'] > 0,
                 policy_exemptions=[], rule='literal finite >0 support at BOTH phases; no alternate policy')
 
 

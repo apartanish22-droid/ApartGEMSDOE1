@@ -3,8 +3,6 @@
   "evidence_class": "HOLDOUT-DTI",
   "evaluator_version": "gems57-pooled-hide-v2",
   "hypothesis_lane": "H-APART-2 (MAW-GSI)",
-  "prior_v1_holdout_best": 0.052325,
-  "fold_honest_gemsdoe32_b2_reference": 0.097441,
   "experiment_budget_used": 3,
   "experiment_budget_cap": 3,
   "primary_draw_seed_2026": {
@@ -124,128 +122,6 @@
       "seed": 520810,
       "confidence": 0.95,
       "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
-    },
-    "detached_gt_800m_blind_dti": {
-      "distance_only_collar2_control": 0.0,
-      "E1_maw_scarp_geophys_blind": 0.072133,
-      "E2_maw_gsi_blind_vent": 0.074031,
-      "E3_maw_gsi_oof_axial_relay": 0.084019
-    },
-    "per_fold_details": {
-      "E1": [
-        {
-          "fold": "NW",
-          "emitted": 9833,
-          "dti": 0.037135991280229694,
-          "tpw": 130.92727253244016,
-          "fpw": 9733.156429940667,
-          "fnw": 1810.0727274675598,
-          "n_truth": 1941
-        },
-        {
-          "fold": "NE",
-          "emitted": 5084,
-          "dti": 0.07475567877983375,
-          "tpw": 218.96839573420408,
-          "fpw": 4930.634407171077,
-          "fnw": 2155.031604265796,
-          "n_truth": 2374
-        },
-        {
-          "fold": "SW",
-          "emitted": 16521,
-          "dti": 0.06360337989017749,
-          "tpw": 404.73015394359294,
-          "fpw": 16239.987341449825,
-          "fnw": 3388.269846056407,
-          "n_truth": 3793
-        },
-        {
-          "fold": "SE",
-          "emitted": 4663,
-          "dti": 0.14383672316830168,
-          "tpw": 513.3110239278756,
-          "fpw": 4322.2206076727725,
-          "fnw": 2738.688976072124,
-          "n_truth": 3252
-        }
-      ],
-      "E2": [
-        {
-          "fold": "NW",
-          "emitted": 9611,
-          "dti": 0.03663843433742487,
-          "tpw": 127.48905232930551,
-          "fpw": 9506.777908969296,
-          "fnw": 1813.5109476706946,
-          "n_truth": 1941
-        },
-        {
-          "fold": "NE",
-          "emitted": 4351,
-          "dti": 0.06869410500068489,
-          "tpw": 191.03330490051889,
-          "fpw": 4217.602682322418,
-          "fnw": 2182.966695099481,
-          "n_truth": 2374
-        },
-        {
-          "fold": "SW",
-          "emitted": 17115,
-          "dti": 0.06429820558984317,
-          "tpw": 416.81468794425626,
-          "fpw": 16823.807415626397,
-          "fnw": 3376.185312055744,
-          "n_truth": 3793
-        },
-        {
-          "fold": "SE",
-          "emitted": 5024,
-          "dti": 0.15575428257613658,
-          "tpw": 566.8038301221528,
-          "fpw": 4620.6454617804575,
-          "fnw": 2685.1961698778473,
-          "n_truth": 3252
-        }
-      ],
-      "E3": [
-        {
-          "fold": "NW",
-          "emitted": 7375,
-          "dti": 0.09620932667520686,
-          "tpw": 293.3824057104616,
-          "fpw": 7189.705161012222,
-          "fnw": 1647.6175942895384,
-          "n_truth": 1941
-        },
-        {
-          "fold": "NE",
-          "emitted": 8733,
-          "dti": 0.11450253540911683,
-          "tpw": 420.72180439483566,
-          "fpw": 8455.00258107834,
-          "fnw": 1953.2781956051645,
-          "n_truth": 2374
-        },
-        {
-          "fold": "SW",
-          "emitted": 13156,
-          "dti": 0.0958290469942015,
-          "tpw": 547.1334300800287,
-          "fpw": 12828.235412747705,
-          "fnw": 3245.8665699199714,
-          "n_truth": 3793
-        },
-        {
-          "fold": "SE",
-          "emitted": 6837,
-          "dti": 0.16687482844132961,
-          "tpw": 671.3929700513588,
-          "fpw": 6437.271008644779,
-          "fnw": 2580.607029948641,
-          "n_truth": 3252
-        }
-      ]
     }
   },
   "secondary_stability_seed_20": {
@@ -359,5 +235,9 @@
       }
     }
   },
-  "selected_winner": "E3"
+  "selected_winner": "E3",
+  "historical_only": true,
+  "promotion_eligible": false,
+  "warning": "v2 scoring masked some non-visible buffer catalogue pixels; v3 changes the scoring domain. Scores were not reproduced in this session and cannot prove a v3 win or leaderboard performance.",
+  "withheld_details_note": "Unpaired detached and per-fold scalar scores were omitted because their 95% CIs were not recorded."
 }
