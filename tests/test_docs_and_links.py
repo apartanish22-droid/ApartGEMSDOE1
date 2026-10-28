@@ -63,4 +63,5 @@ def test_pages_workflow_is_read_only_for_repository_content():
     text = (ROOT/'.github/workflows/pages.yml').read_text()
     assert 'contents: read' in text and 'actions/deploy-pages@' in text
     assert 'cp index.html _site/index.html' in text and 'cp -a docs _site/docs' in text
+    assert 'pull_request:' in text and "github.event_name != 'pull_request'" in text
     assert 'git push' not in text and 'workflow_dispatch' in text and 'schedule:' in text

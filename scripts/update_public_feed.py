@@ -80,7 +80,14 @@ def parse_public_leaderboard(html: str) -> float:
                 raise ValueError("rank-one score is ambiguous")
             found.extend(values)
     if len(found) != 1:
-        raise ValueError("no unique rank-one Tversky score in a labeled leaderboard table")
+        # Header-only diagnostics are safe to show in CI annotations and help
+        # detect upstream markup changes without publishing participant data.
+        details = []
+        for table in parser.tables[:4]:
+            header = " ".join(table[0]).casefold() if table else ""
+            first_data_rank = table[1][0] if len(table) > 1 and table[1] else "<none>"
+            details.append(f"rows={len(table)},rank_header={'rank' in header},tversky_header={'tversky' in header},first_rank={first_data_rank[:20]}")
+        raise ValueError(f"no unique rank-one Tversky score in a labeled leaderboard table; tables={len(parser.tables)}, diagnostics={details}")
     return found[0]
 
 
