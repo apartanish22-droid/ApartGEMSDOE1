@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> int:
+    raise RuntimeError("Historical page generator disabled: its promotion and score claims are not safe. See README.md.")
     rc = json.loads((ROOT / "evidence/run_card.json").read_text())
     fa = json.loads((ROOT / "evidence/focus_sites_forensic_audit.json").read_text())
     exp = json.loads((ROOT / "evidence/experiments_holdout.json").read_text())
