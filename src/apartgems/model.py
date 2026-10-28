@@ -527,6 +527,7 @@ def build_final_live_submission_arrays(
     feature_paths: dict[str, Path],
     crest_map: np.ndarray,
     target_dots: int = 38_500,
+    before_placement=None,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Generate full-footprint continuous probability surface + final all-finite [0, 1] GeoTIFF array.
 
@@ -563,6 +564,9 @@ def build_final_live_submission_arrays(
         # Scale calibrated live rate (~42,000 hidden test fault pixels across 5.11M off-catalogue cells)
         surface = np.zeros(grid.shape, dtype=np.float32)
         surface.ravel()[flat_idx] = np.clip(p_meta_ens * 1.45, 0.0, 0.98)
+        if before_placement is None:
+            raise ValueError("pre-placement uniqueness gate is required")
+        before_placement(surface, fp)
         emitted_mask = allocate_udth_dots(
             surface,
             crest_map,
@@ -577,6 +581,9 @@ def build_final_live_submission_arrays(
     else:
         surface = np.clip(p_blind_ens * 0.35, 0.0, 0.98).astype(np.float32)
         surface[~allowed_live] = 0.0
+        if before_placement is None:
+            raise ValueError("pre-placement uniqueness gate is required")
+        before_placement(surface, fp)
         emitted_mask = allocate_udth_dots(
             surface,
             crest_map,

@@ -51,3 +51,38 @@ New lane tested end-to-end (`scripts/run_concordance_hybrid.py`, `evidence/run_c
 | Controls (static): GEMSDOE32 B2 / historical UDTH raster | 0.0042 / 0.0012 | — | controls |
 
 **Irregularities flagged:** (1) concordance ranking mechanically duplicates the proven lineage (89%) — concordance with B2 cannot pass the ≤70% cap at 38.5k budget; lane closed. (2) The historical raster's 0.0523 headline is an *out-of-fold* HOLDOUT-DTI; static scoring of the shipped raster on the same evaluator is 0.0012 — not interchangeable, and no live-score projection or "beats 0.2778" claim is supported. Consistent with the STOP banner above: **no file is cleared for submission this session**; promotion remains a separate selector step. Next ranked untried hypotheses: N1 3D Euler deconvolution contacts (GeoDAWN, sciencebase.gov/catalog/item/61955dcad34eb622f6908d6c), N2 Lahontan bench subtraction (USGS 3DEP + MF-2323), N3 InSAR/geodetic strain localisation, N4 relocated microseismicity lineation (USGS earthquake catalogue).
+
+## Further provisional hypothesis slate (2026-10-28)
+
+These ideas are not assigned to a lane, have no estimated leaderboard scores,
+and have not been checked for novelty across all other repositories. All depend
+on confirming the semantics and provenance of the mirrored features. The order
+is a qualitative usefulness/cost judgment, not a measured DTI improvement.
+
+1. **Cross-scale gravity–magnetic edge offset consistency** (medium cost):
+   compare alignment and spatial displacement of horizontal-gradient ridges.
+   A buried basement break could lack a mapped scarp; lithologic contacts and
+   survey artifacts are mimics. Unlike UDTH's assumed dip backprojection, test
+   agreement of the two fields' offsets first.
+2. **K/Th change across gravity edges** (medium cost): test signed radiometric
+   contrast across gravity-gradient ridges, not only pointwise K/Th enrichment.
+   Sedimentary contacts and surface lithology can mimic alteration, and layer
+   availability and radiometric provenance remain unverified.
+3. **Multi-scale cross-slope profile persistence** (medium cost): look for
+   paired topographic asymmetry across scales, rather than only UDTH's local
+   drainage-orthogonal scarp tensor. Lake shorelines and fan channels are
+   mimics; cached DEM channel definitions must first be confirmed.
+4. **Conductivity contrast across gravity contacts** (medium/high cost): test
+   cross-edge rather than pointwise conductivity. Clay and saline groundwater
+   can mimic a fault, and conductivity resolution and missing-data behavior
+   require verification first.
+
+This review restored the previous public GitHub-mirrored feature stack in an
+ignored temporary cache and rechecked the existing raster against a separate
+commit-pinned GEMSDOE24 lattice witness. The cache is not part of the saved
+repository; several derived layers have no independently pinned source hash,
+and a mirror hash cannot establish official provenance. Its separate
+[recheck](evidence/recheck_20261028.json) and [negative run card](evidence/run_card_20261028.json)
+complement, not replace, the concurrent H-APART-2 negative result above. The
+prompt's promised lane-defining method paragraph was not identifiable in this
+review, so no new lane experiment was attempted here.
