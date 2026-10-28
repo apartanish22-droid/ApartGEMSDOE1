@@ -1,73 +1,78 @@
 {
-  "protocol": "GEMS Parallel-Run Protocol v1",
-  "branch": "arena/eceaf9f6-apartgemsdoe1",
-  "generated_utc": "2026-10-28T08:54:38.693782+00:00",
-  "hypothesis": "H-APART-5 (PLKC-DualOOF-CELF): Pluvial-Shoreline-Deconfounded 1m/10m Scarp + Fluvial Chi/Ksn Knickzone + 60-deg Updip Gravity/Magnetic & Hydrothermal Conduit Dual-Regime Nested-OOF + Zero-SGMC Concealed Piedmont Specialist + CELF Noisy-OR d>=2.8 Allocation",
-  "mechanism": "Combines preserved-NaN 1m LiDAR scarps (74.2% interior coverage) with quantile-calibrated 10m 3DEP slope/curvature, across-fault fluvial chi/ksn knickzones, 60-deg updip-migrated gravity/RTP-magnetic contacts, GeoDAWN K/Th & U/Th alteration, GDR #1391 thermal springs/2m-probes/sinter/vents, Stage-2 8-azimuth directional line-integrals, a dedicated zero-SGMC basin-cover specialist head (b15_depth_base >= 180 m), and fold-visible tip/relay continuation across two 45-deg-offset 4-sector 100%-OOF partitions, emitted via CELF max-heap submodular allocation at min_sep_px=2.8 (>200 m catalogue collar).",
-  "named_non_fault_mimic_process": "Pleistocene Lake Lahontan (1,330 m) and Lake Bonneville/Provo (1,463 m / 1,558 m) wave-cut paleoshoreline benches, radial alluvial-fan incised washes, US Census TIGER highway/rail embankments, GeoDAWN aeromagnetic/radiometric flight-block stitching seams, and circular volcanic/erosional knobs (suppressed via orthometric pluvial-bench x zero-basement-gradient deconfounder, drainage-orthogonal alignment, TIGER road distance, acquisition_block_id seam weighting, and Stage-2 1.5 km directional anisotropy).",
+  "protocol": "GEMS Parallel-Run Protocol v2",
+  "branch": "arena/23b55aaa-apartgemsdoe1",
+  "generated_utc": "2026-10-28T09:10:21.515350+00:00",
+  "hypothesis": "H-APART-2 (MAW-GSI): Multi-Azimuth Strike-Worm, Antislope Piedmont Dipole & Faulds-Hinz Geothermal Structural-Intersection Submodular Synthesis (100% Zero-SGMC)",
+  "mechanism": "Distributed Quaternary slip in NW Great Basin piedmonts, relay ramps, horse-tail splays, and conjugate Walker-Lane/Basin-and-Range cross-fault intersections produces sub-meter antislope/piedmont scarps and oxidized/demagnetized hydrothermal conduits missing from existing_faults.tif while hosting >93% of blind geothermal vents (Faulds & Hinz, 2015). Coupling 8-azimuth 1.1-1.5 km flank-subtracted strike worms, orthogonal 2nd-azimuth intersection index I_vent = sqrt(W_(1)*W_perp), relief-normalized 1m LiDAR + 10m 3DEP scarp dipoles, Gallardo-Meju cross-gradient alignment, shallow TMI_up150-RTP demagnetization + sanitized GDR #1391 thermal/2m-probe/sinter fields, Stage-2 OOF axial worms, and collar-tempered (clip(d_vis, 8, 45)) tip/relay transfer with exact 300 m Minoux CELF submodular coverage recovers hidden fault traces and vent conduits within the 300 m DTI kernel.",
+  "named_non_fault_mimic_process": "Incised dendritic alluvial-fan washes (suppressed via cross_max denominator & 1.1 km flank-subtracted worm coherence), rugged mountain-interior cliffs (suppressed via relief normalization), circular Cenozoic volcanic plugs/calderas (suppressed via Gallardo-Meju curl |grad(g)xgrad(m)|), and Interstate/railroad embankment berms (suppressed via US Census TIGER/Line 2024 road-proximity indicator).",
   "holdout_dti": {
     "label": "HOLDOUT-DTI",
     "evaluator_version": "gems57-pooled-hide-v2",
-    "split": "gems57-pooled-hide-v2 (seed=2026, buffer_px=3, 20 km spatial block bootstrap)",
+    "split": "gems57-pooled-hide-v2 (seed=2026, buffer_px=3, 20 km block bootstrap)",
     "withheld_positive_pixels": 11360,
-    "dti": 0.079473,
+    "dti": 0.117438,
     "ci95": [
-      0.059426,
-      0.10265
+      0.099365,
+      0.136129
     ],
-    "session_1_archived_holdout_dti": 0.052328,
-    "detached_gt_800m_blind_dti": 0.07056,
-    "seed_20_stability_dti": 0.090829,
+    "prior_v1_holdout_dti": 0.052325,
+    "fold_honest_gemsdoe32_b2_holdout_dti": 0.097441,
+    "detached_gt_800m_blind_dti": 0.084019,
+    "seed_20_stability_dti": 0.124957,
     "experiments_progression": {
-      "E1_plkc_dual_regime_blind": 0.068729,
-      "E2_plkc_hydro_stage2_vessel": 0.072549,
-      "E3_plkc_dualoof_celf_full": 0.079473
+      "E1_maw_scarp_geophys_blind": 0.077376,
+      "E2_maw_gsi_blind_vent": 0.079485,
+      "E3_maw_gsi_oof_axial_relay": 0.117438
     }
   },
-  "concealed_piedmont_holdout_dti": {
-    "label": "HOLDOUT-DTI",
-    "evaluator_version": "sgmc-piedmont-basin-v1",
-    "note": "Strictly read-only diagnostic on concealed USGS SGMC piedmont/basin faults (>250m from catalogue, depth_to_base >= 250m); zero SGMC used in features or training.",
-    "withheld_positive_pixels": 10579,
-    "dti": 0.109439,
-    "ci95": [
-      0.090838,
-      0.128807
-    ],
-    "vs_session_1_00525": 0.021384,
-    "vs_gemsdoe70_p8_02478": 0.085443,
-    "vs_gemsdoe32_b2_02778": 0.095385
-  },
   "leakage_canary": {
-    "features_tested": 47,
-    "max_symmetric_auc": 0.76655,
+    "features_tested": 45,
+    "max_symmetric_auc": 0.776456,
     "cap": 0.9,
     "all_passed": true
   },
   "registry_uniqueness": {
-    "repositories_checked": 53,
-    "unique_rasters_checked": 950,
-    "competing_sparse_detectors_checked": 881,
-    "pre_placement_surface_max_abs_spearman": 0.54916,
-    "pre_placement_nearest_peer": "GEMSDOE82::surface_h82.tif",
-    "post_placement_final_max_abs_spearman": 0.08181,
-    "post_placement_max_3px_overlap_all_950": 0.62644,
-    "post_placement_max_3px_overlap_vs_competing": 0.62644,
-    "post_placement_max_3px_symmetric_f1_all_950": 0.49029,
-    "vs_gemsdoe32_02778_3px_overlap": 0.43169,
-    "vs_session_1_50e7b334_3px_overlap": 0.10806,
-    "vs_gemsdoe70_02478_3px_overlap": 0.3495,
-    "nearest_3px_overlap_peer": "GEMSDOE91::gems91-spac-e3-20261024T183000Z-a2740c89-zeros.tif",
+    "repositories_checked": 50,
+    "unique_rasters_checked": 806,
+    "competing_sparse_detectors_checked": 660,
+    "blanket_or_flood_surfaces_disclosed": 146,
+    "pre_placement_surface_max_abs_spearman": 0.691092,
+    "post_placement_final_max_abs_spearman": 0.092522,
+    "post_placement_max_3px_overlap_vs_competing": 0.642641,
+    "closest_competing_detector": {
+      "repo": "GEMSDOE10",
+      "file": "docs/downloads/gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif",
+      "positive_pixels": 69281,
+      "overlap_3px_fraction": 0.642641,
+      "spearman_rho": 0.022218
+    },
+    "vs_gemsdoe32_02778_3px_overlap": 0.467095,
+    "vs_gemsdoe32_02778_spearman": 0.036929,
     "spearman_cap": 0.9,
     "overlap_3px_cap": 0.7,
     "passed": true
   },
-  "raster_sha256": "9a2d5d67f65979d2054f8babd8dea3c5f516dc871ab01e3434adc74ea1838d73",
-  "decoded_footprint_sha256": "4499e12f937d632f1d97de90bab80d8a297c8a159ecb8f1f583bb1627a4d0111",
+  "spatial_anatomy_and_external_audit": {
+    "emitted_dots": 37654,
+    "dots_le_200m_collar": 0,
+    "dots_200m_to_600m_fraction": 0.278669,
+    "dots_600m_to_1500m_fraction": 0.363759,
+    "dots_gt_1500m_farfield_fraction": 0.357572,
+    "median_dot_slope_deg": 7.903,
+    "depth_gt_20m_basin_piedmont_fraction": 0.963385,
+    "external_sgmc_posthoc_audit": {
+      "metric": "C_pied_FAR_gt1km (auxiliary post-hoc geologic audit ONLY; zero SGMC in model)",
+      "sgmc_far_piedmont_pixels": 15112,
+      "dti": 0.047397,
+      "tpw": 933.44
+    }
+  },
+  "raster_sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
+  "decoded_footprint_sha256": "87f83db9e3127aeb240d35bfbeddb5f15c638b7d1ce4d3ebd0505678ccbccfae",
   "validator_output": {
-    "file": "docs/downloads/apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif",
-    "zip_file": "docs/downloads/apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.zip",
-    "bytes": 137227,
+    "file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+    "zip_file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.zip",
+    "bytes": 145748,
     "crs": "EPSG:32611",
     "shape": [
       3730,
@@ -90,14 +95,11 @@
     "emitted_positive_pixels": 37654,
     "on_catalogue_positive_pixels": 0,
     "within_200m_collar_pixels": 0,
-    "farfield_gt_1500m_pixels": 15546,
-    "farfield_gt_1500m_fraction": 0.412865,
-    "min_nearest_neighbor_px": 2.8284,
-    "frac_ge3_neighbors_in_3px": 0.012774,
+    "farfield_gt_1500m_pixels": 13464,
     "all_checks_passed": true
   },
-  "submission_name": "apartgems1-plkc-dualoof-e3-4499e12f",
-  "submission_note": "H-APART-5 PLKC-DualOOF (E3): Dual-OOF 1m/10m chi+updip+GDR1391+piedmont; CELF d>=2.8, [0,1] zeros (37654 px).",
-  "submission_note_chars": 109,
+  "submission_name": "apartgems1-maw-gsi-e3-20261028-87f83db9",
+  "submission_note": "H-APART-2 MAW-GSI (E3): 8-az strike worms + I_vent intersection + demag/GDR1391 + CELF300m; [0,1] zeros (37654 px).",
+  "submission_note_chars": 115,
   "verdict": "promote"
 }

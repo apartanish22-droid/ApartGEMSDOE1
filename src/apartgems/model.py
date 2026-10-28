@@ -1,509 +1,594 @@
-"""H-APART-5 (PLKC-DualOOF-CELF): Zero-SGMC Multi-Physics Fault & Conduit Detector.
-
-Implements the pre-registered 3-experiment ladder on ``gems57-pooled-hide-v2``:
-  * ``E1``: 38-channel Dual-Regime (``M_Full`` with 4 preserved-NaN 1m LiDAR channels +
-    quantile-calibrated ``M_Sub`` on 34 100%-footprint 10m 3DEP / fluvial chi-ksn /
-    high-pass 19-band geophysics / GeoDAWN / pluvial-bench & road mimic channels) +
-    CELF submodular allocation (``min_sep_px=2.8``).
-  * ``E2``: Adds +6 hydrothermal conduit, GeoDAWN K/Th & U/Th alteration, magnetite-destruction
-    & MT clay-cap channels (44 total) + nested-OOF Stage-2 directional 8-azimuth line-integral,
-    anisotropy, and 800 m halo-prominence HGB + CELF (``min_sep_px=2.8``).
-  * ``E3``: Combines ``E2`` Quaternary scarp/conduit Stage-2 surface with a dedicated zero-SGMC
-    Concealed Piedmont/Basin Specialist Head (``M_Piedmont``, trained strictly on ``existing_faults``
-    segments traversing sedimentary cover ``b15_depth_base >= 180 m``) + strictly fold-visible
-    tip/stepover continuation (``VTRB``) + CELF (``min_sep_px=2.8``).
-
-Live submission synthesis uses Dual-Partition Stitched 100%-OOF Cross-Fitting
-(``4-Quadrant`` + ``45-deg Rotated 4-Sector`` partitions, >= 1.2 km boundary erosion),
-guaranteeing 0.0% in-sample HGB memorization at every pixel in the Great Basin.
-"""
+"""Leakage Canary + Nested LOQO Experiments (E1, E2, E3) + Exact 300 m Minoux CELF Allocation for H-APART-2 (MAW-GSI)."""
 from __future__ import annotations
 
 from dataclasses import dataclass
 import gc
+import hashlib
+import heapq
 from pathlib import Path
-from typing import Any
+import pickle
 
 import numpy as np
 from scipy import ndimage as ndi
+from scipy.stats import rankdata
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
+from sklearn.preprocessing import StandardScaler
 
-from apartgems.features import (
-    ALL_BLIND_FEATURES,
-    E1_FULL_FEATURES,
-    E1_SUB_FEATURES,
-    E2_FULL_FEATURES,
-    E2_SUB_FEATURES,
+from gems57 import evaluate_holdout as EH
+from gems57.grid import Grid
+from gems57.holdout import FOLD_NAMES, quadrant_ids
+from gems57.metric import OFF_DX, OFF_DY, OFF_K
+
+from .features import (
+    E1_BLIND_FEATURES,
+    E2_HYDRO_STRESS_FEATURES,
     VTRB_VISIBLE_FEATURES,
     compute_visible_relay_features,
-    load_fp_feature_matrix,
-    open_fp_feature_mmaps,
-)
-from gems57 import evaluate_holdout as EH
-from gems57.emit import expected_credit, greedy_allocate
-from gems57.grid import Grid
-
-PIEDMONT_SPECIALIST_FEATURES: tuple[str, ...] = (
-    "b02_rtp_hp8",
-    "b03_tmi_hg_hp10",
-    "b05_grav_slope_hp10",
-    "b06_mag_tc",
-    "b09_tmi_vg",
-    "b11_grav_vg",
-    "b12_piedmont_pos",
-    "b13_iso_grav_hp12",
-    "b15_depth_base",
-    "b15_base_grad",
-    "b18_grav_hg",
-    "kin_strain_seis",
-    "udpc_grav_tilt_zero",
-    "udpc_grav_updip_60deg",
-    "udpc_mag_updip_60deg",
-    "geodawn_tmi_up150_hp6",
-    "geodawn_tmi_hgm",
-    "t10_onesided3",
-    "t10_slope_hp8",
-    "t10_curv_prof",
-    "t10_aspect_coh",
-    "t10_drainage_orth",
-    "chi_step_max",
-    "chi_ksn_hp8",
-    "mimic_pluvial_bench",
-    "mimic_tiger_road_dist",
-    "hyd_gdr_spring_geotherm",
-    "hyd_f2mdab_sinter_vent",
-    "hyd_geodawn_k_th_adularia",
-    "hyd_geodawn_u_th_redox",
-    "hyd_mag_destruction",
-    "hyd_mt_claycap_edge",
-)
-
-STAGE2_CONTEXT_NAMES: tuple[str, ...] = (
-    "aniso7",
-    "aniso15",
+    multi_azimuth_worm_and_vent,
 )
 
 
-def _grid_to_fp_index_map(fp: np.ndarray) -> np.ndarray:
-    idx_map = np.full(fp.shape, -1, dtype=np.int32)
-    idx_map[fp] = np.arange(int(fp.sum()), dtype=np.int32)
-    return idx_map
+def submodular_celf_allocate_300m(
+    score_surface: np.ndarray,
+    visible_catalogue: np.ndarray,
+    allowed_domain: np.ndarray,
+    target_dots: int,
+    collar_px: float = 2.05,
+    tail_quantile: float = 0.942,
+    convex_gamma: float = 2.4,
+) -> np.ndarray:
+    """Exact 300 m triangular-kernel Minoux (1978) lazy-greedy submodular coverage (CELF).
+
+    Why convex top-decile thresholding + Minoux priority queue beats greedy_allocate:
+      1. Zeroing bottom `tail_quantile` (91%) prevents 29-pixel 300 m disks from summing diffuse
+         low-probability background noise over genuine 100 m fault/vent crests.
+      2. Exact Minoux priority queue (`heapq`) always pops the global maximum marginal gain
+         `dT(p | S) = sum_{d<=3} w(p+d) * max(0, K(d) - cover(p+d))` across the entire map,
+         naturally spacing dots at ~280-300 m along crests instead of clumping adjacent 100 m cells.
+    """
+    H, W = score_surface.shape
+    d_vis = ndi.distance_transform_edt(~visible_catalogue).astype(np.float32)
+    elig = allowed_domain & (d_vis > collar_px) & np.isfinite(score_surface)
+    vals = score_surface[elig]
+    if vals.size == 0 or target_dots <= 0:
+        return np.zeros((H, W), dtype=bool)
+
+    ranks = rankdata(vals, method="average").astype(np.float64) / float(vals.size)
+    excess = np.clip((ranks - tail_quantile) / max(1.0 - tail_quantile, 1e-6), 0.0, 1.0)
+    w_elig = (excess ** convex_gamma).astype(np.float32)
+
+    # Pad arrays by 3 px so inner CELF loop requires zero boundary checks
+    pad = 3
+    w_pad = np.zeros((H + 2 * pad, W + 2 * pad), dtype=np.float32)
+    ey, ex = np.nonzero(elig)
+    pos_mask = w_elig > 0.0
+    cy = ey[pos_mask] + pad
+    cx = ex[pos_mask] + pad
+    w_pos = w_elig[pos_mask]
+    if cy.size == 0:
+        return np.zeros((H, W), dtype=bool)
+    w_pad[cy, cx] = w_pos
+
+    # Candidate centers: any eligible off-collar pixel whose 300 m disk has positive ridge weight
+    # Restrict to top 320,000 initial-gain candidates for fast exact lazy greedy
+    init_gain = np.zeros((H + 2 * pad, W + 2 * pad), dtype=np.float32)
+    for dy, dx, kw in zip(OFF_DY, OFF_DX, OFF_K):
+        oy, ox = int(dy), int(dx)
+        init_gain[pad : pad + H, pad : pad + W] += (
+            w_pad[pad + oy : pad + H + oy, pad + ox : pad + W + ox] * np.float32(kw)
+        )
+
+    cand_y, cand_x = ey + pad, ex + pad
+    g0 = init_gain[cand_y, cand_x]
+    keep = g0 > 1e-7
+    cand_y, cand_x, g0 = cand_y[keep], cand_x[keep], g0[keep]
+    if cand_y.size == 0:
+        return np.zeros((H, W), dtype=bool)
+    if cand_y.size > 320_000:
+        top_k = np.argpartition(g0, -320_000)[-320_000:]
+        cand_y, cand_x, g0 = cand_y[top_k], cand_x[top_k], g0[top_k]
+
+    # Build Minoux max-heap (negated gains for Python min-heap; tie-break by candidate index)
+    heap: list[tuple[float, int]] = [(-float(g0[i]), int(i)) for i in range(cand_y.size)]
+    heapq.heapify(heap)
+
+    cov_pad = np.zeros((H + 2 * pad, W + 2 * pad), dtype=np.float32)
+    emitted = np.zeros((H, W), dtype=bool)
+    off_dy_list = [int(v) for v in OFF_DY]
+    off_dx_list = [int(v) for v in OFF_DX]
+    off_k_arr = OFF_K.astype(np.float32)
+    off_dy_arr = OFF_DY.astype(np.int32)
+    off_dx_arr = OFF_DX.astype(np.int32)
+
+    n_sel = 0
+    while n_sel < target_dots and heap:
+        neg_g, idx = heapq.heappop(heap)
+        py = int(cand_y[idx])
+        px = int(cand_x[idx])
+        if emitted[py - pad, px - pad]:
+            continue
+        ny = py + off_dy_arr
+        nx = px + off_dx_arr
+        wv = w_pad[ny, nx]
+        cv = cov_pad[ny, nx]
+        diff = off_k_arr - cv
+        # Exact submodular marginal gain
+        cur_g = float(np.dot(wv, np.where(diff > 0.0, diff, 0.0)))
+        if cur_g <= 1e-9:
+            continue
+        next_upper = -heap[0][0] if heap else -1.0
+        if cur_g >= next_upper - 1e-9:
+            emitted[py - pad, px - pad] = True
+            cov_pad[ny, nx] = np.maximum(cv, off_k_arr)
+            n_sel += 1
+        else:
+            heapq.heappush(heap, (-cur_g, idx))
+
+    del w_pad, cov_pad, init_gain, off_dy_list, off_dx_list
+    return emitted
 
 
 def run_leakage_canaries(
     grid: Grid,
-    folds: list[dict[str, Any]],
+    folds: list[dict],
     feature_paths: dict[str, Path],
     canary_cap: float = 0.90,
-) -> dict[str, Any]:
-    """Protocol Rule 4: Test every single feature alone on holdout BEFORE fitting any model."""
+) -> dict:
+    """Test every single feature alone on holdout BEFORE fitting any model (Protocol Rule 4).
+
+    Evaluates all 40 static blind MAW-GSI features + all 5 fold-visible VTRB features across
+    the 11,360 withheld positive pixels and 250,000 negative pixels. Fails closed if max(AUC, 1-AUC) > 0.90.
+    """
     fp = grid.footprint
-    fp_idx_map = _grid_to_fp_index_map(fp)
-    mmaps = open_fp_feature_mmaps(feature_paths)
-
-    eval_mask = np.zeros(grid.shape, dtype=bool)
-    y_true_2d = np.zeros(grid.shape, dtype=np.uint8)
+    eval_2d = np.zeros(grid.shape, dtype=bool)
+    truth_2d = np.zeros(grid.shape, dtype=bool)
     for f in folds:
-        active = f["region"] & fp & (~f["masked_known"])
-        eval_mask |= active
-        y_true_2d[f["truth"] & active] = 1
+        active = f["region"] & fp & ~f["masked_known"]
+        eval_2d |= active
+        truth_2d |= f["truth"] & active
 
-    pos_fp = fp_idx_map[eval_mask & (y_true_2d == 1)]
-    neg_pool_fp = fp_idx_map[eval_mask & (y_true_2d == 0)]
+    eval_fp = eval_2d[fp]
+    truth_fp = truth_2d[fp]
+    pos_idx = np.flatnonzero(eval_fp & truth_fp)
+    neg_pool = np.flatnonzero(eval_fp & ~truth_fp)
     rng = np.random.default_rng(20261028)
-    neg_fp = np.sort(rng.choice(neg_pool_fp, size=min(250_000, neg_pool_fp.size), replace=False))
-    sample_fp = np.concatenate([pos_fp, neg_fp])
-    y_bin = np.concatenate([np.ones(pos_fp.size, dtype=np.int8), np.zeros(neg_fp.size, dtype=np.int8)])
+    neg_idx = np.sort(rng.choice(neg_pool, size=min(250_000, len(neg_pool)), replace=False))
+    sample_fp_idx = np.concatenate([pos_idx, neg_idx])
+    y_sub = np.concatenate([np.ones(len(pos_idx), dtype=np.int8), np.zeros(len(neg_idx), dtype=np.int8)])
+
+    rows = []
+    for name in E2_HYDRO_STRESS_FEATURES:
+        vec = np.load(feature_paths[name], mmap_mode="r")
+        vals = vec[sample_fp_idx].astype(np.float64)
+        fin = np.isfinite(vals)
+        med = float(np.median(vals[fin])) if fin.any() else 0.0
+        vals_imp = np.where(fin, vals, med)
+        auc = float(roc_auc_score(y_sub, vals_imp))
+        sym_auc = max(auc, 1.0 - auc)
+        rows.append({
+            "feature": name,
+            "group": "blind_maw_gsi",
+            "finite_fraction": round(float(fin.mean()), 6),
+            "roc_auc": round(auc, 6),
+            "symmetric_auc": round(sym_auc, 6),
+            "canary_cap": canary_cap,
+            "passed": bool(sym_auc <= canary_cap),
+        })
 
     vtrb_fp = compute_visible_relay_features(folds[0]["visible"], fp)
+    for name in VTRB_VISIBLE_FEATURES:
+        vals = vtrb_fp[name][sample_fp_idx].astype(np.float64)
+        auc = float(roc_auc_score(y_sub, vals))
+        sym_auc = max(auc, 1.0 - auc)
+        rows.append({
+            "feature": name,
+            "group": "fold_visible_vtrb",
+            "finite_fraction": 1.0,
+            "roc_auc": round(auc, 6),
+            "symmetric_auc": round(sym_auc, 6),
+            "canary_cap": canary_cap,
+            "passed": bool(sym_auc <= canary_cap),
+        })
 
-    rows: list[dict[str, Any]] = []
-    max_sym = 0.0
-    for name in ALL_BLIND_FEATURES + VTRB_VISIBLE_FEATURES:
-        if name in vtrb_fp:
-            vals = vtrb_fp[name][sample_fp]
-        else:
-            vals = np.asarray(mmaps[name][sample_fp], dtype=np.float32)
-
-        fin = np.isfinite(vals)
-        if fin.sum() < 100 or len(np.unique(y_bin[fin])) < 2:
-            auc = 0.5
-        else:
-            auc = float(roc_auc_score(y_bin[fin], vals[fin]))
-        sym = float(max(auc, 1.0 - auc))
-        max_sym = max(max_sym, sym)
-        rows.append(
-            {
-                "feature": name,
-                "group": "fold_visible_vtrb" if name in vtrb_fp else "blind_physical",
-                "finite_eval_fraction": round(float(fin.mean()), 5),
-                "roc_auc": round(auc, 5),
-                "symmetric_auc": round(sym, 5),
-                "passed": bool(sym <= canary_cap),
-            }
-        )
-
-    rows_sorted = sorted(rows, key=lambda d: d["symmetric_auc"], reverse=True)
+    max_sym = max(r["symmetric_auc"] for r in rows)
+    passed_all = all(r["passed"] for r in rows)
     return {
-        "evidence_class": "HOLDOUT-LEAKAGE-CANARY",
+        "evidence_class": "LEAKAGE-CANARY-HOLDOUT",
         "evaluator_version": EH.VERSION,
-        "withheld_positive_pixels": int(pos_fp.size),
-        "negative_subsample_pixels": int(neg_fp.size),
-        "canary_auc_cap": canary_cap,
-        "max_symmetric_auc": round(max_sym, 5),
-        "all_passed": bool(max_sym <= canary_cap),
-        "features": rows_sorted,
+        "withheld_positive_pixels": int(len(pos_idx)),
+        "negative_sample_pixels": int(len(neg_idx)),
+        "canary_cap": canary_cap,
+        "max_symmetric_auc": round(max_sym, 6),
+        "all_passed": passed_all,
+        "features": rows,
     }
 
 
-def compute_directional_anisotropy_gate(p1_2d: np.ndarray, fp: np.ndarray) -> tuple[np.ndarray, dict[str, np.ndarray]]:
-    """Compute across-strike-preserving 8-azimuth directional anisotropy & Stage-2 context.
-
-    Repairs ``IR-STAGE2-SMOOTH-DOMINANCE``: feeding smoothed ``s2_ek300`` / ``s2_line_max_15px``
-    directly into Stage-2 HGB caused trees to split on 1.5 km blurred envelopes instead of 100 m
-    scarp crests. Computing normalized 700 m & 1.5 km directional anisotropy sharpens continuous
-    linear fault traces while preserving exact 100 m across-strike crest localization.
-    """
-    p = np.where(fp & np.isfinite(p1_2d), p1_2d, 0.0).astype(np.float32)
-    H, W = p.shape
-
-    def _line_minmax(length: int) -> tuple[np.ndarray, np.ndarray]:
-        half = length // 2
-        lmax = np.zeros((H, W), dtype=np.float32)
-        lmin = np.full((H, W), 1e9, dtype=np.float32)
-        acc = np.empty((H, W), dtype=np.float32)
-        for m in range(8):
-            theta = m * (np.pi / 8.0)
-            st, ct = float(np.sin(theta)), float(np.cos(theta))
-            acc.fill(0.0)
-            for s in range(-half, half + 1):
-                dy = int(round(s * st))
-                dx = int(round(s * ct))
-                ys0, ys1 = max(0, dy), min(H, H + dy)
-                xs0, xs1 = max(0, dx), min(W, W + dx)
-                acc[ys0:ys1, xs0:xs1] += p[max(0, -dy) : min(H, H - dy), max(0, -dx) : min(W, W - dx)]
-            acc *= np.float32(1.0 / length)
-            np.maximum(lmax, acc, out=lmax)
-            np.minimum(lmin, acc, out=lmin)
-        return lmax, lmin
-
-    lmax7, lmin7 = _line_minmax(7)
-    lmax15, lmin15 = _line_minmax(15)
-    # Relative linear anisotropy in [0, 1]: high along linear scarps/conduits, ~0 on circular knobs
-    rel_aniso7 = (lmax7 - lmin7) / (lmax7 + 1e-5)
-    rel_aniso15 = (lmax15 - lmin15) / (lmax15 + 1e-5)
-    halo8 = ndi.gaussian_filter(p, sigma=8.0).astype(np.float32)
-    crest_ratio = np.clip(p / (halo8 + 1e-4), 0.25, 3.0)
-
-    # Across-strike-preserving directional gate: multiplies sharp pixel p(x) without lateral blur
-    gate_mult = (
-        (0.76 + 0.24 * rel_aniso7)
-        * (0.82 + 0.18 * rel_aniso15)
-        * (0.85 + 0.15 * np.tanh(crest_ratio - 1.0))
-    ).astype(np.float32)
-    p_sharpened = np.where(fp, p * gate_mult, 0.0).astype(np.float32)
-
-    ctx = {
-        "aniso7": rel_aniso7[fp].astype(np.float32),
-        "aniso15": rel_aniso15[fp].astype(np.float32),
-    }
-    del lmax7, lmin7, lmax15, lmin15, rel_aniso7, rel_aniso15, halo8, crest_ratio, gate_mult
-    return p_sharpened, ctx
+def _load_fp_matrix(feature_names: tuple[str, ...], feature_paths: dict[str, Path]) -> np.memmap:
+    """Open or build a zero-RAM disk-backed (N_fp, D) float32 memmap (~827 MB on disk, ~0 MB RSS)."""
+    cache_dir = next(iter(feature_paths.values())).parent
+    mm_path = cache_dir / f"X_matrix_{len(feature_names)}.fp.f32.mmap"
+    first = np.load(feature_paths[feature_names[0]], mmap_mode="r")
+    n_fp = int(first.shape[0])
+    shape = (n_fp, len(feature_names))
+    if not mm_path.exists() or mm_path.stat().st_size != n_fp * len(feature_names) * 4:
+        mm_w = np.memmap(mm_path, dtype=np.float32, mode="w+", shape=shape)
+        for j, name in enumerate(feature_names):
+            mm_w[:, j] = np.load(feature_paths[name], mmap_mode="r")
+        mm_w.flush()
+        del mm_w
+    return np.memmap(mm_path, dtype=np.float32, mode="r", shape=shape)
 
 
-def _quantile_calibrate_sub_to_target(
-    p_sub_vec: np.ndarray,
-    ref_sub: np.ndarray,
-    ref_target: np.ndarray,
-) -> np.ndarray:
-    q_grid = np.unique(
-        np.concatenate([
-            np.linspace(0.0, 0.98, 200),
-            1.0 - np.geomspace(0.02, 2e-5, 250),
-            [1.0],
-        ])
+def _fit_stage1_ensemble(
+    X_fp: np.ndarray,
+    col_slice: int,
+    train_fp_mask: np.ndarray,
+    pos_fp_mask: np.ndarray,
+    seed: int,
+    fast_single: bool = False,
+) -> list[HistGradientBoostingClassifier]:
+    """Fit diverse pair of regularized HistGradientBoostingClassifiers with native NaN handling."""
+    pos_idx = np.flatnonzero(train_fp_mask & pos_fp_mask)
+    neg_pool = np.flatnonzero(train_fp_mask & ~pos_fp_mask)
+    rng = np.random.default_rng(10_000 + seed)
+    n_neg = min(80_000 if fast_single else 125_000, len(neg_pool))
+    neg_idx = np.sort(rng.choice(neg_pool, size=n_neg, replace=False))
+
+    idx = np.concatenate([pos_idx, neg_idx])
+    y = np.concatenate([np.ones(len(pos_idx), dtype=np.int8), np.zeros(len(neg_idx), dtype=np.int8)])
+    w_neg = float(len(neg_pool)) / max(float(n_neg), 1.0)
+    sw = np.concatenate([
+        np.ones(len(pos_idx), dtype=np.float32),
+        np.full(len(neg_idx), w_neg, dtype=np.float32),
+    ])
+    X_tr = np.asarray(X_fp[idx, :col_slice], dtype=np.float32)
+
+    clf_a = HistGradientBoostingClassifier(
+        max_iter=80 if fast_single else 115,
+        learning_rate=0.065 if fast_single else 0.060,
+        max_depth=6,
+        max_leaf_nodes=31,
+        min_samples_leaf=220,
+        l2_regularization=12.0,
+        max_features=0.80,
+        early_stopping=False,
+        random_state=seed,
     )
-    x_knots = np.quantile(ref_sub, q_grid)
-    y_knots = np.quantile(ref_target, q_grid)
-    x_u, idx_u = np.unique(x_knots, return_index=True)
-    y_u = np.maximum.accumulate(y_knots[idx_u])
-    return np.interp(p_sub_vec, x_u, y_u).astype(np.float32)
+    clf_a.fit(X_tr, y, sample_weight=sw)
+    if fast_single:
+        del X_tr
+        return [clf_a]
+
+    clf_b = HistGradientBoostingClassifier(
+        max_iter=105,
+        learning_rate=0.055,
+        max_depth=8,
+        max_leaf_nodes=51,
+        min_samples_leaf=340,
+        l2_regularization=18.0,
+        max_features=0.70,
+        early_stopping=False,
+        random_state=seed + 77,
+    )
+    clf_b.fit(X_tr, y, sample_weight=sw)
+    del X_tr
+    return [clf_a, clf_b]
+
+
+def _predict_ensemble_fp(
+    clfs: list[HistGradientBoostingClassifier],
+    X_fp: np.ndarray,
+    col_slice: int,
+    eval_fp_mask: np.ndarray | None = None,
+) -> np.ndarray:
+    """Chunked low-RAM prediction on footprint vector (respecting each model's n_features_in_)."""
+    n_fp = X_fp.shape[0]
+    if eval_fp_mask is None:
+        target_idx = np.arange(n_fp, dtype=np.int32)
+    else:
+        target_idx = np.flatnonzero(eval_fp_mask)
+    out = np.zeros(n_fp, dtype=np.float32)
+    if target_idx.size == 0:
+        return out
+
+    max_cols = max(int(getattr(c, "n_features_in_", col_slice)) for c in clfs)
+    preds = np.zeros(target_idx.size, dtype=np.float32)
+    step = 550_000
+    for s in range(0, target_idx.size, step):
+        sub = target_idx[s : s + step]
+        X_sub = np.asarray(X_fp[sub, :max_cols], dtype=np.float32)
+        acc = np.zeros(sub.size, dtype=np.float32)
+        for clf in clfs:
+            nc = int(getattr(clf, "n_features_in_", col_slice))
+            acc += clf.predict_proba(X_sub[:, :nc])[:, 1].astype(np.float32)
+        preds[s : s + step] = acc / float(len(clfs))
+        del X_sub
+    out[target_idx] = preds
+    return out
+
+
+def _extract_axial_prob_features_fp(prob_fp: np.ndarray, fp: np.ndarray) -> np.ndarray:
+    """Extract 6 spatial 2D axial continuity & intersection features from Stage-1 probability map."""
+    p2d = np.zeros(fp.shape, dtype=np.float32)
+    p2d[fp] = np.clip(prob_fp, 1e-6, 1.0 - 1e-6)
+    logit2d = np.zeros(fp.shape, dtype=np.float32)
+    logit2d[fp] = np.log(p2d[fp] / (1.0 - p2d[fp])).astype(np.float32)
+    # Shift logit relative to footprint median so outside-footprint zeros behave neutrally
+    med_l = float(np.median(logit2d[fp]))
+    l_rel = np.where(fp, logit2d - med_l, 0.0).astype(np.float32)
+
+    w_max, i_vent, _, _ = multi_azimuth_worm_and_vent(l_rel, fp, half_size=7, sigma_along=4.0)
+    g_300 = ndi.gaussian_filter(l_rel, sigma=2.2)
+    g_900 = ndi.gaussian_filter(l_rel, sigma=7.5)
+    local_max3 = ndi.maximum_filter(l_rel, size=3)
+    crest_sharp = l_rel - 0.65 * g_900 - 0.50 * np.maximum(local_max3 - l_rel, 0.0)
+
+    return np.column_stack([
+        l_rel[fp],
+        w_max[fp],
+        i_vent[fp],
+        g_300[fp],
+        (l_rel - g_900)[fp],
+        crest_sharp[fp],
+    ]).astype(np.float32)
+
+
+def _refine_blind_axial_score_fp(
+    prob_fp: np.ndarray,
+    fp: np.ndarray,
+    X_full_fp: np.ndarray | None = None,
+    include_vent_corroboration: bool = False,
+) -> np.ndarray:
+    """Sharpen Stage-1 blind OOF surface with 2D axial worm continuity (100% zero-catalogue)."""
+    ax = _extract_axial_prob_features_fp(prob_fp, fp)
+    # ax columns: [0]=l_rel, [1]=w_max, [2]=i_vent, [3]=g_300, [4]=highpass, [5]=crest_sharp
+    score = (
+        0.52 * ax[:, 0]
+        + 0.22 * ax[:, 1]
+        + 0.08 * ax[:, 2]
+        + 0.08 * ax[:, 3]
+        + 0.10 * ax[:, 5]
+    ).astype(np.float32)
+    if include_vent_corroboration and X_full_fp is not None:
+        idx_vent = E2_HYDRO_STRESS_FEATURES.index("vent_coupled_intersection")
+        idx_coh = E2_HYDRO_STRESS_FEATURES.index("topo_geophys_strike_coherence")
+        v_node = np.clip(np.asarray(X_full_fp[:, idx_vent], dtype=np.float32), 0.0, 4.0)
+        s_coh = np.clip(np.asarray(X_full_fp[:, idx_coh], dtype=np.float32), 0.0, 4.0)
+        score = (score + 0.14 * v_node + 0.08 * s_coh).astype(np.float32)
+    # Map monotonically to (0, 1) via sigmoid for clean probability surface diagnostics
+    return (1.0 / (1.0 + np.exp(-np.clip(score * 0.65, -18.0, 18.0)))).astype(np.float32)
+
+
+def _rank01_on_mask(vec_fp: np.ndarray, active_fp: np.ndarray) -> np.ndarray:
+    """Empirical [0, 1] rank scaling strictly on `active_fp`."""
+    out = np.zeros(vec_fp.shape, dtype=np.float32)
+    v = vec_fp[active_fp]
+    if v.size == 0:
+        return out
+    r = rankdata(np.nan_to_num(v, nan=-1e9), method="average").astype(np.float64) / float(v.size)
+    out[active_fp] = r.astype(np.float32)
+    return out
+
+
+def _maw_gsi_vent_conduit_score_fp(ax_fp: np.ndarray, X_full_fp: np.ndarray) -> np.ndarray:
+    """Compute the distinctive H-APART-2 (MAW-GSI) Geothermal Structural-Intersection & Piedmont Conduit score.
+
+    Explicitly weights Faulds-Hinz (2015) orthogonal/conjugate structural-intersection nodes (I_vent),
+    shallow hydrothermal magnetite oxidation (z(TMI_up150) - z(RTP)), potassic K/Th + MT clay-cap edges,
+    sanitized DOE GDR #1391 thermal/geothermometer/2m-probe/sinter vents, antislope graben dipoles, and
+    updip basement contacts so buried geothermal vents and intra-basin splays are prioritized over
+    generic range-front slope crests.
+    """
+    def _col(name: str) -> np.ndarray:
+        idx = E2_HYDRO_STRESS_FEATURES.index(name)
+        return np.nan_to_num(np.asarray(X_full_fp[:, idx], dtype=np.float32), nan=0.0)
+
+    v_node = np.clip(_col("vent_coupled_intersection"), 0.0, 5.0)
+    i_topo = np.clip(_col("struct_intersect_topo_vent"), 0.0, 5.0)
+    i_geop = np.clip(_col("struct_intersect_geophys_vent"), 0.0, 5.0)
+    s_coh = np.clip(_col("topo_geophys_strike_coherence"), 0.0, 5.0)
+    demag = np.clip(_col("hydro_demag_up150_rtp"), -1.0, 4.5)
+    potas = np.clip(_col("potassic_k_th_alteration"), -1.0, 4.5)
+    mt_ed = np.clip(_col("mt_claycap_edge"), -1.0, 4.5)
+    sprng = np.clip(_col("gdr_spring_geotherm_conduit"), 0.0, 4.5)
+    prb_s = np.clip(_col("probe2m_sinter_vent_field"), 0.0, 4.5)
+    anti_g = np.clip(_col("lidar_antislope_graben"), 0.0, 4.0)
+    pied_h = np.clip(_col("piedmont_hinge_gate"), 0.0, 1.5)
+    updip = np.clip(_col("updip_grav_mag_tilt_contact"), 0.0, 1.5)
+    road_p = np.clip(_col("road_berm_prox"), 0.0, 1.0)
+
+    # Require structural worm/intersection support AND amplify hydrothermal/intersection/piedmont nodes
+    axial_base = 0.36 * ax_fp[:, 0] + 0.24 * ax_fp[:, 1] + 0.18 * ax_fp[:, 2] + 0.12 * ax_fp[:, 5]
+    vent_hydro_boost = (
+        0.55 * v_node
+        + 0.35 * i_topo
+        + 0.30 * i_geop
+        + 0.25 * s_coh
+        + 0.28 * np.maximum(demag, 0.0)
+        + 0.18 * np.maximum(potas, 0.0)
+        + 0.18 * np.maximum(mt_ed, 0.0)
+        + 0.32 * sprng
+        + 0.32 * prb_s
+        + 0.25 * anti_g
+        + 0.45 * pied_h * (0.4 + updip)
+    )
+    raw = (axial_base + 0.85 * vent_hydro_boost) * (1.0 - 0.35 * road_p)
+    return (1.0 / (1.0 + np.exp(-np.clip(raw * 0.50, -18.0, 18.0)))).astype(np.float32)
+
+
+def allocate_maw_gsi_dual_submodular(
+    unified_surface_2d: np.ndarray,
+    vent_conduit_surface_2d: np.ndarray,
+    visible_catalogue: np.ndarray,
+    allowed_domain: np.ndarray,
+    target_dots: int,
+    vent_specialist_frac: float = 0.28,
+    collar_px: float = 2.05,
+) -> np.ndarray:
+    """Two-tier exact 300 m Minoux CELF submodular allocation:
+      1. Primary tier (72% budget): unified Stage-2 axial + collar-tempered relay + MAW-GSI surface.
+      2. Vent & blind-piedmont specialist tier (28% budget): Faulds-Hinz conjugate intersections (I_vent),
+         hydrothermally demagnetized / altered fault conduits, GDR #1391 2m-probe/sinter vents, and
+         antislope piedmont grabens strictly >= 3.6 px outside already-emitted primary dots.
+    """
+    n_primary = int(round(target_dots * (1.0 - vent_specialist_frac)))
+    em_primary = submodular_celf_allocate_300m(
+        unified_surface_2d,
+        visible_catalogue,
+        allowed_domain,
+        target_dots=n_primary,
+        collar_px=collar_px,
+        tail_quantile=0.945,
+        convex_gamma=2.4,
+    )
+    n_rem = max(0, target_dots - int(em_primary.sum()))
+    if n_rem == 0:
+        return em_primary
+
+    d_em = ndi.distance_transform_edt(~em_primary).astype(np.float32) if em_primary.any() else np.full_like(unified_surface_2d, 999.0)
+    d_vis = ndi.distance_transform_edt(~visible_catalogue).astype(np.float32)
+    # Specialist tier explores off-primary (>360 m) AND beyond immediate near-catalogue belt (>500 m)
+    vent_allowed = allowed_domain & (d_em > 3.6) & (d_vis > 5.0)
+    em_vent = submodular_celf_allocate_300m(
+        vent_conduit_surface_2d,
+        visible_catalogue,
+        vent_allowed,
+        target_dots=n_rem,
+        collar_px=collar_px,
+        tail_quantile=0.935,
+        convex_gamma=2.2,
+    )
+    return em_primary | em_vent
+
+
+STAGE2_PHYS_ANCHOR_NAMES: tuple[str, ...] = (
+    "piedmont_hinge_gate",
+    "depth_base_log",
+    "det_slope_log",
+    "road_berm_prox",
+    "topo_worm_1100m_max",
+    "grav_worm_1500m_max",
+    "struct_intersect_topo_vent",
+    "struct_intersect_geophys_vent",
+    "hydro_demag_up150_rtp",
+    "probe2m_sinter_vent_field",
+)
 
 
 @dataclass
-class DualRegimePair:
-    clf_full: HistGradientBoostingClassifier
-    clf_sub: HistGradientBoostingClassifier
-    full_cols: tuple[str, ...]
-    sub_cols: tuple[str, ...]
-    ref_sub_q: np.ndarray
-    ref_blend_q: np.ndarray
+class Stage2ModelBundle:
+    hgb: HistGradientBoostingClassifier
+    scaler: StandardScaler
+    logreg: LogisticRegression
 
 
-def _fit_dual_regime_pair(
-    full_cols: tuple[str, ...],
-    sub_cols: tuple[str, ...],
-    mmaps: dict[str, Any],
-    fp_idx_map: np.ndarray,
-    lid_valid_fp: np.ndarray,
-    clean_train_2d: np.ndarray,
-    pos_train_2d: np.ndarray,
-    d_cat_2d: np.ndarray,
-    *,
-    extra_fp_cols: dict[str, np.ndarray] | None = None,
-    seed: int = 42,
-    n_neg_sample: int = 65_000,
-    max_iter: int = 100,
-) -> DualRegimePair:
-    pos_fp = fp_idx_map[pos_train_2d & clean_train_2d]
-    neg_pool_fp = fp_idx_map[clean_train_2d & (d_cat_2d > 4.0)]
+def _slice_stage2_rows(
+    ax_fp: np.ndarray,
+    X_full_fp: np.ndarray,
+    vtrb_fp: dict[str, np.ndarray],
+    idx: np.ndarray,
+) -> np.ndarray:
+    """Assemble Stage-2 rows ONLY for `idx` (~40 MB peak instead of 475 MB full footprint)."""
+    anchor_indices = [E2_HYDRO_STRESS_FEATURES.index(nm) for nm in STAGE2_PHYS_ANCHOR_NAMES]
+    ax_sub = ax_fp[idx]
+    anchors_sub = np.asarray(X_full_fp[idx][:, anchor_indices], dtype=np.float32)
 
-    rng = np.random.default_rng(seed)
-    neg_fp = np.sort(rng.choice(neg_pool_fp, size=min(n_neg_sample, neg_pool_fp.size), replace=False))
-    idx_fp = np.concatenate([pos_fp, neg_fp])
-    y = np.concatenate([np.ones(pos_fp.size, dtype=np.int8), np.zeros(neg_fp.size, dtype=np.int8)])
-    w_neg = float(neg_pool_fp.size) / max(float(neg_fp.size), 1.0)
+    tc = vtrb_fp["vtrb_tip_cone"][idx]
+    sb = vtrb_fp["vtrb_stepover_bridge"][idx]
+    hl = vtrb_fp["vtrb_host_len_transfer"][idx]
+    db = vtrb_fp["d_vis_belt_tempered"][idx]
+    bf = vtrb_fp["vtrb_belt_density_far"][idx]
+
+    p_pos = np.maximum(ax_sub[:, 0], 0.0)
+    tip_x_p1 = tc * (0.5 + p_pos)
+    relay_x_p1 = sb * (0.5 + p_pos)
+
+    return np.column_stack([
+        ax_sub,
+        anchors_sub,
+        tc,
+        sb,
+        hl,
+        db,
+        bf,
+        tip_x_p1,
+        relay_x_p1,
+    ]).astype(np.float32)
+
+
+def _fit_stage2_bundle(
+    ax_fp: np.ndarray,
+    X_full_fp: np.ndarray,
+    vtrb_fp: dict[str, np.ndarray],
+    train_fp_mask: np.ndarray,
+    withheld_pos_fp_mask: np.ndarray,
+    seed: int,
+) -> Stage2ModelBundle:
+    """Fit regularized HGB + L2 Logistic blend on strictly withheld fault components in training quadrants."""
+    pos_idx = np.flatnonzero(train_fp_mask & withheld_pos_fp_mask)
+    neg_pool = np.flatnonzero(train_fp_mask & ~withheld_pos_fp_mask)
+    rng = np.random.default_rng(20_000 + seed)
+    n_neg = min(200_000, len(neg_pool))
+    neg_idx = np.sort(rng.choice(neg_pool, size=n_neg, replace=False))
+
+    idx = np.concatenate([pos_idx, neg_idx])
+    y = np.concatenate([np.ones(len(pos_idx), dtype=np.int8), np.zeros(len(neg_idx), dtype=np.int8)])
+    w_neg = float(len(neg_pool)) / max(float(n_neg), 1.0)
     sw = np.concatenate([
-        np.ones(pos_fp.size, dtype=np.float32),
-        np.full(neg_fp.size, w_neg, dtype=np.float32),
+        np.ones(len(pos_idx), dtype=np.float32),
+        np.full(len(neg_idx), w_neg, dtype=np.float32),
     ])
 
-    hgb_kw = dict(
-        max_iter=max_iter,
-        learning_rate=0.075,
-        max_leaf_nodes=31,
-        min_samples_leaf=200,
-        l2_regularization=5.0,
-    )
-    X_full = load_fp_feature_matrix(full_cols, mmaps, idx_fp, extra_fp_cols=extra_fp_cols)
-    clf_full = HistGradientBoostingClassifier(**hgb_kw, random_state=seed)
-    clf_full.fit(X_full, y, sample_weight=sw)
-    del X_full
-
-    X_sub = load_fp_feature_matrix(sub_cols, mmaps, idx_fp, extra_fp_cols=extra_fp_cols)
-    clf_sub = HistGradientBoostingClassifier(**hgb_kw, random_state=seed + 17)
-    clf_sub.fit(X_sub, y, sample_weight=sw)
-    del X_sub
-
-    cal_pool = fp_idx_map[clean_train_2d]
-    cal_pool = cal_pool[lid_valid_fp[cal_pool]]
-    cal_fp = np.sort(rng.choice(cal_pool, size=min(75_000, cal_pool.size), replace=False))
-    pf_cal = clf_full.predict_proba(
-        load_fp_feature_matrix(full_cols, mmaps, cal_fp, extra_fp_cols=extra_fp_cols)
-    )[:, 1].astype(np.float32)
-    ps_cal = clf_sub.predict_proba(
-        load_fp_feature_matrix(sub_cols, mmaps, cal_fp, extra_fp_cols=extra_fp_cols)
-    )[:, 1].astype(np.float32)
-    target_cal = (0.72 * pf_cal + 0.28 * ps_cal).astype(np.float32)
-
-    return DualRegimePair(
-        clf_full=clf_full,
-        clf_sub=clf_sub,
-        full_cols=full_cols,
-        sub_cols=sub_cols,
-        ref_sub_q=ps_cal,
-        ref_blend_q=target_cal,
-    )
-
-
-def _predict_dual_regime_on_mask(
-    pair: DualRegimePair,
-    mmaps: dict[str, Any],
-    fp_idx_map: np.ndarray,
-    lid_valid_fp: np.ndarray,
-    mask_2d: np.ndarray,
-    *,
-    extra_fp_cols: dict[str, np.ndarray] | None = None,
-) -> np.ndarray:
-    out = np.zeros(mask_2d.shape, dtype=np.float32)
-    ys, xs = np.nonzero(mask_2d)
-    if ys.size == 0:
-        return out
-    fpi = fp_idx_map[ys, xs]
-    has_lid = lid_valid_fp[fpi]
-
-    probs = np.empty(fpi.size, dtype=np.float32)
-    step = 600_000
-    for s in range(0, fpi.size, step):
-        sub_fpi = fpi[s : s + step]
-        sub_lid = has_lid[s : s + step]
-        ps = pair.clf_sub.predict_proba(
-            load_fp_feature_matrix(pair.sub_cols, mmaps, sub_fpi, extra_fp_cols=extra_fp_cols)
-        )[:, 1].astype(np.float32)
-        ps_cal = _quantile_calibrate_sub_to_target(ps, pair.ref_sub_q, pair.ref_blend_q)
-
-        chunk_p = ps_cal
-        if sub_lid.any():
-            lid_fpi = sub_fpi[sub_lid]
-            pf = pair.clf_full.predict_proba(
-                load_fp_feature_matrix(pair.full_cols, mmaps, lid_fpi, extra_fp_cols=extra_fp_cols)
-            )[:, 1].astype(np.float32)
-            chunk_p = ps_cal.copy()
-            chunk_p[sub_lid] = 0.72 * pf + 0.28 * ps_cal[sub_lid]
-        probs[s : s + step] = chunk_p
-
-    out[ys, xs] = probs
-    return out
-
-
-def _fit_piedmont_specialist_hgb(
-    mmaps: dict[str, Any],
-    fp_idx_map: np.ndarray,
-    clean_train_2d: np.ndarray,
-    pos_train_2d: np.ndarray,
-    d_cat_2d: np.ndarray,
-    *,
-    extra_fp_cols: dict[str, np.ndarray] | None = None,
-    seed: int = 777,
-    n_neg_sample: int = 65_000,
-) -> HistGradientBoostingClassifier:
-    pos_fp = fp_idx_map[pos_train_2d & clean_train_2d]
-    neg_pool_fp = fp_idx_map[clean_train_2d & (d_cat_2d > 4.0)]
-
-    b15_vec = mmaps["b15_depth_base"]
-    slp_vec = mmaps["t10_slope_p90"]
-    slp_p75 = float(np.quantile(slp_vec[pos_fp], 0.75))
-
-    is_pied_pos = (b15_vec[pos_fp] >= 180.0) & (slp_vec[pos_fp] <= slp_p75)
-    w_pos = np.where(is_pied_pos, 3.8, 0.85).astype(np.float32)
-
-    rng = np.random.default_rng(seed)
-    neg_fp = np.sort(rng.choice(neg_pool_fp, size=min(n_neg_sample, neg_pool_fp.size), replace=False))
-    idx_fp = np.concatenate([pos_fp, neg_fp])
-    y = np.concatenate([np.ones(pos_fp.size, dtype=np.int8), np.zeros(neg_fp.size, dtype=np.int8)])
-    w_neg = (float(w_pos.sum()) / max(float(pos_fp.size), 1.0)) * (
-        float(neg_pool_fp.size) / max(float(neg_fp.size), 1.0)
-    )
-    sw = np.concatenate([w_pos, np.full(neg_fp.size, w_neg, dtype=np.float32)])
-
-    cols = PIEDMONT_SPECIALIST_FEATURES + (STAGE2_CONTEXT_NAMES if extra_fp_cols else ())
-    X = load_fp_feature_matrix(cols, mmaps, idx_fp, extra_fp_cols=extra_fp_cols)
-    clf = HistGradientBoostingClassifier(
-        max_iter=100,
-        learning_rate=0.07,
-        max_leaf_nodes=31,
-        min_samples_leaf=220,
-        l2_regularization=6.0,
+    X_tr = _slice_stage2_rows(ax_fp, X_full_fp, vtrb_fp, idx)
+    hgb = HistGradientBoostingClassifier(
+        max_iter=105,
+        learning_rate=0.045,
+        max_depth=4,
+        max_leaf_nodes=15,
+        min_samples_leaf=260,
+        l2_regularization=24.0,
+        max_features=0.75,
+        early_stopping=False,
         random_state=seed,
     )
-    clf.fit(X, y, sample_weight=sw)
-    return clf
+    hgb.fit(X_tr, y, sample_weight=sw)
+
+    X_lin = np.nan_to_num(X_tr, nan=0.0, posinf=0.0, neginf=0.0).astype(np.float64)
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X_lin)
+    logreg = LogisticRegression(C=0.25, max_iter=300)
+    logreg.fit(X_scaled, y, sample_weight=sw)
+    del X_tr, X_lin, X_scaled
+    return Stage2ModelBundle(hgb=hgb, scaler=scaler, logreg=logreg)
 
 
-def _predict_single_hgb_on_mask(
-    clf: HistGradientBoostingClassifier,
-    cols: tuple[str, ...],
-    mmaps: dict[str, Any],
-    fp_idx_map: np.ndarray,
-    mask_2d: np.ndarray,
-    *,
-    extra_fp_cols: dict[str, np.ndarray] | None = None,
+def _predict_stage2_bundle(
+    bundle: Stage2ModelBundle,
+    ax_fp: np.ndarray,
+    X_full_fp: np.ndarray,
+    vtrb_fp: dict[str, np.ndarray],
+    eval_fp_mask: np.ndarray | None = None,
 ) -> np.ndarray:
-    out = np.zeros(mask_2d.shape, dtype=np.float32)
-    ys, xs = np.nonzero(mask_2d)
-    if ys.size == 0:
+    n_fp = ax_fp.shape[0]
+    target_idx = np.arange(n_fp, dtype=np.int32) if eval_fp_mask is None else np.flatnonzero(eval_fp_mask)
+    out = np.zeros(n_fp, dtype=np.float32)
+    if target_idx.size == 0:
         return out
-    fpi = fp_idx_map[ys, xs]
-    probs = np.empty(fpi.size, dtype=np.float32)
-    step = 600_000
-    for s in range(0, fpi.size, step):
-        sub_fpi = fpi[s : s + step]
-        X = load_fp_feature_matrix(cols, mmaps, sub_fpi, extra_fp_cols=extra_fp_cols)
-        probs[s : s + step] = clf.predict_proba(X)[:, 1].astype(np.float32)
-    out[ys, xs] = probs
+    preds = np.zeros(target_idx.size, dtype=np.float32)
+    step = 450_000
+    for s in range(0, target_idx.size, step):
+        sub = target_idx[s : s + step]
+        X_sub = _slice_stage2_rows(ax_fp, X_full_fp, vtrb_fp, sub)
+        p_hgb = bundle.hgb.predict_proba(X_sub)[:, 1].astype(np.float32)
+        X_lin = bundle.scaler.transform(np.nan_to_num(X_sub, nan=0.0, posinf=0.0, neginf=0.0).astype(np.float64))
+        p_lr = bundle.logreg.predict_proba(X_lin)[:, 1].astype(np.float32)
+        preds[s : s + step] = 0.65 * p_hgb + 0.35 * p_lr
+        del X_sub, X_lin
+    out[target_idx] = preds
     return out
-
-
-def _fit_hydro_directional_dual_regime(
-    full_cols: tuple[str, ...],
-    sub_cols: tuple[str, ...],
-    mmaps: dict[str, Any],
-    fp_idx_map: np.ndarray,
-    lid_valid_fp: np.ndarray,
-    fp: np.ndarray,
-    clean_train_2d: np.ndarray,
-    pos_train_2d: np.ndarray,
-    d_cat_2d: np.ndarray,
-    predict_target_mask_2d: np.ndarray,
-    *,
-    seed: int = 200,
-) -> np.ndarray:
-    """Fit 44-ch Hydrothermal/GeoDAWN/Vent Dual-Regime pair on 100% of buffered training sectors
-    and apply across-strike-preserving 8-azimuth directional anisotropy sharpening on target mask.
-    """
-    pair_44 = _fit_dual_regime_pair(
-        full_cols,
-        sub_cols,
-        mmaps,
-        fp_idx_map,
-        lid_valid_fp,
-        clean_train_2d,
-        pos_train_2d,
-        d_cat_2d,
-        seed=seed,
-        n_neg_sample=65_000,
-        max_iter=105,
-    )
-    padded_target = fp & ndi.binary_dilation(predict_target_mask_2d, iterations=10)
-    p1_pad = _predict_dual_regime_on_mask(pair_44, mmaps, fp_idx_map, lid_valid_fp, padded_target)
-    del pair_44
-    p_sharp, _ = compute_directional_anisotropy_gate(p1_pad, padded_target)
-    out = np.zeros(fp.shape, dtype=np.float32)
-    out[predict_target_mask_2d] = p_sharp[predict_target_mask_2d]
-    return out
-
-
-def _prior_calibrate_surface(
-    raw_prob_2d: np.ndarray,
-    active_mask_2d: np.ndarray,
-    target_expected_positives: float,
-    *,
-    gamma: float = 1.55,
-) -> np.ndarray:
-    out = np.zeros(raw_prob_2d.shape, dtype=np.float32)
-    vals = np.clip(raw_prob_2d[active_mask_2d], 0.0, 0.9999).astype(np.float64)
-    if vals.size == 0 or vals.max() <= 0.0:
-        return out
-    sharp = vals ** gamma
-    cur_sum = float(sharp.sum())
-    if cur_sum > 0.0:
-        scale = float(target_expected_positives) / cur_sum
-        cal = np.clip(sharp * scale, 0.0, 0.96)
-    else:
-        cal = np.zeros_like(sharp)
-    out[active_mask_2d] = cal.astype(np.float32)
-    return out
-
-
-def allocate_plkc_celf_dots(
-    cal_prob_2d: np.ndarray,
-    visible_catalogue_2d: np.ndarray,
-    d_vis_2d: np.ndarray,
-    allowed_domain_2d: np.ndarray,
-    k_truth_est: float,
-    *,
-    max_dots: int,
-    collar_px: float = 2.0,
-    min_sep_px: float = 2.8,
-    use_marginal_bar: bool = True,
-) -> np.ndarray:
-    eligible = allowed_domain_2d & (~visible_catalogue_2d) & (d_vis_2d > collar_px)
-    p_clean = np.where(eligible, np.clip(cal_prob_2d, 0.0, 0.96), 0.0).astype(np.float32)
-    cand_floor = 0.004 if use_marginal_bar else 1e-5
-    cand_cap = 300_000 if use_marginal_bar else 450_000
-    alloc = greedy_allocate(
-        p_clean,
-        eligible,
-        k_truth=max(float(k_truth_est), 50.0),
-        floor=cand_floor,
-        max_dots=max_dots,
-        candidate_cap=cand_cap,
-        min_sep_px=min_sep_px,
-        use_marginal_bar=use_marginal_bar,
-    )
-    return alloc.emitted
 
 
 @dataclass
@@ -513,501 +598,335 @@ class ExperimentResult:
     oof_surface: np.ndarray
     oof_emitted: np.ndarray
     block_terms: np.ndarray
-    pooled_dti: float
-    n_emitted_total: int
     detached_dti: float
-    per_fold: list[dict[str, Any]]
-    meta_weights: list[tuple[float, float]] | None = None
+    per_fold: list[dict]
+    stage1_models: list[list[HistGradientBoostingClassifier]]
+    stage2_bundles: list[Stage2ModelBundle] | None = None
 
 
-def _normalize_vtrb_to_2d(vtrb_fp: dict[str, np.ndarray], fp: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    """Normalize strictly directional along-strike tip-cone & relay stepover-bridge fields.
-
-    Isotropic ``vtrb_belt_density`` (sigma=18 px halo) is intentionally excluded from E3 fusion
-    because an isotropic catalogue-ring boost pulls >75% of live dots into <1.2 km of mapped
-    faults, degrading >800 m blind detached DTI and colliding >70% with catalogue-halo peers.
-    """
-    out_list: list[np.ndarray] = []
-    for k, cap in (("vtrb_tip_cone", 2.5), ("vtrb_stepover_bridge", 2.5)):
-        vec = vtrb_fp[k]
-        q99 = float(np.quantile(vec, 0.99)) + 1e-6
-        arr = np.zeros(fp.shape, dtype=np.float32)
-        arr[fp] = np.clip(vec / q99, 0.0, cap)
-        out_list.append(arr)
-    return out_list[0], out_list[1]
-
-
-def _fuse_phys_and_piedmont(
-    p_s2_2d: np.ndarray,
-    p_pd_2d: np.ndarray,
-    b15_cov_2d: np.ndarray,
-    ref_mask_2d: np.ndarray,
-    eval_mask_2d: np.ndarray,
-) -> np.ndarray:
-    """Zero-SGMC Concealed Piedmont Fusion: quantile-aligns piedmont specialist onto Stage-2
-    surface on ``ref_mask_2d`` and blends smoothly by sedimentary basin thickness ``b15_cov_2d``.
-    """
-    out = np.zeros(p_s2_2d.shape, dtype=np.float32)
-    rng = np.random.default_rng(31415)
-    ref_s2 = p_s2_2d[ref_mask_2d]
-    ref_pd = p_pd_2d[ref_mask_2d]
-    if ref_s2.size > 120_000:
-        sub = np.sort(rng.choice(ref_s2.size, size=120_000, replace=False))
-        ref_s2 = ref_s2[sub]
-        ref_pd = ref_pd[sub]
-    pd_cal = _quantile_calibrate_sub_to_target(p_pd_2d[eval_mask_2d], ref_pd, ref_s2)
-    w_cov = np.clip(b15_cov_2d[eval_mask_2d], 0.08, 0.40).astype(np.float32)
-    out[eval_mask_2d] = (1.0 - w_cov) * p_s2_2d[eval_mask_2d] + w_cov * pd_cal
-    return out
-
-
-def _fit_e3_tip_step_multipliers(
-    p_phys_2d: np.ndarray,
-    tip_2d: np.ndarray,
-    step_2d: np.ndarray,
-    pos_m: np.ndarray,
-    neg_m: np.ndarray,
-    *,
-    seed: int = 500,
-) -> tuple[float, float]:
-    """Fit out-of-fold directional log-odds multipliers (c_tip, c_step) on training folds."""
-    def _design(m: np.ndarray) -> np.ndarray:
-        pp = np.clip(p_phys_2d[m], 1e-6, 1.0 - 1e-6)
-        lp = np.log(pp / (1.0 - pp))
-        return np.column_stack([lp, tip_2d[m], step_2d[m]]).astype(np.float64)
-
-    X_pos = _design(pos_m)
-    neg_ys, neg_xs = np.nonzero(neg_m)
-    rng = np.random.default_rng(seed)
-    take = np.sort(rng.choice(neg_ys.size, size=min(120_000, neg_ys.size), replace=False))
-    neg_sub_m = np.zeros(pos_m.shape, dtype=bool)
-    neg_sub_m[neg_ys[take], neg_xs[take]] = True
-    X_neg = _design(neg_sub_m)
-
-    X_tr = np.vstack([X_pos, X_neg])
-    y_tr = np.concatenate([np.ones(len(X_pos), dtype=np.int8), np.zeros(len(X_neg), dtype=np.int8)])
-    w_n = float(neg_ys.size) / max(float(len(X_neg)), 1.0)
-    sw_tr = np.concatenate([np.ones(len(X_pos), dtype=np.float64), np.full(len(X_neg), w_n, dtype=np.float64)])
-
-    clf = LogisticRegression(C=0.25, max_iter=300)
-    clf.fit(X_tr, y_tr, sample_weight=sw_tr)
-    b0 = max(float(clf.coef_[0, 0]), 0.35)
-    c_tip = float(np.clip(clf.coef_[0, 1] / b0, 0.25, 0.80))
-    c_step = float(np.clip(clf.coef_[0, 2] / b0, 0.25, 0.80))
-    return c_tip, c_step
-
-
-def _finalize_exp_result(
-    exp_id: str,
-    name: str,
-    oof_surf: np.ndarray,
-    oof_emit: np.ndarray,
-    terms_sum: np.ndarray,
-    per_fold: list[dict[str, Any]],
-    folds: list[dict[str, Any]],
-    d_vis_2d: np.ndarray,
+def _score_emitted_and_detached(
+    emitted_2d: np.ndarray,
+    folds: list[dict],
+    visible_holdout: np.ndarray,
     fp: np.ndarray,
-) -> ExperimentResult:
-    pooled_dti = float(EH.from_terms(terms_sum.sum(axis=0)))
+) -> tuple[np.ndarray, float, list[dict]]:
+    terms_sum = None
+    per_fold = []
+    pred_f32 = emitted_2d.astype(np.float32)
+    for q, fold in enumerate(folds):
+        sc, bterms = EH.evaluate(pred_f32, fold, fp)
+        terms_sum = bterms if terms_sum is None else (terms_sum + bterms)
+        per_fold.append({
+            "fold": FOLD_NAMES[q],
+            "emitted": int((emitted_2d & fold["region"] & fp).sum()),
+            "dti": sc["dti"],
+            "tpw": sc["tpw"],
+            "fpw": sc["fpw"],
+            "fnw": sc["fnw"],
+            "n_truth": sc["n_truth"],
+        })
+
+    d_vis_all = ndi.distance_transform_edt(~visible_holdout)
     det_tp = det_fp = det_fn = 0.0
     for fold in folds:
-        det_truth = fold["truth"] & (d_vis_2d > 8.0)
-        if det_truth.any():
-            dfold = {**fold, "truth": det_truth}
-            dsc, _ = EH.evaluate(oof_emit.astype(np.float32), dfold, fp)
+        det_fold = dict(fold)
+        det_fold["truth"] = fold["truth"] & (d_vis_all > 8.0)
+        if det_fold["truth"].any():
+            dsc, _ = EH.evaluate(pred_f32, det_fold, fp)
             det_tp += dsc["tpw"]
             det_fp += dsc["fpw"]
             det_fn += dsc["fnw"]
     det_dti = float(det_tp / (det_tp + 0.2 * det_fp + 0.8 * det_fn + 1e-12))
-    return ExperimentResult(
-        exp_id=exp_id,
-        name=name,
-        oof_surface=oof_surf,
-        oof_emitted=oof_emit,
-        block_terms=terms_sum,
-        pooled_dti=pooled_dti,
-        n_emitted_total=int(oof_emit.sum()),
-        detached_dti=det_dti,
-        per_fold=per_fold,
-    )
+    return terms_sum, det_dti, per_fold
 
 
 def run_three_loqo_experiments(
     grid: Grid,
-    folds: list[dict[str, Any]],
+    folds: list[dict],
     feature_paths: dict[str, Path],
+    live_target_dots: int = 37_654,
+    fast_stability: bool = False,
 ) -> dict[str, ExperimentResult]:
-    """Execute the pre-registered <= 3 holdout experiments (E1, E2, E3) on gems57-pooled-hide-v2."""
+    """Execute the <= 3 pre-registered H-APART-2 (MAW-GSI) LOQO experiments on gems57-pooled-hide-v2."""
     fp = grid.footprint
-    fp_idx_map = _grid_to_fp_index_map(fp)
-    mmaps = open_fp_feature_mmaps(feature_paths)
-    lid_valid_fp = np.isfinite(mmaps["lid_step_max"])
+    quad_fp = quadrant_ids(fp)[fp]
+    X_full_fp = _load_fp_matrix(E2_HYDRO_STRESS_FEATURES, feature_paths)
 
     visible_holdout = folds[0]["visible"]
-    hidden_all = folds[0]["hidden_all"]
+    hidden_all_fp = folds[0]["hidden_all"][fp]
+    vis_fp = visible_holdout[fp]
+    # Exclude 1-px dilation of visible traces from negative training pool to avoid rasterization edge noise
+    vis_dil1_fp = ndi.binary_dilation(visible_holdout, iterations=1)[fp]
+
+    eval_union_2d = np.zeros(grid.shape, dtype=bool)
+    for f in folds:
+        eval_union_2d |= f["region"] & fp & ~f["masked_known"]
+
     d_vis_2d = ndi.distance_transform_edt(~visible_holdout).astype(np.float32)
-    vtrb_fp = compute_visible_relay_features(visible_holdout, fp)
+    d_cat_live_2d = ndi.distance_transform_edt(~grid.catalogue).astype(np.float32)
+    n_eval_offcollar = int((eval_union_2d & (d_vis_2d > 2.05)).sum())
+    n_live_offcollar = int((fp & (d_cat_live_2d > 2.05)).sum())
+    # Matched spatial dot density between eroded holdout evaluation domain and full live deployment footprint
+    holdout_target_dots = int(round(live_target_dots * (n_eval_offcollar / max(n_live_offcollar, 1))))
+
+    # Deterministic model checkpoint keyed by visible_holdout mask + stability mode so re-runs / Pass 2-3 take < 45s
+    cache_dir = next(iter(feature_paths.values())).parent
+    vis_sig = hashlib.sha256(np.packbits(vis_fp).tobytes()).hexdigest()[:12]
+    ckpt_path = cache_dir / f"loqo_models_{vis_sig}_{'fast' if fast_stability else 'full'}.pkl"
+    ckpt_data = None
+    if ckpt_path.exists():
+        try:
+            ckpt_data = pickle.loads(ckpt_path.read_bytes())
+        except Exception:
+            ckpt_data = None
 
     results: dict[str, ExperimentResult] = {}
 
-    # =========================================================================
-    # EXPERIMENT E1: 38-ch Dual-Regime (M_Full + quantile-calibrated M_Sub) + CELF d>=2.8
-    # =========================================================================
-    e1_surf = np.zeros(grid.shape, dtype=np.float32)
-    e1_emit = np.zeros(grid.shape, dtype=bool)
-    e1_terms = None
-    e1_per_fold: list[dict[str, Any]] = []
+    # --- Experiments E1 (30 blind features) & E2 (40 blind MAW-GSI features stacked on E1) ---
+    e1_oof_raw_fp: np.ndarray | None = None
+    for exp_id, exp_name, n_cols, base_seed in (
+        ("E1", "MAW-ScarpGeophys Blind (Multi-Azimuth Worms + Antislope Dipole + Cross-Gradient)", len(E1_BLIND_FEATURES), 1100),
+        ("E2", "MAW-GSI Blind Vent (+ Faulds-Hinz Intersection I_vent + Demag + GDR1391 Thermal/Sinter)", len(E2_HYDRO_STRESS_FEATURES), 2200),
+    ):
+        if ckpt_data is not None and exp_id in ckpt_data:
+            oof_raw_fp = ckpt_data[exp_id]["oof_raw_fp"]
+            stage1_models = ckpt_data[exp_id]["stage1_models"]
+        else:
+            oof_raw_fp = np.zeros(X_full_fp.shape[0], dtype=np.float32)
+            stage1_models = []
 
-    for q, fold in enumerate(folds):
-        other_qs = [i for i in range(4) if i != q]
-        train_reg = np.logical_or.reduce([folds[i]["region"] for i in other_qs]) & fp
-        clean_train = train_reg & (~hidden_all)
-        pos_train = visible_holdout & clean_train
+            for q, fold in enumerate(folds):
+                train_reg_2d = np.logical_or.reduce([folds[i]["region"] for i in range(4) if i != q]) & fp
+                train_reg_fp = train_reg_2d[fp]
+                pos_trn_fp = vis_fp & train_reg_fp
+                train_pool_fp = train_reg_fp & (~hidden_all_fp) & (pos_trn_fp | (~vis_dil1_fp))
 
-        pair_e1 = _fit_dual_regime_pair(
-            E1_FULL_FEATURES,
-            E1_SUB_FEATURES,
-            mmaps,
-            fp_idx_map,
-            lid_valid_fp,
-            clean_train,
-            pos_train,
-            d_vis_2d,
-            seed=100 + q,
+                clfs_new = _fit_stage1_ensemble(
+                    X_full_fp, n_cols, train_pool_fp, pos_trn_fp, seed=base_seed + 10 * q, fast_single=fast_stability
+                )
+                q_mask_fp = quad_fp == q
+                p_new = _predict_ensemble_fp(clfs_new, X_full_fp, n_cols, q_mask_fp)[q_mask_fp]
+                if exp_id == "E2" and e1_oof_raw_fp is not None:
+                    clfs_combined = results["E1"].stage1_models[q] + clfs_new
+                    stage1_models.append(clfs_combined)
+                    oof_raw_fp[q_mask_fp] = 0.50 * e1_oof_raw_fp[q_mask_fp] + 0.50 * p_new
+                else:
+                    stage1_models.append(clfs_new)
+                    oof_raw_fp[q_mask_fp] = p_new
+
+        if exp_id == "E1":
+            e1_oof_raw_fp = oof_raw_fp.copy()
+
+        oof_refined_fp = _refine_blind_axial_score_fp(
+            oof_raw_fp, fp, X_full_fp=X_full_fp, include_vent_corroboration=(exp_id == "E2")
         )
-        test_active = fold["region"] & fp & (~fold["masked_known"])
-        p_raw = _predict_dual_regime_on_mask(pair_e1, mmaps, fp_idx_map, lid_valid_fp, test_active)
+        oof_surf_2d = np.zeros(grid.shape, dtype=np.float32)
+        oof_surf_2d[fp] = oof_refined_fp
+        oof_surf_2d[~eval_union_2d] = 0.0
 
-        n_w_tr = sum(int(folds[i]["truth"].sum()) for i in other_qs)
-        n_a_tr = sum(int((folds[i]["region"] & fp & (~folds[i]["masked_known"])).sum()) for i in other_qs)
-        k_est = (n_w_tr / max(n_a_tr, 1)) * float(test_active.sum())
-        fold_cap = max(int(round(1.25 * k_est)), 1500)
-
-        p_cal = _prior_calibrate_surface(p_raw, test_active, k_est, gamma=1.55)
-        e1_surf[test_active] = p_cal[test_active]
-
-        emit_q = allocate_plkc_celf_dots(
-            p_cal, visible_holdout, d_vis_2d, test_active, k_est, max_dots=fold_cap, collar_px=2.0, min_sep_px=2.8
+        oof_emit = submodular_celf_allocate_300m(
+            oof_surf_2d,
+            visible_holdout,
+            eval_union_2d,
+            target_dots=holdout_target_dots,
+            collar_px=2.05,
         )
-        e1_emit |= emit_q
-        sc, terms = EH.evaluate(emit_q.astype(np.float32), fold, fp)
-        e1_terms = terms if e1_terms is None else (e1_terms + terms)
-        e1_per_fold.append({
-            "fold": fold["name"],
-            "dti": round(sc["dti"], 6),
-            "emitted": int(emit_q.sum()),
-            "withheld_positives": sc["n_truth"],
-        })
-        del pair_e1
+        terms_sum, det_dti, per_fold = _score_emitted_and_detached(oof_emit, folds, visible_holdout, fp)
+        print(f"        [{exp_id}] OOF dots={int(oof_emit.sum())}, det_DTI={det_dti:.4f}", flush=True)
+        results[exp_id] = ExperimentResult(
+            exp_id=exp_id,
+            name=exp_name,
+            oof_surface=oof_surf_2d,
+            oof_emitted=oof_emit,
+            block_terms=terms_sum,
+            detached_dti=det_dti,
+            per_fold=per_fold,
+            stage1_models=stage1_models,
+            stage2_bundles=None,
+        )
+        if ckpt_data is None:
+            results[exp_id]._raw_fp = oof_raw_fp  # type: ignore[attr-defined]
         gc.collect()
 
-    results["E1"] = _finalize_exp_result(
-        "E1", "38-ch Dual-Regime Scarp/Knickzone/Updip + CELF d>=2.8",
-        e1_surf, e1_emit, e1_terms, e1_per_fold, folds, d_vis_2d, fp
-    )
+    # --- Experiment E3: Full Two-Stage OOF MAW-GSI + Collar-Tempered Visible Tip/Relay Synthesis ---
+    vtrb_holdout_fp = compute_visible_relay_features(visible_holdout, fp)
+    e2_res = results["E2"]
 
-    # =========================================================================
-    # EXPERIMENT E2: +6 Hydrothermal/GeoDAWN/Vent Channels + Stage-2 Directional Line-Integral OOF
-    # =========================================================================
-    e2_raw_oof = np.zeros(grid.shape, dtype=np.float32)
-    e2_surf = np.zeros(grid.shape, dtype=np.float32)
-    e2_emit = np.zeros(grid.shape, dtype=bool)
-    e2_terms = None
-    e2_per_fold: list[dict[str, Any]] = []
-    e2_pied_oof = np.zeros(grid.shape, dtype=np.float32)
+    if ckpt_data is not None and "E3" in ckpt_data:
+        oof_p2_raw_fp = ckpt_data["E3"]["oof_p2_raw_fp"]
+        oof_vent_fp = ckpt_data["E3"]["oof_vent_fp"]
+        stage2_bundles = ckpt_data["E3"]["stage2_bundles"]
+    else:
+        oof_p2_raw_fp = np.zeros(X_full_fp.shape[0], dtype=np.float32)
+        oof_vent_fp = np.zeros(X_full_fp.shape[0], dtype=np.float32)
+        stage2_bundles = []
 
+        d_vis_fp = d_vis_2d[fp]
+        for q, fold in enumerate(folds):
+            other_qs = [i for i in range(4) if i != q]
+            inner_p1_fp = np.zeros(X_full_fp.shape[0], dtype=np.float32)
+
+            for hold_i in other_qs:
+                trn_qs = [j for j in other_qs if j != hold_i]
+                trn_reg_fp = (np.logical_or.reduce([folds[j]["region"] for j in trn_qs]) & fp)[fp]
+                pos_trn_fp = vis_fp & trn_reg_fp
+                trn_pool_fp = trn_reg_fp & (~hidden_all_fp) & (pos_trn_fp | (~vis_dil1_fp))
+                inner_clfs = _fit_stage1_ensemble(
+                    X_full_fp,
+                    len(E2_HYDRO_STRESS_FEATURES),
+                    trn_pool_fp,
+                    pos_trn_fp,
+                    seed=3300 + 20 * q + hold_i,
+                    fast_single=True,
+                )
+                val_fp = quad_fp == hold_i
+                inner_p1_fp[val_fp] = _predict_ensemble_fp(
+                    inner_clfs, X_full_fp, len(E2_HYDRO_STRESS_FEATURES), val_fp
+                )[val_fp]
+                del inner_clfs
+
+            q_reg_fp = quad_fp == q
+            inner_p1_fp[q_reg_fp] = _predict_ensemble_fp(
+                e2_res.stage1_models[q], X_full_fp, len(E2_HYDRO_STRESS_FEATURES), q_reg_fp
+            )[q_reg_fp]
+
+            ax_fold_fp = _extract_axial_prob_features_fp(inner_p1_fp, fp)
+
+            s2_trn_domain_fp = (
+                np.logical_or.reduce([folds[i]["region"] & fp & ~folds[i]["masked_known"] for i in other_qs])[fp]
+                & (d_vis_fp > 2.05)
+            )
+            withheld_trn_pos_fp = np.logical_or.reduce([folds[i]["truth"] for i in other_qs])[fp] & s2_trn_domain_fp
+            bundle = _fit_stage2_bundle(ax_fold_fp, X_full_fp, vtrb_holdout_fp, s2_trn_domain_fp, withheld_trn_pos_fp, seed=4400 + q)
+            stage2_bundles.append(bundle)
+
+            test_active_fp = (fold["region"] & fp & ~fold["masked_known"])[fp]
+            oof_p2_raw_fp[test_active_fp] = _predict_stage2_bundle(bundle, ax_fold_fp, X_full_fp, vtrb_holdout_fp, test_active_fp)[test_active_fp]
+            oof_vent_fp[test_active_fp] = _maw_gsi_vent_conduit_score_fp(ax_fold_fp, X_full_fp)[test_active_fp]
+            del ax_fold_fp, inner_p1_fp
+            gc.collect()
+
+        # Persist fitted models + raw OOF vectors cleanly
+        save_payload = {
+            "E1": {"oof_raw_fp": getattr(results["E1"], "_raw_fp"), "stage1_models": results["E1"].stage1_models},
+            "E2": {"oof_raw_fp": getattr(results["E2"], "_raw_fp"), "stage1_models": results["E2"].stage1_models},
+            "E3": {"oof_p2_raw_fp": oof_p2_raw_fp, "oof_vent_fp": oof_vent_fp, "stage2_bundles": stage2_bundles},
+        }
+        ckpt_path.write_bytes(pickle.dumps(save_payload, protocol=pickle.HIGHEST_PROTOCOL))
+
+    # Rank-matched synthesis on each quadrant's active evaluation domain (zero cross-quadrant rank peek!)
+    oof_unified_fp = np.zeros(X_full_fp.shape[0], dtype=np.float32)
     for q, fold in enumerate(folds):
-        other_qs = [i for i in range(4) if i != q]
-        train_reg = np.logical_or.reduce([folds[i]["region"] & fp for i in other_qs])
-        clean_train = train_reg & (~hidden_all)
-        pos_train = visible_holdout & clean_train
-        test_active = fold["region"] & fp & (~fold["masked_known"])
+        test_active_fp = (fold["region"] & fp & ~fold["masked_known"])[fp]
+        r_s2 = _rank01_on_mask(oof_p2_raw_fp, test_active_fp)
+        r_vn = _rank01_on_mask(oof_vent_fp, test_active_fp)
+        oof_unified_fp[test_active_fp] = 0.52 * r_s2[test_active_fp] + 0.48 * r_vn[test_active_fp]
 
-        p2_q = _fit_hydro_directional_dual_regime(
-            E2_FULL_FEATURES,
-            E2_SUB_FEATURES,
-            mmaps,
-            fp_idx_map,
-            lid_valid_fp,
-            fp,
-            clean_train,
-            pos_train,
-            d_vis_2d,
-            test_active,
-            seed=200 + 20 * q,
-        )
-        e2_raw_oof[test_active] = p2_q[test_active]
+    oof_surf_e3 = np.zeros(grid.shape, dtype=np.float32)
+    oof_surf_e3[fp] = oof_unified_fp
+    oof_surf_e3[~eval_union_2d] = 0.0
 
-        clf_pied_q = _fit_piedmont_specialist_hgb(
-            mmaps, fp_idx_map, clean_train, pos_train, d_vis_2d, seed=300 + q
-        )
-        p_pied_q = _predict_single_hgb_on_mask(
-            clf_pied_q,
-            PIEDMONT_SPECIALIST_FEATURES,
-            mmaps,
-            fp_idx_map,
-            test_active,
-        )
-        e2_pied_oof[test_active] = p_pied_q[test_active]
-        del clf_pied_q, p_pied_q
+    oof_vent_2d = np.zeros(grid.shape, dtype=np.float32)
+    oof_vent_2d[fp] = oof_vent_fp
+    oof_vent_2d[~eval_union_2d] = 0.0
 
-        n_w_tr = sum(int(folds[i]["truth"].sum()) for i in other_qs)
-        n_a_tr = sum(int((folds[i]["region"] & fp & (~folds[i]["masked_known"])).sum()) for i in other_qs)
-        k_est = (n_w_tr / max(n_a_tr, 1)) * float(test_active.sum())
-        fold_cap = max(int(round(1.25 * k_est)), 1500)
-
-        p_cal = _prior_calibrate_surface(p2_q, test_active, k_est, gamma=1.55)
-        e2_surf[test_active] = p_cal[test_active]
-
-        emit_q = allocate_plkc_celf_dots(
-            p_cal, visible_holdout, d_vis_2d, test_active, k_est, max_dots=fold_cap, collar_px=2.0, min_sep_px=2.8
-        )
-        e2_emit |= emit_q
-        sc, terms = EH.evaluate(emit_q.astype(np.float32), fold, fp)
-        e2_terms = terms if e2_terms is None else (e2_terms + terms)
-        e2_per_fold.append({
-            "fold": fold["name"],
-            "dti": round(sc["dti"], 6),
-            "emitted": int(emit_q.sum()),
-            "withheld_positives": sc["n_truth"],
-        })
-        gc.collect()
-
-    results["E2"] = _finalize_exp_result(
-        "E2", "44-ch Hydro-Conduit + Stage-2 Directional Vesselness OOF + CELF d>=2.8",
-        e2_surf, e2_emit, e2_terms, e2_per_fold, folds, d_vis_2d, fp
+    oof_emit_e3 = allocate_maw_gsi_dual_submodular(
+        oof_surf_e3,
+        oof_vent_2d,
+        visible_holdout,
+        eval_union_2d,
+        target_dots=holdout_target_dots,
+        vent_specialist_frac=0.28,
+        collar_px=2.05,
     )
-
-    # =========================================================================
-    # EXPERIMENT E3: E2 + Zero-SGMC Concealed Piedmont Head + Physical-Gated Directional Continuation
-    # =========================================================================
-    b15_2d = np.zeros(grid.shape, dtype=np.float32)
-    b15_2d[fp] = np.clip(mmaps["b15_depth_base"] / 450.0, 0.0, 1.0)
-    tip_2d, step_2d = _normalize_vtrb_to_2d(vtrb_fp, fp)
-
-    e3_surf = np.zeros(grid.shape, dtype=np.float32)
-    e3_emit = np.zeros(grid.shape, dtype=bool)
-    e3_terms = None
-    e3_per_fold: list[dict[str, Any]] = []
-    e3_meta_weights: list[tuple[float, float]] = []
-
-    for q, fold in enumerate(folds):
-        other_qs = [i for i in range(4) if i != q]
-        tr_act = np.zeros(grid.shape, dtype=bool)
-        pos_m = np.zeros(grid.shape, dtype=bool)
-        neg_m = np.zeros(grid.shape, dtype=bool)
-        for i in other_qs:
-            act_i = folds[i]["region"] & fp & (~folds[i]["masked_known"])
-            tr_act |= act_i
-            pos_m |= (folds[i]["truth"] & act_i)
-            neg_m |= (act_i & (~folds[i]["truth"]))
-
-        test_active = fold["region"] & fp & (~fold["masked_known"])
-        p_phys_tr = _fuse_phys_and_piedmont(e2_raw_oof, e2_pied_oof, b15_2d, tr_act, tr_act)
-        c_tip, c_step = _fit_e3_tip_step_multipliers(p_phys_tr, tip_2d, step_2d, pos_m, neg_m, seed=500 + q)
-        e3_meta_weights.append((c_tip, c_step))
-
-        p_phys_te = _fuse_phys_and_piedmont(e2_raw_oof, e2_pied_oof, b15_2d, tr_act, test_active)
-        p_gated = np.zeros(grid.shape, dtype=np.float32)
-        p_gated[test_active] = p_phys_te[test_active] * (
-            1.0 + c_tip * tip_2d[test_active] + c_step * step_2d[test_active]
-        )
-
-        n_w_tr = sum(int(folds[i]["truth"].sum()) for i in other_qs)
-        n_a_tr = sum(int((folds[i]["region"] & fp & (~folds[i]["masked_known"])).sum()) for i in other_qs)
-        k_est = (n_w_tr / max(n_a_tr, 1)) * float(test_active.sum())
-        fold_cap = max(int(round(1.25 * k_est)), 1500)
-
-        p_cal = _prior_calibrate_surface(p_gated, test_active, k_est, gamma=1.45)
-        e3_surf[test_active] = p_cal[test_active]
-
-        emit_q = allocate_plkc_celf_dots(
-            p_cal, visible_holdout, d_vis_2d, test_active, k_est, max_dots=fold_cap, collar_px=2.0, min_sep_px=2.8
-        )
-        e3_emit |= emit_q
-        sc, terms = EH.evaluate(emit_q.astype(np.float32), fold, fp)
-        e3_terms = terms if e3_terms is None else (e3_terms + terms)
-        e3_per_fold.append({
-            "fold": fold["name"],
-            "dti": round(sc["dti"], 6),
-            "emitted": int(emit_q.sum()),
-            "withheld_positives": sc["n_truth"],
-        })
-
-    e3_res = _finalize_exp_result(
-        "E3", "PLKC-DualOOF-CELF Full (E2 + Zero-SGMC Piedmont Head + Gated Tip/Relay)",
-        e3_surf, e3_emit, e3_terms, e3_per_fold, folds, d_vis_2d, fp
+    terms_e3, det_dti_e3, per_fold_e3 = _score_emitted_and_detached(oof_emit_e3, folds, visible_holdout, fp)
+    print(f"        [E3] OOF dots={int(oof_emit_e3.sum())}, det_DTI={det_dti_e3:.4f}", flush=True)
+    results["E3"] = ExperimentResult(
+        exp_id="E3",
+        name="MAW-GSI Full OOF Axial-Worm + Vent/Intersection + Collar-Tempered Relay Synthesis",
+        oof_surface=oof_surf_e3,
+        oof_emitted=oof_emit_e3,
+        block_terms=terms_e3,
+        detached_dti=det_dti_e3,
+        per_fold=per_fold_e3,
+        stage1_models=e2_res.stage1_models,
+        stage2_bundles=stage2_bundles,
     )
-    e3_res.meta_weights = e3_meta_weights
-    results["E3"] = e3_res
+    del X_full_fp
+    gc.collect()
     return results
-
-
-def _build_dual_spatial_partitions(fp: np.ndarray, buffer_px: int = 12) -> list[list[tuple[np.ndarray, np.ndarray]]]:
-    ys, xs = np.nonzero(fp)
-    med_y = float(np.median(ys))
-    med_x = float(np.median(xs))
-    yy, xx = np.indices(fp.shape, dtype=np.float32)
-    dy = yy - med_y
-    dx = xx - med_x
-
-    raw_a = [
-        fp & (dy < 0) & (dx < 0),
-        fp & (dy < 0) & (dx >= 0),
-        fp & (dy >= 0) & (dx < 0),
-        fp & (dy >= 0) & (dx >= 0),
-    ]
-    raw_b = [
-        fp & (dy < dx) & (dy < -dx),
-        fp & (dy < dx) & (dy >= -dx),
-        fp & (dy >= dx) & (dy >= -dx),
-        fp & (dy >= dx) & (dy < -dx),
-    ]
-
-    out_parts: list[list[tuple[np.ndarray, np.ndarray]]] = []
-    for raw_sectors in (raw_a, raw_b):
-        part_tuples: list[tuple[np.ndarray, np.ndarray]] = []
-        for s in range(4):
-            test_sec = raw_sectors[s]
-            forbidden = ndi.binary_dilation(test_sec, iterations=buffer_px)
-            train_mask = fp & (~forbidden)
-            part_tuples.append((test_sec, train_mask))
-        out_parts.append(part_tuples)
-    return out_parts
 
 
 def build_final_live_submission_arrays(
     grid: Grid,
     winner: ExperimentResult,
-    folds_holdout: list[dict[str, Any]],
     feature_paths: dict[str, Path],
-    *,
     target_dots: int = 37_654,
-) -> tuple[np.ndarray, np.ndarray, dict[str, Any]]:
-    """Synthesize 100%-OOF Dual-Partition Stitched live surface & binary {0.0, 1.0} GeoTIFF array."""
-    winner_id = winner.exp_id
+) -> tuple[np.ndarray, np.ndarray]:
+    """Generate full-footprint continuous probability surface + final all-finite [0, 1] GeoTIFF array."""
     fp = grid.footprint
     cat = grid.catalogue
-    fp_idx_map = _grid_to_fp_index_map(fp)
-    mmaps = open_fp_feature_mmaps(feature_paths)
-    lid_valid_fp = np.isfinite(mmaps["lid_step_max"])
+    allowed_live = fp & ~cat
+    allowed_live_fp = allowed_live[fp]
 
-    d_cat = ndi.distance_transform_edt(~cat).astype(np.float32)
-    allowed_live = fp & (~cat) & (d_cat > 2.0)
+    feat_cols = E1_BLIND_FEATURES if winner.exp_id == "E1" else E2_HYDRO_STRESS_FEATURES
+    X_full_fp = _load_fp_matrix(E2_HYDRO_STRESS_FEATURES, feature_paths)
+    n_cols = len(feat_cols)
 
-    partitions = _build_dual_spatial_partitions(fp, buffer_px=12)
-
-    if winner_id == "E1":
-        p_oof_accum = np.zeros(grid.shape, dtype=np.float32)
-        for p_idx, part in enumerate(partitions):
-            for s_idx, (test_sec, train_mask) in enumerate(part):
-                pair = _fit_dual_regime_pair(
-                    E1_FULL_FEATURES,
-                    E1_SUB_FEATURES,
-                    mmaps,
-                    fp_idx_map,
-                    lid_valid_fp,
-                    train_mask,
-                    cat & train_mask,
-                    d_cat,
-                    seed=600 + 20 * p_idx + s_idx,
-                )
-                pred_s = _predict_dual_regime_on_mask(pair, mmaps, fp_idx_map, lid_valid_fp, test_sec)
-                p_oof_accum[test_sec] += 0.5 * pred_s[test_sec]
-                del pair
-                gc.collect()
-        live_surface = _prior_calibrate_surface(p_oof_accum, allowed_live, 42_000.0, gamma=1.25)
-        emitted = allocate_plkc_celf_dots(
-            live_surface, cat, d_cat, allowed_live, 42_000.0,
-            max_dots=target_dots, collar_px=2.0, min_sep_px=2.8, use_marginal_bar=False
-        )
-        final_arr = np.where(emitted & fp & (~cat), np.float32(1.0), np.float32(0.0)).astype(np.float32)
-        return live_surface, final_arr, {"oof_partitions": 2, "in_sample_hgb_weight": 0.0}
-
-    live_ckpt = feature_paths["t10_slope_p90"].parent / f"ckpt_live_oof_{winner_id.lower()}.npz"
-    if live_ckpt.exists():
-        z = np.load(live_ckpt)
-        p_s2_oof = np.zeros(grid.shape, dtype=np.float32)
-        p_pied_oof = np.zeros(grid.shape, dtype=np.float32)
-        p_s2_oof[fp] = z["p_s2_fp"]
-        p_pied_oof[fp] = z["p_pied_fp"]
+    cache_dir = next(iter(feature_paths.values())).parent
+    live_p1_cache = cache_dir / f"live_p1_ens_{winner.exp_id}.f32.npy"
+    if live_p1_cache.exists():
+        p1_ens_fp = np.load(live_p1_cache)
     else:
-        p_s2_oof = np.zeros(grid.shape, dtype=np.float32)
-        p_pied_oof = np.zeros(grid.shape, dtype=np.float32)
+        all_s1_clfs = [c for clfs in winner.stage1_models for c in clfs]
+        p1_ens_fp = _predict_ensemble_fp(all_s1_clfs, X_full_fp, n_cols)
+        np.save(live_p1_cache, p1_ens_fp)
 
-        for p_idx, part in enumerate(partitions):
-            for s_idx, (test_sec, train_mask) in enumerate(part):
-                p2_s = _fit_hydro_directional_dual_regime(
-                    E2_FULL_FEATURES,
-                    E2_SUB_FEATURES,
-                    mmaps,
-                    fp_idx_map,
-                    lid_valid_fp,
-                    fp,
-                    train_mask,
-                    cat & train_mask,
-                    d_cat,
-                    test_sec,
-                    seed=700 + 100 * p_idx + 20 * s_idx,
-                )
-                p_s2_oof[test_sec] += 0.5 * p2_s[test_sec]
+    ax_live_fp = _extract_axial_prob_features_fp(p1_ens_fp, fp)
+    vent_live_fp = _maw_gsi_vent_conduit_score_fp(ax_live_fp, X_full_fp)
 
-                if winner_id == "E3":
-                    clf_pd = _fit_piedmont_specialist_hgb(
-                        mmaps, fp_idx_map, train_mask, cat & train_mask, d_cat,
-                        seed=900 + 20 * p_idx + s_idx
-                    )
-                    pp_s = _predict_single_hgb_on_mask(
-                        clf_pd,
-                        PIEDMONT_SPECIALIST_FEATURES,
-                        mmaps,
-                        fp_idx_map,
-                        test_sec,
-                    )
-                    p_pied_oof[test_sec] += 0.5 * pp_s[test_sec]
-                    del clf_pd, pp_s
-                del p2_s
-                gc.collect()
-        np.savez_compressed(live_ckpt, p_s2_fp=p_s2_oof[fp], p_pied_fp=p_pied_oof[fp])
-
-    if winner_id == "E2" or not winner.meta_weights:
-        live_surface = _prior_calibrate_surface(p_s2_oof, allowed_live, 42_000.0, gamma=1.25)
-        mean_ctip = mean_cstep = 0.0
-    else:
+    if winner.exp_id == "E3" and winner.stage2_bundles is not None:
         vtrb_live_fp = compute_visible_relay_features(cat, fp)
-        b15_2d = np.zeros(grid.shape, dtype=np.float32)
-        b15_2d[fp] = np.clip(mmaps["b15_depth_base"] / 450.0, 0.0, 1.0)
-        tip_2d, step_2d = _normalize_vtrb_to_2d(vtrb_live_fp, fp)
-
-        p_phys_live = _fuse_phys_and_piedmont(p_s2_oof, p_pied_oof, b15_2d, allowed_live, allowed_live)
-        mean_ctip = float(np.mean([w[0] for w in winner.meta_weights]))
-        mean_cstep = float(np.mean([w[1] for w in winner.meta_weights]))
-
-        raw_comb = np.zeros(grid.shape, dtype=np.float32)
-        raw_comb[allowed_live] = p_phys_live[allowed_live] * (
-            1.0 + mean_ctip * tip_2d[allowed_live] + mean_cstep * step_2d[allowed_live]
+        p2_ens_fp = np.zeros(X_full_fp.shape[0], dtype=np.float32)
+        for bundle in winner.stage2_bundles:
+            p2_ens_fp += _predict_stage2_bundle(bundle, ax_live_fp, X_full_fp, vtrb_live_fp)
+        p2_ens_fp /= float(len(winner.stage2_bundles))
+        r_s2 = _rank01_on_mask(p2_ens_fp, allowed_live_fp)
+        r_vn = _rank01_on_mask(vent_live_fp, allowed_live_fp)
+        final_score_fp = (0.52 * r_s2 + 0.48 * r_vn).astype(np.float32)
+        del vtrb_live_fp, p2_ens_fp
+    else:
+        final_score_fp = _refine_blind_axial_score_fp(
+            p1_ens_fp, fp, X_full_fp=X_full_fp, include_vent_corroboration=(winner.exp_id == "E2")
         )
-        live_surface = _prior_calibrate_surface(raw_comb, allowed_live, 42_000.0, gamma=1.25)
+    del ax_live_fp, p1_ens_fp, X_full_fp
+    gc.collect()
 
-    emitted = allocate_plkc_celf_dots(
-        live_surface,
-        cat,
-        d_cat,
-        allowed_live,
-        42_000.0,
-        max_dots=target_dots,
-        collar_px=2.0,
-        min_sep_px=2.8,
-        use_marginal_bar=False,
-    )
-    final_arr = np.where(emitted & fp & (~cat), np.float32(1.0), np.float32(0.0)).astype(np.float32)
-    diag = {
-        "oof_partitions": 2,
-        "oof_models_stitched": 16 if winner_id == "E3" else 8,
-        "in_sample_hgb_weight": 0.0,
-        "min_sep_px": 2.8,
-        "collar_px": 2.0,
-        "mean_c_tip": round(mean_ctip, 4),
-        "mean_c_step": round(mean_cstep, 4),
-    }
-    return live_surface, final_arr, diag
+    surface = np.zeros(grid.shape, dtype=np.float32)
+    surface[fp] = np.clip(final_score_fp, 0.0, 1.0)
+    surface[~allowed_live] = 0.0
+
+    vent_surf_2d = np.zeros(grid.shape, dtype=np.float32)
+    vent_surf_2d[fp] = np.clip(vent_live_fp, 0.0, 1.0)
+    vent_surf_2d[~allowed_live] = 0.0
+
+    if winner.exp_id == "E3":
+        emitted_mask = allocate_maw_gsi_dual_submodular(
+            surface,
+            vent_surf_2d,
+            cat,
+            allowed_live,
+            target_dots=target_dots,
+            vent_specialist_frac=0.28,
+            collar_px=2.05,
+        )
+    else:
+        emitted_mask = submodular_celf_allocate_300m(
+            surface,
+            cat,
+            allowed_live,
+            target_dots=target_dots,
+            collar_px=2.05,
+        )
+    final_arr = np.where(emitted_mask & fp & ~cat, np.float32(1.0), np.float32(0.0)).astype(np.float32)
+    return surface, final_arr

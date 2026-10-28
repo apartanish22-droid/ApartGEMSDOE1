@@ -166,46 +166,6 @@ EXTERNAL_PINS = [
         "sha256": "e5350423508968fa2d32b0a6ae0d3fb4ae3ea645e3b8736f0c8e7ad9ff2f2988",
         "official_source": "https://www2.census.gov/geo/tiger/TIGER2024/PRISECROADS/",
     },
-    {
-        "name": "topo_10m_derived_100m_u8.tif",
-        "repo": "buffedlizard55-lab/60GEMSDOE",
-        "ref": "156e7486b5b22c34bf9d7b8d90a714545d63f15a",
-        "path": "data/external/topo_10m_derived_100m_u8.tif",
-        "sha256": None,
-        "official_source": "https://www.usgs.gov/3d-elevation-program",
-    },
-    {
-        "name": "topo_10m_derived_100m_u8.manifest.json",
-        "repo": "buffedlizard55-lab/60GEMSDOE",
-        "ref": "156e7486b5b22c34bf9d7b8d90a714545d63f15a",
-        "path": "data/external/topo_10m_derived_100m_u8.manifest.json",
-        "sha256": None,
-        "official_source": "https://www.usgs.gov/3d-elevation-program",
-    },
-    {
-        "name": "dem10_chi_100m_i16.tif",
-        "repo": "buffedlizard55-lab/60GEMSDOE",
-        "ref": "156e7486b5b22c34bf9d7b8d90a714545d63f15a",
-        "path": "data/external/dem10_chi_100m_i16.tif",
-        "sha256": "8897ba9c30ef1cd7ad5f23c16c6dfd7bb070e7e757f36fd9486eb45edfd973a5",
-        "official_source": "https://www.usgs.gov/3d-elevation-program",
-    },
-    {
-        "name": "gdr_volcanic_vents_in_footprint.csv",
-        "repo": "buffedlizard55-lab/GEMSDOE24",
-        "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
-        "path": "data/external/gdr_volcanic_vents_in_footprint.csv",
-        "sha256": None,
-        "official_source": "https://gdr.openei.org/submissions/1391",
-    },
-    {
-        "name": "acquisition_block_id_100m.tif",
-        "repo": "buffedlizard55-lab/GEMSDOE24",
-        "ref": "9da8a18381e179530c3b878d073314feaa26a20c",
-        "path": "data/external/audit_sources/acquisition_block_id_100m.tif",
-        "sha256": None,
-        "official_source": "https://www.sciencebase.gov/catalog/item/657e1d85d34e23d3533209f7",
-    },
 ]
 
 DEM10_REPO = "buffedlizard55-lab/GEMSDOE10"

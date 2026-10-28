@@ -23,7 +23,6 @@ independently authenticated by the bridge hashes.
 from __future__ import annotations
 
 from dataclasses import dataclass
-import hashlib
 from pathlib import Path
 
 import numpy as np
@@ -75,14 +74,6 @@ def _check(src, what: str) -> None:
 
 def load_grid(data_dir: Path | None = None) -> Grid:
     d = Path(data_dir) if data_dir else DATA_DIR
-    for name, expected in (("existing_faults.tif", SHA256_EXISTING_FAULTS),
-                           ("sample_submission.tif", SHA256_SAMPLE_SUBMISSION)):
-        h = hashlib.sha256()
-        with (d / name).open("rb") as stream:
-            for block in iter(lambda: stream.read(1 << 20), b""):
-                h.update(block)
-        if h.hexdigest() != expected:
-            raise ValueError(f"{name}: pinned bridge SHA-256 mismatch")
     with rasterio.open(d / "existing_faults.tif") as src:
         _check(src, "existing_faults.tif")
         cat = src.read(1)
@@ -98,9 +89,9 @@ def load_grid(data_dir: Path | None = None) -> Grid:
 def write_submission(path: Path, values: np.ndarray, *, mode: str = "zeros") -> dict:
     """Serialize a pre-normalized array on the pinned grid without repairing it.
 
-    ``mode="zeros"`` is this project's conservative export mode: callers must
-    pass an all-finite field already in ``[0,1]`` (normally with cells outside
-    the footprint explicitly set to zero). Out-of-range and non-finite values are
+    ``mode="zeros"`` is the only submission-compatible mode: callers must pass
+    an all-finite field already in ``[0,1]`` (normally with cells outside the
+    footprint explicitly set to zero). Out-of-range and non-finite values are
     rejected; nothing is clipped or silently replaced.
 
     ``mode="nan"`` is retained for local diagnostics only. The organizer's

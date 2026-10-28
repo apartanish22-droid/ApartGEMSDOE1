@@ -1,0 +1,416 @@
+{
+  "evidence_class": "LEAKAGE-CANARY-HOLDOUT",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "withheld_positive_pixels": 11360,
+  "negative_sample_pixels": 250000,
+  "canary_cap": 0.9,
+  "max_symmetric_auc": 0.776456,
+  "all_passed": true,
+  "features": [
+    {
+      "feature": "det_elev_norm",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.498251,
+      "symmetric_auc": 0.501749,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "det_slope_log",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.550537,
+      "symmetric_auc": 0.550537,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "depth_base_log",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.533385,
+      "symmetric_auc": 0.533385,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "piedmont_hinge_gate",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.539171,
+      "symmetric_auc": 0.539171,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "geod_2ndinv_log",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.542303,
+      "symmetric_auc": 0.542303,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "geod_shearrate_log",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.548329,
+      "symmetric_auc": 0.548329,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "geod_dilaterate",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.510997,
+      "symmetric_auc": 0.510997,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "lidar_step_relnorm",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 0.753,
+      "roc_auc": 0.56681,
+      "symmetric_auc": 0.56681,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "lidar_antislope_graben",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 0.753,
+      "roc_auc": 0.572014,
+      "symmetric_auc": 0.572014,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "lidar_tect_fluvial_ratio",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 0.753,
+      "roc_auc": 0.57259,
+      "symmetric_auc": 0.57259,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "lidar_crest_toe_dipole",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 0.753,
+      "roc_auc": 0.576905,
+      "symmetric_auc": 0.576905,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "lidar_ex_max",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 0.753,
+      "roc_auc": 0.565301,
+      "symmetric_auc": 0.565301,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "lidar_coh100",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 0.753,
+      "roc_auc": 0.4695,
+      "symmetric_auc": 0.5305,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "lidar_relief_log",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 0.753,
+      "roc_auc": 0.575179,
+      "symmetric_auc": 0.575179,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "road_berm_prox",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.514465,
+      "symmetric_auc": 0.514465,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "dem10_onesided_relnorm",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.463214,
+      "symmetric_auc": 0.536786,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "dem10_slope_max",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.557787,
+      "symmetric_auc": 0.557787,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "dem10_hgm50_max",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.554246,
+      "symmetric_auc": 0.554246,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "dem10_curv_absmax",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.549872,
+      "symmetric_auc": 0.549872,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "dem10_onesided_local",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.480636,
+      "symmetric_auc": 0.519364,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "topo_seamfree_scarp",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.541694,
+      "symmetric_auc": 0.541694,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "topo_worm_1100m_max",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.523766,
+      "symmetric_auc": 0.523766,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "dem10_worm_1100m_max",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.465765,
+      "symmetric_auc": 0.534235,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "grav_slope_log",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.500891,
+      "symmetric_auc": 0.500891,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "grav_vg",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.532979,
+      "symmetric_auc": 0.532979,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "grav_worm_1500m_max",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.503871,
+      "symmetric_auc": 0.503871,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "mag_hg_worm_1500m_max",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.520481,
+      "symmetric_auc": 0.520481,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "updip_grav_mag_tilt_contact",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.507283,
+      "symmetric_auc": 0.507283,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "gallardo_crossgrad_align",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.516132,
+      "symmetric_auc": 0.516132,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "gallardo_plug_curl",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.514637,
+      "symmetric_auc": 0.514637,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "struct_intersect_topo_vent",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.514117,
+      "symmetric_auc": 0.514117,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "struct_intersect_geophys_vent",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.516033,
+      "symmetric_auc": 0.516033,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "topo_geophys_strike_coherence",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.506026,
+      "symmetric_auc": 0.506026,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "hydro_demag_up150_rtp",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.503574,
+      "symmetric_auc": 0.503574,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "potassic_k_th_alteration",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.477424,
+      "symmetric_auc": 0.522576,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "mt_claycap_edge",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.522044,
+      "symmetric_auc": 0.522044,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "gdr_spring_geotherm_conduit",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.52518,
+      "symmetric_auc": 0.52518,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "probe2m_sinter_vent_field",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.488616,
+      "symmetric_auc": 0.511384,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "vent_coupled_intersection",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.520398,
+      "symmetric_auc": 0.520398,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "earthq_anderson_alignment",
+      "group": "blind_maw_gsi",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.539524,
+      "symmetric_auc": 0.539524,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "vtrb_tip_cone",
+      "group": "fold_visible_vtrb",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.776456,
+      "symmetric_auc": 0.776456,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "vtrb_stepover_bridge",
+      "group": "fold_visible_vtrb",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.767806,
+      "symmetric_auc": 0.767806,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "vtrb_host_len_transfer",
+      "group": "fold_visible_vtrb",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.662154,
+      "symmetric_auc": 0.662154,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "d_vis_belt_tempered",
+      "group": "fold_visible_vtrb",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.25434,
+      "symmetric_auc": 0.74566,
+      "canary_cap": 0.9,
+      "passed": true
+    },
+    {
+      "feature": "vtrb_belt_density_far",
+      "group": "fold_visible_vtrb",
+      "finite_fraction": 1.0,
+      "roc_auc": 0.642873,
+      "symmetric_auc": 0.642873,
+      "canary_cap": 0.9,
+      "passed": true
+    }
+  ]
+}

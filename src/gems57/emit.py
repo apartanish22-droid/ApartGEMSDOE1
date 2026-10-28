@@ -33,7 +33,6 @@ hide-and-recover holdout.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-import heapq
 
 import numpy as np
 from scipy import ndimage as ndi
@@ -60,26 +59,6 @@ def expected_credit(p: np.ndarray) -> np.ndarray:
     return out
 
 
-def noisy_or_self_credit(p: np.ndarray) -> np.ndarray:
-    """Exact independent-Bernoulli expectation ``E[max_g Y_g k(d(x,g))] = 1 - prod_g (1 - p(g) k(d))``.
-
-    Repairs shared-tool defect ``IR-EMIT-KSELF-ZERO-BAR-02``: previously ``greedy_allocate``
-    substituted ``min(sum_g p(g) k(d), 1.0)`` for ``k_self``, which saturated to ``1.0``
-    whenever local ``p >= 0.132``, collapsing the acceptance bar ``c * (1 - k_self) -> 0``
-    and admitting dense adjacent-pixel blobs. Under noisy-OR, ``k_self < 1`` strictly
-    whenever ``p < 1``.
-    """
-    p_clip = np.clip(np.asarray(p, np.float32), 0.0, 0.9999)
-    H, W = p_clip.shape
-    log_miss = np.zeros((H, W), dtype=np.float32)
-    for j, i, k in zip(OFF_DY, OFF_DX, OFF_K):
-        ys0, ys1 = max(0, j), min(H, H + j)
-        xs0, xs1 = max(0, i), min(W, W + i)
-        pk = p_clip[max(0, -j):min(H, H - j), max(0, -i):min(W, W - i)] * np.float32(k)
-        log_miss[ys0:ys1, xs0:xs1] += np.log1p(-np.minimum(pk, np.float32(0.999999)))
-    return (1.0 - np.exp(log_miss)).astype(np.float32)
-
-
 @dataclass
 class Allocation:
     emitted: np.ndarray
@@ -94,128 +73,113 @@ class Allocation:
 def greedy_allocate(p: np.ndarray, allowed: np.ndarray, k_truth: float, *,
                     floor: float = 0.02, max_dots: int = 200_000,
                     candidate_cap: int = 400_000, per_round: int = 20_000,
-                    max_rounds: int = 400, min_sep_px: float = 0.0,
-                    use_marginal_bar: bool = True,
-                    trace_every: int = 0) -> Allocation:
-    """Cost-Effective Lazy Forward (CELF) max-heap submodular dot allocation.
+                    max_rounds: int = 400, trace_every: int = 0) -> Allocation:
+    """Select dots while each one provably raises the surrogate DTI.
 
-    Repairs shared-tool defects ``IR-EMIT-NOCELF-01`` and ``IR-EMIT-KSELF-ZERO-BAR-02``
-    directly in ``gems57.emit`` per Parallel-Run Protocol Rule 2:
-      1. Uses a true ``heapq`` lazy-greedy max-heap on current marginal truth credit ``dT``
-         (submodular monotone non-increasing as ``cover`` grows), so the highest-marginal-gain
-         fault ridge across the entire basin is always selected next instead of scanning
-         adjacent blob neighbours in static initial ``E[k]`` order.
-      2. Computes ``k_self`` via :func:`noisy_or_self_credit` (exact Bernoulli expectation of
-         the kernel maximum) so ``1 - k_self > 0`` everywhere ``p < 1``.
-      3. Supports ``min_sep_px`` (e.g. ``2.8`` px = ``280 m`` matching the ``300 m`` DTI kernel
-         radius) to prevent redundant multi-dot crowding inside a single 300 m kernel disk.
+    Parameters
+    ----------
+    p
+        Per-cell probability of being a hidden truth cell, in [0, 1].
+    allowed
+        Boolean mask of cells that may carry a dot (footprint, catalogue removed).
+    k_truth
+        ``|G|``, the number of hidden truth cells, which sets the bar.
+    floor
+        Cells with ``E[k] < floor`` are never considered.  Pure speed-up: with
+        ``alpha = 0.2`` the bar is ``c*(1-k) >= 0`` and any candidate accepted at
+        a realistic score has ``E[k]`` well above this.
     """
     p = np.asarray(p, np.float32)
     H, W = p.shape
     ek = expected_credit(p)
-    cand = np.asarray(allowed, dtype=bool) & (ek >= floor)
+    cand = allowed & (ek >= floor)
     ys, xs = np.nonzero(cand)
-    if ys.size == 0 or max_dots <= 0:
+    if ys.size == 0:
         return Allocation(np.zeros(p.shape, bool), 0)
     order = np.argsort(-ek[ys, xs], kind="stable")
     if order.size > candidate_cap:
         order = order[:candidate_cap]
-    ys = ys[order].astype(np.int32)
-    xs = xs[order].astype(np.int32)
+    ys, xs = ys[order], xs[order]
     ekc = ek[ys, xs].astype(np.float64)
-    ks_grid = noisy_or_self_credit(p)
-    kself = ks_grid[ys, xs].astype(np.float64)
-    del ks_grid
+    # ``E[k]`` is a *sum* of p*k over the neighbourhood and can exceed 1, but the
+    # metric's per-dot self-credit is ``max_g k(d(x,g))``, which cannot.  Using
+    # the unclipped sum makes ``1 - k`` negative, which flips the bar negative and
+    # lets zero-credit dots through -- that bug produced 7,987 duplicate
+    # acceptances on a synthetic field (``IR-57-KCLIP-01``).
+    kself = np.minimum(ekc, 1.0)
+    ncand = ys.size
 
-    sep_dy: list[int] = []
-    sep_dx: list[int] = []
-    if min_sep_px > 0.0:
-        r_sep = int(np.floor(min_sep_px))
-        r2 = float(min_sep_px) * float(min_sep_px) - 1e-9
-        for dy in range(-r_sep, r_sep + 1):
-            for dx in range(-r_sep, r_sep + 1):
-                if dy * dy + dx * dx < r2:
-                    sep_dy.append(dy)
-                    sep_dx.append(dx)
-    sep_dy_arr = np.asarray(sep_dy, dtype=np.int32)
-    sep_dx_arr = np.asarray(sep_dx, dtype=np.int32)
-    blocked = np.zeros((H, W), dtype=bool) if sep_dy else None
-
-    cover = np.zeros((H, W), dtype=np.float32)
-    emitted = np.zeros((H, W), dtype=bool)
-    heap: list[tuple[float, int, int]] = [(-float(ekc[i]), int(i), 0) for i in range(ys.size)]
-    heapq.heapify(heap)
-
+    cover = np.zeros(p.shape, np.float32)
+    emitted = np.zeros(p.shape, bool)
+    upper = ekc.copy()            # non-increasing upper bound on each candidate's dT
+    dirty = np.ones(ncand, bool)  # needs (re-)evaluation
     T = M = 0.0
     n_dots = 0
-    pops = 0
-    K = float(k_truth)
+    rounds = 0
     trace: list[dict] = []
 
-    off_dy_i = OFF_DY.astype(np.int32)
-    off_dx_i = OFF_DX.astype(np.int32)
-    off_kw_f = OFF_K.astype(np.float64)
-    off_kw_32 = OFF_K.astype(np.float32)
+    while n_dots < max_dots and rounds < max_rounds:
+        rounds += 1
+        def _c() -> float | None:
+            D_ = ALPHA * (T + n_dots - M) + BETA * k_truth + EPS
+            a_ = ALPHA * (T / D_)
+            return None if a_ >= 1.0 else a_ / (1.0 - a_)
 
-    while heap and n_dots < max_dots:
-        neg_u, i, stamp = heapq.heappop(heap)
-        pops += 1
-        y = int(ys[i])
-        x = int(xs[i])
-        if emitted[y, x] or (blocked is not None and blocked[y, x]):
-            continue
-
-        if use_marginal_bar and n_dots > 0:
-            D0 = ALPHA * (T + n_dots - M) + BETA * K + EPS
-            a0 = ALPHA * (T / D0)
-            if a0 >= 1.0:
+        c = _c()
+        if c is None:
+            break
+        # the bar is recomputed after every acceptance: DTI moves inside a round,
+        # and freezing it lets marginal acceptances slip through that would
+        # actually lower DTI (the surrogate DTI was non-monotone before this fix)
+        eligible = dirty & (upper > c * (1.0 - kself))
+        if not eligible.any():
+            break
+        idxs = np.flatnonzero(eligible)
+        if idxs.size > per_round:
+            idxs = idxs[:per_round]
+        accepted = 0
+        for i in idxs:
+            if n_dots >= max_dots:
                 break
-            c_bar = (a0 / (1.0 - a0)) * (1.0 - kself[i])
-            if -neg_u <= c_bar:
+            if c is None:
+                break
+            y, x = int(ys[i]), int(xs[i])
+            if emitted[y, x]:
+                dirty[i] = False
                 continue
-        else:
-            c_bar = 0.0
-
-        if stamp < n_dots:
-            ny = y + off_dy_i
-            nx = x + off_dx_i
+            ny = y + OFF_DY
+            nx = x + OFF_DX
             ok = (ny >= 0) & (ny < H) & (nx >= 0) & (nx < W)
-            nyv, nxv = ny[ok], nx[ok]
-            dT = float((p[nyv, nxv].astype(np.float64) * np.maximum(off_kw_f[ok] - cover[nyv, nxv].astype(np.float64), 0.0)).sum())
-            if dT <= (c_bar if use_marginal_bar else 0.0):
+            nyv, nxv, kw = ny[ok], nx[ok], OFF_K[ok]
+            pv = p[nyv, nxv].astype(np.float64)
+            cv = cover[nyv, nxv].astype(np.float64)
+            dT = float((pv * np.maximum(kw - cv, 0.0)).sum())
+            upper[i] = dT
+            dirty[i] = False
+            if dT <= c * (1.0 - kself[i]):
                 continue
-            if heap and (-dT > heap[0][0]):
-                heapq.heappush(heap, (-dT, i, n_dots))
-                continue
-        else:
-            dT = -neg_u
-            if dT <= (c_bar if use_marginal_bar else 0.0):
-                continue
-            ny = y + off_dy_i
-            nx = x + off_dx_i
-            ok = (ny >= 0) & (ny < H) & (nx >= 0) & (nx < W)
-            nyv, nxv = ny[ok], nx[ok]
+            emitted[y, x] = True
+            n_dots += 1
+            T += dT
+            M += float(kself[i])
+            np.maximum.at(cover, (nyv, nxv), kw.astype(np.float32))
+            accepted += 1
+            c = _c()
+            # candidates within 6 px can have a changed dT (3 px kernel, twice)
+            m = (ys >= y - 6) & (ys <= y + 6) & (xs >= x - 6) & (xs <= x + 6)
+            dirty[m] = True
+            dirty[i] = False
+            if trace_every and n_dots % trace_every == 0:
+                D2 = ALPHA * (T + n_dots - M) + BETA * k_truth + EPS
+                trace.append({"n_dots": n_dots, "T": T, "M": M,
+                              "dti_est": T / D2, "last_dT": dT})
+        if accepted == 0:
+            break
 
-        emitted[y, x] = True
-        n_dots += 1
-        T += dT
-        M += float(kself[i])
-        np.maximum.at(cover, (nyv, nxv), off_kw_32[ok])
-        if blocked is not None:
-            by = y + sep_dy_arr
-            bx = x + sep_dx_arr
-            bok = (by >= 0) & (by < H) & (bx >= 0) & (bx < W)
-            blocked[by[bok], bx[bok]] = True
-
-        if trace_every and n_dots % trace_every == 0:
-            D2 = ALPHA * (T + n_dots - M) + BETA * K + EPS
-            trace.append({"n_dots": n_dots, "T": T, "M": M,
-                          "dti_est": T / D2, "last_dT": dT, "heap_pops": pops})
-
-    D = ALPHA * (T + n_dots - M) + BETA * K + EPS
+    D = ALPHA * (T + n_dots - M) + BETA * k_truth + EPS
     return Allocation(emitted=emitted, n_dots=n_dots,
                       expected_covered_credit=T, expected_self_credit=M,
-                      rounds=pops, surrogate_dti=float(T / D), trace=trace)
+                      rounds=rounds, surrogate_dti=float(T / D), trace=trace)
 
 
 def dilate_zone(mask: np.ndarray, px: int) -> np.ndarray:
