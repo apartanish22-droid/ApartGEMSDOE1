@@ -1,0 +1,9 @@
+{
+  "status": "ok",
+  "observed_utc": "2026-10-28",
+  "timestamp_precision": "date",
+  "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",
+  "top_public_dti": 0.4544,
+  "caveat": "Public leaderboard observed on this date, not a forecast or a score for a file in this repository. The scheduled refresh may be unavailable until Pages deployment is enabled."
+}
