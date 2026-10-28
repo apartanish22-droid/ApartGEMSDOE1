@@ -36,7 +36,18 @@ def main() -> int:
     edt_cat = distance_transform_edt(~grid.catalogue)
     collar_2px_dots = int(((arr > 0) & (edt_cat <= 2.0)).sum())
     farfield_15px_dots = int(((arr > 0) & (edt_cat > 15.0)).sum())
-    uniq = check_final_raster_uniqueness(arr, grid.footprint)
+    try:
+        uniq = check_final_raster_uniqueness(arr, grid.footprint)
+    except FileNotFoundError as e:
+        # Fresh checkouts lack the git-ignored registry cache (.cache/ is excluded
+        # from snapshots). Degrade to an explicit SKIP instead of crashing:
+        # format/range gates above are still fully enforced, but uniqueness is
+        # NOT cleared by this run. Rebuild the registry with
+        # scripts/audit_focus_sites_and_registry.py to clear it.
+        uniq = {"passed": False, "skipped": True,
+                "reason": f"registry cache unavailable: {e}",
+                "max_abs_spearman_rho": None,
+                "max_3px_overlap_vs_competing_detectors": None}
 
     full = {
         "validator_version": "apartgems-automated-gate-v1",
@@ -63,8 +74,9 @@ def main() -> int:
         "n_nan": receipt["n_nan"],
         "collar_200m_positive_pixels": collar_2px_dots,
         "farfield_fraction": full["farfield_fraction"],
-        "max_abs_spearman_rho": uniq["max_abs_spearman_rho"],
-        "max_3px_overlap_vs_competing_detectors": uniq["max_3px_overlap_vs_competing_detectors"],
+        "max_abs_spearman_rho": uniq.get("max_abs_spearman_rho"),
+        "max_3px_overlap_vs_competing_detectors": uniq.get("max_3px_overlap_vs_competing_detectors"),
+        "uniqueness_skipped": bool(uniq.get("skipped")),
     }, indent=2))
     if not full["all_automated_gates_passed"]:
         return 1

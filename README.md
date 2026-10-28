@@ -14,6 +14,44 @@
 
 ---
 
+## ⭐ 2026-10-28 Update — H-APART-2 Concordance Lane: NEGATIVE (duplicate), do not submit
+
+**The only file cleared `OK TO DOWNLOAD AND SUBMIT` remains the UDTH-Submod E3 file in the banner above.** A new lane was tested end-to-end this session (`scripts/run_concordance_hybrid.py`, run card `evidence/run_card_cah.json`) and **failed**:
+
+| Candidate (this session, ≤3 experiments) | HOLDOUT-DTI (`gems57-pooled-hide-v2`, 11,360 withheld px, static final-raster scoring) | Uniqueness vs GEMSDOE32 B2 | Verdict |
+| :--- | :--- | :--- | :--- |
+| `EXP1` Concordance-Anchored Hybrid (38,500 dots) | `0.0043` `[0.0035, 0.0051]` | **89.06% 3-px overlap (>70% cap)**, ρ=0.865 | ❌ **NEGATIVE — duplicate lane, no file written** |
+| `EXP2` Hybrid, our positions only | `0.0007` `[0.0004, 0.0011]` | not promoted (worst holdout) | ❌ NEGATIVE |
+| `EXP3` B2 concordance-prune 30k | `0.0041` `[0.0033, 0.0050]` | B2-derived by construction | ❌ NEGATIVE |
+| Control: GEMSDOE32 B2 raster (static) | `0.0042` `[0.0034, 0.0050]` | — | control |
+| Control: UDTH E3 raster (static) | `0.0012` `[0.0007, 0.0018]` | 35.86% (prior full-registry audit) | control |
+
+**Decision table — what to download:**
+
+| File to download | Estimated live score | Unique? | Submit? |
+| :--- | :--- | :--- | :--- |
+| [`docs/downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif`](docs/downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif) | **PROJECTION ONLY (not a score): ~0.08, wide range 0.02–0.20** — anchored by scaling the USER-REPORTED 0.2778\* of B2 by the static-holdout ratio (0.0012/0.0042≈0.29); low confidence, no portal receipt exists | YES — max 62.48% 3-px overlap vs 342 registry detectors; 35.86% vs GEMSDOE32 (prior audit, `evidence/uniqueness_gate.json`) | ✅ **YES — only cleared file** |
+| Any `apartgems1-cah-*` file | — | **NO (89% duplicate)** | ❌ **DO NOT SUBMIT — file was never written** |
+| Any Focus-9 site file (GEMSDOE24/25/27/28/30/31/32/33/36) | USER-REPORTED 0.2449–0.2778\* each | NO — all are H19-5 derivatives, pairwise overlaps 97–100% (Section 1) | ❌ DO NOT RESUBMIT |
+
+**⚠️ Flagged irregularities (zero-hallucination log):**
+1. **Static vs OOF holdout discrepancy (material):** the banner's `0.0523` is an *out-of-fold* score (fold-specific models scored on their own holdout folds). Scoring the *final shipped raster* statically on the same evaluator gives `0.0012`. Both numbers are HOLDOUT-DTI on `gems57-pooled-hide-v2`, but they are **not interchangeable**; the shipped raster's live expectation must be anchored on the static number, hence the downgraded projection above. Any claim that UDTH E3 will beat 0.2778 live is **unsupported**.
+2. **Concordance ⇒ duplication:** ranking by cross-lineage agreement mechanically selects dots within 3 px of B2 (89%), breaching Protocol Rule 1. Concordance with a *proven* lineage cannot simultaneously satisfy the ≤70% uniqueness cap at a 38.5k budget — this lane is closed.
+3. **Validator portability (fixed this session):** `scripts/validate_submission.py` crashed on fresh checkouts lacking the git-ignored registry cache; it now reports uniqueness as explicit `SKIPPED` (gate = FAIL) instead of crashing, while format/range/[0,1] gates still pass for the promoted file.
+4. Leakage canary for the concordance surface: symmetric AUC `0.5699 ≤ 0.90` — PASS, no leakage; the lane failed on uniqueness, not leakage.
+
+**Next hypotheses (ranked, not yet implemented — require the stated free official data):**
+| # | Hypothesis | Layers / signature | Why it catches catalogue-missing faults | Cost / data |
+| :--- | :--- | :--- | :--- | :--- |
+| N1 | 3D Euler deconvolution (N=0.5) contact clustering | GeoDAWN TMI/RTP upward continuations (bands 2/3/9 + USGS GeoDAWN, https://www.sciencebase.gov/catalog/item/61955dcad34eb622f6908d6c) | Depth-sorted sub-basin contacts have no surface scarp, so catalogue-blind | Medium; data already mirrored in fleet caches |
+| N2 | Lahontan highstand bench subtraction | Orthometric 3DEP 1/3-arcsec DEM (https://www.usgs.gov/3d-elevation-program) + USGS MF-2323 shoreline vectors | Removes the dominant non-fault scarp mimic, raising precision of every scarp dot | Medium; raw tiles outside sandbox allowlist — fetch on unrestricted machine |
+| N3 | InSAR/geodetic strain-localisation | Bands 4/7/8/10/16 (geodetic invariants already in 19-band stack) + Sentinel-1 (free, ESA Copernicus) | Actively creeping blind faults localise strain before a scarp forms | High; new external download |
+| N4 | Relocated microseismicity lineation | USGS earthquake catalogue (https://earthquake.usgs.gov/earthquakes/search/) | Hypocentre alignments image blind fault planes directly | Medium; free API, needs relocation QC |
+
+**Run card (H-APART-2):** `evidence/run_card_cah.json` — verdict `negative`. Negative results are deliverables (Protocol Rule 5).
+
+---
+
 ## 1. Executive Summary & Auditable Focus-9 GEMSDOE Table
 
 Per Parallel-Run Protocol Rule 3, every numerical figure is strictly labeled as either local **`HOLDOUT-DTI`** (with evaluator version `gems57-pooled-hide-v2`, `11,360` withheld positive pixels, and 1,000-draw 20 km spatial block bootstrap 95% CI) or **User-Reported Context** (`*` from the prompt ledger; peer repositories do not contain raw DrivenData portal receipt screenshots/JSONs).

@@ -53,6 +53,20 @@
     </section>
 
     <section class="section">
+      <h2>1b. 2026-10-28 Update — What to download, estimated score, uniqueness (READ FIRST)</h2>
+      <table>
+        <tr><th>File to download</th><th>Estimated live score</th><th>Unique?</th><th>Submit?</th></tr>
+        <tr><td><a href="downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif" download><code>apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif</code></a></td>
+        <td><strong>PROJECTION ONLY (not a score): ~0.08 (range 0.02–0.20)</strong>, low confidence — anchored by scaling the USER-REPORTED 0.2778* of GEMSDOE32 B2 by their static-holdout ratio (0.0012/0.0042). No portal receipt exists.</td>
+        <td>YES — max 62.48% 3-px overlap vs 342 registry detectors; 35.86% vs GEMSDOE32</td><td><strong>✅ YES — only cleared file</strong></td></tr>
+        <tr><td>Any <code>apartgems1-cah-*</code> (H-APART-2 concordance hybrid, tested 2026-10-28)</td>
+        <td>—</td><td><strong>NO — 89.06% 3-px overlap vs GEMSDOE32 (cap 70%)</strong>; HOLDOUT-DTI static 0.0043 [0.0035, 0.0051]</td><td><strong>❌ DO NOT SUBMIT — negative result, file never written</strong> (<code>evidence/run_card_cah.json</code>)</td></tr>
+        <tr><td>Any Focus-9 file (GEMSDOE24/25/27/28/30/31/32/33/36)</td><td>USER-REPORTED 0.2449–0.2778* each</td><td>NO — H19-5 derivatives, 97–100% mutual overlap</td><td>❌ DO NOT RESUBMIT</td></tr>
+      </table>
+      <p><strong>⚠️ Irregularity flagged 2026-10-28:</strong> the 0.0523 headline is an out-of-fold HOLDOUT-DTI; the shipped raster scored statically on the same evaluator gives 0.0012. The two are not interchangeable — the projection above uses the static anchor. Beating 0.2778 live with the current file is <strong>not</strong> supported by evidence; the next ranked hypotheses (Euler deconvolution, Lahontan bench subtraction, InSAR strain, microseismic lineation) are listed in the README.</p>
+    </section>
+
+    <section class="section">
       <h2>2. Step-by-Step: How to Submit on DrivenData</h2>
       <div class="step-list">
         <div class="step-item">
