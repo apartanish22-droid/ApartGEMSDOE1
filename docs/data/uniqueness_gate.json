@@ -50,7 +50,9 @@
         "is_blanket": true
       }
     ],
-    "passed": true
+    "passed": false,
+    "historical_only": true,
+    "warning": "Historical sampled/density-exempt result is not a literal or complete uniqueness clearance."
   },
   "post_placement_final_raster_gate": {
     "gate": "POST_PLACEMENT_FINAL_RASTER",
@@ -1815,7 +1817,12 @@
         "spearman_rho": 0.01241
       }
     ],
-    "passed": true
+    "passed": false,
+    "historical_only": true,
+    "warning": "Historical sampled/density-exempt result is not a literal or complete uniqueness clearance."
   },
-  "overall_uniqueness_passed": true
+  "overall_uniqueness_passed": false,
+  "verdict": "negative",
+  "superseded_by": "evidence/literal_witness_audit.json",
+  "reason": "Literal witness exceeds the 70% forward-overlap threshold."
 }

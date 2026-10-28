@@ -48,14 +48,11 @@ def _jaccard(a, b):
 
 def is_blanket_or_lattice(a: np.ndarray, footprint: np.ndarray, radius_px: float = RADIUS_PX,
                           coverage_threshold: float = OVERLAP_LIMIT) -> dict:
-    """Shared Rule-2 repair for IR-REG-BLANKET: detect continuous surfaces & uniform calibration lattices.
+    """Describe a dense or lattice witness without exempting it from the gate.
 
-    A reference raster whose 3-px Euclidean support covers >= 70% of the entire valid footprint
-    (e.g., 5.1M-cell continuous probability surfaces covering 100%, or the 206,895-cell uniform 5-px
-    calibration grid `r13-lattice-s5` covering 99.87%) mathematically forces >70% forward `a > 0`
-    overlap on high-budget sparse candidates regardless of fault placement. Such rasters must be
-    audited by full-footprint Spearman rank correlation (`|rho| <= 0.90`), matched-budget top-K
-    overlap when values vary, and explicit IR-REG-BLANKET witness disclosure.
+    Under the user's literal rule, all finite positive cells count as support.
+    A dense witness can make the threshold difficult to satisfy, but cannot be
+    ignored, down-weighted, top-K truncated, or treated as a passing comparison.
     """
     pos = _dots(a) & np.asarray(footprint, bool)
     n_fp = max(int(np.asarray(footprint, bool).sum()), 1)
@@ -84,18 +81,37 @@ def summarize_registry_rows(rows, *, registry_rasters_expected, complete_accessi
     expected = int(registry_rasters_expected)
     checked = [r for r in rows if 'error' not in r]
     errors = [r for r in rows if 'error' in r]
-    complete = bool(complete_accessible_scan and expected == len(rows)
-                    and not errors and not source_errors)
-    # The inherited stop gate is literal: only Spearman > 0.90 or forward
-    # 3-pixel overlap > 0.70 (plus byte/pixel identity safeguards) can block.
-    # Jaccard is reported for diagnosis, never substituted as a new threshold.
-    flags = [r for r in checked if any(r.get(k, False) for k in (
-        'duplicate_by_rho', 'duplicate_by_overlap',
-        'identical_bytes', 'identical_decoded_predictions'))]
-    rank_rows = [r for r in checked if r.get('spearman_full_footprint') is not None]
-    worst_rho = max(rank_rows, key=lambda r: r['spearman_full_footprint'], default=None)
-    worst_ov = max(checked, key=lambda r: r['my_dots_within_3px_of_theirs'], default=None)
-    worst_jac = max(checked, key=lambda r: r['jaccard_dot_sets'], default=None)
+    def valid_digest(value):
+        return isinstance(value, str) and len(value) == 64 and all(c in '0123456789abcdef' for c in value)
+
+    def valid_row(r):
+        rho = r.get('spearman_full_footprint')
+        overlap = r.get('my_dots_within_3px_of_theirs')
+        jaccard = r.get('jaccard_dot_sets')
+        return (valid_digest(r.get('sha256'))
+                and isinstance(overlap, (int, float)) and np.isfinite(overlap) and 0 <= overlap <= 1
+                and isinstance(jaccard, (int, float)) and np.isfinite(jaccard) and 0 <= jaccard <= 1
+                and isinstance(rho, (int, float)) and np.isfinite(rho) and -1 <= rho <= 1)
+
+    complete = bool(complete_accessible_scan and expected > 0 and expected == len(rows)
+                    and not errors and not source_errors and all(valid_row(r) for r in checked)
+                    and valid_digest(candidate_meta.get('candidate_decoded_sha256')))
+    # Re-derive flags from numeric observations, not just caller-supplied booleans.
+    # Jaccard is diagnostic only. Malformed rows cannot certify completeness.
+    flags = [r for r in checked if (
+        (r.get('spearman_full_footprint') is not None
+         and isinstance(r.get('spearman_full_footprint'), (int, float))
+         and r['spearman_full_footprint'] > RHO_LIMIT)
+        or (isinstance(r.get('my_dots_within_3px_of_theirs'), (int, float))
+            and r['my_dots_within_3px_of_theirs'] > OVERLAP_LIMIT)
+        or any(r.get(k, False) for k in ('duplicate_by_rho', 'duplicate_by_overlap',
+                                         'identical_bytes', 'identical_decoded_predictions')))]
+    def finite_rows(key):
+        return [r for r in checked if isinstance(r.get(key), (int, float)) and np.isfinite(r[key])]
+
+    worst_rho = max(finite_rows('spearman_full_footprint'), key=lambda r: r['spearman_full_footprint'], default=None)
+    worst_ov = max(finite_rows('my_dots_within_3px_of_theirs'), key=lambda r: r['my_dots_within_3px_of_theirs'], default=None)
+    worst_jac = max(finite_rows('jaccard_dot_sets'), key=lambda r: r['jaccard_dot_sets'], default=None)
     my_dot_count = int(candidate_meta['my_dots'])
     norm = bool(candidate_meta['candidate_rank_variation'])
     unique = complete and my_dot_count > 0 and norm and not flags
@@ -106,7 +122,8 @@ def summarize_registry_rows(rows, *, registry_rasters_expected, complete_accessi
         candidate_file_sha256=candidate_meta.get('candidate_file_sha256'),
         rho_limit=RHO_LIMIT, overlap_limit=OVERLAP_LIMIT, jaccard_limit=JACCARD_LIMIT,
         registry_rasters_expected=expected, registry_rasters_checked=len(checked),
-        complete_accessible_scan=complete, missing_or_invalid=len(errors),
+        complete_accessible_scan=complete,
+        missing_or_invalid=len(errors) + sum(not valid_row(r) for r in checked),
         source_errors=source_errors,
         worst_spearman_full_footprint=(worst_rho['spearman_full_footprint'] if worst_rho else None),
         worst_rho_submission=(worst_rho['submission'] if worst_rho else None),
@@ -233,11 +250,19 @@ def records_from_index(index):
 
 
 def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=None,
-                              include_reverse=True, progress=None, expected_grid=None):
+                              include_reverse=True, progress=None, expected_grid=None,
+                              stop_on_duplicate=True, phase='final'):
+    if phase not in ('surface', 'final'):
+        raise ValueError('phase must be surface or final')
     mine = np.asarray(mine, np.float32)
     fp = np.asarray(footprint, bool)
     if mine.ndim != 2 or mine.shape != fp.shape or not fp.any():
         raise ValueError('candidate / footprint grid mismatch or empty footprint')
+    if expected_grid is None and mine.shape != (3730, 3292):
+        raise ValueError('a nonstandard grid requires an explicit shape, CRS and transform')
+    if expected_grid is not None and (len(expected_grid) != 3 or expected_grid[0] != mine.shape
+                                      or expected_grid[1] is None or expected_grid[2] is None):
+        raise ValueError('expected grid must include matching shape, CRS and transform')
     if not np.isfinite(mine).all() or (mine < 0).any() or (mine > 1).any():
         raise ValueError('candidate must already be finite in [0,1]')
     if (mine[~fp] > 0).any():
@@ -262,7 +287,10 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
             if not p.exists():
                 raise FileNotFoundError('missing registry file; cannot certify uniqueness')
             digest = _sha(p)
-            if rec.get('sha256') and digest != rec['sha256']:
+            expected_sha = rec.get('sha256')
+            if not isinstance(expected_sha, str) or len(expected_sha) != 64:
+                raise ValueError('registry entry has no SHA256 pin')
+            if digest != expected_sha:
                 raise ValueError('registry SHA256 pin mismatch')
             with rasterio.open(p) as src:
                 if src.count != 1 or src.shape != mine.shape:
@@ -274,6 +302,10 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
                     if src.crs is None or src.crs.to_epsg()!=32611 or src.transform != TRANSFORM:
                         raise ValueError('registry CRS/transform mismatch')
                 theirs = src.read(1).astype(np.float32)
+            if not np.isfinite(theirs[fp]).all():
+                raise ValueError('registry raster has non-finite cells inside the footprint')
+            if (theirs[fp] < 0).any() or (theirs[fp] > 1).any():
+                raise ValueError('registry raster has out-of-range cells inside the footprint')
             theirs = np.where(np.isfinite(theirs), theirs, 0.0)
             # Outside-footprint values are ignored for support and pixel identity.
             theirs[~fp] = 0
@@ -297,6 +329,7 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
             row = {**base, 'sha256':digest, 'decoded_sha256':their_decoded,
                 'their_dots':int(support.sum()), 'my_dots_within_3px_of_theirs':ov,
                 'their_dots_within_3px_of_mine':reverse, 'spearman_full_footprint':rho,
+                'rank_comparison_defined': rho is not None,
                 'jaccard_dot_sets':jac,
                 'identical_bytes':bool(file_sha256 and digest==file_sha256),
                 'identical_decoded_predictions':bool(their_decoded==decoded_digest),
@@ -308,8 +341,12 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
             rows.append({**base, 'error':str(e)})
         if progress:
             progress(i+1,len(records),rows[-1])
+        if stop_on_duplicate and any(rows[-1].get(k, False) for k in (
+                'duplicate_by_rho', 'duplicate_by_overlap',
+                'identical_bytes', 'identical_decoded_predictions')):
+            break
     complete = inventory_complete and bool(records) and not source_errors
-    return summarize_registry_rows(
+    result = summarize_registry_rows(
         rows,
         registry_rasters_expected=len(records),
         complete_accessible_scan=complete,
@@ -323,6 +360,8 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
         ),
         scope='All hash-verified accessible entries in the indexed public owner-repository inventory; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only.',
     )
+    result['phase'] = phase
+    return result
 
 
 def compare_to_registry(mine_path, registry_index, footprint, **kwargs):
@@ -330,6 +369,13 @@ def compare_to_registry(mine_path, registry_index, footprint, **kwargs):
     with rasterio.open(mine_path) as src:
         if src.count != 1:
             raise ValueError('candidate must be single band')
+        expected = kwargs.get('expected_grid')
+        if expected is not None and (src.shape, src.crs, src.transform) != expected:
+            raise ValueError('candidate CRS/transform differs from reference')
+        if expected is None and src.shape == (3730, 3292):
+            from .grid import TRANSFORM
+            if src.crs is None or src.crs.to_epsg() != 32611 or src.transform != TRANSFORM:
+                raise ValueError('candidate CRS/transform mismatch')
         mine = src.read(1)
     result = compare_array_to_registry(mine, registry_index, footprint,
         file_sha256=_sha(mine_path), **kwargs)
@@ -368,116 +414,3 @@ def saturation_certificate(registry_path, footprint, catalogue=None, *, expected
         universal_overlap_blocker=uncovered==0, overlap_limit=OVERLAP_LIMIT,
         support_definition='finite prediction > 0 (inherited literal support rule)',
         implication='Every nonempty candidate dot set in the allowed domain has forward overlap 1.0 with this prior; therefore it cannot pass the 0.70 gate.' if uncovered==0 else 'No universal blockage established.')
-
-
-DENSE_SUPPORT_FRACTION = 0.20
-"""Support fraction above which a registry raster is a *continuous surface*.
-
-The inherited literal gate compares "my dots" against "one registry raster's
-dots" with a 70 % / 3 px forward-overlap test.  A raster whose positive support
-covers a large part of the study area has no dot set to compare against: every
-nonempty candidate is trivially within 3 px of it.  This was measured, not
-assumed -- see ``evidence/uniqueness_saturation_certificate.json`` and the
-independent re-measurement recorded with this session's certificate: the 17GEMSDOE
-``E-proba-multiscale`` surface (sha256 ``ab0a0a62…``) is positive on all 5,167,373
-footprint cells and leaves **0** of the 5,106,385 allowed cells uncovered, so the
-literal gate fires on any nonempty candidate in the allowed domain.
-
-The classification below does not weaken any threshold.  It separates the two
-tests the protocol already names -- rank correlation on the *surface*, 3 px dot
-overlap on the *dots* -- and applies each to representations it can discriminate
-between.  Both readings are always reported.
-"""
-
-
-def representation_class(their_dots: int, footprint_cells: int,
-                         limit: float = DENSE_SUPPORT_FRACTION) -> dict:
-    """Classify one registry raster by the denseness of its positive support."""
-    if footprint_cells <= 0:
-        raise ValueError("footprint_cells must be positive")
-    fraction = float(their_dots) / float(footprint_cells)
-    return dict(kind=("continuous_surface" if fraction > limit else "dot_field"),
-                support_fraction=fraction, limit=float(limit))
-
-
-def two_phase_summary(rows, footprint_cells: int, *, rho_limit: float = RHO_LIMIT,
-                      overlap_limit: float = OVERLAP_LIMIT,
-                      jaccard_limit: float = JACCARD_LIMIT,
-                      expected_rasters: int | None = None) -> dict:
-    """Report the literal and the like-for-like readings side by side.
-
-    ``rows`` is the row list produced by :func:`compare_array_to_registry` (or an
-    extension of it).  Nothing is filtered out of the *literal* reading: it keeps
-    the inherited definition (every positive finite pixel is a dot) and reports
-    its worst case and firing count.  The like-for-like reading applies the same
-    inherited thresholds to the subset of rasters that are dot fields, which is
-    the only comparison in which a dot-overlap test carries information.  The
-    rank-correlation test is applied to every raster in both readings.
-    """
-    from math import isnan
-
-    checked = [r for r in rows if "error" not in r]
-    if not checked:
-        raise ValueError("no checked registry rows to summarise")
-    for r in checked:
-        r.setdefault("representation", representation_class(
-            int(r.get("their_dots", 0)), footprint_cells)["kind"])
-
-    def _worst(subset, key):
-        vals = [r[key] for r in subset if r.get(key) is not None and not isnan(r[key])]
-        if not vals:
-            return None, None
-        best = max(vals)
-        who = next(r for r in subset if r.get(key) == best)
-        return float(best), who
-
-    rho_lit, rho_who = _worst(checked, "spearman_full_footprint")
-    ov_lit, ov_who = _worst(checked, "my_dots_within_3px_of_theirs")
-    dot_rows = [r for r in checked if r["representation"] == "dot_field"]
-    surf_rows = [r for r in checked if r["representation"] == "continuous_surface"]
-    ov_dot, ov_dot_who = _worst(dot_rows, "my_dots_within_3px_of_theirs")
-    ov_rev, ov_rev_who = _worst(checked, "their_dots_within_3px_of_mine")
-    jac, jac_who = _worst(checked, "jaccard_dot_sets")
-    literal_firings = [dict(submission=r.get("submission"), repo=r.get("repo"),
-                            representation=r["representation"],
-                            forward_overlap=r["my_dots_within_3px_of_theirs"],
-                            their_dots=r.get("their_dots"))
-                       for r in checked if r["my_dots_within_3px_of_theirs"] > overlap_limit]
-    like_firings = [f for f in literal_firings if f["representation"] == "dot_field"]
-    literal_rho_firings = [r.get("submission") for r in checked
-                           if r.get("spearman_full_footprint") is not None
-                           and r["spearman_full_footprint"] > rho_limit]
-    return dict(
-        evidence_class="REGISTRY-MEASUREMENT",
-        rasters_checked=len(checked),
-        rasters_expected=expected_rasters,
-        scope_note=("Checked against every registry raster whose bytes are present locally (plus any "
-                    "explicitly fetched witnesses). Un-fetched registry entries are a stated scope "
-                    "limitation, never a claim of absence."),
-        footprint_cells=int(footprint_cells),
-        dense_support_fraction=DENSE_SUPPORT_FRACTION,
-        thresholds=dict(rho=rho_limit, forward_overlap=overlap_limit, jaccard=jaccard_limit),
-        literal_reading=dict(
-            worst_spearman_full_footprint=rho_lit, worst_spearman_submission=(rho_who or {}).get("submission"),
-            worst_forward_overlap=ov_lit, worst_overlap_submission=(ov_who or {}).get("submission"),
-            forward_overlap_firings=len(literal_firings),
-            rho_firings=len(literal_rho_firings),
-            duplicate=bool(literal_firings or literal_rho_firings),
-            note=("Keeps the inherited literal support definition. A continuous-surface prior fires on "
-                  "every nonempty candidate, so a firing here is not evidence of duplication; it is "
-                  "reported for completeness."),
-        ),
-        like_for_like_reading=dict(
-            dot_field_rasters=len(dot_rows), continuous_surface_rasters=len(surf_rows),
-            worst_forward_overlap_dot_fields=ov_dot,
-            worst_forward_overlap_dot_field_submission=(ov_dot_who or {}).get("submission"),
-            worst_reverse_overlap=ov_rev,
-            worst_reverse_overlap_submission=(ov_rev_who or {}).get("submission"),
-            worst_jaccard=jac, worst_jaccard_submission=(jac_who or {}).get("submission"),
-            forward_overlap_firings=len(like_firings),
-            duplicate=bool(like_firings or literal_rho_firings),
-            note=("Inherited thresholds, applied to dot fields only; rank correlation still applies to "
-                  "every raster including the continuous surfaces."),
-        ),
-        literal_firings=literal_firings,
-    )

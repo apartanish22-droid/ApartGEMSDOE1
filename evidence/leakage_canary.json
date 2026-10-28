@@ -5,7 +5,7 @@
   "negative_sample_pixels": 250000,
   "canary_cap": 0.9,
   "max_symmetric_auc": 0.776456,
-  "all_passed": true,
+  "all_passed": false,
   "features": [
     {
       "feature": "det_elev_norm",
@@ -412,5 +412,13 @@
       "canary_cap": 0.9,
       "passed": true
     }
+  ],
+  "historical_only": true,
+  "promotion_eligible": false,
+  "warning": "Historical v2 run; listed single-feature canaries did not separately test every stage-2 axial and interaction feature. Not a complete current canary clearance.",
+  "tested_features_passed": true,
+  "complete_feature_coverage": false,
+  "missing_feature_groups": [
+    "stage-2 axial and interaction features"
   ]
 }

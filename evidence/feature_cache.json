@@ -180,5 +180,7 @@
       "detail": "Band 6 ('tc') description mentions magnetic tilt/curvature, but its physical values (~3-89) match USGS GeoDAWN airborne gamma-ray Total Count; genuine magnetic & gravity phase-tilt angles are computed analytically from (tmi_vg, tmi_hg) and (iso_grav_anom_vg, iso_grav_anom_hg)."
     }
   ],
-  "provenance": "Hash-verified public mirror bridge; organizer DrivenData login receipt not present in sandbox."
+  "provenance": "Hash-verified public mirror bridge; organizer DrivenData login receipt not present in sandbox.",
+  "historical_only": true,
+  "warning": "Prior cache report, not checked this session. Rebuild with the source-bound cache receipt; mirror bytes do not prove official provenance."
 }

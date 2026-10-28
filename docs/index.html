@@ -1,633 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ApartGEMSDOE1 — H-APART-2 (MAW-GSI E3) Validated Unique GeoTIFF Submission &amp; GEMSDOE32 Analysis</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand"><span class="brand-dot"></span> ApartGEMSDOE1 · DOE GEMS Prize Challenge</div>
-      <nav class="nav-links">
-        <a href="index.html" class="active">Overview &amp; One-Click Download</a>
-        <a href="executive-summary.html">Executive Summary &amp; DrivenData Submit Guide</a>
-        <a href="data/run_card.json" target="_blank">JSON Run Card</a>
-        <a href="data/run_summary.json" target="_blank">Full Evidence Bundle</a>
-      </nav>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Overview · GEMS Field Notes</title><link rel="stylesheet" href="styles.css"></head>
+<body><header class="site-header"><div class="header-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">G</span><span>GEMS / Field Notes<small>ApartGEMSDOE1 research</small></span></a>
+      <nav aria-label="Primary"><a href="index.html" aria-current="page">Overview</a><a href="index.html#sites">Nine-site review</a><a href="executive-summary.html">Submission guide</a><a href="research-sources.html">Sources</a></nav>
+    </div></header><main class="shell"><section class="hero">
+      <div><p class="eyebrow">Research operations / Geothermal fault discovery</p>
+        <h1>A clear decision before a submission.</h1>
+        <p class="lead">An auditable review of the nine requested GEMSDOE sites, the competition metric, and our latest candidate. No leaderboard score is forecast from a local holdout.</p>
+        <div class="actions"><a class="button primary" href="executive-summary.html">Read submission guide →</a><a class="button secondary" href="#sites">Compare the nine sites</a></div>
+      </div>
+      <aside class="status-card" aria-label="Current release decision"><span class="status-label"><span class="status-dot"></span> Mandatory stop</span>
+        <strong>No file is ready to submit.</strong><p>The existing candidate fails the literal registry overlap rule. No new GeoTIFF was generated and no competition slot was used in this review.</p></aside>
+    </section>
+    <div class="metric-grid" aria-label="Release gates">
+      <div class="metric"><span class="label">Format · local only</span><strong class="success-text">PASS</strong><small>All finite; [0,1]; matches owner-mirror grid.</small></div>
+      <div class="metric"><span class="label">Literal uniqueness</span><strong class="danger-text">FAIL · 99.68%</strong><small>Forward 3-pixel overlap; limit 70%.</small></div>
+      <div class="metric"><span class="label">Current holdout</span><strong>Not run</strong><small>v3 proxy score unavailable after stop.</small></div>
+      <div class="metric"><span class="label">Weekly slot</span><strong>Not selected</strong><small>Separate selector approval required.</small></div>
     </div>
-  </header>
-
-  <main class="container">
-    <section class="verdict-banner">
-      <div class="status-pill">&#10003; Automated Validation &amp; 806-Raster Uniqueness Gate: PASS — OK TO DOWNLOAD &amp; SUBMIT</div>
-      <h1 class="hero-title">Unique Blind Structural-Intersection &amp; Geothermal GeoTIFF (<code>H-APART-2: MAW-GSI E3</code>)</h1>
-      <p class="hero-sub">
-        100% automatically validated in project code with zero human-inspection gates and <strong>100% Zero-SGMC</strong> in training and inference.
-        Achieves <strong><code>HOLDOUT-DTI = 0.1174</code></strong> (95% CI <code>[0.0994, 0.1361]</code>;
-        <code>seed=20</code> stability = <strong><code>0.1250</code></strong>) — a <strong>+124.4% (2.24&times;) leap</strong>
-        over prior repo v1 (<code>0.0523</code>) and surpassing fold-honest <code>GEMSDOE32 B2</code> (<code>0.0974</code>) on canonical <code>gems57-pooled-hide-v2</code>.
-        Strictly all-finite <code>float32</code> in <code>[0.0, 1.0]</code> with <code>0</code> NaNs across all <code>12,279,160</code> cells (permanently preventing
-        <code>"Predicted values must be in range [0, 1]"</code>) and verified unique across <strong>50 repositories / 806 unique rasters</strong>
-        (max 3-px overlap = <strong>64.26% &le; 70%</strong> across all 660 competing sparse detectors;
-        only <strong>46.71%</strong> overlap with <code>GEMSDOE32</code> and <strong>11.02%</strong> with prior v1).
-      </p>
-
-      <div class="cta-row">
-        <a class="btn-primary" href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif" download>
-          &#11015; Download Unique GeoTIFF (.tif · 142 KB)
-        </a>
-        <a class="btn-secondary" href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.zip" download>
-          &#128230; Download Single-TIFF Archive (.zip · 110 KB)
-        </a>
-        <a class="btn-secondary" href="executive-summary.html">
-          &#128214; Step-by-Step DrivenData Submission Guide &rarr;
-        </a>
-      </div>
-
-      <div class="copy-grid">
-        <div class="copy-box">
-          <div class="copy-label">
-            <span>Submission Name &amp; File SHA-256</span>
-            <button class="copy-btn" onclick="copyText('sub-name-val', this)">Copy Name</button>
-          </div>
-          <div class="mono-val" id="sub-name-val">apartgems1-maw-gsi-e3-20261028-87f83db9</div>
-          <div class="mono-val" id="sha-val" style="color:#34d399;margin-top:0.25rem;">09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f</div>
-        </div>
-        <div class="copy-box">
-          <div class="copy-label">
-            <span>DrivenData Short Comment (115 / 140 chars)</span>
-            <button class="copy-btn" onclick="copyText('note-val', this)">Copy Note</button>
-          </div>
-          <div class="mono-val" id="note-val">H-APART-2 MAW-GSI (E3): 8-az strike worms + I_vent intersection + demag/GDR1391 + CELF300m; [0,1] zeros (37654 px).</div>
-        </div>
-      </div>
+    <section class="panel" id="decision"><div class="section-heading"><div><p class="eyebrow">01 / Executive decision</p><h2>What can I download?</h2></div></div>
+      <p><strong>No competition-ready file is available.</strong> The previous MAW-GSI TIFF remains accessible only to reproduce the negative audit. Do not upload it or any already-submitted historical file as a new entry.</p>
+      <p class="subtle"><strong>Audit-only file:</strong> <code>apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif</code> · SHA-256 <code>09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f</code></p>
+      <div class="actions"><a class="button secondary" href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a></div>
+      <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> 37,533 of 37,654 dots lie within three pixels of the <a href="https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
     </section>
-
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label">Range &amp; Finite Gate</div>
-        <div class="kpi-val">[0.0, 1.0]</div>
-        <div class="kpi-note"><span class="pass-tag">PASS</span> 0 NaN · 0 Inf · 12,279,160 finite float32</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Grid &amp; CRS Match</div>
-        <div class="kpi-val">EPSG:32611</div>
-        <div class="kpi-note"><span class="pass-tag">PASS</span> 3730&times;3292 @ 100 m matches sample</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Pooled HOLDOUT-DTI</div>
-        <div class="kpi-val">0.1174</div>
-        <div class="kpi-note"><span class="pass-tag">+124.4% vs v1</span> CI [0.0994, 0.1361] · seed20=0.1250</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Leakage Canary Gate</div>
-        <div class="kpi-val">0.7765</div>
-        <div class="kpi-note"><span class="pass-tag">45/45 PASS</span> All 45 features &le; 0.90 cap</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Surface Spearman |&rho;|</div>
-        <div class="kpi-val">0.6911</div>
-        <div class="kpi-note"><span class="pass-tag">PASS &le; 0.90</span> Final dot |&rho;| = 0.0925</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">806-Raster 3-px Gate</div>
-        <div class="kpi-val">64.26%</div>
-        <div class="kpi-note"><span class="pass-tag">PASS &le; 70%</span> 46.71% w/ GD32 · 11.02% w/ v1</div>
-      </div>
-    </div>
-
-    <section class="section">
-      <h2>1. Spatial Prediction Map &amp; Faulds-Hinz Geothermal Structural-Intersection Discovery</h2>
-      <p>
-        <strong>H-APART-2 (<code>MAW-GSI E3</code>)</strong> emits <strong>37,654</strong> binary <code>1.0</code> pixels strictly outside the
-        <code>200 m</code> (<code>2.05 px</code>) mapped-catalogue collar, allocating <strong>13,464 pixels
-        (35.8%)</strong> into blind Cenozoic basins (<code>&gt;1.5 km</code> from any mapped trace) and
-        <strong>72.1%</strong> beyond <code>600 m</code>, with median piedmont slope <strong><code>7.90&deg;</code></strong>
-        (matching <code>GEMSDOE32</code>'s <code>7.65&deg;</code> and curing v1's <code>11.98&deg;</code> mountain-interior bias) and post-hoc zero-SGMC
-        far-field piedmont recall <strong><code>C_pied_FAR_gt1km = 0.0474</code></strong>.
-      </p>
-      <div class="fig-box">
-        <img src="assets/maw_gsi_submission_map.png" alt="ApartGEMSDOE1 MAW-GSI E3 spatial prediction map and Carson Sink / Bradys-Dixie geothermal rift zoom">
-        <div class="fig-cap">
-          Left: Full NW Great Basin grid (EPSG:32611, 3730&times;3292) showing mapped catalogue faults (slate) and promoted ApartGEMSDOE1 v2 dots (emerald) over Band 15 depth-to-basement.
-          Right: 70&times;70 km Carson Sink / Bradys-Dixie geothermal rift inset contrasting GEMSDOE32 B2 (blue crosses) with ApartGEMSDOE1 MAW-GSI E3 (emerald circles) along 8-azimuth strike worms, orthogonal Faulds-Hinz intersections (I_vent), and magnetite-oxidation conduits.
-        </div>
-      </div>
+    <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest file named for each site in your prompt. Reported values are unconfirmed user claims, not organizer receipts. All estimates for future submissions are unavailable.</p></div></div>
+      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt claim</th><th scope="col">Future score estimate</th><th scope="col">Unique among focus nine?</th><th scope="col">Decision</th></tr></thead><tbody><tr>
+          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE24/">GEMSDOE24</a></strong></td>
+          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE24/blob/9e185929eeaa6244f96c3022cf3462faa8ca4de0/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif?raw=1">gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif</a><br><small>Historical file · research only</small></td>
+          <td>Owner-described 1.5-pixel thinning of H19-5 ridges.</td>
+          <td><strong>0.2477</strong><br><small>user-reported; unconfirmed</small></td>
+          <td>Unavailable</td>
+          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 49.94%</small></td>
+          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+        </tr><tr>
+          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE25/">GEMSDOE25</a></strong></td>
+          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE25/blob/fb1db37274776a29dbc48abe55b2e531f2ba6aad/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif?raw=1">gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</a><br><small>Historical file · research only</small></td>
+          <td>Owner-described 2.8-pixel thinning of H19-5 ridges.</td>
+          <td><strong>0.2600</strong><br><small>user-reported; unconfirmed</small></td>
+          <td>Unavailable</td>
+          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 48.56%</small></td>
+          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+        </tr><tr>
+          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE27/">GEMSDOE27</a></strong></td>
+          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE27/blob/6704fa2a5133e751df2516feb2e32565ad5fc1df/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif?raw=1">gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif</a><br><small>Historical file · research only</small></td>
+          <td>Owner-described topographic gap closure added to a D1.5 dotted map.</td>
+          <td><strong>0.2449</strong><br><small>user-reported; unconfirmed</small></td>
+          <td>Unavailable</td>
+          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 50.85%</small></td>
+          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+        </tr><tr>
+          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE28/">GEMSDOE28</a></strong></td>
+          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE28/blob/9509b73eaf35f66d0b23fce63b2540ceff2a88e0/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif?raw=1">gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif</a><br><small>Historical file · research only</small></td>
+          <td>Owner-described one-pixel collar prune plus blind step-over rungs on D2.8.</td>
+          <td><strong>0.2710</strong><br><small>user-reported; unconfirmed</small></td>
+          <td>Unavailable</td>
+          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 47.36%</small></td>
+          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+        </tr><tr>
+          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE30/">GEMSDOE30</a></strong></td>
+          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE30/blob/31696c6541cfc54620ff850a748c51625461f27f/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif?raw=1">gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif</a><br><small>Historical file · research only</small></td>
+          <td>Owner-described D2.8 Poisson-disk baseline; footprint values equal GEMSDOE25.</td>
+          <td><strong>0.2600</strong><br><small>user-reported; unconfirmed</small></td>
+          <td>Unavailable</td>
+          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 48.56%</small></td>
+          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+        </tr><tr>
+          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE31/">GEMSDOE31</a></strong></td>
+          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE31/blob/06930b9d03473a9313094a4f2312c4fc6efd4fbb/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif?raw=1">gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif</a><br><small>Historical file · research only</small></td>
+          <td>Owner-described solo / one-pixel catalogue-collar pruning on D2.8.</td>
+          <td><strong>0.2708</strong><br><small>user-reported; unconfirmed</small></td>
+          <td>Unavailable</td>
+          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 47.88%</small></td>
+          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+        </tr><tr>
+          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/">GEMSDOE32</a></strong></td>
+          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/97597a066d1c61d2c226fdba349716f41b30c1c6/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif?raw=1">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a><br><small>Historical file · research only</small></td>
+          <td>D2.8 set minus points at distance ≤2 pixels from mapped catalogue (verified support identity).</td>
+          <td><strong>0.2778</strong><br><small>user-reported; unconfirmed</small></td>
+          <td>Unavailable</td>
+          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 46.71%</small></td>
+          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+        </tr><tr>
+          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE33/">GEMSDOE33</a></strong></td>
+          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE33/blob/3eaf85efb49f364b84f8be04e8b084b12d0303b9/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif?raw=1">GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif</a><br><small>Historical file · research only</small></td>
+          <td>Owner-described analog fault-tip and step-over additions on D2.8.</td>
+          <td><strong>0.2632</strong><br><small>user-reported; unconfirmed</small></td>
+          <td>Unavailable</td>
+          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 48.36%</small></td>
+          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+        </tr><tr>
+          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE36/">GEMSDOE36</a></strong></td>
+          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE36/blob/e280188adbbe762e6b7ac6f3b8e105e8e7915026/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif?raw=1">gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif</a><br><small>Historical file · research only</small></td>
+          <td>Owner-described Andersonian geothermal PINN additions to the B2 base.</td>
+          <td><strong>0.2750</strong><br><small>user-reported; unconfirmed</small></td>
+          <td>Unavailable</td>
+          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 47.41%</small></td>
+          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+        </tr></tbody></table></div>
+      <p class="subtle" style="margin-top:14px">“Prior candidate overlap” means the fraction of the prior MAW-GSI dots within three pixels of that site’s file. Even though these nine comparisons are below the limit, the candidate fails against the additional registered lattice. The nine-site audit is not a complete registry.</p>
     </section>
-
-    <section class="section">
-      <h2>2. Auditable Executive Comparison: Focus-9 Champions, Recent Submissions &amp; ApartGEMSDOE1 v2</h2>
-      <p>
-        Per Parallel-Run Protocol Rule 3, every metric below is strictly separated between local <strong><code>HOLDOUT-DTI</code></strong>
-        (evaluated identically on <code>gems57-pooled-hide-v2</code>, <code>11,360</code> withheld positive pixels, 1,000-draw 20 km spatial block bootstrap 95% CI)
-        and <strong>User-Reported Context Scores</strong>* from the prompt ledger (never projected onto unseen test truth).
-      </p>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Site / Run</th>
-              <th>Downloadable GeoTIFF &amp; SHA-256</th>
-              <th>Strictly Labeled Score</th>
-              <th>Emitted Dots &amp; Spatial Anatomy</th>
-              <th>NaN / Range Status</th>
-              <th>Cross-Fleet Uniqueness</th>
-              <th>Automated Gate Verdict</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-      <tr class="highlight-row">
-        <td><strong>ApartGEMSDOE1 v2 (Ours)</strong><br><span class="pass-tag">PROMOTED NEW</span></td>
-        <td>
-          <a href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif" download><strong>apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif</strong></a><br>
-          <span class="mono-val">sha256: 09fa04bd481d896a…</span> (145,748 B)
-        </td>
-        <td>
-          <strong>HOLDOUT-DTI: 0.1174</strong><br>
-          <small>95% CI [0.0994, 0.1361]<br>
-          (gems57-pooled-hide-v2, 11,360 px)<br>
-          seed=20: 0.1250 | Det &gt;800m: 0.0840</small>
-        </td>
-        <td>
-          <strong>37,654</strong><br>
-          <small>0 on cat | 0 &le;200m | d2–6: 27.9%<br>
-          &gt;1.5km: 13,464 (35.8%) | slope: 7.90&deg;</small>
-        </td>
-        <td><span class="pass-tag">ALL-FINITE [0, 1]</span><br><small>0 NaNs across 12.28M cells</small></td>
-        <td>
-          <strong>Max 3-px ov: 64.26%</strong> (&le;70%)<br>
-          <small>vs GEMSDOE32: 46.71% | vs v1: 11.02%<br>
-          Surface |&rho;|: 0.6911 (&le;0.90)</small>
-        </td>
-        <td><span class="pass-tag">PASS — UNIQUE &amp; OK TO SUBMIT</span></td>
-      </tr>
-    
-          <tr>
-            <td><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html" target="_blank" rel="noopener"><strong>GEMSDOE32</strong></a></td>
-            <td>
-              <a href="https://buffedlizard55-lab.github.io/GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif" target="_blank" rel="noopener">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a><br>
-              <span class="mono-val">sha256: c55bafc470054e82…</span>
-            </td>
-            <td>
-              <strong>User-Reported Context: 0.2778</strong>*<br>
-              <small>Static HOLDOUT-DTI: 0.0042 [0.0035, 0.0050]<br>
-              (gems57-pooled-hide-v2, 11,360 px)</small>
-            </td>
-            <td>37,654<br><small>0 &le;200m collar<br>58.4% &gt;1.5km</small></td>
-            <td><span class="pass-tag">All-Finite (-zeros)</span></td>
-            <td>
-              <span class="stop-tag">NOT UNIQUE (100.00% w/ GEMSDOE36)</span><br>
-              <small>Overlap w/ Apart1 v2: 46.71%</small>
-            </td>
-            <td><span class="stop-tag">DO NOT RESUBMIT</span><br><small>Historical H19-5 lineage reference only</small></td>
-          </tr>
-        
-          <tr>
-            <td><a href="https://buffedlizard55-lab.github.io/GEMSDOE36/docs/" target="_blank" rel="noopener"><strong>GEMSDOE36</strong></a></td>
-            <td>
-              <a href="https://buffedlizard55-lab.github.io/GEMSDOE36/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif" target="_blank" rel="noopener">gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif</a><br>
-              <span class="mono-val">sha256: e15891020b9c5705…</span>
-            </td>
-            <td>
-              <strong>User-Reported Context: 0.2750</strong>*<br>
-              <small>Static HOLDOUT-DTI: 0.0042 [0.0035, 0.0050]<br>
-              (gems57-pooled-hide-v2, 11,360 px)</small>
-            </td>
-            <td>38,854<br><small>0 &le;200m collar<br>58.1% &gt;1.5km</small></td>
-            <td><span class="pass-tag">All-Finite (-zeros)</span></td>
-            <td>
-              <span class="stop-tag">NOT UNIQUE (97.58% w/ GEMSDOE27)</span><br>
-              <small>Overlap w/ Apart1 v2: 47.41%</small>
-            </td>
-            <td><span class="stop-tag">DO NOT RESUBMIT</span><br><small>Historical H19-5 lineage reference only</small></td>
-          </tr>
-        
-          <tr>
-            <td><a href="https://buffedlizard55-lab.github.io/GEMSDOE28/" target="_blank" rel="noopener"><strong>GEMSDOE28</strong></a></td>
-            <td>
-              <a href="https://buffedlizard55-lab.github.io/GEMSDOE28/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif" target="_blank" rel="noopener">gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif</a><br>
-              <span class="mono-val">sha256: 5556aa1438fd6737…</span>
-            </td>
-            <td>
-              <strong>User-Reported Context: 0.2710</strong>*<br>
-              <small>Static HOLDOUT-DTI: 0.0294 [0.0247, 0.0344]<br>
-              (gems57-pooled-hide-v2, 11,360 px)</small>
-            </td>
-            <td>37,660<br><small>2,353 &le;200m collar<br>54.9% &gt;1.5km</small></td>
-            <td><span class="warn-tag">7,111,787 Exterior NaNs</span></td>
-            <td>
-              <span class="stop-tag">NOT UNIQUE (100.00% w/ GEMSDOE25)</span><br>
-              <small>Overlap w/ Apart1 v2: 47.36%</small>
-            </td>
-            <td><span class="stop-tag">DO NOT RESUBMIT</span><br><small>Historical H19-5 lineage reference only</small></td>
-          </tr>
-        
-          <tr>
-            <td><a href="https://buffedlizard55-lab.github.io/GEMSDOE31/docs/" target="_blank" rel="noopener"><strong>GEMSDOE31</strong></a></td>
-            <td>
-              <a href="https://buffedlizard55-lab.github.io/GEMSDOE31/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif" target="_blank" rel="noopener">gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif</a><br>
-              <span class="mono-val">sha256: 07b6db440535404b…</span>
-            </td>
-            <td>
-              <strong>User-Reported Context: 0.2708</strong>*<br>
-              <small>Static HOLDOUT-DTI: 0.0310 [0.0260, 0.0363]<br>
-              (gems57-pooled-hide-v2, 11,360 px)</small>
-            </td>
-            <td>40,199<br><small>2,545 &le;200m collar<br>54.7% &gt;1.5km</small></td>
-            <td><span class="warn-tag">7,111,787 Exterior NaNs</span></td>
-            <td>
-              <span class="stop-tag">NOT UNIQUE (100.00% w/ GEMSDOE25)</span><br>
-              <small>Overlap w/ Apart1 v2: 47.88%</small>
-            </td>
-            <td><span class="stop-tag">DO NOT RESUBMIT</span><br><small>Historical H19-5 lineage reference only</small></td>
-          </tr>
-        
-          <tr>
-            <td><a href="https://buffedlizard55-lab.github.io/GEMSDOE33/" target="_blank" rel="noopener"><strong>GEMSDOE33</strong></a></td>
-            <td>
-              <a href="https://buffedlizard55-lab.github.io/GEMSDOE33/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif" target="_blank" rel="noopener">GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif</a><br>
-              <span class="mono-val">sha256: 87f857d505e23247…</span>
-            </td>
-            <td>
-              <strong>User-Reported Context: 0.2632</strong>*<br>
-              <small>Static HOLDOUT-DTI: 0.0534 [0.0465, 0.0608]<br>
-              (gems57-pooled-hide-v2, 11,360 px)</small>
-            </td>
-            <td>41,865<br><small>3,894 &le;200m collar<br>52.9% &gt;1.5km</small></td>
-            <td><span class="pass-tag">All-Finite (-zeros)</span></td>
-            <td>
-              <span class="stop-tag">NOT UNIQUE (99.71% w/ GEMSDOE27)</span><br>
-              <small>Overlap w/ Apart1 v2: 48.36%</small>
-            </td>
-            <td><span class="stop-tag">DO NOT RESUBMIT</span><br><small>Historical H19-5 lineage reference only</small></td>
-          </tr>
-        
-          <tr>
-            <td><a href="https://buffedlizard55-lab.github.io/GEMSDOE25/" target="_blank" rel="noopener"><strong>GEMSDOE25</strong></a></td>
-            <td>
-              <a href="https://buffedlizard55-lab.github.io/GEMSDOE25/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif" target="_blank" rel="noopener">gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</a><br>
-              <span class="mono-val">sha256: 91eae1ca42ec845e…</span>
-            </td>
-            <td>
-              <strong>User-Reported Context: 0.2600</strong>*<br>
-              <small>Static HOLDOUT-DTI: 0.0930 [0.0793, 0.1076]<br>
-              (gems57-pooled-hide-v2, 11,360 px)</small>
-            </td>
-            <td>44,090<br><small>6,436 &le;200m collar<br>49.9% &gt;1.5km</small></td>
-            <td><span class="warn-tag">7,111,787 Exterior NaNs</span></td>
-            <td>
-              <span class="stop-tag">NOT UNIQUE (100.00% w/ GEMSDOE30)</span><br>
-              <small>100% pixel-identical to GEMSDOE30; Overlap w/ Apart1 v2: 48.56%</small>
-            </td>
-            <td><span class="stop-tag">DO NOT RESUBMIT</span><br><small>Historical H19-5 lineage reference only</small></td>
-          </tr>
-        
-          <tr>
-            <td><a href="https://buffedlizard55-lab.github.io/GEMSDOE30/" target="_blank" rel="noopener"><strong>GEMSDOE30</strong></a></td>
-            <td>
-              <a href="https://buffedlizard55-lab.github.io/GEMSDOE30/docs/downloads/gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif" target="_blank" rel="noopener">gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</a><br>
-              <span class="mono-val">sha256: 91eae1ca42ec845e…</span>
-            </td>
-            <td>
-              <strong>User-Reported Context: 0.2600</strong>*<br>
-              <small>Static HOLDOUT-DTI: 0.0930 [0.0793, 0.1076]<br>
-              (gems57-pooled-hide-v2, 11,360 px)</small>
-            </td>
-            <td>44,090<br><small>6,436 &le;200m collar<br>49.9% &gt;1.5km</small></td>
-            <td><span class="warn-tag">7,111,787 Exterior NaNs</span></td>
-            <td>
-              <span class="stop-tag">NOT UNIQUE (100.00% w/ GEMSDOE25)</span><br>
-              <small>100% pixel-identical to GEMSDOE25; Overlap w/ Apart1 v2: 48.56%</small>
-            </td>
-            <td><span class="stop-tag">DO NOT RESUBMIT</span><br><small>Historical H19-5 lineage reference only</small></td>
-          </tr>
-        
-          <tr>
-            <td><a href="https://buffedlizard55-lab.github.io/GEMSDOE24/" target="_blank" rel="noopener"><strong>GEMSDOE24</strong></a></td>
-            <td>
-              <a href="https://buffedlizard55-lab.github.io/GEMSDOE24/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif" target="_blank" rel="noopener">gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif</a><br>
-              <span class="mono-val">sha256: 68d0e2e4fcc594f9…</span>
-            </td>
-            <td>
-              <strong>User-Reported Context: 0.2477</strong>*<br>
-              <small>Static HOLDOUT-DTI: 0.0893 [0.0760, 0.1033]<br>
-              (gems57-pooled-hide-v2, 11,360 px)</small>
-            </td>
-            <td>60,069<br><small>8,769 &le;200m collar<br>49.6% &gt;1.5km</small></td>
-            <td><span class="warn-tag">7,111,787 Exterior NaNs</span></td>
-            <td>
-              <span class="stop-tag">NOT UNIQUE (100.00% w/ GEMSDOE25)</span><br>
-              <small>Overlap w/ Apart1 v2: 49.94%</small>
-            </td>
-            <td><span class="stop-tag">DO NOT RESUBMIT</span><br><small>Historical H19-5 lineage reference only</small></td>
-          </tr>
-        
-          <tr>
-            <td><a href="https://buffedlizard55-lab.github.io/GEMSDOE27/" target="_blank" rel="noopener"><strong>GEMSDOE27</strong></a></td>
-            <td>
-              <a href="https://buffedlizard55-lab.github.io/GEMSDOE27/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif" target="_blank" rel="noopener">gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif</a><br>
-              <span class="mono-val">sha256: 33003374335d84bf…</span><br><small>Recent H31 (`gems27-h31-drcg-wl-celf28`): user-reported <code>0.2250</code>* (47.68% ov w/ ours)</small>
-            </td>
-            <td>
-              <strong>User-Reported Context: 0.2449</strong>*<br>
-              <small>Static HOLDOUT-DTI: 0.0888 [0.0756, 0.1026]<br>
-              (gems57-pooled-hide-v2, 11,360 px)</small>
-            </td>
-            <td>61,328<br><small>8,875 &le;200m collar<br>48.6% &gt;1.5km</small></td>
-            <td><span class="warn-tag">7,111,787 Exterior NaNs</span></td>
-            <td>
-              <span class="stop-tag">NOT UNIQUE (98.02% w/ GEMSDOE24)</span><br>
-              <small>Overlap w/ Apart1 v2: 50.85%</small>
-            </td>
-            <td><span class="stop-tag">DO NOT RESUBMIT</span><br><small>Historical H19-5 lineage reference only</small></td>
-          </tr>
-        
-          <tr>
-            <td><strong>ApartGEMSDOE1 v1 (Superseded)</strong></td>
-            <td><code>apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif</code></td>
-            <td><small>User-Reported Context: 0.0525* | HOLDOUT-DTI: 0.0523 [0.0375, 0.0687]</small></td>
-            <td><small>38,500 (0 &lt;=200m, 32.4% 200-600m, med slope 11.98 deg)</small></td>
-            <td><small>All-finite [0,1]</small></td>
-            <td><small>11.02% w/ Apart1 v2 (88.98% replaced)</small></td>
-            <td><span class="warn-tag">SUPERSEDED BY v2 (+124.4% HOLDOUT-DTI)</span></td>
-          </tr>
-        
-          <tr>
-            <td><strong>GEMSDOE27 H31 (Recent)</strong></td>
-            <td><code>gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-allfinite.tif</code></td>
-            <td><small>User-Reported Context: 0.2250*</small></td>
-            <td><small>37,654 (0 &lt;=200m, 25.9% 200-600m, med slope 8.01 deg)</small></td>
-            <td><small>All-finite [0,1]</small></td>
-            <td><small>47.68% w/ Apart1 v2</small></td>
-            <td><span class="warn-tag">EXTERNAL PEER — DO NOT COPY</span></td>
-          </tr>
-        
-          <tr>
-            <td><strong>KANLERGEMSDOE2 (Recent)</strong></td>
-            <td><code>kanlergems2-htcads-exp-2-37654dots-20261026T235227Z-111a0841-zeros.tif</code></td>
-            <td><small>User-Reported Context: 0.1218*</small></td>
-            <td><small>37,654 (0 &lt;=200m, 47.6% 200-600m, med slope 12.90 deg)</small></td>
-            <td><small>All-finite [0,1]</small></td>
-            <td><small>39.49% w/ Apart1 v2</small></td>
-            <td><span class="warn-tag">EXTERNAL PEER — COLLAR/MOUNTAIN HEAVY</span></td>
-          </tr>
-        
-          <tr>
-            <td><strong>WBGGEMSDOE3 / GEMSDOE91 / WBGGEMSDOE2</strong></td>
-            <td><code>wbg3-h3pack-34k (0.0443*) · gems91-S18 (0.0435*) · gems91-s22 (0.0298*) · wbg2-36k (0.0262*)</code></td>
-            <td><small>User-Reported Context: 0.0262* – 0.0443*</small></td>
-            <td><small>34k–54k dots (either collar-heavy or un-gated diffuse plumes)</small></td>
-            <td><small>Mixed</small></td>
-            <td><small>&lt;= 64.26% w/ Apart1 v2</small></td>
-            <td><span class="warn-tag">DIAGNOSED FAILURE MODES (AVOIDED)</span></td>
-          </tr>
-        
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>3. PhD Forensic Analysis: Why <code>GEMSDOE32</code> Scored <code>0.2778</code>, Why Recent Runs Scored <code>0.026–0.225</code>, and How <code>MAW-GSI</code> Advances the Frontier</h2>
-      <h3>3.1 Exact Zero-XOR Forensic Proof of <code>GEMSDOE32</code> (<code>h33-h33-2-b2-zeros</code>: <code>0.2778</code>*)</h3>
-      <pre class="code-block">GEMSDOE32_B2 (37,654 dots)  ==  GEMSDOE25_D28 (44,090 dots)  &amp;  (EDT(~existing_faults) &gt; 2.0 px)
-XOR residual across 5,167,373 footprint pixels = 0   |   Exact subset of 19GEMSDOE H19-5 (121,131 px) = 100.00%
-GEMSDOE25_D28 (44,090 dots) ==  GEMSDOE30_D28 (44,090 dots)   [XOR residual = 0]</pre>
-      <p>
-        <code>GEMSDOE32</code> reached <code>0.2778</code>* through three geometric operations on <code>19GEMSDOE H19-5</code> (<code>0.1922</code>*):
-        (1) 280 m Poisson-disk kernel spacing (<code>0.1922 &rarr; 0.2600</code>*) so adjacent dots stopped double-paying <code>0.2 &times; FP_w</code> inside the 300 m triangular max-kernel;
-        (2) amputating all <code>6,436</code> dots inside <code>EDT &le; 200 m</code> of mapped faults (<code>0.2600 &rarr; 0.2778</code>*) where organizer evaluation masks known traces; and
-        (3) encoding exterior cells as finite <code>0.0</code>. When evaluated fold-honestly on <code>gems57-pooled-hide-v2</code> (applying <code>d_vis &gt; 2.0</code> per-fold),
-        <code>GEMSDOE32 B2</code> scores <strong><code>HOLDOUT-DTI = 0.097441</code></strong> (<code>95% CI [0.0830, 0.1121]</code>).
-      </p>
-
-      <h3>3.2 Diagnosis of Prior Repo v1 (<code>0.0525</code>*) &amp; Recent Submissions — The Two-Gate Joint Law</h3>
-      <p>
-        Forensic audit across 30 zero-SGMC and lineage rasters reveals why single-gate heuristics fail:
-        <code>ApartGEMSDOE1 v1</code> (<code>HOLDOUT-DTI = 0.0523</code> &rarr; live <code>0.0525</code>*), <code>gems91-S18</code> (<code>0.0435</code>*),
-        <code>gems91-s22</code> (<code>0.0298</code>*), <code>wbg3-h3pack-34k</code> (<code>0.0443</code>*), and <code>wbg2-36k</code> (<code>0.0262</code>*) either lacked
-        multi-azimuth 1.1–1.5 km strike-worm coherence or over-packed the 200–600 m collar / steep mountain interiors (v1 median slope <code>11.98&deg;</code>;
-        <code>KANLERGEMSDOE2</code> <code>0.1218</code>* placed <code>47.6%</code> of dots in <code>200–600 m</code> at median slope <code>12.90&deg;</code>).
-        Conversely, <code>GEMSDOE27 H31</code> (<code>0.2250</code>*) and <code>GEMSDOE32</code> (<code>0.2778</code>*) satisfy a strict <strong>Two-Gate Joint Law</strong>:
-        (Gate 1) fold-honest <code>HOLDOUT-DTI &ge; 0.095</code> AND (Gate 2) anti-collar <code>d2–6 &le; 28%</code>, piedmont median slope <code>7.4&deg;–8.0&deg;</code>,
-        and zero-SGMC far-field piedmont recall (<code>Spearman &rho; = +0.4813, p = 8.21&times;10<sup>&minus;3</sup></code> vs live DTI).
-      </p>
-
-      <h3>3.3 How <code>H-APART-2 (MAW-GSI E3)</code> Surpasses <code>GEMSDOE32 B2</code> on Fold-Honest Holdout</h3>
-      <ul>
-        <li><strong>8-Azimuth Flank-Subtracted Strike Worms + Antislope Piedmont Dipoles:</strong> Replaces pixel-local quantiles with <code>1.1–1.5 km</code> directional strike worms across seam-free 1 m LiDAR + 10 m 3DEP and potential fields, plus antislope graben dipoles (<code>upface_max / cross_max</code>) and TIGER 2024 road deconfounding.</li>
-        <li><strong>Contrarian Faulds-Hinz (2015) Structural-Intersection Vent Operator (<code>I_vent</code>):</strong> Great Basin geothermal conduits (&gt;93% of blind systems) concentrate at conjugate/orthogonal cross-fault intersections, horse-tail splays, and relay ramps where orthogonal 2nd-azimuth strike worms co-fire (<code>I_vent = sqrt(W_(1) &times; W_perp)</code>) alongside shallow magnetite oxidation (<code>z(TMI_up150) &minus; z(RTP)</code>), potassic <code>K/Th</code>, MT clay-cap edges, and sanitized GDR #1391 thermal springs, 2 m <code>F2mDAB</code> probes (<code>[0.5, 54.7]&deg;C</code>), and paleo-sinter mounds.</li>
-        <li><strong>Dual-Regime Exact 300 m Minoux CELF Submodular Allocation:</strong> Allocates 72% unified Stage-2 OOF axial-relay surface + 28% blind structural-intersection/hydrothermal specialist budget (<code>d_vis &gt; 500 m</code>) under exact 49-offset 300 m triangular kernel marginal gain, lifting <code>HOLDOUT-DTI</code> to <strong><code>0.1174</code></strong> (<code>seed=2026</code>) and <strong><code>0.1250</code></strong> (<code>seed=20</code>) while keeping 3-px overlap with <code>GEMSDOE32</code> at just <strong><code>46.71%</code></strong>.</li>
-      </ul>
-      <div class="fig-box">
-        <img src="assets/focus9_audit_and_uniqueness.png" alt="Focus-9 10x10 overlap matrix and fold-honest HOLDOUT-DTI calibration ladder">
-        <div class="fig-cap">
-          Left: Exact 3-px dot overlap across all 9 focus champions (87–100% mutually redundant) vs. ApartGEMSDOE1 v2 (46.7–50.8% overlap — genuinely independent).
-          Right: Fold-honest HOLDOUT-DTI calibration ladder from Dist-Only (0.0329) and v1 (0.0523) past GEMSDOE32 B2 (0.0974) to MAW-GSI E3 (0.1174).
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>4. Pre-Registered Untried Geological Hypotheses (Ranked 1–4)</h2>
-      
-          <div style="background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1rem;">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
-              <strong>Rank #1 — H-APART-2 (<code>MAW-GSI</code>): Multi-Azimuth Strike-Worm, Antislope Piedmont Dipole &amp; Geothermal Structural-Intersection Submodular Synthesis</strong>
-              <span class="pass-tag">SELECTED, VALIDATED &amp; PROMOTED</span>
-            </div>
-            <p style="margin:0.55rem 0;font-size:0.9rem;color:#cbd5e1;"><strong>Physical Signature:</strong> Four coupled physical operators: (1) Antislope Graben &amp; Relief-Normalized Crest-Toe Scarp Dipole (upface_max*(0.25+coh100)/(cross_max+0.08), sqrt(lapneg_max*lappos_max), step_max/sqrt(relief+9)) + 8-azimuth 1.1 km flank-subtracted strike-worm filter bank on seam-free 1m/10m topography; (2) Contrarian Faulds-Hinz (2015) Structural-Intersection &amp; Hydrothermal Conduit Operator I_vent = sqrt(max(W_(1),0)*max(W_perp,0)) capturing conjugate/orthogonal 2nd-azimuth fault intersections &amp; horse-tail splays coupled with shallow hydrothermal magnetite oxidation (TMI_up150_z - RTP_z), potassic K/Th &amp; U/K edges, MT cond_surf clay-cap gradients, and sanitized GDR #1391 thermal/2m-probe/sinter anomalies; (3) Gallardo-Meju (2004) cross-gradient vector alignment |grad(g).grad(m)|/(|grad(g)||grad(m)|) + 1.5 km potential-field &amp; 58-deg updip-migrated phase-tilt strike worms; (4) Two-stage strictly Out-of-Fold HistGradientBoosting synthesis with Stage-2 2D axial probability worms + collar-tempered (d_vis &gt;= 800 m plateau) directional fault-tip &amp; relay-ramp transfer, allocated via exact 300 m triangular-kernel Minoux lazy-greedy submodular coverage (CELF, 37,654 binary {0,1} dots outside EDT &gt; 2.05 px).</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>Why Missing from USGS/INGENIOUS Catalogue:</strong> In the NW Great Basin, isolated planar mid-segments of tall range-front master faults are already mapped in existing_faults.tif and are often hydrologically sealed by clay gouge. By contrast, distributed intra-basin synthetic/antithetic (antislope) grabens, horse-tail tip splays, en-echelon relay ramps, and conjugate Walker-Lane / Basin-and-Range fault intersections partition slip across multiple short, sub-meter piedmont scarps and shallow buried basement steps below traditional airphoto mapping thresholds (&lt;2 m scarp height), while hosting &gt;93% of Great Basin blind geothermal vents and permeable upflow conduits (Faulds &amp; Hinz, 2015).</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>How It Differs from Prior Repo Implementation:</strong> ApartGEMSDOE1 v1 (H-APART-1, HOLDOUT-DTI 0.0523, live 0.0525) used single-pixel quantile ranks on only 3 of 12 LiDAR bands, lacked all 2D multi-azimuth strike-worm operators, lacked the orthogonal 2nd-azimuth structural-intersection detector I_vent = sqrt(W_(1)*W_perp), lacked shallow magnetite-oxidation TMI_up150 - RTP and Galleria-Meju cross-gradient coupling, lacked Stage-2 OOF 2D axial probability context, suffered mountain-slope bias (median dot slope 11.93 deg, far-field piedmont recall 0.0059), and blurred ridges prior to allocation.</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>Named Non-Fault Mimics:</strong> Incised dendritic alluvial-fan washes and arroyo banks (suppressed via cross_max denominator, crest-toe dipole symmetry, and 1.1 km flank-subtracted axial worm coherence); Rugged mountain-interior bedrock crags and glacial/talus cliffs (suppressed via relief normalization step_max/sqrt(relief+9) and piedmont slope/depth interaction); Circular Cenozoic basaltic/rhyolitic volcanic plugs, caldera ring dikes, and pluton roofs (suppressed via Gallardo-Meju cross-gradient curl |grad(g) x grad(m)| vs linear 1.5 km potential-field worm elongation); Interstate I-80, railroad embankments, and playa levee berms (suppressed via TIGER/Line 2024 road-corridor proximity indicator); Playa evaporite brines and transported outwash thermal plumes (suppressed by requiring structural-intersection worm I_vent + shallow TMI_up150 - RTP demagnetization corroboration)</p>
-            <p style="margin:0.4rem 0 0;font-size:0.85rem;color:#93c5fd;"><strong>External Data &amp; Cost:</strong> 100% available and SHA-256-verified in local workspace (.cache/external/, .cache/dem10/, data/official/) from official public-domain USGS 3DEP, USGS GeoDAWN (ScienceBase 657e1d85d34e23d3533209f7), DOE GDR #1391, and US Census TIGER/Line 2024 sources. Strictly ZERO SGMC faults in training or inference. | Expected Gain: +0.052 to +0.068 HOLDOUT-DTI over v1 (targeting 0.104-0.120 HOLDOUT-DTI, surpassing fold-honest GEMSDOE32 B2 = 0.0974) | Cost: Medium (~380 LOC in src/apartgems/features.py + model.py; ~2.5 min total wall-clock for 3 LOQO experiments)</p>
-          </div>
-        
-          <div style="background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1rem;">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
-              <strong>Rank #2 — H-APART-3 (<code>MTG-JCG</code>): 3D Multi-Altitude Euler Deconvolution (N=0.5) &amp; Magnetotelluric-Gravity Joint Cross-Gradient Sub-Playa Fault Seal Inversion</strong>
-              <span class="warn-tag">PRE-REGISTERED BACKLOG</span>
-            </div>
-            <p style="margin:0.55rem 0;font-size:0.9rem;color:#cbd5e1;"><strong>Physical Signature:</strong> Sliding 7x7 least-squares Thompson-Reid 3D Euler homogeneity inversion (x-x0)dT/dx + (y-y0)dT/dy + (z-z0)dT/dz = N*(B-T) with fault-step structural index N=0.5 coupled with 2D cross-gradient vector alignment |grad(log cond_surf) x grad(iso_grav_anom)| == 0 to localize vertical sub-playa electrical-density fault seals.</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>Why Missing from USGS/INGENIOUS Catalogue:</strong> Recovers deeply buried (0.5-2.5 km) intra-playa horst-bounding faults beneath flat evaporite basins (e.g., Carson Sink, Black Rock Desert) where surface scarps are completely absent.</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>How It Differs from Prior Repo Implementation:</strong> Replaces scalar cot(58 deg) phase-tilt advection in v1 with 3D source-coordinate (x0, y0, z0) pipe clustering and MT-gravity cross-gradient seal coupling.</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>Named Non-Fault Mimics:</strong> Saline playa water-table lenses creating non-tectonic MT conductivity rings; 400 m flight-line leveling corrugations in regional aeromagnetics</p>
-            <p style="margin:0.4rem 0 0;font-size:0.85rem;color:#93c5fd;"><strong>External Data &amp; Cost:</strong> All required layers already cached locally; deferred to preserve single-lane 3-experiment budget because 400 m airborne line spacing + 2-5 km MT station spacing yields ~350-600 m positional uncertainty relative to the strict 300 m DTI kernel. | Expected Gain: +0.008 to +0.015 HOLDOUT-DTI standalone; +0.004 incremental over H-APART-2 | Cost: Medium-High (sliding 7x7 linear solver across 5.17M pixels)</p>
-          </div>
-        
-          <div style="background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1rem;">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
-              <strong>Rank #3 — H-APART-4 (<code>INSAR-PGD</code>): NASA OPERA Sentinel-1 InSAR Line-of-Sight Phase-Gradient Discontinuity &amp; Aseismic Geothermal Aquifer-Barrier Detection</strong>
-              <span class="warn-tag">PRE-REGISTERED BACKLOG</span>
-            </div>
-            <p style="margin:0.55rem 0;font-size:0.9rem;color:#cbd5e1;"><strong>Physical Signature:</strong> Anisotropic Sobel/worm horizontal phase-velocity gradient |grad(v_LOS)| across Quaternary basins to detect sub-millimeter/yr differential aquifer compaction and aseismic fault creep across blind intra-basin hydrological barrier faults (Bell et al., 2008).</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>Why Missing from USGS/INGENIOUS Catalogue:</strong> Hydrologically sealing intra-basin faults in active geothermal basins (Brady&#x27;s, Dixie Valley, San Emidio, Desert Peak) often lack surface scarps or large basement density jumps inside Quaternary fill, yet create sharp radar phase-velocity steps across the fault seal.</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>How It Differs from Prior Repo Implementation:</strong> Introduces 30 m satellite radar interferometric deformation gradients versus 10 km GPS geodetic dilation rate (Band 8).</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>Named Non-Fault Mimics:</strong> Agricultural center-pivot groundwater pumping bowls in Mason/Lovelock/Fallon valleys; Playa evaporite wetting/drying seasonal radar phase decorrelation</p>
-            <p style="margin:0.4rem 0 0;font-size:0.85rem;color:#93c5fd;"><strong>External Data &amp; Cost:</strong> Free official public-domain NASA/JPL OPERA dataset distributed via ASF DAAC (https://asf.alaska.edu/datasets/daac/opera/); obtainable on unrestricted hosts, but asf.alaska.edu / earthdata.nasa.gov are outside this sandbox&#x27;s outbound allowlist (github.com, pypi.org, npmjs.org). Transparently flagged and deferred. | Expected Gain: +0.010 to +0.022 HOLDOUT-DTI in active geothermal/agricultural basins | Cost: High (multi-frame Sentinel-1 OPERA mosaicking + atmospheric ramp removal)</p>
-          </div>
-        
-          <div style="background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1rem;">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
-              <strong>Rank #4 — H-APART-5 (<code>ASTER-TIR-SIL</code>): ASTER 90 m Thermal-Infrared Emissivity Silica-Opaline Sinter &amp; Argillic Alteration Fault-Conduit Mapping</strong>
-              <span class="warn-tag">PRE-REGISTERED BACKLOG</span>
-            </div>
-            <p style="margin:0.55rem 0;font-size:0.9rem;color:#cbd5e1;"><strong>Physical Signature:</strong> Band-12 / Band-13 reststrahlen emissivity trough index for amorphous opaline sinter + SWIR 2.17/2.20 um Al-OH argillic absorption aligned along linear structural strike worms.</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>Why Missing from USGS/INGENIOUS Catalogue:</strong> Fossil and weakly steaming blind geothermal vents seal surface fault fractures with siliceous sinter aprons and kaolinite-alunite steam-heated alteration without leaving tall tectonic scarps or modern hot-spring discharge.</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>How It Differs from Prior Repo Implementation:</strong> Adds multispectral SWIR/TIR mineralogical absorption spectroscopy beyond airborne gamma-ray K-U-Th ratios.</p>
-            <p style="margin:0.4rem 0;font-size:0.86rem;color:var(--muted);"><strong>Named Non-Fault Mimics:</strong> Eolian quartz sand dunes (e.g., Sand Mountain, Winnemucca dune belt); Rhyolitic ash-flow tuff outcrops on footwall range blocks</p>
-            <p style="margin:0.4rem 0 0;font-size:0.85rem;color:#93c5fd;"><strong>External Data &amp; Cost:</strong> Free official public-domain NASA LP DAAC ASTER GED v3 (https://lpdaac.usgs.gov/products/ag100v003/); obtainable externally, not cached locally and lpdaac.usgs.gov is outside sandbox outbound allowlist. Transparently flagged and deferred. | Expected Gain: +0.005 to +0.012 HOLDOUT-DTI around fossil/blind epithermal-geothermal districts | Cost: Medium-High (vegetation/albedo unmixing across 5.17M pixels)</p>
-          </div>
-        
-    </section>
-
-    <section class="section">
-      <h2>5. Holdout Validation (<code>gems57-pooled-hide-v2</code>) &amp; 45-Feature Leakage Canaries</h2>
-      <p>
-        All 3 pre-registered LOQO experiments (budget cap <code>3/3</code>) improved strictly monotonically on <strong>both</strong> holdout seeds:
-        <code>zero (0.0000) &lt; dist_only (0.0329) &lt; E1 (0.0774) &lt; E2 (0.0795) &lt; E3 (0.1174)</code>
-        on <code>seed=2026</code> (paired <code>&Delta;(E3 &minus; DistOnly) = +0.0845</code>, 95% CI
-        <code>[+0.0669, +0.1030]</code>; paired <code>&Delta;(E3 &minus; E1) = +0.0401</code>),
-        and <code>E1 (0.0668) &lt; E2 (0.0703) &lt; E3 (0.1250)</code> on <code>seed=20</code>.
-        On detached blind faults (<code>&gt;800 m</code> from visible traces), <code>distance_only</code> collapses to <code>0.0000</code> whereas
-        <code>E1 (0.0721) &rarr; E2 (0.0740) &rarr; E3 (0.0840)</code> recovers blind segments!
-      </p>
-      <div class="fig-box">
-        <img src="assets/holdout_experiments_and_canary.png" alt="Holdout DTI progression and 45-feature leakage canary">
-        <div class="fig-cap">
-          Left: Pooled HOLDOUT-DTI (with 1,000-draw 20 km block bootstrap 95% CIs) and detached blind (&gt;800 m) DTI across controls and E1&rarr;E2&rarr;E3.
-          Right: Single-feature symmetric ROC-AUC leakage canaries across all 45 features (45/45 PASS; max = 0.7765 &le; 0.90 cap).
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>6. Machine-Readable Parallel-Run Protocol Run Card</h2>
-      <pre class="code-block">{
-  &quot;protocol&quot;: &quot;GEMS Parallel-Run Protocol v2&quot;,
-  &quot;branch&quot;: &quot;arena/23b55aaa-apartgemsdoe1&quot;,
-  &quot;generated_utc&quot;: &quot;2026-10-28T09:10:21.515350+00:00&quot;,
-  &quot;hypothesis&quot;: &quot;H-APART-2 (MAW-GSI): Multi-Azimuth Strike-Worm, Antislope Piedmont Dipole &amp; Faulds-Hinz Geothermal Structural-Intersection Submodular Synthesis (100% Zero-SGMC)&quot;,
-  &quot;mechanism&quot;: &quot;Distributed Quaternary slip in NW Great Basin piedmonts, relay ramps, horse-tail splays, and conjugate Walker-Lane/Basin-and-Range cross-fault intersections produces sub-meter antislope/piedmont scarps and oxidized/demagnetized hydrothermal conduits missing from existing_faults.tif while hosting &gt;93% of blind geothermal vents (Faulds &amp; Hinz, 2015). Coupling 8-azimuth 1.1-1.5 km flank-subtracted strike worms, orthogonal 2nd-azimuth intersection index I_vent = sqrt(W_(1)*W_perp), relief-normalized 1m LiDAR + 10m 3DEP scarp dipoles, Gallardo-Meju cross-gradient alignment, shallow TMI_up150-RTP demagnetization + sanitized GDR #1391 thermal/2m-probe/sinter fields, Stage-2 OOF axial worms, and collar-tempered (clip(d_vis, 8, 45)) tip/relay transfer with exact 300 m Minoux CELF submodular coverage recovers hidden fault traces and vent conduits within the 300 m DTI kernel.&quot;,
-  &quot;named_non_fault_mimic_process&quot;: &quot;Incised dendritic alluvial-fan washes (suppressed via cross_max denominator &amp; 1.1 km flank-subtracted worm coherence), rugged mountain-interior cliffs (suppressed via relief normalization), circular Cenozoic volcanic plugs/calderas (suppressed via Gallardo-Meju curl |grad(g)xgrad(m)|), and Interstate/railroad embankment berms (suppressed via US Census TIGER/Line 2024 road-proximity indicator).&quot;,
-  &quot;holdout_dti&quot;: {
-    &quot;label&quot;: &quot;HOLDOUT-DTI&quot;,
-    &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
-    &quot;split&quot;: &quot;gems57-pooled-hide-v2 (seed=2026, buffer_px=3, 20 km block bootstrap)&quot;,
-    &quot;withheld_positive_pixels&quot;: 11360,
-    &quot;dti&quot;: 0.117438,
-    &quot;ci95&quot;: [
-      0.099365,
-      0.136129
-    ],
-    &quot;prior_v1_holdout_dti&quot;: 0.052325,
-    &quot;fold_honest_gemsdoe32_b2_holdout_dti&quot;: 0.097441,
-    &quot;detached_gt_800m_blind_dti&quot;: 0.084019,
-    &quot;seed_20_stability_dti&quot;: 0.124957,
-    &quot;experiments_progression&quot;: {
-      &quot;E1_maw_scarp_geophys_blind&quot;: 0.077376,
-      &quot;E2_maw_gsi_blind_vent&quot;: 0.079485,
-      &quot;E3_maw_gsi_oof_axial_relay&quot;: 0.117438
-    }
-  },
-  &quot;leakage_canary&quot;: {
-    &quot;features_tested&quot;: 45,
-    &quot;max_symmetric_auc&quot;: 0.776456,
-    &quot;cap&quot;: 0.9,
-    &quot;all_passed&quot;: true
-  },
-  &quot;registry_uniqueness&quot;: {
-    &quot;repositories_checked&quot;: 50,
-    &quot;unique_rasters_checked&quot;: 806,
-    &quot;competing_sparse_detectors_checked&quot;: 660,
-    &quot;blanket_or_flood_surfaces_disclosed&quot;: 146,
-    &quot;pre_placement_surface_max_abs_spearman&quot;: 0.691092,
-    &quot;post_placement_final_max_abs_spearman&quot;: 0.092522,
-    &quot;post_placement_max_3px_overlap_vs_competing&quot;: 0.642641,
-    &quot;closest_competing_detector&quot;: {
-      &quot;repo&quot;: &quot;GEMSDOE10&quot;,
-      &quot;file&quot;: &quot;docs/downloads/gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif&quot;,
-      &quot;positive_pixels&quot;: 69281,
-      &quot;overlap_3px_fraction&quot;: 0.642641,
-      &quot;spearman_rho&quot;: 0.022218
-    },
-    &quot;vs_gemsdoe32_02778_3px_overlap&quot;: 0.467095,
-    &quot;vs_gemsdoe32_02778_spearman&quot;: 0.036929,
-    &quot;spearman_cap&quot;: 0.9,
-    &quot;overlap_3px_cap&quot;: 0.7,
-    &quot;passed&quot;: true
-  },
-  &quot;spatial_anatomy_and_external_audit&quot;: {
-    &quot;emitted_dots&quot;: 37654,
-    &quot;dots_le_200m_collar&quot;: 0,
-    &quot;dots_200m_to_600m_fraction&quot;: 0.278669,
-    &quot;dots_600m_to_1500m_fraction&quot;: 0.363759,
-    &quot;dots_gt_1500m_farfield_fraction&quot;: 0.357572,
-    &quot;median_dot_slope_deg&quot;: 7.903,
-    &quot;depth_gt_20m_basin_piedmont_fraction&quot;: 0.963385,
-    &quot;external_sgmc_posthoc_audit&quot;: {
-      &quot;metric&quot;: &quot;C_pied_FAR_gt1km (auxiliary post-hoc geologic audit ONLY; zero SGMC in model)&quot;,
-      &quot;sgmc_far_piedmont_pixels&quot;: 15112,
-      &quot;dti&quot;: 0.047397,
-      &quot;tpw&quot;: 933.44
-    }
-  },
-  &quot;raster_sha256&quot;: &quot;09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f&quot;,
-  &quot;decoded_footprint_sha256&quot;: &quot;87f83db9e3127aeb240d35bfbeddb5f15c638b7d1ce4d3ebd0505678ccbccfae&quot;,
-  &quot;validator_output&quot;: {
-    &quot;file&quot;: &quot;docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif&quot;,
-    &quot;zip_file&quot;: &quot;docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.zip&quot;,
-    &quot;bytes&quot;: 145748,
-    &quot;crs&quot;: &quot;EPSG:32611&quot;,
-    &quot;shape&quot;: [
-      3730,
-      3292
-    ],
-    &quot;transform&quot;: [
-      100.0,
-      0.0,
-      243350.0,
-      0.0,
-      -100.0,
-      4508550.0
-    ],
-    &quot;dtype&quot;: &quot;float32&quot;,
-    &quot;nodata&quot;: null,
-    &quot;min&quot;: 0.0,
-    &quot;max&quot;: 1.0,
-    &quot;n_nan&quot;: 0,
-    &quot;n_infinite&quot;: 0,
-    &quot;emitted_positive_pixels&quot;: 37654,
-    &quot;on_catalogue_positive_pixels&quot;: 0,
-    &quot;within_200m_collar_pixels&quot;: 0,
-    &quot;farfield_gt_1500m_pixels&quot;: 13464,
-    &quot;all_checks_passed&quot;: true
-  },
-  &quot;submission_name&quot;: &quot;apartgems1-maw-gsi-e3-20261028-87f83db9&quot;,
-  &quot;submission_note&quot;: &quot;H-APART-2 MAW-GSI (E3): 8-az strike worms + I_vent intersection + demag/GDR1391 + CELF300m; [0,1] zeros (37654 px).&quot;,
-  &quot;submission_note_chars&quot;: 115,
-  &quot;verdict&quot;: &quot;promote&quot;
-}</pre>
-    </section>
-  </main>
-
-  <footer>
-    ApartGEMSDOE1 · Branch <code>arena/23b55aaa-apartgemsdoe1</code> · Validated 100% automatically via <code>scripts/validate_submission.py</code> &amp; <code>pytest</code>.
-  </footer>
-  
-    <script>
-      function copyText(elId, btn) {
-        const txt = document.getElementById(elId).innerText.trim();
-        navigator.clipboard.writeText(txt).then(() => {
-          const orig = btn.innerText;
-          btn.innerText = "Copied!";
-          setTimeout(() => { btn.innerText = orig; }, 1600);
-        });
-      }
-    </script>
-    
-</body>
-</html>
+    <div class="two-col"><section class="panel"><p class="eyebrow">03 / Mechanism, not proof</p><h2>Why did GEMSDOE32 stand out?</h2>
+      <p>The user reports <strong>0.2778</strong> for B2, but no submission-page receipt is present. Our pixel audit shows B2's dots equal the GEMSDOE25 dot set after removing points within two pixels of the mapped-fault catalogue.</p>
+      <p>The official metric credits each truth pixel by its best nearby prediction. Pruning redundant dots <em>may</em> reduce false-positive mass while retaining that credit, but it can also lose useful coverage. Hidden labels prevent a causal conclusion or a justified claim of improvement.</p>
+      <p class="subtle">GEMSDOE25 and GEMSDOE30 also have identical footprint values despite different file encodings. <a href="data/focus9_reaudit.json">Inspect the pixel audit →</a></p></section>
+    <section class="panel"><p class="eyebrow">04 / Holdout correction</p><h2>Local evidence is not a leaderboard score.</h2>
+      <p>The previous run recorded <strong>HOLDOUT-DTI 0.1174 [0.0994, 0.1361]</strong> (gems57-pooled-hide-v2, 11,360 withheld positives, 95% CI). That historical result is <strong>not comparable</strong> to the corrected evaluator and has not been rerun here.</p>
+      <p>The previous mask also excluded catalogue cells removed from the model’s visible context by the buffer. The shared v3 evaluator now masks only visible catalogue pixels; buffer-removed cells remain unlabelled and are conservatively counted if predicted.</p>
+      <p class="subtle">The original pre-placement surface was not saved, and the older canaries did not separately cover every stage-2 feature. <a href="data/v3_mask_regression.json">View mask-only regression</a> · <a href="data/run_card.json">Open current run card →</a></p></section></div>
+    <section class="panel"><p class="eyebrow">05 / Research and next steps</p><h2>Evidence before another slot</h2>
+      <ol><li>Do not resume this lane after the duplicate stop. Establish a separately assigned method lane and a complete, hash-pinned accessible registry.</li><li>Rebuild each catalogue-based feature from visible faults, run all feature-only canaries, and compare to a same-v3 holdout baseline with a paired confidence interval.</li><li>Check literal registry thresholds on every pre-placement surface and on final dots; write a GeoTIFF only after local range/grid checks. A separate selector controls any slot.</li></ol>
+      <p class="subtle" style="margin-top:14px">The witness leaves 6,514 allowed pixels outside its 3-pixel halo. At most 21,713 distinct dots could possibly meet the 70% rule against this one witness; this necessary bound is not a quality or uniqueness guarantee.</p>
+      <div class="actions"><a class="button secondary" href="next-hypotheses.html">Read future hypotheses</a><a class="button secondary" href="research-sources.html">View research source register</a></div></section>
+    <section class="panel"><p class="eyebrow">06 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or updating.</p><ul class="source-list">
+        <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData · problem &amp; metric ↗</a></li>
+        <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData · public leaderboard ↗</a></li>
+        <li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS · GeoDAWN release ↗</a></li>
+        <li><a href="https://gdr.openei.org/submissions/1391">DOE GDR · INGENIOUS data ↗</a></li>
+        <li><a href="https://www.usgs.gov/3d-elevation-program">USGS · 3DEP elevation ↗</a></li>
+        <li><a href="https://github.com/drivendataorg/gems-prize-reference-solution">DrivenData · reference solution ↗</a></li>
+      </ul></section>
+<footer>Research decisions are automated; a local preflight is not an organizer receipt. <a href="data/run_card.json">Current run card</a> · <a href="research-sources.html">Source register</a></footer>
+</main><script src="feed.js" defer></script></body></html>

@@ -115,7 +115,7 @@
   "approved_for_weekly_slot": false,
   "promoted": false,
   "submission_slots_used": 0,
-  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "status": "RESEARCH ONLY \u2014 DO NOT SUBMIT: literal 3-pixel registry overlap fails",
   "metadata": {
     "hypothesis": "H-APART-2 (MAW-GSI)",
     "winner_experiment": "E3",
@@ -126,5 +126,6 @@
     ],
     "surface_max_abs_spearman": 0.691092,
     "dot_max_3px_overlap": 0.642641
-  }
+  },
+  "current_audit": "../data/literal_witness_audit.json"
 }

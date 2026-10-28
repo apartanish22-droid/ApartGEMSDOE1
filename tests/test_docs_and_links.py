@@ -1,91 +1,102 @@
-"""Pass-2 & Pass-3 automated verification of HTML pages, links, hashes, JSON receipts, and zero-leakage code invariants."""
-from __future__ import annotations
-
-import html
+"""Dashboard, standing mission and fail-closed publication checks."""
 from html.parser import HTMLParser
 import json
 from pathlib import Path
 import re
+import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class _AttrCollector(HTMLParser):
-    def __init__(self) -> None:
+class AttrCollector(HTMLParser):
+    def __init__(self):
         super().__init__()
-        self.refs: list[str] = []
+        self.refs = []
 
-    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        for k, v in attrs:
-            if k in ("href", "src") and v:
-                self.refs.append(v)
+    def handle_starttag(self, tag, attrs):
+        for key, value in attrs:
+            if key in ('href', 'src') and value:
+                self.refs.append(value)
 
 
-def test_html_pages_local_links_and_no_localhost():
-    docs = ROOT / "docs"
-    rc = json.loads((ROOT / "evidence/run_card.json").read_text())
-
-    for page_name in ("index.html", "executive-summary.html"):
-        p = docs / page_name
-        assert p.exists(), f"Missing {page_name}"
-        txt = p.read_text(encoding="utf-8")
-        assert "127.0.0.1" not in txt and "localhost" not in txt
-        assert rc["raster_sha256"] in txt
-        assert rc["submission_name"] in txt
-        assert html.escape(rc["submission_note"]) in txt
-
-        parser = _AttrCollector()
-        parser.feed(txt)
-        assert parser.refs, f"No links found in {page_name}"
+def test_html_pages_are_negative_have_local_links_and_no_localhost():
+    docs = ROOT / 'docs'
+    card = json.loads((ROOT / 'evidence/run_card.json').read_text())
+    assert card['verdict'] == 'negative'
+    for name in ('index.html', 'executive-summary.html'):
+        text = (docs / name).read_text()
+        assert 'localhost' not in text and '127.0.0.1' not in text
+        assert card['raster_sha256'] in text
+        assert 'do not submit' in text.lower() or 'do not upload' in text.lower()
+        assert 'research only' in text.lower()
+        assert 'ready to submit' not in text.lower() or 'no file is ready to submit' in text.lower()
+        assert '99.68%' in text and '70%' in text
+        assert 'ORGANIZER-CONFIRMED means' not in text  # no blanket file-level confirmation claim
+        parser = AttrCollector(); parser.feed(text)
+        assert parser.refs
         for ref in parser.refs:
-            if ref.startswith(("http://", "https://", "#", "mailto:", "javascript:")):
+            if ref.startswith(('http://', 'https://', '#', 'mailto:')):
                 continue
-            clean = ref.split("#", 1)[0].split("?", 1)[0]
+            clean = ref.split('#', 1)[0].split('?', 1)[0]
             target = (docs / clean).resolve()
-            assert target.exists() and target.stat().st_size > 0, f"Broken local ref {ref} in {page_name} -> {target}"
+            assert target.exists() and target.stat().st_size > 0, f'broken {ref} in {name}'
+    index = (docs / 'index.html').read_text()
+    for site in (24, 25, 27, 28, 30, 31, 32, 33, 36):
+        assert f'GEMSDOE{site}' in index
+    assert '0.2778' in index and 'user-reported; unconfirmed' in index
+    assert 'not comparable' in index and '11,360' in index
+    assert 'top_public_dti' in (docs / 'feed.js').read_text()
 
 
-def test_readme_standing_prompt_and_local_links():
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    rc = json.loads((ROOT / "evidence/run_card.json").read_text())
-    assert rc["raster_sha256"] in readme
-    assert rc["submission_name"] in readme
-    assert "Standing Reference: Original Competition Task & Protocol Specification" in readme
-    assert "GEMSDOE32" in readme and "0.2778" in readme
-    for site in ("GEMSDOE24", "GEMSDOE25", "GEMSDOE27", "GEMSDOE28", "GEMSDOE30", "GEMSDOE31", "GEMSDOE32", "GEMSDOE33", "GEMSDOE36"):
-        assert site in readme
+def test_research_pages_are_rendered_and_linked_without_score_projections():
+    docs = ROOT / 'docs'
+    sources = (docs / 'research-sources.html').read_text()
+    hypotheses = (docs / 'next-hypotheses.html').read_text()
+    assert '<table>' in sources and 'AG100' in sources and '100 m' in sources
+    assert 'not run in this stopped lane' in hypotheses.lower()
+    assert 'flight-line repeatability' in hypotheses.lower()
+    for name, text in [('research-sources.html', sources), ('next-hypotheses.html', hypotheses)]:
+        parser = AttrCollector(); parser.feed(text)
+        for ref in parser.refs:
+            if ref.startswith(('http://', 'https://', '#', 'mailto:')):
+                continue
+            assert (docs / ref.split('#')[0].split('?')[0]).resolve().exists(), f'broken {ref} in {name}'
 
-    for m in re.finditer(r"\]\(([^)]+)\)", readme):
+
+def test_readme_standing_protocol_and_links():
+    text = (ROOT / 'README.md').read_text()
+    card = json.loads((ROOT / 'evidence/run_card.json').read_text())
+    assert card['raster_sha256'] in text
+    assert 'Standing reference: task and parallel-run protocol' in text
+    assert 'GEMSDOE32' in text and '0.2778' in text and 'no linked organizer receipt' in text
+    assert 'HOLDOUT-DTI' in text and '11,360' in text and '95% CI' in text
+    for m in re.finditer(r'\]\(([^)]+)\)', text):
         ref = m.group(1).strip()
-        if ref.startswith(("http://", "https://", "#")):
+        if ref.startswith(('http://', 'https://', '#')):
             continue
-        target = (ROOT / ref).resolve()
-        assert target.exists(), f"Broken README link: {ref}"
+        assert (ROOT / ref).resolve().exists(), f'broken README link: {ref}'
 
 
-def test_all_evidence_and_docs_json_strict_valid():
-    for folder in (ROOT / "evidence", ROOT / "docs/data"):
-        files = sorted(folder.glob("*.json"))
-        assert files, f"No JSON files in {folder}"
-        for jf in files:
-            raw = jf.read_text(encoding="utf-8")
-            obj = json.loads(raw, parse_constant=lambda c: (_ for _ in ()).throw(ValueError(f"Non-finite token {c} in {jf}")))
-            assert obj is not None
+def test_all_evidence_json_strict_and_unsafe_receipts_not_promoted():
+    for folder in (ROOT / 'evidence', ROOT / 'docs/data'):
+        for path in folder.rglob('*.json'):
+            obj = json.loads(path.read_text(), parse_constant=lambda c: (_ for _ in ()).throw(ValueError(c)))
+            assert obj is not None, path
+    for p in (ROOT / 'docs/data/run_card.json', ROOT / 'docs/data/current-run-card.json'):
+        assert json.loads(p.read_text())['verdict'] == 'negative'
+    assert 'DO_NOT_SUBMIT' in json.loads((ROOT / 'docs/data/validation_receipt.json').read_text())['ready_to_submit_verdict']
+    sidecar = next((ROOT / 'docs/downloads').glob('*maw-gsi*.json'))
+    assert json.loads(sidecar.read_text())['approved_for_weekly_slot'] is False
 
 
-def test_zero_sgmc_and_zero_leak_column_in_model_code():
-    feat_code = (ROOT / "src/apartgems/features.py").read_text(encoding="utf-8")
-    model_code = (ROOT / "src/apartgems/model.py").read_text(encoding="utf-8")
-    assert "derived_sgmc_faults" not in feat_code
-    assert "derived_sgmc_faults" not in model_code
-    # Ensure dist_known_fault_px is never indexed/loaded as a column
-    assert '["dist_known_fault_px"]' not in feat_code
-    assert "['dist_known_fault_px']" not in feat_code
-
-
-def test_evaluate_holdout_cli_script_smoke():
-    """Verify shared CLI scripts exist cleanly."""
-    assert (ROOT / "scripts/evaluate_holdout.py").exists()
-    assert (ROOT / "scripts/submission_writer.py").exists()
-    assert (ROOT / "scripts/validate_submission.py").exists()
-    assert (ROOT / "scripts/download_competition_data.sh").exists()
+def test_regenerators_and_preflight_cannot_promote(tmp_path):
+    builder = subprocess.run([sys.executable, str(ROOT / 'scripts/build_pages_and_readme.py')],
+                             cwd=ROOT, capture_output=True, text=True)
+    assert builder.returncode == 0, builder.stderr
+    assert 'No file is ready to submit' in (ROOT / 'docs/index.html').read_text()
+    figures = subprocess.run([sys.executable, str(ROOT / 'scripts/generate_figures.py')], capture_output=True, text=True)
+    assert figures.returncode != 0 and 'stopped' in figures.stderr.lower()
+    assert not (ROOT / 'src/apartgems/uniqueness.py').exists()
+    text = (ROOT / 'src/apartgems/features.py').read_text()
+    assert 'derived_sgmc_faults' not in text  # not silently used as a feature

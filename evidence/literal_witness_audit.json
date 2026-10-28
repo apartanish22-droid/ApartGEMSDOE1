@@ -1,0 +1,105 @@
+{
+  "generated_utc": "2026-10-28T23:00:45.723028+00:00",
+  "evidence_class": "REGISTRY-MEASUREMENT; witness-only duplicate proof",
+  "candidate_file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+  "candidate_sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
+  "witness": {
+    "repository": "buffedlizard55-lab/13GEMSDOE",
+    "commit": "92ee6f074323f161eed837b80ec3ee5b662e26f5",
+    "path": "docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "url": "https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2"
+  },
+  "format_validation": {
+    "file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+    "bytes": 145748,
+    "sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    },
+    "band_description": [
+      null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.0030664964579045773,
+    "emitted_positive_pixels": 37654,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 37654,
+    "footprint_fraction": 0.007286874781441169
+  },
+  "final_dot_gate": {
+    "candidate_dots": 37654,
+    "candidate_dots_within_3px": 37533,
+    "forward_overlap_3px": 0.9967865299835342,
+    "spearman_full_footprint": 0.00044546006955554146,
+    "limits": {
+      "forward_overlap": 0.7,
+      "spearman": 0.9
+    },
+    "duplicate": true
+  },
+  "surface_gate": {
+    "tested": false,
+    "reason": "Original pre-placement surface is not persisted; prior sampled/density-exempt audit cannot clear it."
+  },
+  "budget_feasibility": {
+    "evidence_class": "REGISTRY-MEASUREMENT",
+    "witness_file": "docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "witness_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+    "positive_pixels": 206895,
+    "allowed_pixels": 5106385,
+    "uncovered_allowed_pixels": 6514,
+    "covered_allowed_fraction": 0.9987243421716145,
+    "universal_overlap_blocker": false,
+    "overlap_limit": 0.7,
+    "support_definition": "finite prediction > 0 (inherited literal support rule)",
+    "implication": "No universal blockage established.",
+    "max_dots_for_possible_70pct_pass": 21713,
+    "requested_previous_budget": 37654,
+    "lower_bound_overlap_for_that_budget": 0.8270037711796887,
+    "explanation": "At most U distinct allowed pixels lie outside the witness halo; 0.3*N <= U is necessary, not sufficient."
+  },
+  "complete_registry_checked": false,
+  "verdict": "negative",
+  "stop_required": true,
+  "note": "The existing candidate was generated in a prior session; no new raster or experiment was created in this audit."
+}
