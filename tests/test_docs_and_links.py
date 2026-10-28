@@ -64,6 +64,19 @@ def test_research_pages_are_rendered_and_linked_without_score_projections():
             assert (docs / ref.split('#')[0].split('?')[0]).resolve().exists(), f'broken {ref} in {name}'
 
 
+def test_archived_h6_cannot_promote_after_literal_stop():
+    exp = json.loads((ROOT / 'evidence/experiments_h6_otsp.json').read_text())
+    card = json.loads((ROOT / 'evidence/run_card_h6_otsp.json').read_text())
+    assert exp['experiment_budget_used'] == exp['experiment_budget_cap'] == 3
+    assert exp['leakage_canary']['all_passed'] is True
+    assert exp['selector_verdict'] == 'negative_stop_archived_v2'
+    assert exp['subsequent_registry_stop']['stop_required'] is True
+    assert card['verdict'] == 'negative'
+    assert card['raster_sha256'] is None and card['submission_name'] is None
+    assert card['current_release_decision'] == 'NO FILE READY TO SUBMIT'
+    assert 'ARCHIVED-NONCOMPARABLE' in card['evidence_status']
+
+
 def test_readme_standing_protocol_and_links():
     text = (ROOT / 'README.md').read_text()
     card = json.loads((ROOT / 'evidence/run_card.json').read_text())

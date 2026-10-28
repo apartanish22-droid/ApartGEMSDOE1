@@ -1,0 +1,110 @@
+{
+  "generated_utc": null,
+  "status": "PRE-REGISTERED BEFORE H-APART-6 HOLDOUT EXECUTION",
+  "protocol": "Parallel-Run Protocol v2; one selected method lane; at most 3 experiments",
+  "method_lane": "H-APART-6 OTSP: fold-visible fault-strike orientation transport into independently measured, multi-scale topographic and gravity lineaments; no SGMC input and no peer-raster input",
+  "baseline_to_beat": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "submission": "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+    "dti": 0.117438,
+    "ci95": [
+      0.099365,
+      0.136129
+    ],
+    "withheld_positive_pixels": 11360
+  },
+  "ranking_note": "Expected improvements below are pre-experiment design priors, not measured scores, projections, or organizer-confirmed results.",
+  "ranked_candidates": [
+    {
+      "rank": 1,
+      "id": "H-APART-6",
+      "title": "Orientation-Transported Scale Persistence (OTSP)",
+      "selected_for_validation": true,
+      "specific_layers": [
+        "Official competition numerical feature Band 12 det_elev and Band 13 iso_grav_anom",
+        "USGS 3DEP-derived dem10_hgm50_max and dem10_onesided3 cached rasters",
+        "Fold-visible existing_faults.tif only (re-derived separately inside holdout)"
+      ],
+      "physical_signature": "Axial strike agreement between a local tangent estimated only from visible fault pixels and topographic/gravity contact tangents that persist from 200 m to 1200 m Gaussian scale; structure-tensor coherence and independent lineament strength suppress isotropic texture.",
+      "why_off_catalogue": "A buried or distributed parallel splay can preserve the strike of a nearby mapped master fault while its own trace appears only as a weak, scale-persistent topographic or potential-field edge. The candidate is emitted off the visible trace with a pixel-exact catalogue mask and a collar-tempered distance term.",
+      "difference_from_repo": "H-APART-2 has endpoint cones, relay density and independent 8-azimuth worm maxima, but it does not transport the measured tangent of each visible fault to require axial agreement with blind topographic and gravity contacts at several scales.",
+      "named_non_fault_mimic": "Parallel road/rail embankments and aligned alluvial-fan channels.",
+      "mimic_control": "Existing TIGER road deconfounder remains in the base surface; OTSP additionally requires multi-scale persistence and gravity-contact agreement, which surface infrastructure and drainage should not consistently produce.",
+      "expected_holdout_dti_improvement_prior": "+0.005 to +0.025",
+      "implementation_cost": "Medium; cached official layers, deterministic CPU structure tensors, no new download",
+      "data_obtainability": "READY: all inputs are already hash-pinned and cached by scripts/prepare_data.py"
+    },
+    {
+      "rank": 2,
+      "id": "H-APART-7",
+      "title": "Signed Piedmont Curvature-Reversal Persistence",
+      "selected_for_validation": false,
+      "specific_layers": [
+        "USGS 3DEP dem10_curv_absmax, dem10_resid_range, dem10_onesided and 1 m LiDAR crest/toe channels",
+        "Official Band 15 depth_to_base_surf"
+      ],
+      "physical_signature": "Paired curvature sign reversal and antislope step that persists across 100 m, 300 m and 700 m profiles at low-slope basin-depth hinges.",
+      "why_off_catalogue": "Young low-slip piedmont splays can be omitted where scarps are subtle or discontinuous under alluvium; persistence and basin-depth gating target those traces rather than obvious mapped range-front scarps.",
+      "difference_from_repo": "H-APART-2 uses one-sided relief and crest-toe amplitudes but does not require signed curvature reversal at three profile scales.",
+      "named_non_fault_mimic": "Fluvial terraces and abandoned shorelines.",
+      "expected_holdout_dti_improvement_prior": "+0.003 to +0.018",
+      "implementation_cost": "Medium",
+      "data_obtainability": "READY: USGS 3DEP derivatives are cached and hash-pinned"
+    },
+    {
+      "rank": 3,
+      "id": "H-APART-8",
+      "title": "Radiometric Contact / Potential-Field Edge Phase Concordance",
+      "selected_for_validation": false,
+      "specific_layers": [
+        "USGS GeoDAWN K, Th, K/Th and U/K channels",
+        "Official RTP magnetic and isostatic-gravity anomaly layers"
+      ],
+      "physical_signature": "Co-located directional edges in radiometric ratios and magnetic/gravity phase, with a demagnetization sign consistent with hydrothermal alteration.",
+      "why_off_catalogue": "A concealed structure can juxtapose altered and unaltered rock or focus alteration without a mapped surface break, while remaining visible as concordant geochemical and potential-field boundaries.",
+      "difference_from_repo": "H-APART-2 includes potassic amplitude and demagnetization gates, but not directional phase-concordance of the radiometric contact itself with both magnetic and gravity edges.",
+      "named_non_fault_mimic": "Lithologic contacts unrelated to faulting and airborne-survey seams.",
+      "expected_holdout_dti_improvement_prior": "+0.002 to +0.014",
+      "implementation_cost": "Medium",
+      "data_obtainability": "READY: GeoDAWN products are cached from a pinned public mirror with official USGS provenance"
+    },
+    {
+      "rank": 4,
+      "id": "H-APART-9",
+      "title": "Thermal-Residual / Clay-Cap Boundary Cross-Validation",
+      "selected_for_validation": false,
+      "specific_layers": [
+        "DOE GDR #1391 2 m temperature probes and spring/geothermometer table",
+        "Official Band 17 cond_surf",
+        "USGS 3DEP detrended elevation"
+      ],
+      "physical_signature": "Locally robust thermal residuals coincident with electrical-conductivity boundaries and a sharp structural lineament, rather than broad thermal halos.",
+      "why_off_catalogue": "Upflow may identify permeability on buried faults that have no mapped trace; requiring a conductivity boundary and lineament avoids treating every warm measurement as a fault.",
+      "difference_from_repo": "H-APART-2 smooths probe/spring impulses and applies a structure gate, but does not estimate leave-neighborhood-out thermal residuals or require directional clay-cap boundary concordance.",
+      "named_non_fault_mimic": "Shallow groundwater circulation, irrigation and measurement-cluster sampling bias.",
+      "expected_holdout_dti_improvement_prior": "+0.001 to +0.010",
+      "implementation_cost": "Medium-High",
+      "data_obtainability": "READY: sanitized GDR #1391 tables are cached and hash-pinned"
+    }
+  ],
+  "official_sources_for_manual_review": [
+    {
+      "claim_scope": "Competition data and reference implementation",
+      "url": "https://github.com/drivendataorg/gems-prize-reference-solution"
+    },
+    {
+      "claim_scope": "USGS 3D Elevation Program",
+      "url": "https://www.usgs.gov/3d-elevation-program"
+    },
+    {
+      "claim_scope": "USGS GeoDAWN airborne magnetic and radiometric survey",
+      "url": "https://www.sciencebase.gov/catalog/item/657e1d85d34e23d3533209f7"
+    },
+    {
+      "claim_scope": "DOE GDR INGENIOUS regional data release #1391",
+      "url": "https://gdr.openei.org/submissions/1391"
+    }
+  ],
+  "timestamp_note": "Exact preregistration timestamp was not captured; this file was written before scripts/run_h6_otsp_experiments.py was executed."
+}
