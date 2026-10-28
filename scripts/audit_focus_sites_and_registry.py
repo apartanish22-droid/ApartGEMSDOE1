@@ -184,6 +184,7 @@ def find_focus_tif(repo_dir: Path, preferred_rel: str, sub_id: str) -> Path | No
 
 
 def main() -> int:
+    raise RuntimeError("Legacy partial/sampled registry audit is retired; use gems57.uniqueness with a complete inventory")
     t0 = time.time()
     grid = load_grid()
     fp = grid.footprint

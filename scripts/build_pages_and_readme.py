@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> int:
+    raise RuntimeError("Retired unsafe page generator; see evidence/lattice_stop.json. Do not regenerate a submit-ready claim from historical receipts.")
     rc = json.loads((ROOT / "evidence/run_card.json").read_text())
     fa = json.loads((ROOT / "evidence/focus_sites_forensic_audit.json").read_text())
     exp = json.loads((ROOT / "evidence/experiments_holdout.json").read_text())

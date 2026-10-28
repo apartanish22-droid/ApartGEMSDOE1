@@ -37,8 +37,8 @@ carried by the shared template's prose and corrected here; the template's own
 :func:`dti_algebra` keeps ``T``, ``S`` and ``M`` separate and is right.
 
 Adding one dot with self-credit ``k = max_g k(d(x,g))`` and marginal truth credit
-``dT`` (``dT <= k``, with equality when the dot covers only truth cells no
-earlier dot already covered) gives ``dD = alpha*(dT + 1 - k)`` and, writing
+``dT`` (a sum over truth cells; it can exceed the dot's single self-credit
+``k``) gives ``dD = alpha*(dT + 1 - k)`` and, writing
 ``DTI = T / D``,
 
     new DTI = (T + dT) / (D + alpha*(dT + 1 - k))
@@ -115,8 +115,10 @@ def marginal_accept(dT: float, k_self: float, T: float, M: float, n: int,
     Implemented by recomputing DTI before and after rather than by algebra, so
     the test cannot drift from the metric.
     """
-    D0 = alpha * (T + n - M) + beta * K + EPS
-    D1 = alpha * (T + dT + (n + 1) - (M + k_self)) + beta * K + EPS
+    # TP + alpha * FP + beta * FN, with FP = n - M and FN = K - TP.
+    # The shorter alpha*(T+n-M)+beta*K only holds when alpha+beta == 1.
+    D0 = (1.0 - beta) * T + alpha * (n - M) + beta * K + EPS
+    D1 = (1.0 - beta) * (T + dT) + alpha * (n + 1 - M - k_self) + beta * K + EPS
     return (T + dT) / D1 > T / D0
 
 
