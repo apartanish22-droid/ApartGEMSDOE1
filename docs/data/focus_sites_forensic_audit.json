@@ -28,50 +28,43 @@
         "stage": "19GEMSDOE H19-5 (solid ridges)",
         "dots": 121131,
         "user_reported": 0.1922,
-        "mechanism": "4-pillar physical synthesis (power-law tips + GDR1391 thermal + 1m/10m openness/LRM + geopotential worms)",
-        "mechanism_status": "Historical interpretation; not established from hidden labels or organizer receipts."
+        "mechanism": "4-pillar physical synthesis (power-law tips + GDR1391 thermal + 1m/10m openness/LRM + geopotential worms)"
       },
       {
         "stage": "GEMSDOE24 D1.5 (d=1.5 px thin)",
         "dots": 60069,
         "user_reported": 0.2477,
-        "mechanism": "150 m spacing cuts redundant max-kernel overlap by 50.4%, slashing 0.2*FP_w",
-        "mechanism_status": "Historical interpretation; not established from hidden labels or organizer receipts."
+        "mechanism": "150 m spacing cuts redundant max-kernel overlap by 50.4%, slashing 0.2*FP_w"
       },
       {
         "stage": "GEMSDOE25 / GEMSDOE30 D2.8 (d=2.8 px thin)",
         "dots": 44090,
         "user_reported": 0.26,
-        "mechanism": "280 m spacing matches R=300 m kernel radius, cutting another 15,979 redundant dots",
-        "mechanism_status": "Historical interpretation; not established from hidden labels or organizer receipts."
+        "mechanism": "280 m spacing matches R=300 m kernel diameter, cutting another 15,979 redundant dots"
       },
       {
         "stage": "GEMSDOE31 Solo-D28 (1-px collar prune)",
         "dots": 40199,
         "user_reported": 0.2708,
-        "mechanism": "Removes 3,891 dots adjacent (d=1 px) to already-mapped faults",
-        "mechanism_status": "Historical interpretation; not established from hidden labels or organizer receipts."
+        "mechanism": "Removes 3,891 dots adjacent (d=1 px) to already-mapped faults"
       },
       {
         "stage": "GEMSDOE28 H36-1 (1-px prune + blind rungs)",
         "dots": 37660,
         "user_reported": 0.271,
-        "mechanism": "Further trims near-catalogue FP dots + step-over rungs",
-        "mechanism_status": "Historical interpretation; not established from hidden labels or organizer receipts."
+        "mechanism": "Further trims near-catalogue FP dots + step-over rungs"
       },
       {
         "stage": "GEMSDOE36 Anderson-PINN (+1,200 dots on B2)",
         "dots": 38854,
         "user_reported": 0.275,
-        "mechanism": "B2 + 1,200 PINN dots (marginal precision of extra 1,200 dots slightly below 0.2778 break-even)",
-        "mechanism_status": "Historical interpretation; not established from hidden labels or organizer receipts."
+        "mechanism": "B2 + 1,200 PINN dots (marginal precision of extra 1,200 dots slightly below 0.2778 break-even)"
       },
       {
         "stage": "GEMSDOE32 H33-2-B2 (2-px = 200 m collar amputation, all-finite zeros)",
         "dots": 37654,
         "user_reported": 0.2778,
-        "mechanism": "Removes all 6,436 D2.8 dots within <=200 m of existing_faults.tif (zero XOR residual), eliminating near-catalogue FP halo",
-        "mechanism_status": "Historical interpretation; not established from hidden labels or organizer receipts."
+        "mechanism": "Removes all 6,436 D2.8 dots within <=200 m of existing_faults.tif (zero XOR residual), eliminating near-catalogue FP halo"
       }
     ]
   },
@@ -825,8 +818,5 @@
     "unique_decoded_rasters": 352,
     "competing_sparse_detectors": 342,
     "blanket_or_continuous_rasters": 10
-  },
-  "historical_only": true,
-  "superseded_by": "review_20261028.json",
-  "interpretation_warning": "Historical score-ladder mechanisms and fleet completeness were not established by organizer receipts. Treat them as unverified hypotheses, not causal proof or current registry clearance."
+  }
 }

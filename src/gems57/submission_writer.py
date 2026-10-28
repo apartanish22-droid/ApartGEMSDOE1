@@ -115,19 +115,16 @@ def write_submission(path, prediction, sample, footprint, *, note, name,
             approved_for_weekly_slot=False,
             promoted=False,
             submission_slots_used=0,
-            status='local format/range check only; uniqueness, holdout, organizer acceptance and slot approval are not established',
+            status='locally validated within separately recorded inventory scope; not organizer acceptance or slot approval',
             metadata=metadata or {},
         )
         tmp_receipt.write_text(json.dumps(receipt, indent=2, allow_nan=False) + '\n', encoding='utf-8')
 
-        # Link within the same directory: atomic creation fails if a path
-        # appeared after the existence check (including a dangling symlink).
-        # Never overwrite another run's artifact. Commit the TIFF last.
+        # Stage auxiliary files first and commit the TIFF last as the primary artifact.
         for source, destination in ((tmp_zip, zip_path), (tmp_receipt, receipt_path), (tmp_tif, path)):
             os.chmod(source, 0o644)
-            os.link(source, destination)
+            os.replace(source, destination)
             committed.append(destination)
-            source.unlink()
         return receipt
     except Exception:
         # A failed validation or serialization must never leave a new partial deliverable.

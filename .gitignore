@@ -8,6 +8,8 @@ __pycache__/
 build/
 dist/
 out/
+*.egg-info/
+src/*.egg-info/
 # Large restored competition & external rasters live in .cache/ with symlinks in data/
 data/official/training_features.tif
 data/training_features.tif

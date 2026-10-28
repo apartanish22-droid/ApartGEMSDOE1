@@ -72,7 +72,7 @@ def format_report(path, sample, epsg=32611, cell=100.0, footprint=None):
             problems.append(f"{out['n_nan']} NaN/infinite pixels: fail our all-finite export policy (public spec permits outside-footprint NaN)")
         if finite.any():
             lo, hi = float(a[finite].min()), float(a[finite].max())
-            out.update(min=lo, max=hi, mean=float(a[finite].mean(dtype=np.float64)), n_nonzero=int(((a > 0) & finite).sum()), mass=float(a[finite].sum(dtype=np.float64)))
+            out.update(min=lo, max=hi, mean=float(a[finite].mean()), n_nonzero=int(((a > 0) & finite).sum()), mass=float(a[finite].sum(dtype=np.float64)))
             if lo < 0 or hi > 1:
                 problems.append(f"values outside [0,1]: min {lo}, max {hi}")
         else:

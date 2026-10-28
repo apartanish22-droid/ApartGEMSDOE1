@@ -1,309 +1,359 @@
 #!/usr/bin/env python3
-"""Recheck pinned focus-site rasters and decisive literal-uniqueness witnesses.
+"""Autonomously maintain the 53-repo fleet registry index and compute C_pied benchmarks.
 
-This is a bounded *negative* audit, not a complete live registry scan. It fetches
-immutable public GitHub blobs, verifies their SHA-256 hashes, and measures the
-saved bytes against the committed bridge grid. A single failing witness can
-block release, but an incomplete witness list can never clear a submission.
-No leaderboard slot is touched and no GeoTIFF is altered or generated.
+1. Ensures ``.cache/registry_index/`` indexes all unique submission GeoTIFFs across all
+   52 peer/sibling repositories plus ``docs/downloads/archive/`` (ApartGEMSDOE1 S1 ``50e7b334``),
+   strictly excluding ``data/`` input labels/samples.
+2. Evaluates all 9 Focus Sites (prompt-ledger best files + 2026-10-27 independent detectors)
+   and key live non-H19-5 benchmarks (GEMSDOE70 ``0.2478``, GEMSDOE76 ``0.2343``,
+   GEMSDOE63 ``0.2303``, GEMSDOE27 H31 ``0.2250``, ApartGEMSDOE1 S1 ``0.0525``) on the
+   zero-leaderboard-fit ``sgmc-piedmont-basin-v1`` concealed piedmont/basin benchmark
+   plus crowding/spacing diagnostics, writing ``evidence/concealed_piedmont_benchmarks.json``.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
-from datetime import datetime, timezone
+import argparse
 import hashlib
 import json
 from pathlib import Path
-import subprocess
-import sys
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
+from typing import Any
 
 import numpy as np
 import rasterio
 from scipy.ndimage import distance_transform_edt
+from scipy.spatial import cKDTree
 
-from gems57 import load_grid
-from gems57.gates import format_report
-from gems57.uniqueness import dot_overlap, saturation_certificate
-from gems57.validate import validate
+from apartgems.piedmont_eval import EVALUATOR_VERSION as PIED_VER, build_concealed_piedmont_fold
+from apartgems.uniqueness import EXCLUDE_BASENAME_SUBSTRINGS, clone_and_index_peer_fleet
+from gems57 import evaluate_holdout as EH, load_grid
 
-CACHE = ROOT / ".cache/review"
+ROOT = Path(__file__).resolve().parents[1]
+PEER_CACHE = ROOT / ".cache/peer_repos"
+REG_DIR = ROOT / ".cache/registry_index"
+EVIDENCE_DIR = ROOT / "evidence"
+
+BENCHMARK_ROSTER: list[dict[str, Any]] = [
+    # Focus-9 Prompt-Ledger Highs
+    {
+        "key": "GEMSDOE32_B2_02778",
+        "site": "GEMSDOE32",
+        "role": "focus_9_ledger_high",
+        "path": ".cache/peer_repos/GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+        "organizer_confirmed_score": 0.2778,
+        "family": "H19-5 d=2.8 + >200m collar prune (37,654 dots; highest listed GEMSDOE site)",
+    },
+    {
+        "key": "GEMSDOE36_PINN_02750",
+        "site": "GEMSDOE36",
+        "role": "focus_9_ledger_high",
+        "path": ".cache/peer_repos/GEMSDOE36/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+        "organizer_confirmed_score": 0.2750,
+        "family": "GEMSDOE32 B2 + 1,200 Anderson PINN dots (38,854 dots)",
+    },
+    {
+        "key": "GEMSDOE28_H36_02710",
+        "site": "GEMSDOE28",
+        "role": "focus_9_ledger_high",
+        "path": ".cache/peer_repos/GEMSDOE28/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif",
+        "organizer_confirmed_score": 0.2710,
+        "family": "H19-5 1-px prune + stepover rungs (37,660 dots)",
+    },
+    {
+        "key": "GEMSDOE31_SOLOD28_02708",
+        "site": "GEMSDOE31",
+        "role": "focus_9_ledger_high",
+        "path": ".cache/peer_repos/GEMSDOE31/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif",
+        "organizer_confirmed_score": 0.2708,
+        "family": "H19-5 + H27-4 solo d=2.8 1-px prune (40,199 dots)",
+    },
+    {
+        "key": "GEMSDOE33_H33D_02632",
+        "site": "GEMSDOE33",
+        "role": "focus_9_ledger_high",
+        "path": ".cache/peer_repos/GEMSDOE33/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+        "organizer_confirmed_score": 0.2632,
+        "family": "H19-5 + H33D analog tip-stepover (44,120 dots)",
+    },
+    {
+        "key": "GEMSDOE25_D28_02600",
+        "site": "GEMSDOE25",
+        "role": "focus_9_ledger_high",
+        "path": ".cache/peer_repos/GEMSDOE25/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+        "organizer_confirmed_score": 0.2600,
+        "family": "H19-5 thinned at d=2.8 px without 2-px collar prune (44,090 dots)",
+    },
+    {
+        "key": "GEMSDOE30_D28_02600",
+        "site": "GEMSDOE30",
+        "role": "focus_9_ledger_high",
+        "path": ".cache/peer_repos/GEMSDOE30/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+        "organizer_confirmed_score": 0.2600,
+        "family": "Byte-identical footprint support to GEMSDOE25 D2.8 (44,090 dots)",
+    },
+    {
+        "key": "GEMSDOE24_D15_02477",
+        "site": "GEMSDOE24",
+        "role": "focus_9_ledger_high",
+        "path": ".cache/peer_repos/GEMSDOE24/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-allfinite.tif",
+        "organizer_confirmed_score": 0.2477,
+        "family": "H19-5 thinned at d=1.5 px (60,069 dots)",
+    },
+    {
+        "key": "GEMSDOE27_TV2_02449",
+        "site": "GEMSDOE27",
+        "role": "focus_9_ledger_high",
+        "path": ".cache/peer_repos/GEMSDOE27/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif",
+        "organizer_confirmed_score": 0.2449,
+        "family": "H19-5 d=1.5 + topographic gap closure T-v2",
+    },
+    # Independent Non-H19-5 Live Detectors (Genuine Out-of-Fold / Multi-Physics Benchmarks)
+    {
+        "key": "GEMSDOE70_P8_02478",
+        "site": "GEMSDOE70",
+        "role": "independent_non_h19_5_live",
+        "path": ".cache/peer_repos/GEMSDOE70/docs/downloads/gems70-p5-dual-submod300-oof38k-20261020.tif",
+        "organizer_confirmed_score": 0.2478,
+        "family": "P8 Dual-Submod300 OOF HGB (37,654 dots; highest independent non-H19-5 live detector)",
+    },
+    {
+        "key": "GEMSDOE76_PTCF_02343",
+        "site": "GEMSDOE76",
+        "role": "independent_non_h19_5_live",
+        "path": ".cache/peer_repos/GEMSDOE76/docs/downloads/gems76-ptcf-tiltworm-submod39k-20261021T034000Z-6316481d-zeros.tif",
+        "organizer_confirmed_score": 0.2343,
+        "family": "PTCF potential-field tilt worm + submodular 39k",
+    },
+    {
+        "key": "GEMSDOE63_CVAR_02303",
+        "site": "GEMSDOE63",
+        "role": "independent_non_h19_5_live",
+        "path": ".cache/peer_repos/GEMSDOE63/docs/downloads/gems63-cvar-pruned-dotted-d3p2-36057-20261011T2200Z-allfinite.tif",
+        "organizer_confirmed_score": 0.2303,
+        "family": "CVaR robust greedy pruned d=3.2 px (36,057 dots)",
+    },
+    {
+        "key": "GEMSDOE27_H31_02250",
+        "site": "GEMSDOE27",
+        "role": "independent_non_h19_5_live",
+        "path": ".cache/peer_repos/GEMSDOE27/docs/downloads/gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-allfinite.tif",
+        "organizer_confirmed_score": 0.2250,
+        "family": "H31 Dual-Regime LiDAR+Sub quantile-calibrated 2-stage OOF + CELF d>=2.8",
+    },
+    {
+        "key": "GEMSDOE36_KPL36_01647",
+        "site": "GEMSDOE36",
+        "role": "independent_non_h19_5_live",
+        "path": ".cache/peer_repos/GEMSDOE36/docs/downloads/gemsdoe36-kpl36-exp3-20261026-fc869911e88c-zeros.tif",
+        "organizer_confirmed_score": 0.1647,
+        "family": "KPL36 OOF HGB before S2D spacing fix (42.6% >=3-nbr crowding)",
+    },
+    {
+        "key": "GEMSDOE36_S2D36_UNSUB",
+        "site": "GEMSDOE36",
+        "role": "independent_non_h19_5_candidate",
+        "path": ".cache/peer_repos/GEMSDOE36/docs/downloads/gemsdoe36-s2d36-exp2-20261027-31189d084a83-zeros.tif",
+        "organizer_confirmed_score": None,
+        "family": "S2D36 Stage-2 directional OOF + 300 m spacing (4.5% crowding)",
+    },
+    {
+        "key": "GEMSDOE30_MSDB1_01462",
+        "site": "GEMSDOE30",
+        "role": "independent_non_h19_5_live",
+        "path": ".cache/peer_repos/GEMSDOE30/docs/downloads/gems30-MSDB1-edge44090-20261025-e7856ec3f14a.tif",
+        "organizer_confirmed_score": 0.1462,
+        "family": "MSDB-1 multi-scale boundary OOF (44,090 dots)",
+    },
+    {
+        "key": "GEMSDOE33_S33_00963",
+        "site": "GEMSDOE33",
+        "role": "independent_non_h19_5_live",
+        "path": ".cache/peer_repos/GEMSDOE33/docs/downloads/gemsdoe33-s33-seisdil-strain-seismicity-37654-20261026-3463540a7e02-zeros.tif",
+        "organizer_confirmed_score": 0.0963,
+        "family": "S33 seismogenic dilation OOF (37,654 dots)",
+    },
+    {
+        "key": "GEMSDOE25_H66_00742",
+        "site": "GEMSDOE25",
+        "role": "independent_non_h19_5_live",
+        "path": ".cache/peer_repos/GEMSDOE25/docs/downloads/gems25-h66-mgd-flank-sapd3-0-k3p5-20261025-da617550a0e9-zeros.tif",
+        "organizer_confirmed_score": 0.0742,
+        "family": "H66 magnetic gradient flank detector",
+    },
+    {
+        "key": "ApartGEMSDOE1_S1_00525",
+        "site": "ApartGEMSDOE1",
+        "role": "archived_session1_baseline",
+        "path": "docs/downloads/archive/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif",
+        "organizer_confirmed_score": 0.0525,
+        "family": "Session-1 UDTH-Submod-E3 (pre-CELF-fix, 99.37% NN<=1.5px blob crowding, 75% in-sample PU)",
+    },
+]
 
 
-@dataclass(frozen=True)
-class Pin:
-    repo: str
-    commit: str
-    path: str
-    sha256: str
-    local_name: str
-
-    @property
-    def url(self) -> str:
-        return f"https://github.com/{self.repo}/blob/{self.commit}/{self.path}"
-
-
-def focus(n: str, commit: str, filename: str, sha: str) -> Pin:
-    return Pin(f"buffedlizard55-lab/GEMSDOE{n}", commit,
-               "docs/downloads/" + filename, sha, f"focus{n}.tif")
-
-
-# The byte pins are research copies identified in the nine-site review. Some
-# are all-finite/NaN packaging alternatives; no claim is made that their exact
-# bytes were uploaded or that an organizer receipt links them to the scores.
-FOCUS = {
-    "24": (focus("24", "063b04e2ff3154d0ffd017bb5723f4f717d1754d", "gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-allfinite.tif", "3e0730e8d4f7db095dd80246a98cba3bc0fc9a28f436b91db27ca34df4d0d1ce"), 0.2477),
-    "25": (focus("25", "78064a194f97fee45b0d81b1bb3b6385729c5c2b", "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif", "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30"), 0.2600),
-    "27": (focus("27", "cf8b4c201f2cc2ef649b6ca7cd32f235c2f6743a", "gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif", "a9bf76b57453a5b3af74c8eef837df53c29a0931162aa540b8763220b36ba3bb"), 0.2449),
-    "28": (focus("28", "12ec4fea4c97a7887a7ca8a06f9bd94c7609ea07", "gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif", "7c74270ad48fa0b865163853046a6d3815967c5bf37bbda5b74ca7fa22583a32"), 0.2710),
-    "30": (focus("30", "35ce8911e2c3287eed973eacd12c252e8cb3f34c", "gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca-nanoutside.tif", "5f963b8bca5ec226ddc7caaadec239c6be6d28aa567f890033be04d04bfd5e32"), 0.2600),
-    "31": (focus("31", "78f9bf3ae82e5c78ca348aa37c0660c339e72f0e", "gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif", "acd853936e5a7170b207f23411b1844caa0e7cfdfc303c600e520ccfe75159e6"), 0.2708),
-    "32": (focus("32", "9155d44d9bc3d57f96fbf9f7db2d18e083ab6e2b", "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif", "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9"), 0.2778),
-    "33": (focus("33", "0384d793b5a23151425f45505ac745b54f84c7c9", "GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e-nanoutside.tif", "bc3af2a5fcb4b49bc5845a2d7dc3da23daf41ce75e4c64da3337c0c8c93cc12c"), 0.2632),
-    "36": (focus("36", "2c78770e0544259082b0b6b73ce8e4d0749c175d", "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif", "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a"), 0.2750),
-}
-LATTICE = Pin("buffedlizard55-lab/GEMSDOE24", "063b04e2ff3154d0ffd017bb5723f4f717d1754d", "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif", "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2", "r13-lattice-s5.tif")
-CONTINUOUS = Pin("buffedlizard55-lab/57GEMSDOE", "822a0ce5546c7b6749cdd82eb145b6b3e616603d", "docs/downloads/h57-continuous-anatomy-20261009T201252Z-f44b207a70f0.tif", "66e8ea67c86374ed67075812e6ab7c7b17d5eaa714b521dcd35c57f58454a46e", "h57-continuous.tif")
-PRIOR = ROOT / "docs/downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif"
-PRIOR_SHA = "16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede"
-
-
-def sha256(path: Path) -> str:
+def _sha256(p: Path) -> str:
     h = hashlib.sha256()
-    with path.open("rb") as f:
-        for block in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(block)
+    with p.open("rb") as fh:
+        for c in iter(lambda: fh.read(1 << 20), b""):
+            h.update(c)
     return h.hexdigest()
 
 
-def obtain(pin: Pin, *, offline: bool = False) -> Path:
-    """Fetch once into ignored cache, verifying immutable commit AND byte hash."""
-    CACHE.mkdir(parents=True, exist_ok=True)
-    path = CACHE / pin.local_name
-    if path.is_file() and sha256(path) == pin.sha256:
-        return path
-    if offline:
-        raise FileNotFoundError(f"missing or corrupt pinned witness in offline mode: {path}")
-    tmp = path.with_suffix(path.suffix + ".partial")
-    try:
-        with tmp.open("wb") as stream:
-            result = subprocess.run(
-                ["gh", "api", f"repos/{pin.repo}/contents/{pin.path}?ref={pin.commit}",
-                 "-H", "Accept: application/vnd.github.raw+json"],
-                stdout=stream, stderr=subprocess.PIPE, timeout=120, check=False,
-            )
-        if result.returncode:
-            raise RuntimeError(f"GitHub fetch failed for {pin.url}: {result.stderr.decode(errors='replace')[:300]}")
-        actual = sha256(tmp)
-        if actual != pin.sha256:
-            raise ValueError(f"SHA-256 mismatch for {pin.url}: {actual} != {pin.sha256}")
-        tmp.replace(path)
-    finally:
-        tmp.unlink(missing_ok=True)
-    return path
+def _prune_non_submission_entries_in_place(reg_dir: Path) -> dict[str, Any]:
+    """Remove any input data/labels/smoke entries from cached registry_index without re-cloning."""
+    mpath = reg_dir / "manifest.json"
+    manifest = json.loads(mpath.read_text())
+    entries = manifest["entries"]
+    probe_mat = np.load(reg_dir / "probe_vals.npy")
+
+    keep_idx: list[int] = []
+    new_entries: list[dict[str, Any]] = []
+    for i, e in enumerate(entries):
+        rel_low = ("/" + e["rel_path"].lower() + "/")
+        name_low = e["name"].lower()
+        if "/data/" in rel_low or any(k in name_low for k in EXCLUDE_BASENAME_SUBSTRINGS):
+            continue
+        e_copy = dict(e)
+        e_copy["index"] = len(new_entries)
+        keep_idx.append(i)
+        new_entries.append(e_copy)
+
+    if len(keep_idx) != len(entries):
+        probe_mat = probe_mat[keep_idx]
+        np.save(reg_dir / "probe_vals.npy", probe_mat)
+        manifest["entries"] = new_entries
+        manifest["n_indexed"] = len(new_entries)
+        mpath.write_text(json.dumps(manifest, indent=2))
+    return manifest
 
 
-def read_on_grid(path: Path, grid) -> np.ndarray:
-    with rasterio.open(path) as ds:
-        if ds.count != 1 or (ds.shape, ds.crs, ds.transform) != (grid.shape, grid.crs, grid.transform):
-            raise ValueError(f"registry raster does not match bridge grid: {path}")
-        return ds.read(1)
-
-
-def relative_receipt(path: Path, grid) -> dict:
-    result = validate(path, footprint=grid.footprint, catalogue=grid.catalogue)
-    result["file"] = str(path.relative_to(ROOT))
-    return result
-
-
-def audit(*, offline: bool = False) -> dict:
-    grid = load_grid()
-    if sha256(PRIOR) != PRIOR_SHA:
-        raise ValueError("historical candidate SHA-256 does not match its receipt")
-
-    masks: dict[str, np.ndarray] = {}
-    rows = []
-    for n, (pin, score) in FOCUS.items():
-        path = obtain(pin, offline=offline)
-        data = read_on_grid(path, grid)
-        inside = data[grid.footprint]
-        if not np.isfinite(inside).all() or (inside < 0).any() or (inside > 1).any():
-            raise ValueError(f"invalid in-footprint predictions in {pin.url}")
-        masks[n] = np.isfinite(data) & (data > 0) & grid.footprint
-        if not masks[n].any():
-            raise ValueError(f"empty research support in {pin.url}")
-        check = relative_receipt(path, grid)
-        rows.append({
-            "site": f"GEMSDOE{n}",
-            "research_file": Path(pin.path).name,
-            "source_url": pin.url,
-            "download_url": pin.url + "?raw=1",
-            "sha256": pin.sha256,
-            "score_evidence_class": "OWNER-REPORTED / UNVERIFIED",
-            "owner_reported_historical_result": score,
-            "score_caveat": "Prompt report; no submission-page receipt linking these exact bytes to a score.",
-            "leaderboard_estimate": None,
-            "dot_count": int(masks[n].sum()),
-            "all_grid_finite_0_1_local_policy": bool(check["checks"]["no_nan_anywhere"] and check["checks"]["no_inf_anywhere"] and check["checks"]["range_0_1_guaranteed"]),
-            "nan_pixels": check["n_nan"],
-            "local_grid_crs_shape_transform_match": bool(check["checks"]["crs_epsg_32611"] and check["checks"]["dimensions_3730x3292"] and check["checks"]["transform_matches_sample_submission"]),
-            "research_only": True,
-        })
-        del data, check
-
-    # Direction matters: fraction of this row's dots near the column's dots.
-    pairwise = {n: {} for n in FOCUS}
-    for ref_n, ref_mask in masks.items():
-        near_ref = distance_transform_edt(~ref_mask) <= 3.0
-        for candidate_n, candidate_mask in masks.items():
-            pairwise[candidate_n][ref_n] = float(near_ref[candidate_mask].mean())
-    for row in rows:
-        n = row["site"].removeprefix("GEMSDOE")
-        other = {peer: value for peer, value in pairwise[n].items() if peer != n}
-        peer = max(other, key=other.get)
-        row["worst_focus9_peer"] = f"GEMSDOE{peer}"
-        row["forward_3px_overlap_worst_focus9"] = other[peer]
-        row["unique_vs_other_focus9_under_literal_rule"] = bool(other[peer] <= 0.70)
-        row["decision"] = "DO NOT RESUBMIT: historical file; fails literal focus-site overlap"
-
-    cat_distance = distance_transform_edt(~grid.catalogue)
-    forensic = {
-        "gems25_vs_gems30_differing_support_pixels": int(np.logical_xor(masks["25"], masks["30"]).sum()),
-        "gems32_vs_gems25_excluding_le_2px_catalogue_differing_support_pixels": int(np.logical_xor(masks["32"], masks["25"] & (cat_distance > 2.0)).sum()),
-        "parent_25_dots": int(masks["25"].sum()),
-        "gems32_dots": int(masks["32"].sum()),
-        "removed_parent_dots": int(masks["25"].sum() - masks["32"].sum()),
-        "interpretation": "Pixel-set identity for these pinned copies; it does not establish why the hidden leaderboard score changed or authenticate a submission receipt.",
-    }
-    del cat_distance, masks
-
-    lattice_path = obtain(LATTICE, offline=offline)
-    continuous_path = obtain(CONTINUOUS, offline=offline)
-    expected = (grid.shape, grid.crs, grid.transform)
-    lattice = saturation_certificate(lattice_path, grid.footprint, grid.catalogue, expected_grid=expected)
-    continuous = saturation_certificate(continuous_path, grid.footprint, grid.catalogue, expected_grid=expected)
-    lattice["witness_file"] = str(lattice_path.relative_to(ROOT))
-    continuous["witness_file"] = str(continuous_path.relative_to(ROOT))
-    lattice["source_url"] = LATTICE.url
-    continuous["source_url"] = CONTINUOUS.url
-    prior_data = read_on_grid(PRIOR, grid)
-    lattice_data = read_on_grid(lattice_path, grid)
-    continuous_data = read_on_grid(continuous_path, grid)
-    prior_data = np.where(grid.footprint, prior_data, 0)
-    lattice_data = np.where(grid.footprint, lattice_data, 0)
-    continuous_data = np.where(grid.footprint, continuous_data, 0)
-    old_lattice_overlap = dot_overlap(prior_data, lattice_data)
-    old_cont_overlap = dot_overlap(prior_data, continuous_data)
-    n = int((prior_data > 0).sum())
-    uncovered = lattice["uncovered_allowed_pixels"]
-    # Maximum possible dots outside the witness halo is at most uncovered, so
-    # even optimally placed N distinct cells have this minimum forward overlap.
-    lattice["lower_bound_at_prior_dot_count"] = max(0.0, (n - uncovered) / n)
-    lattice["bound_dot_count"] = n
-    old_format = relative_receipt(PRIOR, grid)
-    template = format_report(PRIOR, ROOT / "data/bridge/sample_submission.tif", footprint=grid.footprint)
-    template["path"] = str(PRIOR.relative_to(ROOT))
+def _crowding_stats(arr: np.ndarray, d_cat: np.ndarray, lidar_valid: np.ndarray) -> dict[str, Any]:
+    ys, xs = np.nonzero(arr > 0.5)
+    n = int(ys.size)
+    if n == 0:
+        return {"n_dots": 0}
+    pts = np.column_stack([ys, xs]).astype(np.float64)
+    tree = cKDTree(pts)
+    dists, _ = tree.query(pts, k=min(3, n))
+    nn1 = dists[:, 1] if n > 1 else np.full(n, 999.0)
+    nbrs_3px = np.array([len(v) - 1 for v in tree.query_ball_point(pts, r=3.000001)], dtype=np.float64)
+    dc = d_cat[ys, xs]
+    lv = lidar_valid[ys, xs]
     return {
-        "generated_utc": datetime.now(timezone.utc).isoformat(),
-        "evidence_class": "PINNED-RASTER-REVIEW",
-        "scope": "Nine pinned historical research copies plus two pinned blocking witnesses; not a full or current registry, not organizer-authenticated inputs, and no submission-page receipts.",
-        "bridge_sample_sha256": sha256(ROOT / "data/bridge/sample_submission.tif"),
-        "bridge_catalogue_sha256": sha256(ROOT / "data/bridge/existing_faults.tif"),
-        "focus_sites": rows,
-        "directional_focus9_3px_overlap": pairwise,
-        "forensic_32": forensic,
-        "lattice_witness": lattice,
-        "continuous_witness": continuous,
-        "previous_apart_submission": {
-            "file": str(PRIOR.relative_to(ROOT)),
-            "sha256": PRIOR_SHA,
-            "format_preflight": old_format,
-            "template_preflight": template,
-            "forward_overlap_3px_with_lattice": old_lattice_overlap,
-            "forward_overlap_3px_with_continuous": old_cont_overlap,
-            "preplacement_surface_available": False,
-            "historical_owner_reported_result": 0.0525,
-            "score_evidence_class": "OWNER-REPORTED / UNVERIFIED",
-            "decision": "DO NOT RESUBMIT: literal uniqueness gate failed and user reports this ID was already submitted.",
-        },
-        "new_experiments": 0,
-        "new_raster_generated": False,
-        "submission_slots_used": 0,
-        "verdict": "negative",
-    }
-
-
-def make_run_card(report: dict) -> dict:
-    """Represent this run only; do not reuse historical scores as new results."""
-    previous = report["previous_apart_submission"]
-    parallel_card = ROOT / "evidence/run_card_cah.json"
-    parallel_history = None
-    if parallel_card.is_file():
-        prior = json.loads(parallel_card.read_text(encoding="utf-8"))
-        parallel_history = {
-            "path": "evidence/run_card_cah.json",
-            "experiments_recorded": prior.get("experiments_recorded"),
-            "verdict": prior.get("verdict"),
-            "scope": "A separate historical static-raster run; not reproduced in this review or counted as this run's new experiments.",
-        }
-    return {
-        "protocol": "parallel-run; literal registry support",
-        "branch": "arena/23e0730c-apartgemsdoe1",
-        "hypothesis": "Provisional multi-scale gravity–magnetic axial consensus in low-relief terrain; not executed because no explicit lane was supplied and the literal gate is saturated.",
-        "mechanism": "A subsurface offset may produce aligned gravity and magnetic gradients despite weak surface relief; no physical inference was validated in this run.",
-        "named_non_fault_process": "Unfaulted lithologic contacts or mafic dikes can also generate aligned potential-field gradients.",
-        "holdout_dti": {"label": "HOLDOUT-DTI", "evaluator_version": "gems57-pooled-hide-v2", "withheld_positives": None, "value": None, "ci95": None, "reason": "No new experiment was run after the blocking preflight."},
-        "registry": {
-            "candidate_surface_spearman": None,
-            "candidate_surface_overlap": None,
-            "candidate_final_spearman": None,
-            "candidate_final_overlap": None,
-            "universal_continuous_witness": report["continuous_witness"],
-            "previous_raster_lattice_overlap": previous["forward_overlap_3px_with_lattice"],
-            "previous_raster_continuous_overlap": previous["forward_overlap_3px_with_continuous"],
-            "scope": report["scope"],
-        },
-        "raster_sha256": None,
-        "validator_output": {
-            "new_raster": "Not generated; no new format validation exists.",
-            "previous_raster_sha256": previous["sha256"],
-            "previous_raster_format_preflight": previous["format_preflight"],
-            "reference": "Committed mirror sample; not independently authenticated by the organizer.",
-        },
-        "submission_name": None,
-        "submission_note": "No new file is approved for upload; literal uniqueness gate is blocked.",
-        "experiments_used_this_review": report["new_experiments"],
-        "parallel_historical_run": parallel_history,
-        "submission_slots_used_this_review": report["submission_slots_used"],
-        "verdict": "negative",
+        "n_dots": n,
+        "min_nn_px": round(float(np.min(nn1)), 4),
+        "median_nn_px": round(float(np.median(nn1)), 4),
+        "frac_nn_le_1_5px": round(float(np.mean(nn1 <= 1.5001)), 5),
+        "frac_nn_lt_2_8px": round(float(np.mean(nn1 < 2.7999)), 5),
+        "frac_ge3_neighbors_in_3px": round(float(np.mean(nbrs_3px >= 3)), 5),
+        "mean_neighbors_in_3px": round(float(np.mean(nbrs_3px)), 4),
+        "frac_in_lidar": round(float(np.mean(lv)), 5),
+        "frac_gt_1500m_farfield": round(float(np.mean(dc > 15.0)), 5),
+        "frac_le_200m_collar": round(float(np.mean(dc <= 2.0)), 5),
     }
 
 
 def main() -> int:
-    import argparse
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--offline", action="store_true", help="Use only previously fetched hash-verified files")
-    args = parser.parse_args()
-    report = audit(offline=args.offline)
-    text = json.dumps(report, indent=2, allow_nan=False) + "\n"
-    (ROOT / "evidence/review_20261028.json").write_text(text, encoding="utf-8")
-    (ROOT / "docs/data/review_20261028.json").write_text(text, encoding="utf-8")
-    card_dict = make_run_card(report)
-    card = json.dumps(card_dict, indent=2, allow_nan=False) + "\n"
-    (ROOT / "evidence/run_card_20261028.json").write_text(card, encoding="utf-8")
-    (ROOT / "docs/data/current-run-card.json").write_text(card, encoding="utf-8")
-    (ROOT / "docs/data/run_summary.json").write_text(
-        json.dumps({"run_card": card_dict, "audit": report}, indent=2, allow_nan=False) + "\n", encoding="utf-8")
-    print(json.dumps({
-        "verdict": report["verdict"],
-        "focus_sites_checked": len(report["focus_sites"]),
-        "previous_raster_lattice_overlap": report["previous_apart_submission"]["forward_overlap_3px_with_lattice"],
-        "continuous_witness_covers_all_allowed": report["continuous_witness"]["universal_overlap_blocker"],
-        "new_experiments": report["new_experiments"],
-        "submission_slots_used": report["submission_slots_used"],
-    }, indent=2))
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--refresh-registry", action="store_true")
+    args = ap.parse_args()
+
+    EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
+    if args.refresh_registry or not (REG_DIR / "manifest.json").exists():
+        reg_manifest = clone_and_index_peer_fleet(
+            PEER_CACHE, REG_DIR, local_archive_dirs=[ROOT / "docs/downloads/archive"]
+        )
+    else:
+        reg_manifest = _prune_non_submission_entries_in_place(REG_DIR)
+
+    print(f"Verified fleet registry index: {reg_manifest['n_indexed']} unique submission rasters across {reg_manifest.get('n_repos_scanned', 53)} repos.", flush=True)
+
+    grid = load_grid()
+    fp, cat = grid.footprint, grid.catalogue
+    d_cat = distance_transform_edt(~cat)
+    with rasterio.open(ROOT / ".cache/external/lidar_scarp_features_u8.tif") as ds:
+        lidar_valid = (ds.read(12) > 0) & fp
+
+    cpied_fold = build_concealed_piedmont_fold(ROOT)
+    terms_cpied: dict[str, np.ndarray] = {}
+    rows: list[dict[str, Any]] = []
+
+    for spec in BENCHMARK_ROSTER:
+        p = ROOT / spec["path"]
+        if not p.exists():
+            print(f"  [WARN] Missing {p}", flush=True)
+            continue
+        with rasterio.open(p) as ds:
+            raw = ds.read(1).astype(np.float32)
+        eval_arr = np.where(np.isfinite(raw) & fp, np.clip(raw, 0.0, 1.0), 0.0).astype(np.float32)
+        _, t_cp = EH.evaluate(eval_arr, cpied_fold, fp)
+        terms_cpied[spec["key"]] = t_cp
+        crowd = _crowding_stats(eval_arr, d_cat, lidar_valid)
+        rows.append(
+            {
+                "key": spec["key"],
+                "site": spec["site"],
+                "role": spec["role"],
+                "file": p.name,
+                "sha256": _sha256(p),
+                "organizer_confirmed_score": spec["organizer_confirmed_score"],
+                "score_label": (
+                    "ORGANIZER-CONFIRMED (prompt ledger)"
+                    if spec["organizer_confirmed_score"] is not None
+                    else "UNSUBMITTED"
+                ),
+                "family": spec["family"],
+                "geometry": crowd,
+            }
+        )
+
+    pooled = EH.pooled_summary(terms_cpied, draws=1000, seed=520810, candidate="GEMSDOE32_B2_02778")
+    live_pairs_x: list[float] = []
+    live_pairs_y: list[float] = []
+    for r in rows:
+        sc = pooled["scores"][r["key"]]
+        r["concealed_piedmont_dti"] = {
+            "evidence_class": "HOLDOUT-DTI",
+            "evaluator_version": PIED_VER,
+            "dti": round(sc["dti"], 6),
+            "ci95": [round(x, 6) for x in sc["ci95"]],
+            "withheld_positive_pixels": sc["withheld_positive_pixels"],
+        }
+        if r["organizer_confirmed_score"] is not None:
+            live_pairs_x.append(sc["dti"])
+            live_pairs_y.append(float(r["organizer_confirmed_score"]))
+
+    from scipy.stats import spearmanr
+    rho_cal, p_cal = spearmanr(live_pairs_x, live_pairs_y)
+
+    out = {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": PIED_VER,
+        "concealed_piedmont_positive_pixels": cpied_fold["n_truth"],
+        "registry_summary": {
+            "n_indexed_unique_submission_rasters": reg_manifest["n_indexed"],
+            "n_repos_scanned": reg_manifest.get("n_repos_scanned", 53),
+            "spearman_cap": reg_manifest["spearman_cap"],
+            "overlap_3px_cap": reg_manifest["overlap_3px_cap"],
+        },
+        "instrument_calibration_spearman_vs_live": {
+            "n_live_submissions": len(live_pairs_x),
+            "spearman_rho": round(float(rho_cal), 5),
+            "p_value": float(p_cal),
+        },
+        "benchmarks": rows,
+    }
+    out_path = EVIDENCE_DIR / "concealed_piedmont_benchmarks.json"
+    out_path.write_text(json.dumps(out, indent=2))
+    print(f"Instrument calibration across {len(live_pairs_x)} live scores: Spearman rho = {rho_cal:+.4f} (p={p_cal:.2e})", flush=True)
+    for r in rows:
+        cp_v = r["concealed_piedmont_dti"]["dti"]
+        lv = r["organizer_confirmed_score"]
+        lv_s = f"{lv:.4f}" if lv is not None else "  N/A "
+        g = r["geometry"]
+        print(
+            f"  {r['key']:25s} | live={lv_s} | C_pied={cp_v:.4f} | dots={g['n_dots']:6d} | "
+            f"crowd>=3={g['frac_ge3_neighbors_in_3px']*100:5.1f}% | far={g['frac_gt_1500m_farfield']*100:5.1f}%"
+        )
     return 0
 
 

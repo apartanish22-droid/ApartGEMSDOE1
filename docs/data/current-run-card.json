@@ -1,111 +1,103 @@
 {
-  "protocol": "parallel-run; literal registry support",
-  "branch": "arena/23e0730c-apartgemsdoe1",
-  "hypothesis": "Provisional multi-scale gravity\u2013magnetic axial consensus in low-relief terrain; not executed because no explicit lane was supplied and the literal gate is saturated.",
-  "mechanism": "A subsurface offset may produce aligned gravity and magnetic gradients despite weak surface relief; no physical inference was validated in this run.",
-  "named_non_fault_process": "Unfaulted lithologic contacts or mafic dikes can also generate aligned potential-field gradients.",
+  "protocol": "GEMS Parallel-Run Protocol v1",
+  "branch": "arena/eceaf9f6-apartgemsdoe1",
+  "generated_utc": "2026-10-28T08:54:38.693782+00:00",
+  "hypothesis": "H-APART-5 (PLKC-DualOOF-CELF): Pluvial-Shoreline-Deconfounded 1m/10m Scarp + Fluvial Chi/Ksn Knickzone + 60-deg Updip Gravity/Magnetic & Hydrothermal Conduit Dual-Regime Nested-OOF + Zero-SGMC Concealed Piedmont Specialist + CELF Noisy-OR d>=2.8 Allocation",
+  "mechanism": "Combines preserved-NaN 1m LiDAR scarps (74.2% interior coverage) with quantile-calibrated 10m 3DEP slope/curvature, across-fault fluvial chi/ksn knickzones, 60-deg updip-migrated gravity/RTP-magnetic contacts, GeoDAWN K/Th & U/Th alteration, GDR #1391 thermal springs/2m-probes/sinter/vents, Stage-2 8-azimuth directional line-integrals, a dedicated zero-SGMC basin-cover specialist head (b15_depth_base >= 180 m), and fold-visible tip/relay continuation across two 45-deg-offset 4-sector 100%-OOF partitions, emitted via CELF max-heap submodular allocation at min_sep_px=2.8 (>200 m catalogue collar).",
+  "named_non_fault_mimic_process": "Pleistocene Lake Lahontan (1,330 m) and Lake Bonneville/Provo (1,463 m / 1,558 m) wave-cut paleoshoreline benches, radial alluvial-fan incised washes, US Census TIGER highway/rail embankments, GeoDAWN aeromagnetic/radiometric flight-block stitching seams, and circular volcanic/erosional knobs (suppressed via orthometric pluvial-bench x zero-basement-gradient deconfounder, drainage-orthogonal alignment, TIGER road distance, acquisition_block_id seam weighting, and Stage-2 1.5 km directional anisotropy).",
   "holdout_dti": {
     "label": "HOLDOUT-DTI",
     "evaluator_version": "gems57-pooled-hide-v2",
-    "withheld_positives": null,
-    "value": null,
-    "ci95": null,
-    "reason": "No new experiment was run after the blocking preflight."
+    "split": "gems57-pooled-hide-v2 (seed=2026, buffer_px=3, 20 km spatial block bootstrap)",
+    "withheld_positive_pixels": 11360,
+    "dti": 0.079473,
+    "ci95": [
+      0.059426,
+      0.10265
+    ],
+    "session_1_archived_holdout_dti": 0.052328,
+    "detached_gt_800m_blind_dti": 0.07056,
+    "seed_20_stability_dti": 0.090829,
+    "experiments_progression": {
+      "E1_plkc_dual_regime_blind": 0.068729,
+      "E2_plkc_hydro_stage2_vessel": 0.072549,
+      "E3_plkc_dualoof_celf_full": 0.079473
+    }
   },
-  "registry": {
-    "candidate_surface_spearman": null,
-    "candidate_surface_overlap": null,
-    "candidate_final_spearman": null,
-    "candidate_final_overlap": null,
-    "universal_continuous_witness": {
-      "evidence_class": "REGISTRY-MEASUREMENT",
-      "witness_file": ".cache/review/h57-continuous.tif",
-      "witness_sha256": "66e8ea67c86374ed67075812e6ab7c7b17d5eaa714b521dcd35c57f58454a46e",
-      "positive_pixels": 5106385,
-      "allowed_pixels": 5106385,
-      "uncovered_allowed_pixels": 0,
-      "covered_allowed_fraction": 1.0,
-      "universal_overlap_blocker": true,
-      "overlap_limit": 0.7,
-      "support_definition": "finite prediction > 0 (inherited literal support rule)",
-      "implication": "Every nonempty candidate dot set in the allowed domain has forward overlap 1.0 with this prior; therefore it cannot pass the 0.70 gate.",
-      "source_url": "https://github.com/buffedlizard55-lab/57GEMSDOE/blob/822a0ce5546c7b6749cdd82eb145b6b3e616603d/docs/downloads/h57-continuous-anatomy-20261009T201252Z-f44b207a70f0.tif"
-    },
-    "previous_raster_lattice_overlap": 0.9894805194805195,
-    "previous_raster_continuous_overlap": 1.0,
-    "scope": "Nine pinned historical research copies plus two pinned blocking witnesses; not a full or current registry, not organizer-authenticated inputs, and no submission-page receipts."
+  "concealed_piedmont_holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "sgmc-piedmont-basin-v1",
+    "note": "Strictly read-only diagnostic on concealed USGS SGMC piedmont/basin faults (>250m from catalogue, depth_to_base >= 250m); zero SGMC used in features or training.",
+    "withheld_positive_pixels": 10579,
+    "dti": 0.109439,
+    "ci95": [
+      0.090838,
+      0.128807
+    ],
+    "vs_session_1_00525": 0.021384,
+    "vs_gemsdoe70_p8_02478": 0.085443,
+    "vs_gemsdoe32_b2_02778": 0.095385
   },
-  "raster_sha256": null,
+  "leakage_canary": {
+    "features_tested": 47,
+    "max_symmetric_auc": 0.76655,
+    "cap": 0.9,
+    "all_passed": true
+  },
+  "registry_uniqueness": {
+    "repositories_checked": 53,
+    "unique_rasters_checked": 950,
+    "competing_sparse_detectors_checked": 881,
+    "pre_placement_surface_max_abs_spearman": 0.54916,
+    "pre_placement_nearest_peer": "GEMSDOE82::surface_h82.tif",
+    "post_placement_final_max_abs_spearman": 0.08181,
+    "post_placement_max_3px_overlap_all_950": 0.62644,
+    "post_placement_max_3px_overlap_vs_competing": 0.62644,
+    "post_placement_max_3px_symmetric_f1_all_950": 0.49029,
+    "vs_gemsdoe32_02778_3px_overlap": 0.43169,
+    "vs_session_1_50e7b334_3px_overlap": 0.10806,
+    "vs_gemsdoe70_02478_3px_overlap": 0.3495,
+    "nearest_3px_overlap_peer": "GEMSDOE91::gems91-spac-e3-20261024T183000Z-a2740c89-zeros.tif",
+    "spearman_cap": 0.9,
+    "overlap_3px_cap": 0.7,
+    "passed": true
+  },
+  "raster_sha256": "9a2d5d67f65979d2054f8babd8dea3c5f516dc871ab01e3434adc74ea1838d73",
+  "decoded_footprint_sha256": "4499e12f937d632f1d97de90bab80d8a297c8a159ecb8f1f583bb1627a4d0111",
   "validator_output": {
-    "new_raster": "Not generated; no new format validation exists.",
-    "previous_raster_sha256": "16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede",
-    "previous_raster_format_preflight": {
-      "file": "docs/downloads/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif",
-      "bytes": 93217,
-      "sha256": "16f7101f41dd0331ac6076d6f55c906b7c1aa9fc7180258361450e9ecf87eede",
-      "meta": {
-        "crs": "EPSG:32611",
-        "shape": [
-          3730,
-          3292
-        ],
-        "dtype": "float32",
-        "count": 1,
-        "nodata": null,
-        "transform": [
-          100.0,
-          0.0,
-          243350.0,
-          0.0,
-          -100.0,
-          4508550.0
-        ],
-        "profile_compress": "deflate"
-      },
-      "band_description": [
-        null
-      ],
-      "n_finite": 12279160,
-      "n_nan": 0,
-      "n_infinite": 0,
-      "min": 0.0,
-      "max": 1.0,
-      "mean": 0.0031353936064988375,
-      "emitted_positive_pixels": 38500,
-      "checks": {
-        "single_band": true,
-        "dtype_float32": true,
-        "dimensions_3730x3292": true,
-        "crs_epsg_32611": true,
-        "transform_matches_sample_submission": true,
-        "no_nan_anywhere": true,
-        "no_inf_anywhere": true,
-        "no_sentinel_values": true,
-        "range_0_1_guaranteed": true,
-        "min_ge_0": true,
-        "max_le_1": true,
-        "in_footprint_all_finite": true,
-        "in_footprint_range_0_1": true,
-        "outside_footprint_zero": true,
-        "zero_dots_on_mapped_catalogue": true
-      },
-      "all_checks_passed": true,
-      "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
-      "on_catalogue_positive_pixels": 0,
-      "in_footprint_positive_pixels": 38500,
-      "footprint_fraction": 0.0074505943348777024
-    },
-    "reference": "Committed mirror sample; not independently authenticated by the organizer."
+    "file": "docs/downloads/apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif",
+    "zip_file": "docs/downloads/apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.zip",
+    "bytes": 137227,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "min": 0.0,
+    "max": 1.0,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "emitted_positive_pixels": 37654,
+    "on_catalogue_positive_pixels": 0,
+    "within_200m_collar_pixels": 0,
+    "farfield_gt_1500m_pixels": 15546,
+    "farfield_gt_1500m_fraction": 0.412865,
+    "min_nearest_neighbor_px": 2.8284,
+    "frac_ge3_neighbors_in_3px": 0.012774,
+    "all_checks_passed": true
   },
-  "submission_name": null,
-  "submission_note": "No new file is approved for upload; literal uniqueness gate is blocked.",
-  "experiments_used_this_review": 0,
-  "parallel_historical_run": {
-    "path": "evidence/run_card_cah.json",
-    "experiments_recorded": 3,
-    "verdict": "negative",
-    "scope": "A separate historical static-raster run; not reproduced in this review or counted as this run's new experiments."
-  },
-  "submission_slots_used_this_review": 0,
-  "verdict": "negative"
+  "submission_name": "apartgems1-plkc-dualoof-e3-4499e12f",
+  "submission_note": "H-APART-5 PLKC-DualOOF (E3): Dual-OOF 1m/10m chi+updip+GDR1391+piedmont; CELF d>=2.8, [0,1] zeros (37654 px).",
+  "submission_note_chars": 109,
+  "verdict": "promote"
 }
