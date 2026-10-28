@@ -83,9 +83,28 @@ def test_zero_sgmc_and_zero_leak_column_in_model_code():
     assert "['dist_known_fault_px']" not in feat_code
 
 
+def test_latest_h6_negative_gate_preserves_promoted_tif():
+    exp = json.loads((ROOT / "evidence/experiments_h6_otsp.json").read_text())
+    card = json.loads((ROOT / "evidence/run_card_h6_otsp.json").read_text())
+    current = json.loads((ROOT / "evidence/cli_validator_check.json").read_text())
+    promoted = json.loads((ROOT / "evidence/run_card.json").read_text())
+
+    assert exp["experiment_budget_used"] == exp["experiment_budget_cap"] == 3
+    assert exp["leakage_canary"]["all_passed"] is True
+    assert exp["beats_current_holdout_best"] is False
+    assert exp["selector_verdict"] == "negative_stop"
+    assert card["verdict"] == "negative"
+    assert card["raster_sha256"] is None and card["submission_name"] is None
+    assert card["retained_promoted_submission"] == promoted["submission_name"]
+    assert current["all_automated_gates_passed"] is True
+    assert current["uniqueness_gate"]["rasters_checked"] >= 806
+
+
 def test_evaluate_holdout_cli_script_smoke():
-    """Verify shared CLI scripts exist cleanly."""
+    """Verify shared and autonomous CLI scripts exist cleanly."""
     assert (ROOT / "scripts/evaluate_holdout.py").exists()
     assert (ROOT / "scripts/submission_writer.py").exists()
     assert (ROOT / "scripts/validate_submission.py").exists()
     assert (ROOT / "scripts/download_competition_data.sh").exists()
+    assert (ROOT / "scripts/fetch_registry_repositories.py").exists()
+    assert (ROOT / "scripts/run_h6_otsp_experiments.py").exists()

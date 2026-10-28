@@ -1,0 +1,49 @@
+{
+  "protocol": "GEMS Parallel-Run Protocol v2",
+  "generated_utc": "2026-10-28T23:09:20.168705+00:00",
+  "hypothesis": "H-APART-6 OTSP: Orientation-Transported Scale Persistence",
+  "mechanism": "Transport a tangent estimated strictly from fold-visible fault pixels into independently measured topographic and gravity contact fields; prioritize off-trace contacts whose axial strike persists across 200-1200 m scales.",
+  "named_non_fault_mimic_process": "Parallel road or railroad embankments and aligned alluvial-fan channels.",
+  "leakage_canary": {
+    "features_tested": 3,
+    "max_symmetric_auc": 0.672831,
+    "cap": 0.9,
+    "all_passed": true
+  },
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 11360,
+    "dti": 0.11093,
+    "ci95": [0.094184, 0.128997],
+    "detached_gt_800m_dti": 0.071086,
+    "current_promoted_baseline_dti": 0.117438,
+    "delta_vs_current_promoted_baseline": -0.006508,
+    "experiments": {
+      "E1_topographic": 0.11093,
+      "E2_topography_gravity": 0.100016,
+      "E3_multiscale_persistence": 0.091037
+    }
+  },
+  "correlation_overlap_vs_registry": {
+    "status": "NOT_RUN_BY_DESIGN",
+    "reason": "The holdout selector failed before live-surface placement; protocol requires stopping rather than manufacturing a submission candidate.",
+    "pre_placement_surface_max_abs_spearman": null,
+    "post_placement_final_max_abs_spearman": null,
+    "post_placement_max_3px_overlap": null
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "status": "NOT_RUN_BY_DESIGN",
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "reason": "No H-APART-6 GeoTIFF was written after the negative holdout gate."
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "weekly_submission_slots_used": 0,
+  "retained_promoted_submission": "apartgems1-maw-gsi-e3-20261028-87f83db9",
+  "retained_promoted_tif": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+  "verdict": "negative"
+}

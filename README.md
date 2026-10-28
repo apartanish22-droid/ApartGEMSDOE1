@@ -1,13 +1,13 @@
 # ApartGEMSDOE1 — H-APART-2 (`MAW-GSI E3`) Multi-Azimuth Strike-Worm & Geothermal Structural-Intersection Synthesis
 
-> **AUTOMATED VALIDATION & 806-RASTER UNIQUENESS GATE VERDICT: `PASS — PROMOTE — UNIQUE & OK TO DOWNLOAD AND SUBMIT`**
+> **AUTOMATED VALIDATION & 842-RASTER REFRESHED UNIQUENESS GATE: `PASS — PROMOTE — UNIQUE & OK TO DOWNLOAD AND SUBMIT`**
 > - **Promoted Unique GeoTIFF**: [`docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif`](docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif) (`145,748` bytes) · Single-TIFF Archive: [`docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.zip`](docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.zip) (`112,325` bytes)
 > - **SHA-256**: `09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f` | **Decoded Footprint SHA-256**: `87f83db9e3127aeb240d35bfbeddb5f15c638b7d1ce4d3ebd0505678ccbccfae`
 > - **Submission Name**: `apartgems1-maw-gsi-e3-20261028-87f83db9`
 > - **Short Submission Comment (`115/140` chars)**: `H-APART-2 MAW-GSI (E3): 8-az strike worms + I_vent intersection + demag/GDR1391 + CELF300m; [0,1] zeros (37654 px).`
 > - **Format & Portal `[0, 1]` Safety**: Single-band `float32`, `EPSG:32611`, `3730×3292`, `Affine(100, 0, 243350, 0, -100, 4508550)`, `nodata=None`, **`min=0.0`, `max=1.0`, `0` NaNs and `0` Infs across all `12,279,160` grid cells** (permanently prevents `"Predicted values must be in range [0, 1]"`).
 > - **Holdout Score (`HOLDOUT-DTI`)**: **`0.1174`** (`95% CI [0.0994, 0.1361]` on `gems57-pooled-hide-v2`, `seed=2026`, `11,360` withheld positive pixels) and **`0.1250`** on `seed=20` (`11,321` withheld positive pixels) — **`+124.4%` (`2.24x`) above prior repo v1 (`0.0523`)** and **surpassing fold-honest `GEMSDOE32 B2` (`0.0974`)** while remaining **100% Zero-SGMC** in training and inference.
-> - **50-Repo / 806-Raster Dual Uniqueness Gate**: Pre-placement continuous surface `|ρ| = 0.6911 <= 0.90` (`PASS`); Final raster `|ρ| = 0.0925 <= 0.90` (`PASS`); Max 3-px dot overlap across all `660` competing sparse detectors = **`64.26% <= 70.00%`** (`PASS`; only **`46.71%`** overlap with `GEMSDOE32` `0.2778`* and **`11.02%`** with prior v1).
+> - **50-Repo Dual Uniqueness Gate**: Original pre-placement surface `|ρ| = 0.6911 <= 0.90` (`PASS`); refreshed final check across **`842` rasters** gives `|ρ| = 0.0925 <= 0.90` and max 3-px overlap across `695` competing sparse detectors = **`64.26% <= 70.00%`** (`PASS`; **`46.71%`** overlap with `GEMSDOE32` `0.2778`* and **`11.02%`** with prior v1).
 > - **GitHub Pages Portal**: [`docs/index.html`](docs/index.html) (Main Overview & One-Click `.tif` Download) · [`docs/executive-summary.html`](docs/executive-summary.html) (Executive Summary & Step-by-Step DrivenData Submission Guide).
 
 ![MAW-GSI E3 Submission Map](docs/assets/maw_gsi_submission_map.png)
@@ -20,7 +20,7 @@ Per Parallel-Run Protocol Rule 3, every number below is strictly labeled as eith
 
 | Site / Run | Downloadable `.tif` & SHA-256 | Strictly Labeled Score | Emitted Dots & Spatial Anatomy | NaN / Range Status | Cross-Fleet Uniqueness | Gate Verdict |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **ApartGEMSDOE1 v2 (Ours — NEW)** | [`apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif`](docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif) (`09fa04bd481d…`) | `HOLDOUT-DTI`: **`0.1174`** (`[0.0994, 0.1361]`, `gems57-pooled-hide-v2`, `11,360` px; `seed=20`: **`0.1250`**; Det `>800m`: **`0.0840`**) | `37,654` (`0` ≤200m, `27.9%` 200–600m, `35.8%` >1.5km, med slope `7.90°`) | All-finite `[0,1]` (`0` NaN) | **UNIQUE** (max `64.26%` vs 660 sparse detectors; **`46.71%`** vs `GEMSDOE32`; **`11.02%`** vs v1) | **PASS — OK TO DOWNLOAD & SUBMIT** |
+| **ApartGEMSDOE1 v2 (Ours — NEW)** | [`apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif`](docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif) (`09fa04bd481d…`) | `HOLDOUT-DTI`: **`0.1174`** (`[0.0994, 0.1361]`, `gems57-pooled-hide-v2`, `11,360` px; `seed=20`: **`0.1250`**; Det `>800m`: **`0.0840`**) | `37,654` (`0` ≤200m, `27.9%` 200–600m, `35.8%` >1.5km, med slope `7.90°`) | All-finite `[0,1]` (`0` NaN) | **UNIQUE** (refreshed max `64.26%` vs 695 sparse detectors; **`46.71%`** vs `GEMSDOE32`; **`11.02%`** vs v1) | **PASS — OK TO DOWNLOAD & SUBMIT** |
 | [GEMSDOE32](https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html) | [`gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif`](https://buffedlizard55-lab.github.io/GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif) (`c55bafc47005…`) | User-reported context: `0.2778`* · Static `HOLDOUT-DTI`: `0.0042` (`[0.0035, 0.0050]`) | `37,654` (`0` ≤200m, `58.4%` >1.5km) | All-finite `[0,1]` | **DUPLICATE** (`100.00%` w/ `GEMSDOE36`; `46.71%` w/ Apart1 v2) | **DO NOT RESUBMIT** (H19-5 derivative) |
 | [GEMSDOE36](https://buffedlizard55-lab.github.io/GEMSDOE36/docs/) | [`gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif`](https://buffedlizard55-lab.github.io/GEMSDOE36/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif) (`e15891020b9c…`) | User-reported context: `0.2750`* · Static `HOLDOUT-DTI`: `0.0042` (`[0.0035, 0.0050]`) | `38,854` (`0` ≤200m, `58.1%` >1.5km) | All-finite `[0,1]` | **DUPLICATE** (`97.58%` w/ `GEMSDOE27`; `47.41%` w/ Apart1 v2) | **DO NOT RESUBMIT** (H19-5 derivative) |
 | [GEMSDOE28](https://buffedlizard55-lab.github.io/GEMSDOE28/) | [`gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif`](https://buffedlizard55-lab.github.io/GEMSDOE28/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif) (`5556aa1438fd…`) | User-reported context: `0.2710`* · Static `HOLDOUT-DTI`: `0.0294` (`[0.0247, 0.0344]`) | `37,660` (`2,353` ≤200m, `54.9%` >1.5km) | `7,111,787` exterior NaNs | **DUPLICATE** (`100.00%` w/ `GEMSDOE25`; `47.36%` w/ Apart1 v2) | **DO NOT RESUBMIT** (H19-5 derivative) |
@@ -95,7 +95,7 @@ On canonical fold-honest `gems57-pooled-hide-v2`, **`H-APART-2 (MAW-GSI E3)` ach
 
 ---
 
-## 4. Holdout Experiments (`Budget = 3/3`), 45-Feature Leakage Canaries & 806-Raster Uniqueness
+## 4. Holdout Experiments (`Budget = 3/3`), 45-Feature Leakage Canaries & 842-Raster Refreshed Uniqueness
 
 ![Holdout Progression & Leakage Canary](docs/assets/holdout_experiments_and_canary.png)
 
@@ -109,26 +109,53 @@ On canonical fold-honest `gems57-pooled-hide-v2`, **`H-APART-2 (MAW-GSI E3)` ach
 | **`E3`: `MAW-GSI OOF Axial-Relay` (Promoted)** | **`0.117438`** | **`[0.099365, 0.136129]`** | **`0.084019`** | **`0.124957`** | Stage-2 OOF axial worms + collar-tempered relay + dual 300 m Minoux CELF (`37,654` dots) |
 
 - **Leakage Canary ([`evidence/leakage_canary.json`](evidence/leakage_canary.json))**: All `45 / 45` features tested individually on `gems57-pooled-hide-v2` pass `max(AUC, 1 - AUC) <= 0.90` (`max = 0.7765`).
-- **Dual Uniqueness Gate ([`evidence/uniqueness_gate.json`](evidence/uniqueness_gate.json))**: Across `50` peer/reference repositories and `806` unique valid rasters (`660` sparse detectors + `146` disclosed continuous/wide-area blankets):
-  - Pre-placement continuous surface max `|Spearman ρ| = 0.6911 <= 0.90` (`PASS`).
-  - Post-placement final raster max `|Spearman ρ| = 0.0925 <= 0.90` (`PASS`).
-  - Post-placement max 3-px dot overlap across all `660` competing sparse detectors = **`64.26% <= 70.00%`** (`PASS`; `46.71%` vs `GEMSDOE32`, `47.68%` vs `GEMSDOE27 H31`, `33.16%` vs `GEMSDOE70`, `11.02%` vs `ApartGEMSDOE1 v1`).
+- **Dual Uniqueness Gate**: The original pre-placement surface gate in [`evidence/uniqueness_gate.json`](evidence/uniqueness_gate.json) checked `806` rasters; the refreshed final-raster receipt in [`evidence/cli_validator_check.json`](evidence/cli_validator_check.json) now checks `50` peer/reference repositories and **`842` unique rasters** (`695` sparse detectors + `147` disclosed continuous/wide-area blankets):
+  - Original pre-placement continuous surface max `|Spearman ρ| = 0.6911 <= 0.90` (`PASS`).
+  - Refreshed post-placement final raster max `|Spearman ρ| = 0.0925 <= 0.90` (`PASS`).
+  - Refreshed max 3-px overlap across all `695` competing sparse detectors = **`64.26% <= 70.00%`** (`PASS`; `46.71%` vs `GEMSDOE32`, `47.68%` vs `GEMSDOE27 H31`, `33.16%` vs `GEMSDOE70`, `11.02%` vs `ApartGEMSDOE1 v1`).
 
 ---
 
-## 5. Reproducible Autonomous CLI Commands
+## 5. Latest Iteration — `H-APART-6 OTSP` Negative Result (Budget `3/3`)
+
+Four untried candidates were ranked before implementation in [`evidence/hypotheses_preregistration_h6.json`](evidence/hypotheses_preregistration_h6.json). Expected improvements are design priors only—not measured scores or live projections:
+
+| Rank | Candidate | Specific layers | Physical signature | Expected improvement prior | Cost |
+| :---: | :--- | :--- | :--- | :---: | :--- |
+| 1 | `H-APART-6` Orientation-Transported Scale Persistence (OTSP) | Official competition numerical feature Band 12 det_elev and Band 13 iso_grav_anom; USGS 3DEP-derived dem10_hgm50_max and dem10_onesided3 cached rasters; Fold-visible existing_faults.tif only (re-derived separately inside holdout) | Axial strike agreement between a local tangent estimated only from visible fault pixels and topographic/gravity contact tangents that persist from 200 m to 1200 m Gaussian scale; structure-tensor coherence and independent lineament strength suppress isotropic texture. | `+0.005 to +0.025` (design prior, not a score) | Medium; cached official layers, deterministic CPU structure tensors, no new download |
+| 2 | `H-APART-7` Signed Piedmont Curvature-Reversal Persistence | USGS 3DEP dem10_curv_absmax, dem10_resid_range, dem10_onesided and 1 m LiDAR crest/toe channels; Official Band 15 depth_to_base_surf | Paired curvature sign reversal and antislope step that persists across 100 m, 300 m and 700 m profiles at low-slope basin-depth hinges. | `+0.003 to +0.018` (design prior, not a score) | Medium |
+| 3 | `H-APART-8` Radiometric Contact / Potential-Field Edge Phase Concordance | USGS GeoDAWN K, Th, K/Th and U/K channels; Official RTP magnetic and isostatic-gravity anomaly layers | Co-located directional edges in radiometric ratios and magnetic/gravity phase, with a demagnetization sign consistent with hydrothermal alteration. | `+0.002 to +0.014` (design prior, not a score) | Medium |
+| 4 | `H-APART-9` Thermal-Residual / Clay-Cap Boundary Cross-Validation | DOE GDR #1391 2 m temperature probes and spring/geothermometer table; Official Band 17 cond_surf; USGS 3DEP detrended elevation | Locally robust thermal residuals coincident with electrical-conductivity boundaries and a sharp structural lineament, rather than broad thermal halos. | `+0.001 to +0.010` (design prior, not a score) | Medium-High |
+
+The selected `H-APART-6` lane tested whether fold-visible fault tangents could be transported into independently measured, scale-persistent topographic and gravity contacts. All three single-feature leakage canaries passed (`max symmetric AUC = 0.672831 <= 0.90`), but every arm remained below the promoted `MAW-GSI E3` baseline:
+
+| H-APART-6 arm | `HOLDOUT-DTI` (`gems57-pooled-hide-v2`, `11,360` positives) | 95% CI | Detached `>800 m` DTI | Selector verdict |
+| :--- | :---: | :---: | :---: | :--- |
+| `E1` topographic tangent transport | `0.110930` | `[0.094184, 0.128997]` | `0.071086` | Negative |
+| `E2` topography + gravity | `0.100016` | `[0.082187, 0.118381]` | `0.067058` | Negative |
+| `E3` full persistence | `0.091037` | `[0.073300, 0.110348]` | `0.063225` | Negative |
+| **Retained `H-APART-2 MAW-GSI E3`** | **`0.117438`** | **`[0.099365, 0.136129]`** | **`0.084019`** | **Keep promoted TIF** |
+
+Per the stop rule, no H-APART-6 live raster was manufactured, no uniqueness claim was made for it, and no weekly submission slot was used. This is a negative scientific deliverable, not a score projection. The unique, all-finite H-APART-2 GeoTIFF at the top remains the highest validated local submission to download.
+
+---
+
+## 6. Reproducible Autonomous CLI Commands
 
 ```bash
 # 1. Download/restore & SHA-256 verify competition rasters, external USGS/GDR layers, 10m 3DEP DEM, and 19-band cache
 bash scripts/download_competition_data.sh
 
-# 2. Run pixel-exact Focus-9 forensic audit & index 50-repo / 806-raster Fleet Uniqueness Registry
+# 2. Autonomously fetch, audit Focus-9, and index the current 50-repo Fleet Uniqueness Registry
 .venv/bin/python scripts/audit_focus_sites_and_registry.py
 
-# 3. Execute H-APART-2 (MAW-GSI) 45-feature canaries, <=3 LOQO experiments (seed=2026 & seed=20), uniqueness gates & GeoTIFF packaging
+# 3. Reproduce the retained H-APART-2 candidate (45 canaries, <=3 LOQO experiments, uniqueness, GeoTIFF)
 .venv/bin/python scripts/run_apartgems_pipeline.py --full-seed20
 
-# 4. Regenerate diagnostic figures, GitHub Pages HTML & README, and run automated validator + pytest suite
+# 4. Reproduce the latest three-experiment H-APART-6 negative selector (writes no TIF on failure)
+.venv/bin/python scripts/run_h6_otsp_experiments.py
+
+# 5. Regenerate diagnostic figures, GitHub Pages HTML & README, and run automated validator + pytest suite
 .venv/bin/python scripts/generate_figures.py
 .venv/bin/python scripts/build_pages_and_readme.py
 .venv/bin/python scripts/validate_submission.py docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif
@@ -137,7 +164,9 @@ bash scripts/download_competition_data.sh
 
 ---
 
-## 6. Canonical Parallel-Run Protocol JSON Run Card ([`evidence/run_card.json`](evidence/run_card.json))
+## 7. Parallel-Run Protocol JSON Run Cards
+
+### Retained promoted H-APART-2 ([`evidence/run_card.json`](evidence/run_card.json))
 
 ```json
 {
@@ -247,9 +276,66 @@ bash scripts/download_competition_data.sh
 }
 ```
 
+### Latest negative H-APART-6 ([`evidence/run_card_h6_otsp.json`](evidence/run_card_h6_otsp.json))
+
+```json
+{
+  "protocol": "GEMS Parallel-Run Protocol v2",
+  "generated_utc": "2026-10-28T23:09:20.168705+00:00",
+  "hypothesis": "H-APART-6 OTSP: Orientation-Transported Scale Persistence",
+  "mechanism": "Transport a tangent estimated strictly from fold-visible fault pixels into independently measured topographic and gravity contact fields; prioritize off-trace contacts whose axial strike persists across 200-1200 m scales.",
+  "named_non_fault_mimic_process": "Parallel road or railroad embankments and aligned alluvial-fan channels.",
+  "leakage_canary": {
+    "features_tested": 3,
+    "max_symmetric_auc": 0.672831,
+    "cap": 0.9,
+    "all_passed": true
+  },
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 11360,
+    "dti": 0.11093,
+    "ci95": [
+      0.094184,
+      0.128997
+    ],
+    "detached_gt_800m_dti": 0.071086,
+    "current_promoted_baseline_dti": 0.117438,
+    "delta_vs_current_promoted_baseline": -0.006508,
+    "experiments": {
+      "E1_topographic": 0.11093,
+      "E2_topography_gravity": 0.100016,
+      "E3_multiscale_persistence": 0.091037
+    }
+  },
+  "correlation_overlap_vs_registry": {
+    "status": "NOT_RUN_BY_DESIGN",
+    "reason": "The holdout selector failed before live-surface placement; protocol requires stopping rather than manufacturing a submission candidate.",
+    "pre_placement_surface_max_abs_spearman": null,
+    "post_placement_final_max_abs_spearman": null,
+    "post_placement_max_3px_overlap": null
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "status": "NOT_RUN_BY_DESIGN",
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "reason": "No H-APART-6 GeoTIFF was written after the negative holdout gate."
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "weekly_submission_slots_used": 0,
+  "retained_promoted_submission": "apartgems1-maw-gsi-e3-20261028-87f83db9",
+  "retained_promoted_tif": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+  "verdict": "negative"
+}
+```
+
 ---
 
-## 7. Verified Official Sources, Irregularities & Remaining Limitations
+## 8. Verified Official Sources, Irregularities & Remaining Limitations
 
 - **Official Verified Links**:
   - DrivenData DOE GEMS Portal: <https://www.drivendata.org/competitions/306/competition-doe-gems/>
@@ -260,14 +346,14 @@ bash scripts/download_competition_data.sh
   - USGS GeoDAWN Airborne Magnetic & Radiometric Surveys: <https://www.sciencebase.gov/catalog/item/657e1d85d34e23d3533209f7>
   - USGS 3D Elevation Program (3DEP 1 m & 10 m DEM): <https://www.usgs.gov/3d-elevation-program>
   - US Census TIGER/Line 2024 Roads: <https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html>
-- **Flagged Data Irregularities Fixed Automatically**: (`IR-1`) Extreme GDAL sentinels (`-3.4028e+38`, `-9.999e+32`) & exterior `NaN`s sanitized; (`IR-2`) `24.61%` NE Nevada 1 m LiDAR gap routed natively via `NaN`-aware trees + 10 m 3DEP strike worms; (`IR-3`) GDR #1391 `F2mDAB` filtered to `[0.5, 54.7]°C` and leaky `dist_known_fault_px` column excluded; (`IR-4`) Band 6 treated accurately as radiometric Total Count; (`IR-5`) `146` continuous/wide-area flood rasters separated from `660` sparse detectors (`IR-REG-BLANKET`) with full symmetric/matched-density auditing.
+- **Flagged Data Irregularities Fixed Automatically**: (`IR-1`) Extreme GDAL sentinels (`-3.4028e+38`, `-9.999e+32`) & exterior `NaN`s sanitized; (`IR-2`) `24.61%` NE Nevada 1 m LiDAR gap routed natively via `NaN`-aware trees + 10 m 3DEP strike worms; (`IR-3`) GDR #1391 `F2mDAB` filtered to `[0.5, 54.7]°C` and leaky `dist_known_fault_px` column excluded; (`IR-4`) Band 6 treated accurately as radiometric Total Count; (`IR-5`) `147` continuous/wide-area flood rasters separated from `695` sparse detectors (`IR-REG-BLANKET`) with full symmetric/matched-density auditing.
 - **Limitations & Next-Step Roadmap**:
   1. **Sandbox Network Allowlist (`H-APART-4` & `H-APART-5`)**: NASA OPERA Sentinel-1 InSAR velocity (`asf.alaska.edu`) and NASA LP DAAC ASTER 90 m TIR silica/argillic emissivity (`lpdaac.usgs.gov`) are free public-domain US Government datasets outside this sandbox's outbound host allowlist; ingesting OPERA LOS phase-gradient steps across flat agricultural/evaporite playas on an unrestricted workstation is the highest-value external extension (`+0.010–0.022` expected `HOLDOUT-DTI`).
   2. **Catalogue Proxy Bias**: `gems57-pooled-hide-v2` withholds segments from `existing_faults.tif`, under-representing totally unmapped sub-playa horst blocks (`> 3 km` from all known traces); coupling 3D multi-altitude Euler deconvolution (`H-APART-3`) with relocated microseismic focal planes can sharpen deep basin fault-dip geometry.
 
 ---
 
-## 8. Standing Reference: Original Competition Task & Protocol Specification
+## 9. Standing Reference: Original Competition Task & Protocol Specification
 
 <details>
 <summary>Click to expand full standing user instructions & Parallel-Run Protocol reference</summary>
@@ -281,6 +367,9 @@ bash scripts/download_competition_data.sh
   - `gems91-S18-UNIQUE-curvtilt`: `0.0435`
   - `gems91-s22-omtj-e1`: `0.0298`
   - `wbg2-offcatalogue-density-36k`: `0.0262`
+- **Project Values from the Standing Prompt**:
+  - **Maximize P(Win)**: make evidence-based tradeoffs that maximize the probability of a valid, genuinely competitive submission rather than optimizing appearances.
+  - **Own the Outcome**: carry data restoration, research, modeling, validation, documentation, and failure reporting end to end; treat both positive and negative experiments as signals.
 - **Core Deliverables & Constraints**:
   1. Store prompt instructions in `README.md`, work autonomously end-to-end, and download/prepare official competition data automatically without manual gates.
   2. Deep PhD-level analysis of `GEMSDOE32` (`h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros`: `0.2778`) — why/how it scored `0.2778` and how to beat `0.2778` — plus an executive summary and auditable table across `GEMSDOE24`, `GEMSDOE25`, `GEMSDOE27`, `GEMSDOE28`, `GEMSDOE30`, `GEMSDOE31`, `GEMSDOE32`, `GEMSDOE33`, `GEMSDOE36`, and our new submission.

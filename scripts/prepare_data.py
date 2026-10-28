@@ -166,6 +166,46 @@ EXTERNAL_PINS = [
         "sha256": "e5350423508968fa2d32b0a6ae0d3fb4ae3ea645e3b8736f0c8e7ad9ff2f2988",
         "official_source": "https://www2.census.gov/geo/tiger/TIGER2024/PRISECROADS/",
     },
+    {
+        "name": "topo_10m_derived_100m_u8.tif",
+        "repo": "buffedlizard55-lab/60GEMSDOE",
+        "ref": "156e7486b5b22c34bf9d7b8d90a714545d63f15a",
+        "path": "data/external/topo_10m_derived_100m_u8.tif",
+        "sha256": "a6398d9950965dec6aae6ccecdaa6ced48645d133eab222cbdd11def9bdabfa4",
+        "official_source": "https://www.usgs.gov/3d-elevation-program",
+    },
+    {
+        "name": "topo_10m_derived_100m_u8.manifest.json",
+        "repo": "buffedlizard55-lab/60GEMSDOE",
+        "ref": "156e7486b5b22c34bf9d7b8d90a714545d63f15a",
+        "path": "data/external/topo_10m_derived_100m_u8.manifest.json",
+        "sha256": "181d5527ba7ed2990031918a8b6c9d5d94e3998b2daf656de0c33322ca94120a",
+        "official_source": "https://www.usgs.gov/3d-elevation-program",
+    },
+    {
+        "name": "dem10_chi_100m_i16.tif",
+        "repo": "buffedlizard55-lab/60GEMSDOE",
+        "ref": "156e7486b5b22c34bf9d7b8d90a714545d63f15a",
+        "path": "data/external/dem10_chi_100m_i16.tif",
+        "sha256": "8897ba9c30ef1cd7ad5f23c16c6dfd7bb070e7e757f36fd9486eb45edfd973a5",
+        "official_source": "https://www.usgs.gov/3d-elevation-program",
+    },
+    {
+        "name": "gdr_volcanic_vents_in_footprint.csv",
+        "repo": "buffedlizard55-lab/GEMSDOE24",
+        "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+        "path": "data/external/gdr_volcanic_vents_in_footprint.csv",
+        "sha256": "f91bafbaccaaf2754e71d60434fc0f9eb2c7b880c6e714883f4974542ff6a0bf",
+        "official_source": "https://gdr.openei.org/submissions/1391",
+    },
+    {
+        "name": "acquisition_block_id_100m.tif",
+        "repo": "buffedlizard55-lab/GEMSDOE24",
+        "ref": "9da8a18381e179530c3b878d073314feaa26a20c",
+        "path": "data/external/audit_sources/acquisition_block_id_100m.tif",
+        "sha256": "2c0785c4b3ec46c734d1be7a7aedbb3e816201100ab358033a3af074418c894a",
+        "official_source": "https://www.sciencebase.gov/catalog/item/657e1d85d34e23d3533209f7",
+    },
 ]
 
 DEM10_REPO = "buffedlizard55-lab/GEMSDOE10"
@@ -251,7 +291,11 @@ def assemble_features(root: Path) -> dict:
         finally:
             tmp.unlink(missing_ok=True)
     else:
-        part_receipts = [{"part": f"part-{i:03d}", "bytes": PARTS[i][0], "sha256": PARTS[i][1]} for i in range(5)]
+        part_receipts = [{
+            "part": f"gems-geodawn-numerical-features.tif.part-{i:03d}",
+            "bytes": PARTS[i][0],
+            "sha256": PARTS[i][1],
+        } for i in range(5)]
 
     ensure_symlink(root / "data/official/training_features.tif", "../../.cache/training_features.tif")
     ensure_symlink(root / "data/training_features.tif", "../.cache/training_features.tif")
@@ -375,35 +419,32 @@ def main() -> int:
     ensure_symlink(ROOT / "data/external", "../.cache/external")
     ensure_symlink(ROOT / "data/dem10", "../.cache/dem10")
 
-    tf_path = ROOT / ".cache/training_features.tif"
-    if args.fetch or not tf_path.exists():
-        receipt["training_features_assembly"] = assemble_features(ROOT)
-    else:
-        ensure_symlink(ROOT / "data/official/training_features.tif", "../../.cache/training_features.tif")
-        ensure_symlink(ROOT / "data/training_features.tif", "../.cache/training_features.tif")
-        receipt["training_features_assembly"] = {
-            "assembled_sha256": sha256(tf_path),
-            "bytes": tf_path.stat().st_size,
-            "verified": sha256(tf_path) == TRAINING_FEATURES_SHA256,
-        }
+    # Always use the same integrity path so a cached rerun preserves full source,
+    # commit, part-size, and part-hash provenance instead of degrading the receipt.
+    receipt["training_features_assembly"] = assemble_features(ROOT)
 
     ext_dir = ROOT / ".cache/external"
     ext_dir.mkdir(parents=True, exist_ok=True)
     for item in EXTERNAL_PINS:
         dest = ext_dir / item["name"]
-        if args.fetch and not dest.exists():
+        if args.fetch and (
+            not dest.exists() or (item["sha256"] is not None and sha256(dest) != item["sha256"])
+        ):
             fetch_raw(item["repo"], item["path"], item["ref"], dest, item["sha256"])
-        if dest.exists():
-            actual = sha256(dest)
-            if item["sha256"] and actual != item["sha256"]:
-                raise ValueError(f"External file hash mismatch: {item['name']}")
-            receipt["external_files"].append({
-                "name": item["name"],
-                "bytes": dest.stat().st_size,
-                "sha256": actual,
-                "official_source": item["official_source"],
-                "verified": True,
-            })
+        if not dest.exists():
+            raise FileNotFoundError(
+                f"Missing pinned external input {item['name']}; rerun with --fetch"
+            )
+        actual = sha256(dest)
+        if item["sha256"] and actual != item["sha256"]:
+            raise ValueError(f"External file hash mismatch: {item['name']}")
+        receipt["external_files"].append({
+            "name": item["name"],
+            "bytes": dest.stat().st_size,
+            "sha256": actual,
+            "official_source": item["official_source"],
+            "verified": True,
+        })
 
     dem10_dir = ROOT / ".cache/dem10"
     dem10_dir.mkdir(parents=True, exist_ok=True)
@@ -419,11 +460,12 @@ def main() -> int:
     else:
         for ch, dig in DEM10_WANTED.items():
             dest = dem10_dir / f"{ch}.f32.npy"
-            if dest.exists():
-                actual = sha256(dest)
-                if actual != dig:
-                    raise ValueError(f"DEM10 hash mismatch: {ch}")
-                receipt["dem10_files"].append({"channel": ch, "bytes": dest.stat().st_size, "sha256": actual, "verified": True})
+            if not dest.exists():
+                raise FileNotFoundError(f"Missing pinned DEM10 channel {ch}; rerun with --fetch")
+            actual = sha256(dest)
+            if actual != dig:
+                raise ValueError(f"DEM10 hash mismatch: {ch}")
+            receipt["dem10_files"].append({"channel": ch, "bytes": dest.stat().st_size, "sha256": actual, "verified": True})
 
     receipt["all_pins_verified"] = True
     (ROOT / "evidence").mkdir(exist_ok=True)

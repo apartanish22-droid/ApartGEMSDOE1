@@ -21,7 +21,7 @@
 
   <main class="container">
     <section class="verdict-banner">
-      <div class="status-pill">&#10003; Automated Validation &amp; 806-Raster Uniqueness Gate: PASS — OK TO DOWNLOAD &amp; SUBMIT</div>
+      <div class="status-pill">&#10003; Automated Validation &amp; 842-Raster Refreshed Uniqueness Gate: PASS — OK TO DOWNLOAD &amp; SUBMIT</div>
       <h1 class="hero-title">Unique Blind Structural-Intersection &amp; Geothermal GeoTIFF (<code>H-APART-2: MAW-GSI E3</code>)</h1>
       <p class="hero-sub">
         100% automatically validated in project code with zero human-inspection gates and <strong>100% Zero-SGMC</strong> in training and inference.
@@ -29,8 +29,8 @@
         <code>seed=20</code> stability = <strong><code>0.1250</code></strong>) — a <strong>+124.4% (2.24&times;) leap</strong>
         over prior repo v1 (<code>0.0523</code>) and surpassing fold-honest <code>GEMSDOE32 B2</code> (<code>0.0974</code>) on canonical <code>gems57-pooled-hide-v2</code>.
         Strictly all-finite <code>float32</code> in <code>[0.0, 1.0]</code> with <code>0</code> NaNs across all <code>12,279,160</code> cells (permanently preventing
-        <code>"Predicted values must be in range [0, 1]"</code>) and verified unique across <strong>50 repositories / 806 unique rasters</strong>
-        (max 3-px overlap = <strong>64.26% &le; 70%</strong> across all 660 competing sparse detectors;
+        <code>"Predicted values must be in range [0, 1]"</code>) and revalidated against <strong>50 repositories / 842 unique rasters</strong>
+        (refreshed max 3-px overlap = <strong>64.26% &le; 70%</strong> across all 695 competing sparse detectors;
         only <strong>46.71%</strong> overlap with <code>GEMSDOE32</code> and <strong>11.02%</strong> with prior v1).
       </p>
 
@@ -92,7 +92,7 @@
         <div class="kpi-note"><span class="pass-tag">PASS &le; 0.90</span> Final dot |&rho;| = 0.0925</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label">806-Raster 3-px Gate</div>
+        <div class="kpi-label">842-Raster Refreshed 3-px Gate</div>
         <div class="kpi-val">64.26%</div>
         <div class="kpi-note"><span class="pass-tag">PASS &le; 70%</span> 46.71% w/ GD32 · 11.02% w/ v1</div>
       </div>
@@ -505,7 +505,29 @@ GEMSDOE25_D28 (44,090 dots) ==  GEMSDOE30_D28 (44,090 dots)   [XOR residual = 0]
     </section>
 
     <section class="section">
-      <h2>6. Machine-Readable Parallel-Run Protocol Run Card</h2>
+      <h2>6. Latest Iteration: <code>H-APART-6 OTSP</code> — Negative, Correctly Stopped</h2>
+      <p>Four untried hypotheses were ranked before implementation. Expected improvements below are design priors, never scores or projections.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Rank</th><th>Hypothesis</th><th>Specific layers</th><th>Physical signature</th><th>Expected improvement prior</th><th>Cost</th></tr></thead>
+        <tbody><tr><td>1</td><td><strong><code>H-APART-6</code> Orientation-Transported Scale Persistence (OTSP)</strong></td><td>Official competition numerical feature Band 12 det_elev and Band 13 iso_grav_anom; USGS 3DEP-derived dem10_hgm50_max and dem10_onesided3 cached rasters; Fold-visible existing_faults.tif only (re-derived separately inside holdout)</td><td>Axial strike agreement between a local tangent estimated only from visible fault pixels and topographic/gravity contact tangents that persist from 200 m to 1200 m Gaussian scale; structure-tensor coherence and independent lineament strength suppress isotropic texture.</td><td>+0.005 to +0.025 <small>(pre-experiment prior, not a score)</small></td><td>Medium; cached official layers, deterministic CPU structure tensors, no new download</td></tr><tr><td>2</td><td><strong><code>H-APART-7</code> Signed Piedmont Curvature-Reversal Persistence</strong></td><td>USGS 3DEP dem10_curv_absmax, dem10_resid_range, dem10_onesided and 1 m LiDAR crest/toe channels; Official Band 15 depth_to_base_surf</td><td>Paired curvature sign reversal and antislope step that persists across 100 m, 300 m and 700 m profiles at low-slope basin-depth hinges.</td><td>+0.003 to +0.018 <small>(pre-experiment prior, not a score)</small></td><td>Medium</td></tr><tr><td>3</td><td><strong><code>H-APART-8</code> Radiometric Contact / Potential-Field Edge Phase Concordance</strong></td><td>USGS GeoDAWN K, Th, K/Th and U/K channels; Official RTP magnetic and isostatic-gravity anomaly layers</td><td>Co-located directional edges in radiometric ratios and magnetic/gravity phase, with a demagnetization sign consistent with hydrothermal alteration.</td><td>+0.002 to +0.014 <small>(pre-experiment prior, not a score)</small></td><td>Medium</td></tr><tr><td>4</td><td><strong><code>H-APART-9</code> Thermal-Residual / Clay-Cap Boundary Cross-Validation</strong></td><td>DOE GDR #1391 2 m temperature probes and spring/geothermometer table; Official Band 17 cond_surf; USGS 3DEP detrended elevation</td><td>Locally robust thermal residuals coincident with electrical-conductivity boundaries and a sharp structural lineament, rather than broad thermal halos.</td><td>+0.001 to +0.010 <small>(pre-experiment prior, not a score)</small></td><td>Medium-High</td></tr></tbody>
+      </table></div>
+      <p>
+        The selected Orientation-Transported Scale Persistence lane passed all three leakage canaries
+        (<code>max symmetric AUC = 0.6728 &le; 0.90</code>) but did not beat the
+        promoted baseline. Its best arm, <code>E1</code>, reached
+        <strong><code>HOLDOUT-DTI = 0.1109</code></strong>
+        (<code>95% CI [0.0942, 0.1290]</code>,
+        <code>11,360</code> withheld positives), below
+        <code>MAW-GSI E3 = 0.1174</code>. Per the pre-registered stop rule, no OTSP live raster was
+        manufactured and no weekly slot was used. The validated MAW-GSI GeoTIFF above remains the download choice.
+        <a href="data/experiments_h6_otsp.json">Machine-readable experiment receipt</a> ·
+        <a href="data/run_card_h6_otsp.json">negative run card</a>.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>7. Machine-Readable Parallel-Run Protocol Run Cards</h2>
+      <h3>Promoted H-APART-2</h3>
       <pre class="code-block">{
   &quot;protocol&quot;: &quot;GEMS Parallel-Run Protocol v2&quot;,
   &quot;branch&quot;: &quot;arena/23b55aaa-apartgemsdoe1&quot;,
@@ -610,6 +632,59 @@ GEMSDOE25_D28 (44,090 dots) ==  GEMSDOE30_D28 (44,090 dots)   [XOR residual = 0]
   &quot;submission_note&quot;: &quot;H-APART-2 MAW-GSI (E3): 8-az strike worms + I_vent intersection + demag/GDR1391 + CELF300m; [0,1] zeros (37654 px).&quot;,
   &quot;submission_note_chars&quot;: 115,
   &quot;verdict&quot;: &quot;promote&quot;
+}</pre>
+      <h3>Negative H-APART-6 OTSP</h3>
+      <pre class="code-block">{
+  &quot;protocol&quot;: &quot;GEMS Parallel-Run Protocol v2&quot;,
+  &quot;generated_utc&quot;: &quot;2026-10-28T23:09:20.168705+00:00&quot;,
+  &quot;hypothesis&quot;: &quot;H-APART-6 OTSP: Orientation-Transported Scale Persistence&quot;,
+  &quot;mechanism&quot;: &quot;Transport a tangent estimated strictly from fold-visible fault pixels into independently measured topographic and gravity contact fields; prioritize off-trace contacts whose axial strike persists across 200-1200 m scales.&quot;,
+  &quot;named_non_fault_mimic_process&quot;: &quot;Parallel road or railroad embankments and aligned alluvial-fan channels.&quot;,
+  &quot;leakage_canary&quot;: {
+    &quot;features_tested&quot;: 3,
+    &quot;max_symmetric_auc&quot;: 0.672831,
+    &quot;cap&quot;: 0.9,
+    &quot;all_passed&quot;: true
+  },
+  &quot;holdout_dti&quot;: {
+    &quot;label&quot;: &quot;HOLDOUT-DTI&quot;,
+    &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
+    &quot;withheld_positive_pixels&quot;: 11360,
+    &quot;dti&quot;: 0.11093,
+    &quot;ci95&quot;: [
+      0.094184,
+      0.128997
+    ],
+    &quot;detached_gt_800m_dti&quot;: 0.071086,
+    &quot;current_promoted_baseline_dti&quot;: 0.117438,
+    &quot;delta_vs_current_promoted_baseline&quot;: -0.006508,
+    &quot;experiments&quot;: {
+      &quot;E1_topographic&quot;: 0.11093,
+      &quot;E2_topography_gravity&quot;: 0.100016,
+      &quot;E3_multiscale_persistence&quot;: 0.091037
+    }
+  },
+  &quot;correlation_overlap_vs_registry&quot;: {
+    &quot;status&quot;: &quot;NOT_RUN_BY_DESIGN&quot;,
+    &quot;reason&quot;: &quot;The holdout selector failed before live-surface placement; protocol requires stopping rather than manufacturing a submission candidate.&quot;,
+    &quot;pre_placement_surface_max_abs_spearman&quot;: null,
+    &quot;post_placement_final_max_abs_spearman&quot;: null,
+    &quot;post_placement_max_3px_overlap&quot;: null
+  },
+  &quot;raster_sha256&quot;: null,
+  &quot;validator_output&quot;: {
+    &quot;status&quot;: &quot;NOT_RUN_BY_DESIGN&quot;,
+    &quot;no_nan_inside_footprint&quot;: null,
+    &quot;values_in_0_1&quot;: null,
+    &quot;crs_shape_transform_match&quot;: null,
+    &quot;reason&quot;: &quot;No H-APART-6 GeoTIFF was written after the negative holdout gate.&quot;
+  },
+  &quot;submission_name&quot;: null,
+  &quot;submission_note&quot;: null,
+  &quot;weekly_submission_slots_used&quot;: 0,
+  &quot;retained_promoted_submission&quot;: &quot;apartgems1-maw-gsi-e3-20261028-87f83db9&quot;,
+  &quot;retained_promoted_tif&quot;: &quot;docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif&quot;,
+  &quot;verdict&quot;: &quot;negative&quot;
 }</pre>
     </section>
   </main>

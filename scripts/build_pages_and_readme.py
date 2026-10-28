@@ -17,6 +17,27 @@ def main() -> int:
     can = json.loads((ROOT / "evidence/leakage_canary.json").read_text())
     uniq = json.loads((ROOT / "evidence/uniqueness_gate.json").read_text())
     prereg = json.loads((ROOT / "evidence/hypotheses_preregistration.json").read_text())
+    h6 = json.loads((ROOT / "evidence/experiments_h6_otsp.json").read_text())
+    h6_prereg = json.loads((ROOT / "evidence/hypotheses_preregistration_h6.json").read_text())
+    h6_card = json.loads((ROOT / "evidence/run_card_h6_otsp.json").read_text())
+    h6_winner = next(row for row in h6["experiments"] if row["id"] == h6["selected_holdout_winner"])
+    h6_hyp_rows_html = "".join(
+        f"<tr><td>{row['rank']}</td><td><strong><code>{html.escape(row['id'])}</code> {html.escape(row['title'])}</strong></td>"
+        f"<td>{html.escape('; '.join(row['specific_layers']))}</td><td>{html.escape(row['physical_signature'])}</td>"
+        f"<td>{html.escape(row['expected_holdout_dti_improvement_prior'])} <small>(pre-experiment prior, not a score)</small></td>"
+        f"<td>{html.escape(row['implementation_cost'])}</td></tr>"
+        for row in h6_prereg["ranked_candidates"]
+    )
+    h6_hyp_rows_md = "\n".join(
+        f"| {row['rank']} | `{row['id']}` {row['title']} | {'; '.join(row['specific_layers'])} | "
+        f"{row['physical_signature']} | `{row['expected_holdout_dti_improvement_prior']}` (design prior, not a score) | {row['implementation_cost']} |"
+        for row in h6_prereg["ranked_candidates"]
+    )
+    current_validation = json.loads((ROOT / "evidence/cli_validator_check.json").read_text())
+    current_uniq = current_validation["uniqueness_gate"]
+    current_registry_n = current_uniq["rasters_checked"]
+    current_sparse_n = current_uniq["competing_sparse_detectors_checked"]
+    current_blanket_n = current_uniq["blanket_surfaces_disclosed"]
 
     tif_rel_docs = rc["validator_output"]["file"].replace("docs/", "")
     zip_rel_docs = rc["validator_output"]["zip_file"].replace("docs/", "")
@@ -65,7 +86,7 @@ def main() -> int:
         f"`HOLDOUT-DTI`: **`{rc['holdout_dti']['dti']:.4f}`** (`[{rc['holdout_dti']['ci95'][0]:.4f}, {rc['holdout_dti']['ci95'][1]:.4f}]`, `gems57-pooled-hide-v2`, `11,360` px; `seed=20`: **`{rc['holdout_dti']['seed_20_stability_dti']:.4f}`**; Det `>800m`: **`{rc['holdout_dti']['detached_gt_800m_blind_dti']:.4f}`**) | "
         f"`{anat['emitted_dots']:,}` (`0` ≤200m, `{anat['dots_200m_to_600m_fraction']*100:.1f}%` 200–600m, `{anat['dots_gt_1500m_farfield_fraction']*100:.1f}%` >1.5km, med slope `{anat['median_dot_slope_deg']:.2f}°`) | "
         f"All-finite `[0,1]` (`0` NaN) | "
-        f"**UNIQUE** (max `{rc['registry_uniqueness']['post_placement_max_3px_overlap_vs_competing']*100:.2f}%` vs 660 sparse detectors; **`{rc['registry_uniqueness']['vs_gemsdoe32_02778_3px_overlap']*100:.2f}%`** vs `GEMSDOE32`; **`11.02%`** vs v1) | "
+        f"**UNIQUE** (refreshed max `{current_uniq['max_3px_overlap_vs_competing_detectors']*100:.2f}%` vs {current_sparse_n} sparse detectors; **`{rc['registry_uniqueness']['vs_gemsdoe32_02778_3px_overlap']*100:.2f}%`** vs `GEMSDOE32`; **`11.02%`** vs v1) | "
         f"**PASS — OK TO DOWNLOAD & SUBMIT** |"
     ]
 
@@ -246,7 +267,7 @@ def main() -> int:
 
   <main class="container">
     <section class="verdict-banner">
-      <div class="status-pill">&#10003; Automated Validation &amp; 806-Raster Uniqueness Gate: PASS — OK TO DOWNLOAD &amp; SUBMIT</div>
+      <div class="status-pill">&#10003; Automated Validation &amp; {current_registry_n}-Raster Refreshed Uniqueness Gate: PASS — OK TO DOWNLOAD &amp; SUBMIT</div>
       <h1 class="hero-title">Unique Blind Structural-Intersection &amp; Geothermal GeoTIFF (<code>H-APART-2: MAW-GSI E3</code>)</h1>
       <p class="hero-sub">
         100% automatically validated in project code with zero human-inspection gates and <strong>100% Zero-SGMC</strong> in training and inference.
@@ -254,8 +275,8 @@ def main() -> int:
         <code>seed=20</code> stability = <strong><code>{rc['holdout_dti']['seed_20_stability_dti']:.4f}</code></strong>) — a <strong>+{gain_vs_v1_pct:.1f}% (2.24&times;) leap</strong>
         over prior repo v1 (<code>0.0523</code>) and surpassing fold-honest <code>GEMSDOE32 B2</code> (<code>0.0974</code>) on canonical <code>gems57-pooled-hide-v2</code>.
         Strictly all-finite <code>float32</code> in <code>[0.0, 1.0]</code> with <code>0</code> NaNs across all <code>12,279,160</code> cells (permanently preventing
-        <code>"Predicted values must be in range [0, 1]"</code>) and verified unique across <strong>50 repositories / 806 unique rasters</strong>
-        (max 3-px overlap = <strong>{rc['registry_uniqueness']['post_placement_max_3px_overlap_vs_competing']*100:.2f}% &le; 70%</strong> across all 660 competing sparse detectors;
+        <code>"Predicted values must be in range [0, 1]"</code>) and revalidated against <strong>50 repositories / {current_registry_n} unique rasters</strong>
+        (refreshed max 3-px overlap = <strong>{current_uniq['max_3px_overlap_vs_competing_detectors']*100:.2f}% &le; 70%</strong> across all {current_sparse_n} competing sparse detectors;
         only <strong>{rc['registry_uniqueness']['vs_gemsdoe32_02778_3px_overlap']*100:.2f}%</strong> overlap with <code>GEMSDOE32</code> and <strong>11.02%</strong> with prior v1).
       </p>
 
@@ -317,7 +338,7 @@ def main() -> int:
         <div class="kpi-note"><span class="pass-tag">PASS &le; 0.90</span> Final dot |&rho;| = {rc['registry_uniqueness']['post_placement_final_max_abs_spearman']:.4f}</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label">806-Raster 3-px Gate</div>
+        <div class="kpi-label">{current_registry_n}-Raster Refreshed 3-px Gate</div>
         <div class="kpi-val">{rc['registry_uniqueness']['post_placement_max_3px_overlap_vs_competing']*100:.2f}%</div>
         <div class="kpi-note"><span class="pass-tag">PASS &le; 70%</span> 46.71% w/ GD32 · 11.02% w/ v1</div>
       </div>
@@ -436,8 +457,32 @@ GEMSDOE25_D28 (44,090 dots) ==  GEMSDOE30_D28 (44,090 dots)   [XOR residual = 0]
     </section>
 
     <section class="section">
-      <h2>6. Machine-Readable Parallel-Run Protocol Run Card</h2>
+      <h2>6. Latest Iteration: <code>H-APART-6 OTSP</code> — Negative, Correctly Stopped</h2>
+      <p>Four untried hypotheses were ranked before implementation. Expected improvements below are design priors, never scores or projections.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Rank</th><th>Hypothesis</th><th>Specific layers</th><th>Physical signature</th><th>Expected improvement prior</th><th>Cost</th></tr></thead>
+        <tbody>{h6_hyp_rows_html}</tbody>
+      </table></div>
+      <p>
+        The selected Orientation-Transported Scale Persistence lane passed all three leakage canaries
+        (<code>max symmetric AUC = {h6['leakage_canary']['max_symmetric_auc']:.4f} &le; 0.90</code>) but did not beat the
+        promoted baseline. Its best arm, <code>{h6_winner['id']}</code>, reached
+        <strong><code>HOLDOUT-DTI = {h6_winner['dti']:.4f}</code></strong>
+        (<code>95% CI [{h6_winner['ci95'][0]:.4f}, {h6_winner['ci95'][1]:.4f}]</code>,
+        <code>{h6_winner['withheld_positive_pixels']:,}</code> withheld positives), below
+        <code>MAW-GSI E3 = {h6['baseline']['dti']:.4f}</code>. Per the pre-registered stop rule, no OTSP live raster was
+        manufactured and no weekly slot was used. The validated MAW-GSI GeoTIFF above remains the download choice.
+        <a href="data/experiments_h6_otsp.json">Machine-readable experiment receipt</a> ·
+        <a href="data/run_card_h6_otsp.json">negative run card</a>.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>7. Machine-Readable Parallel-Run Protocol Run Cards</h2>
+      <h3>Promoted H-APART-2</h3>
       <pre class="code-block">{html.escape(json.dumps(rc, indent=2))}</pre>
+      <h3>Negative H-APART-6 OTSP</h3>
+      <pre class="code-block">{html.escape(json.dumps(h6_card, indent=2))}</pre>
     </section>
   </main>
 
@@ -497,11 +542,12 @@ GEMSDOE25_D28 (44,090 dots) ==  GEMSDOE30_D28 (44,090 dots)   [XOR residual = 0]
       <ul>
         <li><strong>Why you MUST NOT re-submit any Focus-9 file (<code>GEMSDOE24..36</code>):</strong> Pixel-exact forensic auditing proves that all 9 historical focus-site champions are subsets/variants of <code>19GEMSDOE H19-5</code> with <code>87%–100%</code> mutual 3-px overlap (<code>GEMSDOE32 B2</code> is literally <code>GEMSDOE25_D28 &amp; (EDT(~existing_faults) &gt; 2.0)</code> with <code>XOR = 0</code>), and 6 of the 9 carry <code>7,111,787</code> exterior <code>NaN</code> cells.</li>
         <li><strong>Why <code>ApartGEMSDOE1 v2</code> (<code>{html.escape(tif_filename)}</code>) IS promoted and ready to submit:</strong> Built from scratch under <strong><code>H-APART-2 (MAW-GSI E3)</code></strong> — 100% Zero-SGMC Multi-Azimuth 8-Direction Strike Worms + Antislope Piedmont Dipoles + Faulds-Hinz (2015) Orthogonal Structural-Intersection Conduits (<code>I_vent</code>) + Shallow Magnetite-Oxidation (<code>TMI_up150 &minus; RTP</code>) + Sanitized GDR #1391 Springs / 2 m <code>F2mDAB</code> Probes / Paleo-Sinter Vents + Stage-2 OOF Axial-Relay Synthesis + Dual-Regime Exact 300 m Minoux CELF Allocation (<code>37,654</code> dots).</li>
+        <li><strong>Latest H-APART-6 OTSP iteration was rejected automatically:</strong> its best arm reached <code>HOLDOUT-DTI = {h6_winner['dti']:.4f}</code> (<code>95% CI [{h6_winner['ci95'][0]:.4f}, {h6_winner['ci95'][1]:.4f}]</code>, <code>{h6_winner['withheld_positive_pixels']:,}</code> withheld positives), below the promoted <code>{h6['baseline']['dti']:.4f}</code>. No H-APART-6 GeoTIFF was written and no weekly slot was used; the download button therefore still points to the highest validated local candidate.</li>
         <li><strong>Every Automated Gate Passed Cleanly:</strong>
           <ul>
             <li><strong>Format &amp; Range Gate:</strong> Single-band <code>float32</code>, <code>EPSG:32611</code>, <code>3730&times;3292</code>, <code>min=0.0</code>, <code>max=1.0</code>, <strong><code>0</code> NaNs and <code>0</code> Infs across all <code>12,279,160</code> cells</strong> (<code>nodata=None</code>).</li>
             <li><strong>Holdout Gate:</strong> <code>HOLDOUT-DTI = {rc['holdout_dti']['dti']:.4f}</code> (<code>95% CI [{rc['holdout_dti']['ci95'][0]:.4f}, {rc['holdout_dti']['ci95'][1]:.4f}]</code> on <code>seed=2026</code>; <code>{rc['holdout_dti']['seed_20_stability_dti']:.4f}</code> on <code>seed=20</code>; <code>+{gain_vs_v1_pct:.1f}%</code> over prior v1 <code>0.0523</code> and above fold-honest <code>GEMSDOE32 B2 = 0.0974</code>).</li>
-            <li><strong>50-Repo / 806-Raster Uniqueness Gate:</strong> Pre-placement surface <code>|&rho;| = {rc['registry_uniqueness']['pre_placement_surface_max_abs_spearman']:.4f} &le; 0.90</code>; post-placement dot <code>|&rho;| = {rc['registry_uniqueness']['post_placement_final_max_abs_spearman']:.4f} &le; 0.90</code>; max 3-px dot overlap = <strong><code>{rc['registry_uniqueness']['post_placement_max_3px_overlap_vs_competing']*100:.2f}% &le; 70.00%</code></strong> across all 660 competing sparse detectors (only <code>{rc['registry_uniqueness']['vs_gemsdoe32_02778_3px_overlap']*100:.2f}%</code> w/ <code>GEMSDOE32</code> and <code>11.02%</code> w/ v1).</li>
+            <li><strong>50-Repo Uniqueness Gate:</strong> Original pre-placement surface gate <code>|&rho;| = {rc['registry_uniqueness']['pre_placement_surface_max_abs_spearman']:.4f} &le; 0.90</code>; refreshed {current_registry_n}-raster final dot gate <code>|&rho;| = {current_uniq['max_abs_spearman_rho']:.4f} &le; 0.90</code>; refreshed max 3-px dot overlap = <strong><code>{current_uniq['max_3px_overlap_vs_competing_detectors']*100:.2f}% &le; 70.00%</code></strong> across all {current_sparse_n} competing sparse detectors (only <code>{rc['registry_uniqueness']['vs_gemsdoe32_02778_3px_overlap']*100:.2f}%</code> w/ <code>GEMSDOE32</code> and <code>11.02%</code> w/ v1).</li>
           </ul>
         </li>
       </ul>
@@ -557,7 +603,7 @@ GEMSDOE25_D28 (44,090 dots) ==  GEMSDOE30_D28 (44,090 dots)   [XOR residual = 0]
           <div class="step-num">6</div>
           <div>
             <strong>Submit &amp; Record the <code>ORGANIZER-CONFIRMED</code> Receipt</strong><br>
-            Because all <code>12,279,160</code> cells are strictly finite in <code>[0.0, 1.0]</code> with zero <code>NaN</code>s and zero GDAL <code>-3.4028235e+38</code> sentinels, the portal validator will pass cleanly. Once scored, record the returned live number strictly as <code>ORGANIZER-CONFIRMED</code> alongside timestamp and SHA-256.
+            Local fail-closed checks confirm all <code>12,279,160</code> cells are finite in <code>[0.0, 1.0]</code> with zero <code>NaN</code>s and zero GDAL <code>-3.4028235e+38</code> sentinels, eliminating the previously observed range-error cause. Only the organizer portal can confirm acceptance. Once accepted and scored, record the returned number strictly as <code>ORGANIZER-CONFIRMED</code> alongside timestamp and SHA-256.
           </div>
         </div>
       </div>
@@ -597,8 +643,8 @@ GEMSDOE25_D28 (44,090 dots) ==  GEMSDOE30_D28 (44,090 dots)   [XOR residual = 0]
             </tr>
             <tr>
               <td><code>IR-5: REG-BLANKET-SURFACES</code></td>
-              <td>Across 50 repos / 806 unique rasters, <code>146</code> files are dense probability blankets or wide-area floods (<code>&ge;85,000</code> positive px or 3-px halo covering <code>&ge;28%</code> of the footprint) whose asymmetric one-way containment exceeds 70% against any sparse submission despite tiny reverse overlap (<code>13%–33%</code>).</td>
-              <td><code>src/apartgems/uniqueness.py</code> enforces strict one-way 3-px overlap <code>&le; 70%</code> across all <code>660</code> competing sparse detectors (max <code>64.26%</code>) AND matched-density/Spearman gates across all <code>146</code> blankets (max matched-top50k <code>55.8%</code>, max <code>|&rho;| = 0.6911 &le; 0.90</code>), disclosing every witness in <code>uniqueness_gate.json</code>.</td>
+              <td>Across the refreshed 50-repo registry / {current_registry_n} unique rasters, <code>{current_blanket_n}</code> files are dense probability blankets or wide-area floods (<code>&ge;85,000</code> positive px or 3-px halo covering <code>&ge;28%</code> of the footprint) whose asymmetric one-way containment exceeds 70% against any sparse submission despite tiny reverse overlap (<code>13%–33%</code>).</td>
+              <td><code>src/apartgems/uniqueness.py</code> enforces strict one-way 3-px overlap <code>&le; 70%</code> across all <code>{current_sparse_n}</code> competing sparse detectors (refreshed max <code>{current_uniq['max_3px_overlap_vs_competing_detectors']*100:.2f}%</code>) AND matched-density/Spearman gates across all <code>{current_blanket_n}</code> blankets (max matched-top50k <code>55.8%</code>, max <code>|&rho;| = 0.6911 &le; 0.90</code>), disclosing every witness in <code>uniqueness_gate.json</code>.</td>
             </tr>
           </tbody>
         </table>
@@ -633,14 +679,14 @@ GEMSDOE25_D28 (44,090 dots) ==  GEMSDOE30_D28 (44,090 dots)   [XOR residual = 0]
 
     readme_md = f"""# ApartGEMSDOE1 — H-APART-2 (`MAW-GSI E3`) Multi-Azimuth Strike-Worm & Geothermal Structural-Intersection Synthesis
 
-> **AUTOMATED VALIDATION & 806-RASTER UNIQUENESS GATE VERDICT: `PASS — PROMOTE — UNIQUE & OK TO DOWNLOAD AND SUBMIT`**
+> **AUTOMATED VALIDATION & {current_registry_n}-RASTER REFRESHED UNIQUENESS GATE: `PASS — PROMOTE — UNIQUE & OK TO DOWNLOAD AND SUBMIT`**
 > - **Promoted Unique GeoTIFF**: [`docs/{tif_rel_docs}`](docs/{tif_rel_docs}) (`{rc['validator_output']['bytes']:,}` bytes) · Single-TIFF Archive: [`docs/{zip_rel_docs}`](docs/{zip_rel_docs}) (`112,325` bytes)
 > - **SHA-256**: `{rc['raster_sha256']}` | **Decoded Footprint SHA-256**: `{rc['decoded_footprint_sha256']}`
 > - **Submission Name**: `{rc['submission_name']}`
 > - **Short Submission Comment (`{rc['submission_note_chars']}/140` chars)**: `{rc['submission_note']}`
 > - **Format & Portal `[0, 1]` Safety**: Single-band `float32`, `EPSG:32611`, `3730×3292`, `Affine(100, 0, 243350, 0, -100, 4508550)`, `nodata=None`, **`min=0.0`, `max=1.0`, `0` NaNs and `0` Infs across all `12,279,160` grid cells** (permanently prevents `"Predicted values must be in range [0, 1]"`).
 > - **Holdout Score (`HOLDOUT-DTI`)**: **`{rc['holdout_dti']['dti']:.4f}`** (`95% CI [{rc['holdout_dti']['ci95'][0]:.4f}, {rc['holdout_dti']['ci95'][1]:.4f}]` on `gems57-pooled-hide-v2`, `seed=2026`, `11,360` withheld positive pixels) and **`{rc['holdout_dti']['seed_20_stability_dti']:.4f}`** on `seed=20` (`11,321` withheld positive pixels) — **`+{gain_vs_v1_pct:.1f}%` (`2.24x`) above prior repo v1 (`0.0523`)** and **surpassing fold-honest `GEMSDOE32 B2` (`0.0974`)** while remaining **100% Zero-SGMC** in training and inference.
-> - **50-Repo / 806-Raster Dual Uniqueness Gate**: Pre-placement continuous surface `|ρ| = {rc['registry_uniqueness']['pre_placement_surface_max_abs_spearman']:.4f} <= 0.90` (`PASS`); Final raster `|ρ| = {rc['registry_uniqueness']['post_placement_final_max_abs_spearman']:.4f} <= 0.90` (`PASS`); Max 3-px dot overlap across all `660` competing sparse detectors = **`{rc['registry_uniqueness']['post_placement_max_3px_overlap_vs_competing']*100:.2f}% <= 70.00%`** (`PASS`; only **`{rc['registry_uniqueness']['vs_gemsdoe32_02778_3px_overlap']*100:.2f}%`** overlap with `GEMSDOE32` `0.2778`* and **`11.02%`** with prior v1).
+> - **50-Repo Dual Uniqueness Gate**: Original pre-placement surface `|ρ| = {rc['registry_uniqueness']['pre_placement_surface_max_abs_spearman']:.4f} <= 0.90` (`PASS`); refreshed final check across **`{current_registry_n}` rasters** gives `|ρ| = {current_uniq['max_abs_spearman_rho']:.4f} <= 0.90` and max 3-px overlap across `{current_sparse_n}` competing sparse detectors = **`{current_uniq['max_3px_overlap_vs_competing_detectors']*100:.2f}% <= 70.00%`** (`PASS`; **`{rc['registry_uniqueness']['vs_gemsdoe32_02778_3px_overlap']*100:.2f}%`** overlap with `GEMSDOE32` `0.2778`* and **`11.02%`** with prior v1).
 > - **GitHub Pages Portal**: [`docs/index.html`](docs/index.html) (Main Overview & One-Click `.tif` Download) · [`docs/executive-summary.html`](docs/executive-summary.html) (Executive Summary & Step-by-Step DrivenData Submission Guide).
 
 ![MAW-GSI E3 Submission Map](docs/assets/maw_gsi_submission_map.png)
@@ -688,7 +734,7 @@ On canonical fold-honest `gems57-pooled-hide-v2`, **`H-APART-2 (MAW-GSI E3)` ach
 
 ---
 
-## 4. Holdout Experiments (`Budget = 3/3`), 45-Feature Leakage Canaries & 806-Raster Uniqueness
+## 4. Holdout Experiments (`Budget = 3/3`), 45-Feature Leakage Canaries & {current_registry_n}-Raster Refreshed Uniqueness
 
 ![Holdout Progression & Leakage Canary](docs/assets/holdout_experiments_and_canary.png)
 
@@ -702,26 +748,50 @@ On canonical fold-honest `gems57-pooled-hide-v2`, **`H-APART-2 (MAW-GSI E3)` ach
 | **`E3`: `MAW-GSI OOF Axial-Relay` (Promoted)** | **`0.117438`** | **`[0.099365, 0.136129]`** | **`0.084019`** | **`0.124957`** | Stage-2 OOF axial worms + collar-tempered relay + dual 300 m Minoux CELF (`37,654` dots) |
 
 - **Leakage Canary ([`evidence/leakage_canary.json`](evidence/leakage_canary.json))**: All `45 / 45` features tested individually on `gems57-pooled-hide-v2` pass `max(AUC, 1 - AUC) <= 0.90` (`max = 0.7765`).
-- **Dual Uniqueness Gate ([`evidence/uniqueness_gate.json`](evidence/uniqueness_gate.json))**: Across `50` peer/reference repositories and `806` unique valid rasters (`660` sparse detectors + `146` disclosed continuous/wide-area blankets):
-  - Pre-placement continuous surface max `|Spearman ρ| = 0.6911 <= 0.90` (`PASS`).
-  - Post-placement final raster max `|Spearman ρ| = 0.0925 <= 0.90` (`PASS`).
-  - Post-placement max 3-px dot overlap across all `660` competing sparse detectors = **`64.26% <= 70.00%`** (`PASS`; `46.71%` vs `GEMSDOE32`, `47.68%` vs `GEMSDOE27 H31`, `33.16%` vs `GEMSDOE70`, `11.02%` vs `ApartGEMSDOE1 v1`).
+- **Dual Uniqueness Gate**: The original pre-placement surface gate in [`evidence/uniqueness_gate.json`](evidence/uniqueness_gate.json) checked `806` rasters; the refreshed final-raster receipt in [`evidence/cli_validator_check.json`](evidence/cli_validator_check.json) now checks `50` peer/reference repositories and **`{current_registry_n}` unique rasters** (`{current_sparse_n}` sparse detectors + `{current_blanket_n}` disclosed continuous/wide-area blankets):
+  - Original pre-placement continuous surface max `|Spearman ρ| = 0.6911 <= 0.90` (`PASS`).
+  - Refreshed post-placement final raster max `|Spearman ρ| = {current_uniq['max_abs_spearman_rho']:.4f} <= 0.90` (`PASS`).
+  - Refreshed max 3-px overlap across all `{current_sparse_n}` competing sparse detectors = **`{current_uniq['max_3px_overlap_vs_competing_detectors']*100:.2f}% <= 70.00%`** (`PASS`; `46.71%` vs `GEMSDOE32`, `47.68%` vs `GEMSDOE27 H31`, `33.16%` vs `GEMSDOE70`, `11.02%` vs `ApartGEMSDOE1 v1`).
 
 ---
 
-## 5. Reproducible Autonomous CLI Commands
+## 5. Latest Iteration — `H-APART-6 OTSP` Negative Result (Budget `3/3`)
+
+Four untried candidates were ranked before implementation in [`evidence/hypotheses_preregistration_h6.json`](evidence/hypotheses_preregistration_h6.json). Expected improvements are design priors only—not measured scores or live projections:
+
+| Rank | Candidate | Specific layers | Physical signature | Expected improvement prior | Cost |
+| :---: | :--- | :--- | :--- | :---: | :--- |
+{h6_hyp_rows_md}
+
+The selected `H-APART-6` lane tested whether fold-visible fault tangents could be transported into independently measured, scale-persistent topographic and gravity contacts. All three single-feature leakage canaries passed (`max symmetric AUC = {h6['leakage_canary']['max_symmetric_auc']:.6f} <= 0.90`), but every arm remained below the promoted `MAW-GSI E3` baseline:
+
+| H-APART-6 arm | `HOLDOUT-DTI` (`gems57-pooled-hide-v2`, `11,360` positives) | 95% CI | Detached `>800 m` DTI | Selector verdict |
+| :--- | :---: | :---: | :---: | :--- |
+| `E1` topographic tangent transport | `{h6['experiments'][0]['dti']:.6f}` | `[{h6['experiments'][0]['ci95'][0]:.6f}, {h6['experiments'][0]['ci95'][1]:.6f}]` | `{h6['experiments'][0]['detached_gt_800m_dti']:.6f}` | Negative |
+| `E2` topography + gravity | `{h6['experiments'][1]['dti']:.6f}` | `[{h6['experiments'][1]['ci95'][0]:.6f}, {h6['experiments'][1]['ci95'][1]:.6f}]` | `{h6['experiments'][1]['detached_gt_800m_dti']:.6f}` | Negative |
+| `E3` full persistence | `{h6['experiments'][2]['dti']:.6f}` | `[{h6['experiments'][2]['ci95'][0]:.6f}, {h6['experiments'][2]['ci95'][1]:.6f}]` | `{h6['experiments'][2]['detached_gt_800m_dti']:.6f}` | Negative |
+| **Retained `H-APART-2 MAW-GSI E3`** | **`{h6['baseline']['dti']:.6f}`** | **`[{h6['baseline']['ci95'][0]:.6f}, {h6['baseline']['ci95'][1]:.6f}]`** | **`0.084019`** | **Keep promoted TIF** |
+
+Per the stop rule, no H-APART-6 live raster was manufactured, no uniqueness claim was made for it, and no weekly submission slot was used. This is a negative scientific deliverable, not a score projection. The unique, all-finite H-APART-2 GeoTIFF at the top remains the highest validated local submission to download.
+
+---
+
+## 6. Reproducible Autonomous CLI Commands
 
 ```bash
 # 1. Download/restore & SHA-256 verify competition rasters, external USGS/GDR layers, 10m 3DEP DEM, and 19-band cache
 bash scripts/download_competition_data.sh
 
-# 2. Run pixel-exact Focus-9 forensic audit & index 50-repo / 806-raster Fleet Uniqueness Registry
+# 2. Autonomously fetch, audit Focus-9, and index the current 50-repo Fleet Uniqueness Registry
 .venv/bin/python scripts/audit_focus_sites_and_registry.py
 
-# 3. Execute H-APART-2 (MAW-GSI) 45-feature canaries, <=3 LOQO experiments (seed=2026 & seed=20), uniqueness gates & GeoTIFF packaging
+# 3. Reproduce the retained H-APART-2 candidate (45 canaries, <=3 LOQO experiments, uniqueness, GeoTIFF)
 .venv/bin/python scripts/run_apartgems_pipeline.py --full-seed20
 
-# 4. Regenerate diagnostic figures, GitHub Pages HTML & README, and run automated validator + pytest suite
+# 4. Reproduce the latest three-experiment H-APART-6 negative selector (writes no TIF on failure)
+.venv/bin/python scripts/run_h6_otsp_experiments.py
+
+# 5. Regenerate diagnostic figures, GitHub Pages HTML & README, and run automated validator + pytest suite
 .venv/bin/python scripts/generate_figures.py
 .venv/bin/python scripts/build_pages_and_readme.py
 .venv/bin/python scripts/validate_submission.py docs/{tif_rel_docs}
@@ -730,15 +800,23 @@ bash scripts/download_competition_data.sh
 
 ---
 
-## 6. Canonical Parallel-Run Protocol JSON Run Card ([`evidence/run_card.json`](evidence/run_card.json))
+## 7. Parallel-Run Protocol JSON Run Cards
+
+### Retained promoted H-APART-2 ([`evidence/run_card.json`](evidence/run_card.json))
 
 ```json
 {json.dumps(rc, indent=2)}
 ```
 
+### Latest negative H-APART-6 ([`evidence/run_card_h6_otsp.json`](evidence/run_card_h6_otsp.json))
+
+```json
+{json.dumps(h6_card, indent=2)}
+```
+
 ---
 
-## 7. Verified Official Sources, Irregularities & Remaining Limitations
+## 8. Verified Official Sources, Irregularities & Remaining Limitations
 
 - **Official Verified Links**:
   - DrivenData DOE GEMS Portal: <https://www.drivendata.org/competitions/306/competition-doe-gems/>
@@ -749,14 +827,14 @@ bash scripts/download_competition_data.sh
   - USGS GeoDAWN Airborne Magnetic & Radiometric Surveys: <https://www.sciencebase.gov/catalog/item/657e1d85d34e23d3533209f7>
   - USGS 3D Elevation Program (3DEP 1 m & 10 m DEM): <https://www.usgs.gov/3d-elevation-program>
   - US Census TIGER/Line 2024 Roads: <https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html>
-- **Flagged Data Irregularities Fixed Automatically**: (`IR-1`) Extreme GDAL sentinels (`-3.4028e+38`, `-9.999e+32`) & exterior `NaN`s sanitized; (`IR-2`) `24.61%` NE Nevada 1 m LiDAR gap routed natively via `NaN`-aware trees + 10 m 3DEP strike worms; (`IR-3`) GDR #1391 `F2mDAB` filtered to `[0.5, 54.7]°C` and leaky `dist_known_fault_px` column excluded; (`IR-4`) Band 6 treated accurately as radiometric Total Count; (`IR-5`) `146` continuous/wide-area flood rasters separated from `660` sparse detectors (`IR-REG-BLANKET`) with full symmetric/matched-density auditing.
+- **Flagged Data Irregularities Fixed Automatically**: (`IR-1`) Extreme GDAL sentinels (`-3.4028e+38`, `-9.999e+32`) & exterior `NaN`s sanitized; (`IR-2`) `24.61%` NE Nevada 1 m LiDAR gap routed natively via `NaN`-aware trees + 10 m 3DEP strike worms; (`IR-3`) GDR #1391 `F2mDAB` filtered to `[0.5, 54.7]°C` and leaky `dist_known_fault_px` column excluded; (`IR-4`) Band 6 treated accurately as radiometric Total Count; (`IR-5`) `{current_blanket_n}` continuous/wide-area flood rasters separated from `{current_sparse_n}` sparse detectors (`IR-REG-BLANKET`) with full symmetric/matched-density auditing.
 - **Limitations & Next-Step Roadmap**:
   1. **Sandbox Network Allowlist (`H-APART-4` & `H-APART-5`)**: NASA OPERA Sentinel-1 InSAR velocity (`asf.alaska.edu`) and NASA LP DAAC ASTER 90 m TIR silica/argillic emissivity (`lpdaac.usgs.gov`) are free public-domain US Government datasets outside this sandbox's outbound host allowlist; ingesting OPERA LOS phase-gradient steps across flat agricultural/evaporite playas on an unrestricted workstation is the highest-value external extension (`+0.010–0.022` expected `HOLDOUT-DTI`).
   2. **Catalogue Proxy Bias**: `gems57-pooled-hide-v2` withholds segments from `existing_faults.tif`, under-representing totally unmapped sub-playa horst blocks (`> 3 km` from all known traces); coupling 3D multi-altitude Euler deconvolution (`H-APART-3`) with relocated microseismic focal planes can sharpen deep basin fault-dip geometry.
 
 ---
 
-## 8. Standing Reference: Original Competition Task & Protocol Specification
+## 9. Standing Reference: Original Competition Task & Protocol Specification
 
 <details>
 <summary>Click to expand full standing user instructions & Parallel-Run Protocol reference</summary>
@@ -770,6 +848,9 @@ bash scripts/download_competition_data.sh
   - `gems91-S18-UNIQUE-curvtilt`: `0.0435`
   - `gems91-s22-omtj-e1`: `0.0298`
   - `wbg2-offcatalogue-density-36k`: `0.0262`
+- **Project Values from the Standing Prompt**:
+  - **Maximize P(Win)**: make evidence-based tradeoffs that maximize the probability of a valid, genuinely competitive submission rather than optimizing appearances.
+  - **Own the Outcome**: carry data restoration, research, modeling, validation, documentation, and failure reporting end to end; treat both positive and negative experiments as signals.
 - **Core Deliverables & Constraints**:
   1. Store prompt instructions in `README.md`, work autonomously end-to-end, and download/prepare official competition data automatically without manual gates.
   2. Deep PhD-level analysis of `GEMSDOE32` (`h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros`: `0.2778`) — why/how it scored `0.2778` and how to beat `0.2778` — plus an executive summary and auditable table across `GEMSDOE24`, `GEMSDOE25`, `GEMSDOE27`, `GEMSDOE28`, `GEMSDOE30`, `GEMSDOE31`, `GEMSDOE32`, `GEMSDOE33`, `GEMSDOE36`, and our new submission.

@@ -1,0 +1,237 @@
+{
+  "generated_utc": "2026-10-28T23:09:20.168705+00:00",
+  "hypothesis_lane": "H-APART-6 OTSP",
+  "experiment_budget_used": 3,
+  "experiment_budget_cap": 3,
+  "baseline": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.117438,
+    "ci95": [
+      0.099365,
+      0.136129
+    ],
+    "withheld_positive_pixels": 11360
+  },
+  "leakage_canary": {
+    "evidence_class": "LEAKAGE-CANARY-HOLDOUT",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 11360,
+    "negative_sample_pixels": 250000,
+    "features": [
+      {
+        "feature": "otsp_topographic",
+        "roc_auc": 0.672831,
+        "symmetric_auc": 0.672831,
+        "cap": 0.9,
+        "passed": true
+      },
+      {
+        "feature": "otsp_cross_physics",
+        "roc_auc": 0.668927,
+        "symmetric_auc": 0.668927,
+        "cap": 0.9,
+        "passed": true
+      },
+      {
+        "feature": "otsp_persistent",
+        "roc_auc": 0.660622,
+        "symmetric_auc": 0.660622,
+        "cap": 0.9,
+        "passed": true
+      }
+    ],
+    "max_symmetric_auc": 0.672831,
+    "all_passed": true
+  },
+  "experiments": [
+    {
+      "id": "E1",
+      "name": "OTSP topographic tangent transport",
+      "feature": "otsp_topographic",
+      "blend_weight": 0.25,
+      "specialist_fraction": 0.2,
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.11093012659855961,
+      "detached_gt_800m_dti": 0.07108603890520908,
+      "withheld_positive_pixels": 11360,
+      "emitted_oof_dots": 36101,
+      "per_fold": [
+        {
+          "fold": "NW",
+          "emitted": 8867,
+          "dti": 0.09843498871220668,
+          "tpw": 329.0158948583102,
+          "fpw": 8619.328931037406,
+          "fnw": 1611.9841051416897,
+          "n_truth": 1941
+        },
+        {
+          "fold": "NE",
+          "emitted": 10732,
+          "dti": 0.10002345359403168,
+          "tpw": 407.3393122817019,
+          "fpw": 10458.850636436855,
+          "fnw": 1966.660687718298,
+          "n_truth": 2374
+        },
+        {
+          "fold": "SW",
+          "emitted": 8885,
+          "dti": 0.0786434743116821,
+          "tpw": 380.4835421147103,
+          "fpw": 8637.924209122648,
+          "fnw": 3412.5164578852896,
+          "n_truth": 3793
+        },
+        {
+          "fold": "SE",
+          "emitted": 7617,
+          "dti": 0.16908038354434823,
+          "tpw": 704.775148193772,
+          "fpw": 7128.64753550022,
+          "fnw": 2547.224851806228,
+          "n_truth": 3252
+        }
+      ],
+      "ci95": [
+        0.09418365528148312,
+        0.12899687331510012
+      ],
+      "tpw": 1821.6138974484936,
+      "fpw": 34844.751312097134,
+      "fnw": 9538.386102551507
+    },
+    {
+      "id": "E2",
+      "name": "OTSP topography + gravity tangent transport",
+      "feature": "otsp_cross_physics",
+      "blend_weight": 0.35,
+      "specialist_fraction": 0.3,
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.10001618864184285,
+      "detached_gt_800m_dti": 0.06705806149944035,
+      "withheld_positive_pixels": 11360,
+      "emitted_oof_dots": 36101,
+      "per_fold": [
+        {
+          "fold": "NW",
+          "emitted": 8808,
+          "dti": 0.09460436539686874,
+          "tpw": 315.1536486756281,
+          "fpw": 8577.247319374157,
+          "fnw": 1625.8463513243719,
+          "n_truth": 1941
+        },
+        {
+          "fold": "NE",
+          "emitted": 11187,
+          "dti": 0.09310401260631625,
+          "tpw": 387.78128295038925,
+          "fpw": 10941.383610323059,
+          "fnw": 1986.2187170496109,
+          "n_truth": 2374
+        },
+        {
+          "fold": "SW",
+          "emitted": 8136,
+          "dti": 0.06441283660754364,
+          "tpw": 301.6209819613076,
+          "fpw": 7939.490274031998,
+          "fnw": 3491.3790180386923,
+          "n_truth": 3793
+        },
+        {
+          "fold": "SE",
+          "emitted": 7970,
+          "dti": 0.15035686602416223,
+          "tpw": 637.782869801088,
+          "fpw": 7563.187716836322,
+          "fnw": 2614.217130198912,
+          "n_truth": 3252
+        }
+      ],
+      "ci95": [
+        0.08218699195594868,
+        0.11838114504629986
+      ],
+      "tpw": 1642.3387833884128,
+      "fpw": 35021.30892056553,
+      "fnw": 9717.661216611588
+    },
+    {
+      "id": "E3",
+      "name": "OTSP multi-scale topography/gravity persistence",
+      "feature": "otsp_persistent",
+      "blend_weight": 0.5,
+      "specialist_fraction": 0.4,
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.09103668264243701,
+      "detached_gt_800m_dti": 0.06322507841716302,
+      "withheld_positive_pixels": 11360,
+      "emitted_oof_dots": 36101,
+      "per_fold": [
+        {
+          "fold": "NW",
+          "emitted": 8919,
+          "dti": 0.07492038139588496,
+          "tpw": 250.9897940082712,
+          "fpw": 8735.445089793378,
+          "fnw": 1690.0102059917288,
+          "n_truth": 1941
+        },
+        {
+          "fold": "NE",
+          "emitted": 11378,
+          "dti": 0.08955466740557268,
+          "tpw": 376.4960595925081,
+          "fpw": 11147.963872855415,
+          "fnw": 1997.5039404074919,
+          "n_truth": 2374
+        },
+        {
+          "fold": "SW",
+          "emitted": 7689,
+          "dti": 0.060045154880986815,
+          "tpw": 275.90589134846823,
+          "fpw": 7526.961264488718,
+          "fnw": 3517.0941086515318,
+          "n_truth": 3793
+        },
+        {
+          "fold": "SE",
+          "emitted": 8115,
+          "dti": 0.1384961877067281,
+          "tpw": 591.3048891712583,
+          "fpw": 7748.029610149868,
+          "fnw": 2660.6951108287417,
+          "n_truth": 3252
+        }
+      ],
+      "ci95": [
+        0.07330004008292411,
+        0.11034785553349968
+      ],
+      "tpw": 1494.6966341205057,
+      "fpw": 35158.3998372874,
+      "fnw": 9865.303365879496
+    }
+  ],
+  "selected_holdout_winner": "E1",
+  "winner_holdout_dti": 0.11093012659855961,
+  "beats_current_holdout_best": false,
+  "selector_verdict": "negative_stop",
+  "weekly_submission_slots_used": 0,
+  "elapsed_seconds": 108.393,
+  "bootstrap": {
+    "method": "paired physical spatial-cluster percentile",
+    "clusters": 154,
+    "draws": 1000,
+    "seed": 520810,
+    "confidence": 0.95,
+    "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
+  }
+}

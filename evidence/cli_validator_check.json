@@ -64,9 +64,9 @@
     "evidence_class": "REGISTRY-UNIQUENESS-GATE",
     "candidate_decoded_fp_sha256": "87f83db9e3127aeb240d35bfbeddb5f15c638b7d1ce4d3ebd0505678ccbccfae",
     "candidate_emitted_dots": 37654,
-    "rasters_checked": 806,
-    "competing_sparse_detectors_checked": 660,
-    "blanket_surfaces_disclosed": 146,
+    "rasters_checked": 842,
+    "competing_sparse_detectors_checked": 695,
+    "blanket_surfaces_disclosed": 147,
     "exact_hash_collision": null,
     "spearman_abs_cap": 0.9,
     "overlap_3px_cap": 0.7,
@@ -764,6 +764,17 @@
         "matched_or_symmetric_overlap": 0.0369,
         "raw_a_gt_0_halo_coverage_witness": 0.190703,
         "spearman_rho": 0.012625
+      },
+      {
+        "repo": "ApartGEMSDOE2",
+        "file": "docs/downloads/gemsdoe32-h-mag-edge-slope-mag-x-slope-top37654-20261028T224750Z-2c00c25b-nan.tif",
+        "blanket_type": "constant_value_uniform_lattice_blanket_disclosed",
+        "positive_pixels": 5103418,
+        "halo_3px_footprint_coverage": 0.999969,
+        "top50k_or_raw_overlap": 0.01705,
+        "matched_or_symmetric_overlap": 0.000126,
+        "raw_a_gt_0_halo_coverage_witness": 0.999969,
+        "spearman_rho": 0.008582
       },
       {
         "repo": "GEMSDOE10",

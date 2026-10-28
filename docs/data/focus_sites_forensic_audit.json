@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-28T06:12:15.859611+00:00",
+  "generated_utc": "2026-10-28T23:19:00.140696+00:00",
   "evidence_class": "PIXEL-EXACT-FOCUS9-AND-REGISTRY-AUDIT",
   "forensic_proof_02778": {
     "evidence_class": "PIXEL-EXACT-BYTE-MEASUREMENT",
@@ -842,9 +842,9 @@
       "WBGGEMSDOE3",
       "gems-prize-reference-solution"
     ],
-    "total_valid_grid_tifs_scanned": 1164,
-    "unique_decoded_rasters": 806,
-    "competing_sparse_detectors": 660,
-    "blanket_or_continuous_rasters": 146
+    "total_valid_grid_tifs_scanned": 1223,
+    "unique_decoded_rasters": 842,
+    "competing_sparse_detectors": 695,
+    "blanket_or_continuous_rasters": 147
   }
 }

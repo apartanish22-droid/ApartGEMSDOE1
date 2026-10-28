@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+import argparse
 import gc
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 import sys
 import time
 
@@ -188,6 +190,31 @@ def find_focus_tif(repo_dir: Path, preferred_rel: str, sub_id: str) -> Path | No
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--fetch-missing",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="autonomously restore the public GitHub registry corpus when absent (default: true)",
+    )
+    args = parser.parse_args()
+    prior_audit_path = ROOT / "evidence/focus_sites_forensic_audit.json"
+    expected_names = []
+    if prior_audit_path.exists():
+        prior_audit = json.loads(prior_audit_path.read_text())
+        expected_names = prior_audit.get("fleet_registry_summary", {}).get("repos_scanned", [])
+    required_names = sorted(set(expected_names) | {spec["site"] for spec in FOCUS_9_SPECS})
+    required_paths = [RESEARCH_DIR / name for name in required_names]
+    if args.fetch_missing and (not RESEARCH_DIR.exists() or any(not path.is_dir() for path in required_paths)):
+        fetcher = ROOT / "scripts/fetch_registry_repositories.py"
+        subprocess.run([sys.executable, str(fetcher), "--dest", str(RESEARCH_DIR)], check=True)
+    missing_paths = [str(path) for path in required_paths if not path.is_dir()]
+    if missing_paths:
+        raise FileNotFoundError(
+            "Uniqueness corpus is incomplete; rerun without --no-fetch-missing. Missing: "
+            + ", ".join(missing_paths)
+        )
+
     t0 = time.time()
     grid = load_grid()
     fp = grid.footprint

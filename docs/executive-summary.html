@@ -46,11 +46,12 @@
       <ul>
         <li><strong>Why you MUST NOT re-submit any Focus-9 file (<code>GEMSDOE24..36</code>):</strong> Pixel-exact forensic auditing proves that all 9 historical focus-site champions are subsets/variants of <code>19GEMSDOE H19-5</code> with <code>87%–100%</code> mutual 3-px overlap (<code>GEMSDOE32 B2</code> is literally <code>GEMSDOE25_D28 &amp; (EDT(~existing_faults) &gt; 2.0)</code> with <code>XOR = 0</code>), and 6 of the 9 carry <code>7,111,787</code> exterior <code>NaN</code> cells.</li>
         <li><strong>Why <code>ApartGEMSDOE1 v2</code> (<code>apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif</code>) IS promoted and ready to submit:</strong> Built from scratch under <strong><code>H-APART-2 (MAW-GSI E3)</code></strong> — 100% Zero-SGMC Multi-Azimuth 8-Direction Strike Worms + Antislope Piedmont Dipoles + Faulds-Hinz (2015) Orthogonal Structural-Intersection Conduits (<code>I_vent</code>) + Shallow Magnetite-Oxidation (<code>TMI_up150 &minus; RTP</code>) + Sanitized GDR #1391 Springs / 2 m <code>F2mDAB</code> Probes / Paleo-Sinter Vents + Stage-2 OOF Axial-Relay Synthesis + Dual-Regime Exact 300 m Minoux CELF Allocation (<code>37,654</code> dots).</li>
+        <li><strong>Latest H-APART-6 OTSP iteration was rejected automatically:</strong> its best arm reached <code>HOLDOUT-DTI = 0.1109</code> (<code>95% CI [0.0942, 0.1290]</code>, <code>11,360</code> withheld positives), below the promoted <code>0.1174</code>. No H-APART-6 GeoTIFF was written and no weekly slot was used; the download button therefore still points to the highest validated local candidate.</li>
         <li><strong>Every Automated Gate Passed Cleanly:</strong>
           <ul>
             <li><strong>Format &amp; Range Gate:</strong> Single-band <code>float32</code>, <code>EPSG:32611</code>, <code>3730&times;3292</code>, <code>min=0.0</code>, <code>max=1.0</code>, <strong><code>0</code> NaNs and <code>0</code> Infs across all <code>12,279,160</code> cells</strong> (<code>nodata=None</code>).</li>
             <li><strong>Holdout Gate:</strong> <code>HOLDOUT-DTI = 0.1174</code> (<code>95% CI [0.0994, 0.1361]</code> on <code>seed=2026</code>; <code>0.1250</code> on <code>seed=20</code>; <code>+124.4%</code> over prior v1 <code>0.0523</code> and above fold-honest <code>GEMSDOE32 B2 = 0.0974</code>).</li>
-            <li><strong>50-Repo / 806-Raster Uniqueness Gate:</strong> Pre-placement surface <code>|&rho;| = 0.6911 &le; 0.90</code>; post-placement dot <code>|&rho;| = 0.0925 &le; 0.90</code>; max 3-px dot overlap = <strong><code>64.26% &le; 70.00%</code></strong> across all 660 competing sparse detectors (only <code>46.71%</code> w/ <code>GEMSDOE32</code> and <code>11.02%</code> w/ v1).</li>
+            <li><strong>50-Repo Uniqueness Gate:</strong> Original pre-placement surface gate <code>|&rho;| = 0.6911 &le; 0.90</code>; refreshed 842-raster final dot gate <code>|&rho;| = 0.0925 &le; 0.90</code>; refreshed max 3-px dot overlap = <strong><code>64.26% &le; 70.00%</code></strong> across all 695 competing sparse detectors (only <code>46.71%</code> w/ <code>GEMSDOE32</code> and <code>11.02%</code> w/ v1).</li>
           </ul>
         </li>
       </ul>
@@ -106,7 +107,7 @@
           <div class="step-num">6</div>
           <div>
             <strong>Submit &amp; Record the <code>ORGANIZER-CONFIRMED</code> Receipt</strong><br>
-            Because all <code>12,279,160</code> cells are strictly finite in <code>[0.0, 1.0]</code> with zero <code>NaN</code>s and zero GDAL <code>-3.4028235e+38</code> sentinels, the portal validator will pass cleanly. Once scored, record the returned live number strictly as <code>ORGANIZER-CONFIRMED</code> alongside timestamp and SHA-256.
+            Local fail-closed checks confirm all <code>12,279,160</code> cells are finite in <code>[0.0, 1.0]</code> with zero <code>NaN</code>s and zero GDAL <code>-3.4028235e+38</code> sentinels, eliminating the previously observed range-error cause. Only the organizer portal can confirm acceptance. Once accepted and scored, record the returned number strictly as <code>ORGANIZER-CONFIRMED</code> alongside timestamp and SHA-256.
           </div>
         </div>
       </div>
@@ -146,8 +147,8 @@
             </tr>
             <tr>
               <td><code>IR-5: REG-BLANKET-SURFACES</code></td>
-              <td>Across 50 repos / 806 unique rasters, <code>146</code> files are dense probability blankets or wide-area floods (<code>&ge;85,000</code> positive px or 3-px halo covering <code>&ge;28%</code> of the footprint) whose asymmetric one-way containment exceeds 70% against any sparse submission despite tiny reverse overlap (<code>13%–33%</code>).</td>
-              <td><code>src/apartgems/uniqueness.py</code> enforces strict one-way 3-px overlap <code>&le; 70%</code> across all <code>660</code> competing sparse detectors (max <code>64.26%</code>) AND matched-density/Spearman gates across all <code>146</code> blankets (max matched-top50k <code>55.8%</code>, max <code>|&rho;| = 0.6911 &le; 0.90</code>), disclosing every witness in <code>uniqueness_gate.json</code>.</td>
+              <td>Across the refreshed 50-repo registry / 842 unique rasters, <code>147</code> files are dense probability blankets or wide-area floods (<code>&ge;85,000</code> positive px or 3-px halo covering <code>&ge;28%</code> of the footprint) whose asymmetric one-way containment exceeds 70% against any sparse submission despite tiny reverse overlap (<code>13%–33%</code>).</td>
+              <td><code>src/apartgems/uniqueness.py</code> enforces strict one-way 3-px overlap <code>&le; 70%</code> across all <code>695</code> competing sparse detectors (refreshed max <code>64.26%</code>) AND matched-density/Spearman gates across all <code>147</code> blankets (max matched-top50k <code>55.8%</code>, max <code>|&rho;| = 0.6911 &le; 0.90</code>), disclosing every witness in <code>uniqueness_gate.json</code>.</td>
             </tr>
           </tbody>
         </table>
