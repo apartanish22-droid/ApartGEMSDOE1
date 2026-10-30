@@ -27,12 +27,11 @@
       </tbody></table></div>
       <p class="subtle">Sources: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem page ↗</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules PDF ↗</a> · <a href="data/official_rules_check.json">quoted excerpts (JSON) ↗</a></p></section>
     <section class="panel" id="why-no-tif"><p class="eyebrow">Why no new TIF yet</p><h2>What blocks a unique, validated file</h2>
-      <ol><li><strong>No holdout score.</strong> The v3 evaluator has not been run on any new candidate. The training-feature stack now restores from the owner mirror (verified this session), but the mirror is not organizer-origin data.</li>
+      <ol><li><strong>No holdout score.</strong> The v3 evaluator has not been run on any new candidate. A full training-feature stack was restored from the owner mirror in an isolated scratch copy, but the cache is absent from this checkout and the mirror is not organizer-origin data.</li>
       <li><strong>Uniqueness is not cleared.</strong> The literal gate needs a complete, pinned registry. Only one lattice witness and the nine focus files have been checked.</li>
       <li><strong>Format is unresolved on the portal side.</strong> The rule-literal NaN convention is verified, but the portal's response to it has not been tested.</li>
       <li><strong>The bar is high.</strong> The official public top is 0.4544. A new file would have to clear that, not the 0.27–0.28 site claims.</li></ol>
       <p class="subtle">Next, in order: (1) send the exact file name and SHA-256 that produced the "Predicted values must be in range [0, 1]" message; (2) build the complete registry inventory; (3) run a v3 holdout on a freshly trained candidate with leakage canaries.</p></section>
-    
     <section class="panel"><p class="eyebrow">Current file / audit only</p><h2>One-click research artifact</h2>
       <p>The prior <code>apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif</code> is locally finite and in range, but it writes zeros outside the footprint (the official rule says null/NaN), and it is a protocol duplicate. It is <strong>not approved to submit</strong>.</p>
       <p class="subtle">SHA-256: <code>09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f</code><br>Prior name: <code>apartgems1-maw-gsi-e3-20261028-87f83db9</code></p>

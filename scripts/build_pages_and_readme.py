@@ -94,22 +94,26 @@ def main() -> int:
     table = []
     md_rows = []
     for r in rows:
-        overlap = r['prior_candidate_forward_overlap_3px']
-        prior_overlap = 'not checked' if overlap is None else f'{overlap * 100:.2f}%'
+        prior_value = r['prior_candidate_forward_overlap_3px']
+        prior_overlap = 'not checked' if prior_value is None else f'{prior_value * 100:.2f}%'
+        peer_value = r.get('max_forward_overlap_3px_among_focus9')
+        peer_overlap = 'not measured' if peer_value is None else f'{peer_value * 100:.2f}%'
+        peer = r.get('closest_focus_site') or 'no peer recorded'
         historical = f"{r['prompt_reported_claim']:.4f}"
         research = r['owner_git_url'] + '?raw=1'
         duplicate = r['unique_among_focus9'] is False
-        decision = 'NO · duplicate family' if duplicate else 'Unknown'
+        decision = 'NO · focus-nine overlap exceeds 70%' if duplicate else 'Unknown'
         table.append(f'''<tr>
           <td><strong><a href="https://{esc('buffedlizard55-lab')}.github.io/{esc(r['site'])}/">{esc(r['site'])}</a></strong></td>
           <td><a class="file" href="{esc(research)}">{esc(r['filename'])}</a><br><small>Historical file · research only</small></td>
           <td>{esc(r['method_summary'])}</td>
           <td><strong>{historical}</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Unavailable</td>
-          <td><span class="tag stop">{esc(decision)}</span><br><small>Prior candidate overlap: {prior_overlap}</small></td>
+          <td><span class="tag stop">{esc(decision)}</span><br><small>{peer_overlap} of this file's positive pixels are within 3 px of {esc(peer)}.</small></td>
+          <td>{prior_overlap}<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
           <td><span class="tag stop">DO NOT RESUBMIT</span></td>
         </tr>''')
-        md_rows.append(f"| [{r['site']}](https://buffedlizard55-lab.github.io/{r['site']}/) | [`{r['filename']}`]({research}) | {r['method_summary']} | {historical} (user claim, unconfirmed) | Unavailable | {decision}; prior candidate {prior_overlap} | Do not resubmit |")
+        md_rows.append(f"| [{r['site']}](https://buffedlizard55-lab.github.io/{r['site']}/) | [`{r['filename']}`]({research}) | {r['method_summary']} | {historical} (user claim, unconfirmed) | Unavailable | {decision}; {peer_overlap} within 3 px of {peer} | Prior-candidate overlap {prior_overlap} (diagnostic only) | Do not resubmit |")
     overlap = audit['final_dot_gate']['forward_overlap_3px'] * 100
     hist = card['holdout_dti']['historical_noncomparable']
     holdout = f"{hist['dti']:.4f} [{hist['ci95'][0]:.4f}, {hist['ci95'][1]:.4f}]"
@@ -150,8 +154,8 @@ def main() -> int:
       <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> {audit['final_dot_gate']['candidate_dots_within_3px']:,} of {audit['final_dot_gate']['candidate_dots']:,} dots lie within three pixels of the <a href="{esc(witness['url'])}">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
     </section>
     <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest file named for each site in your prompt. Reported values are unconfirmed user claims, not organizer receipts. All estimates for future submissions are unavailable.</p></div></div>
-      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt claim</th><th scope="col">Future score estimate</th><th scope="col">Unique among focus nine?</th><th scope="col">Decision</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
-      <p class="subtle" style="margin-top:14px">“Prior candidate overlap” means the fraction of the prior MAW-GSI dots within three pixels of that site’s file. Even though these nine comparisons are below the limit, the candidate fails against the additional registered lattice. The nine-site audit is not a complete registry.</p>
+      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt claim</th><th scope="col">Future score estimate</th><th scope="col">Unique among focus nine? (closest peer)</th><th scope="col">Overlap with prior candidate (diagnostic)</th><th scope="col">Decision</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
+      <p class="subtle" style="margin-top:14px">The focus-nine percentage is directed from each historical file's positive pixels to the 3-pixel halo of its closest peer; all nine exceed the 70% cap (97.5781%–100.0000%). The separate prior-candidate overlap is diagnostic and does not define focus-nine uniqueness. This nine-file audit is not a complete registry; the current candidate also fails against an additional pinned lattice witness.</p>
     </section>
     <div class="two-col"><section class="panel"><p class="eyebrow">03 / Mechanism, not proof</p><h2>Why did GEMSDOE32 stand out?</h2>
       <p>The user reports <strong>0.2778</strong> for B2, but no submission-page receipt is present. Our pixel audit shows B2's dots equal the GEMSDOE25 dot set after removing points within two pixels of the mapped-fault catalogue.</p>
@@ -169,7 +173,7 @@ def main() -> int:
       <ol><li>Do not resume this lane after the duplicate stop. Establish a separately assigned method lane and a complete, hash-pinned accessible registry.</li><li>Rebuild each catalogue-based feature from visible faults, run all feature-only canaries, and compare to a same-v3 holdout baseline with a paired confidence interval.</li><li>Check literal registry thresholds on every pre-placement surface and on final dots; write a GeoTIFF only after local range/grid checks. A separate selector controls any slot.</li></ol>
       <p class="subtle" style="margin-top:14px">The witness leaves {audit['budget_feasibility']['uncovered_allowed_pixels']:,} allowed pixels outside its 3-pixel halo. At most {audit['budget_feasibility']['max_dots_for_possible_70pct_pass']:,} distinct dots could possibly meet the 70% rule against this one witness; this necessary bound is not a quality or uniqueness guarantee.</p>
       <div class="actions"><a class="button secondary" href="next-hypotheses.html">Read future hypotheses</a><a class="button secondary" href="research-sources.html">View research source register</a></div></section>
-    <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or updating.</p>{source_links}</section>'''
+    <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or stale. Check the official page; no file score is inferred.</p>{source_links}</section>'''
     claims = [r['prompt_reported_claim'] for r in focus['sites']]
     nearest = [r['max_forward_overlap_3px_among_focus9'] * 100 for r in focus['sites']]
     claim_lo, claim_hi = min(claims), max(claims)
@@ -196,12 +200,11 @@ def main() -> int:
       </tbody></table></div>
       <p class="subtle">Sources: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem page ↗</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules PDF ↗</a> · <a href="data/official_rules_check.json">quoted excerpts (JSON) ↗</a></p></section>
     <section class="panel" id="why-no-tif"><p class="eyebrow">Why no new TIF yet</p><h2>What blocks a unique, validated file</h2>
-      <ol><li><strong>No holdout score.</strong> The v3 evaluator has not been run on any new candidate. The training-feature stack now restores from the owner mirror (verified this session), but the mirror is not organizer-origin data.</li>
+      <ol><li><strong>No holdout score.</strong> The v3 evaluator has not been run on any new candidate. A full training-feature stack was restored from the owner mirror in an isolated scratch copy, but the cache is absent from this checkout and the mirror is not organizer-origin data.</li>
       <li><strong>Uniqueness is not cleared.</strong> The literal gate needs a complete, pinned registry. Only one lattice witness and the nine focus files have been checked.</li>
       <li><strong>Format is unresolved on the portal side.</strong> The rule-literal NaN convention is verified, but the portal's response to it has not been tested.</li>
       <li><strong>The bar is high.</strong> The official public top is {lb_top:.4f}. A new file would have to clear that, not the 0.27–0.28 site claims.</li></ol>
-      <p class="subtle">Next, in order: (1) send the exact file name and SHA-256 that produced the "Predicted values must be in range [0, 1]" message; (2) build the complete registry inventory; (3) run a v3 holdout on a freshly trained candidate with leakage canaries.</p></section>
-    '''
+      <p class="subtle">Next, in order: (1) send the exact file name and SHA-256 that produced the "Predicted values must be in range [0, 1]" message; (2) build the complete registry inventory; (3) run a v3 holdout on a freshly trained candidate with leakage canaries.</p></section>'''
     guide = f'''<section class="hero"><div><p class="eyebrow">Submission guide / Read before uploading</p><h1>Not yet. Here is the path to a valid submission.</h1>
       <p class="lead">The project must pass automated scientific, novelty, and file-format gates before a separate selector uses a weekly slot. No manual image inspection is required for this negative decision.</p></div>
       <aside class="status-card"><span class="status-label"><span class="status-dot"></span> Do not submit</span><strong>Current candidate is blocked.</strong><p>{overlap:.2f}% 3-pixel overlap exceeds the 70% limit. A format pass alone does not authorize an upload.</p></aside></section>
@@ -245,26 +248,29 @@ def main() -> int:
 >
 > [Download the **prior TIFF for research only — do not submit**](docs/downloads/{file_name}) · SHA-256 `{digest}`
 
-## Standing reference: task and parallel-run protocol (read first)
+## Future-session start-up: read before every run
 
-The user’s standing objective is to develop an original, competition-format GeoTIFF for mapping faults relevant to geothermal exploration, with autonomous, reproducible validation and no fabricated scores. Review the nine focus sites, present the download and status clearly, test scientific hypotheses on a spatial holdout, preserve source links, perform three review passes, and use a separate selector before spending a weekly slot. The long repeated site ledger in the request is summarized in the audited table below; the protocol is retained here as the governing operating charter.
+**Objective.** Build an evidence-led, original fault-prediction GeoTIFF for geothermal exploration, and say plainly whether any file is safe to download or submit. The nine focus sites are GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, and 36. Their historical scores are user-reported claims, not submission receipts; the reported GEMSDOE32 value 0.2778 is not explained by geometry alone. Its support matches GEMSDOE25 after a two-pixel catalogue collar is removed, which suggests—but does not prove—a redundancy-pruning mechanism under max-kernel DTI. Do not turn this into a causal claim, score estimate, or promotion without hidden-label evidence.
 
-1. **LANE.** Stay inside the assigned single method. If rank correlation with any registry raster exceeds 0.90 or more than 70% of candidate dots fall within three pixels of one registry raster’s dots, log a duplicate and stop. Check the surface before placement and final dots; no density exemptions.
-2. **REUSE, DON’T REBUILD.** Reuse the template feature stack, `evaluate_holdout.py`, and `submission_writer.py`. Hide whole fault segments with a buffer; derive catalogue-based features only from visible faults; mask visible faults pixel-exactly; use pooled DTI with α=0.2, β=0.8 and a 300 m triangular kernel. Fix shared tools rather than maintaining a private fork.
-3. **EVIDENCE LABELS.** A measured model result is HOLDOUT-DTI with evaluator version, withheld-positive count and 95% CI. ORGANIZER-CONFIRMED means a submission-page receipt; an unverified prompt claim or projection is not such a receipt or a future score.
-4. **LEAKAGE CANARY.** Test each feature alone on holdout; AUC above 0.90 is leakage until proven otherwise.
-5. **RUN CARD.** Record hypothesis, mechanism, named non-fault mimic, holdout DTI and CI, registry correlations/overlaps, raster SHA-256, range/footprint/grid validation, submission name and ≤140-character note, and promote/negative verdict. Negative results are deliverables.
-6. **BUDGET.** Stop after at most three experiments or two hours, and stop immediately on duplication. A separate selector chooses a real slot within the current weekly cap.
+**Current lane status — stop.** The “single method” paragraph in the supplied request was not unambiguously identified. Repo context records an inherited H-APART-6 OTSP lane, three archived v2 experiments, and a later mandatory duplicate stop. The existing candidate overlaps one pinned lattice witness by 37,533/37,654 dots (99.6787%, over the 70% limit); the pre-placement surface and complete registry are unavailable, and the training-feature cache is absent from this checkout. Do not choose a replacement method, run experiments, generate a new TIFF, or use a slot until a new lane is explicitly assigned and its prerequisites are met. See the [ranked future hypotheses](evidence/next_hypotheses.md) for design candidates, not permission to run them.
 
-Before implementation, the user requests 3–5 previously untried geological hypotheses, ranked by expected DTI improvement and cost, with layers, physical signature, catalogue-missing rationale, differences from this repo, mimics, and official data availability. [Future hypotheses are recorded here](evidence/next_hypotheses.md); none was run after the stop.
+### Mandatory gates
 
-**Core values:** *Maximize P(Win)* means weigh tradeoffs and risk rather than spending a slot on an unsupported claim. *Own the Outcome* means report failure and correct the shared pipeline, not hide it. Review changes in at least three passes, document limitations, and use official sources for claims. Keep the current feed and guides fail-closed.
+1. **One lane, originality before placement.** Before implementation, rank 3–5 untried geological hypotheses by expected DTI improvement and cost. For each, name the layers and physical signature, why it could find a catalogue-missing fault, how it differs from this repository, a named non-fault mimic, and the official source/data-availability check. Stay within the assigned single method. Check registry rank correlation on each surface before placement and 3-pixel dot overlap after placement; stop if any correlation exceeds 0.90 or overlap exceeds 70%. No density exemptions.
+2. **Reuse shared tools.** Reuse the template feature stack, shared holdout evaluator, and `submission_writer.py`; fix shared tools instead of making private forks. Hide whole fault segments with a buffer, derive catalogue features only from visible faults, mask visible faults pixel-exactly, and use pooled DTI with α=0.2, β=0.8, and a 300 m triangular kernel.
+3. **Leakage and score labels.** Test every feature alone on holdout; AUC >0.90 is leakage until explained. A measured result must be `HOLDOUT-DTI` with evaluator version, withheld-positive count, and 95% CI. Use `ORGANIZER-CONFIRMED` only for a score tied to an actual submission-page receipt. Never call a projection a score or infer leaderboard performance from a holdout.
+4. **Run card and budget.** Record hypothesis, mechanism, named non-fault mimic, holdout DTI/CI, registry comparisons, raster SHA-256, format/grid validation, submission name and note ≤140 characters, and promote/negative verdict. Stop after at most three experiments or two hours, and immediately on either duplication threshold. A separate selector—not the experiment runner—chooses a real weekly slot within the current cap.
+5. **Review and report.** Verify claims against official sources, preserve limitations and source links, run three implementation/review passes, and publish negative results honestly. No local validation is organizer acceptance; no upload is authorized without all gates and separate selector approval.
+
+**Future-session checklist:** read this section, the latest review in [`evidence/review_passes.md`](evidence/review_passes.md), the run cards, and [`evidence/official_rules_check.json`](evidence/official_rules_check.json); confirm the assigned lane and current stop state; check whether required data/cache is actually present in this checkout; only then proceed. Keep the public feed fail-closed and do not revive retired runners.
+
+**Core values:** *Maximize P(Win)* means weigh evidence, expected value, and risk rather than spending a slot on a weak or duplicated method. *Own the Outcome* means report failure, fix shared defects, and preserve reproducible negative evidence.
 
 ## Executive summary · nine requested sites
 
-These are the highest historical files **named in the user prompt**, not a complete census. Prompt values are unverified user reports; no submission-page receipts were found. The future leaderboard estimate is unavailable for every row. “Prior candidate” overlap is directed from the prior MAW-GSI dots to the site's dots. Each historical file fails the focus-nine spatial-uniqueness rule and must not be resubmitted as new.
+These are the highest historical files **named in the user prompt**, not a complete census. Prompt values are unverified user reports; no submission-page receipts were found. The future leaderboard estimate is unavailable for every row. The focus-nine column reports each file's maximum directed 3-pixel overlap with its closest peer; all nine exceed the 70% cap. The separate prior-candidate overlap is diagnostic only and does not define focus-nine uniqueness. Do not resubmit these historical files as new.
 
-| Site | Historical file (research only) | Method (owner-described) | Prompt claim | Future estimate | Unique among focus nine? | Decision |
+| Site | Historical file (research only) | Method (owner-described) | Prompt claim | Future estimate | Unique among focus nine? (closest peer) | Prior candidate overlap (diagnostic) | Decision |
 | --- | --- | --- | --- | --- | --- | --- |
 {chr(10).join(md_rows)}
 
