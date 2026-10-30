@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-28T23:00:45.723028+00:00",
+  "generated_utc": "2026-10-30T01:54:07.298627+00:00",
   "evidence_class": "REGISTRY-MEASUREMENT; witness-only duplicate proof",
   "candidate_file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
   "candidate_sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
@@ -70,7 +70,7 @@
     "candidate_dots": 37654,
     "candidate_dots_within_3px": 37533,
     "forward_overlap_3px": 0.9967865299835342,
-    "spearman_full_footprint": 0.00044546006955554146,
+    "spearman_full_footprint": 0.000445460069555539,
     "limits": {
       "forward_overlap": 0.7,
       "spearman": 0.9

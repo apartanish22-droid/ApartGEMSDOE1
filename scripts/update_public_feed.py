@@ -19,8 +19,8 @@ import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
-# The public leaderboard page loads its table from this public HTML fragment;
-# requesting the page shell alone does not include the leaderboard rows.
+# The public leaderboard page loads its rows from this public fragment; the
+# response has appeared as either an HTML table or a rendered pipe table.
 PARTIAL_URL = "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard_partial/"
 
 
@@ -61,25 +61,60 @@ class TableParser(HTMLParser):
             self.depth -= 1
 
 
-def parse_public_leaderboard(html: str) -> float:
-    """Extract only an unambiguous rank-one score from a labeled Tversky table."""
+def _rank_one_score(rows: list[list[str]]) -> list[float]:
+    """Extract rank-one Tversky values from normalized table rows."""
+    if not rows:
+        return []
+    header = " ".join(rows[0]).casefold()
+    if "rank" not in header or "tversky" not in header:
+        return []
+    found = []
+    for cells in rows[1:]:
+        if not cells or not re.fullmatch(r"#?\s*1", cells[0].strip()):
+            continue
+        values = [float(cell.strip()) for cell in cells[1:]
+                  if re.fullmatch(r"(?:0\.\d+|1\.0+)", cell.strip())]
+        if len(values) != 1:
+            raise ValueError("rank-one score is ambiguous")
+        found.extend(values)
+    return found
+
+
+def _markdown_tables(content: str) -> list[list[list[str]]]:
+    """Parse simple pipe-delimited tables for rendered leaderboard fragments."""
+    tables: list[list[list[str]]] = []
+    current: list[list[str]] = []
+    for line in content.splitlines():
+        line = line.strip()
+        if not (line.startswith("|") and line.endswith("|")):
+            if current:
+                tables.append(current)
+                current = []
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if cells and all(re.fullmatch(r":?-{3,}:?", cell) for cell in cells):
+            continue
+        current.append(cells)
+    if current:
+        tables.append(current)
+    return tables
+
+
+def parse_public_leaderboard(content: str) -> float:
+    """Extract only an unambiguous rank-one score from a labeled Tversky table.
+
+    DrivenData has served both HTML table fragments and rendered pipe-table
+    fragments. Accept either representation, but require an explicit rank and
+    Tversky header and exactly one rank-one score.
+    """
     parser = TableParser()
-    parser.feed(html)
+    parser.feed(content)
     found = []
     for table in parser.tables:
-        if not table:
-            continue
-        header = " ".join(table[0]).casefold()
-        if "rank" not in header or "tversky" not in header:
-            continue
-        for cells in table[1:]:
-            if not cells or not re.fullmatch(r"#?\s*1", cells[0].strip()):
-                continue
-            values = [float(cell.strip()) for cell in cells[1:]
-                      if re.fullmatch(r"(?:0\.\d+|1\.0+)", cell.strip())]
-            if len(values) != 1:
-                raise ValueError("rank-one score is ambiguous")
-            found.extend(values)
+        found.extend(_rank_one_score(table))
+    if not parser.tables:
+        for table in _markdown_tables(content):
+            found.extend(_rank_one_score(table))
     if len(found) != 1:
         raise ValueError("no unique rank-one Tversky score in a labeled leaderboard table")
     return found[0]

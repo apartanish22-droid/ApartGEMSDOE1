@@ -10,7 +10,12 @@ from scripts import update_public_feed
 from scripts.update_public_feed import make_snapshot, parse_public_leaderboard
 
 HTML = '''<!doctype html><table><thead><tr><th>Rank</th><th>Team</th><th>Best public DW-Tversky</th></tr></thead>
-<tbody><tr><td>#1</td><a>Example team</a></td><td>0.4544</td></tr><tr><td>#2</td><td>Team B</td><td>0.4200</td></tr></tbody></table>'''
+<tbody><tr><td>#1</td><td>Example team</td><td>0.4544</td></tr><tr><td>#2</td><td>Team B</td><td>0.4200</td></tr></tbody></table>'''
+MARKDOWN = '''| Rank | Participant | Best public DW-Tversky | Shared work |
+| --- | --- | --- | --- |
+| #1 | Leader | 0.4544 | |
+| #2 | Runner-up | 0.4200 | |
+'''
 
 
 def test_public_leaderboard_requires_unambiguous_labeled_rank_one():
@@ -21,6 +26,14 @@ def test_public_leaderboard_requires_unambiguous_labeled_rank_one():
         parse_public_leaderboard(HTML.replace('<td>0.4544</td>', '<td>0.4544</td><td>0.1234</td>'))
     with pytest.raises(ValueError):
         parse_public_leaderboard(HTML.replace('#1', '#3'))
+
+
+def test_public_leaderboard_accepts_rendered_pipe_table_but_keeps_strict_rank_check():
+    assert parse_public_leaderboard(MARKDOWN) == .4544
+    with pytest.raises(ValueError):
+        parse_public_leaderboard(MARKDOWN.replace('DW-Tversky', 'other metric'))
+    with pytest.raises(ValueError):
+        parse_public_leaderboard(MARKDOWN.replace('0.4544', '0.4544 | 0.1234'))
 
 
 def test_refresh_failures_clear_score_instead_of_publishing_stale_value(tmp_path):

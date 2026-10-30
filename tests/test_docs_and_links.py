@@ -49,6 +49,39 @@ def test_html_pages_are_negative_have_local_links_and_no_localhost():
     assert 'top_public_dti' in (docs / 'feed.js').read_text()
 
 
+def test_focus_nine_table_answers_uniqueness_and_estimate_questions():
+    audit = json.loads((ROOT / 'evidence/focus9_reaudit.json').read_text())
+    pages = [(ROOT / 'docs/index.html').read_text(),
+             (ROOT / 'docs/executive-summary.html').read_text()]
+    readme = (ROOT / 'README.md').read_text()
+    for row in audit['sites']:
+        assert row['unique_among_focus9'] is False
+        overlap = f"{row['max_forward_overlap_3px_among_focus9'] * 100:.2f}%"
+        site = row['closest_focus_site']
+        for text in pages:
+            assert 'Unique vs other eight?' in text
+            assert overlap in text and site in text
+            assert 'Not defensibly estimable' in text
+            assert 'DO NOT SUBMIT' in text
+        assert f"{overlap} within 3 px of {site}" in readme
+    assert 'GEMSDOE32 has the highest user-reported claim' in pages[0]
+    assert '0.2778' in pages[0]
+
+
+def test_official_leaderboard_snapshot_is_dated_and_not_file_scoring():
+    snapshot = json.loads((ROOT / 'evidence/leaderboard_observation_20261030.json').read_text())
+    assert snapshot['observed_utc'] == '2026-10-30'
+    assert snapshot['evidence_class'] == 'OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT'
+    assert snapshot['observations'][0] == {'rank': 1, 'public_dw_tversky': 0.4544}
+    assert snapshot['observations'][1]['rank'] == 48
+    assert snapshot['observations'][1]['public_dw_tversky'] == 0.3195
+    assert ('file' in snapshot['scope'].lower() or 'tiff' in snapshot['scope'].lower())
+    assert 'receipt' in snapshot['limitations'][1].lower()
+    for text in [(ROOT / 'docs/index.html').read_text(), (ROOT / 'docs/executive-summary.html').read_text()]:
+        assert '0.4544 at rank 1' in text and '0.3195 appeared at rank 48' in text
+        assert 'not a score for' in text.lower() and 'repository' in text.lower()
+
+
 def test_research_pages_are_rendered_and_linked_without_score_projections():
     docs = ROOT / 'docs'
     sources = (docs / 'research-sources.html').read_text()
@@ -96,7 +129,8 @@ def test_all_evidence_json_strict_and_unsafe_receipts_not_promoted():
         for path in folder.rglob('*.json'):
             obj = json.loads(path.read_text(), parse_constant=lambda c: (_ for _ in ()).throw(ValueError(c)))
             assert obj is not None, path
-    for p in (ROOT / 'docs/data/run_card.json', ROOT / 'docs/data/current-run-card.json'):
+    for p in (ROOT / 'docs/data/run_card.json', ROOT / 'docs/data/current-run-card.json',
+              ROOT / 'docs/data/run_card_20261030.json', ROOT / 'evidence/run_card_20261030.json'):
         assert json.loads(p.read_text())['verdict'] == 'negative'
     assert 'DO_NOT_SUBMIT' in json.loads((ROOT / 'docs/data/validation_receipt.json').read_text())['ready_to_submit_verdict']
     sidecar = next((ROOT / 'docs/downloads').glob('*maw-gsi*.json'))

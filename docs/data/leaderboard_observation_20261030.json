@@ -1,0 +1,28 @@
+{
+  "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",
+  "observed_utc": "2026-10-30",
+  "timestamp_precision": "date",
+  "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "retrieval_note": "Official public leaderboard page read during this repository review using Arena's page-fetch tool. The page returned three content chunks covering ranks 1-50; no raw response or organizer submission receipt was captured.",
+  "observations": [
+    {
+      "rank": 1,
+      "public_dw_tversky": 0.4544
+    },
+    {
+      "rank": 48,
+      "public_dw_tversky": 0.3195,
+      "relation_to_prompt": "The prompt's 0.3195 figure appeared at rank 48 in this observation, not as the leader."
+    }
+  ],
+  "prompt_claim_0_4413": {
+    "status": "not_present_in_displayed_top_50",
+    "note": "The fetched top-50 table did not display 0.4413. This observation does not identify the associated team or submission."
+  },
+  "scope": "Public standings only; a team-level leaderboard entry does not establish the score of any particular TIFF in this repository.",
+  "limitations": [
+    "The leaderboard can change after the observation date.",
+    "No file-specific submission receipt was available.",
+    "No future score or holdout estimate is inferred from this leaderboard observation."
+  ]
+}

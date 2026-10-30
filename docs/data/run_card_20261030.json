@@ -1,0 +1,72 @@
+{
+  "protocol": "GEMS Parallel-Run Protocol; mandatory literal uniqueness stop",
+  "generated_utc": "2026-10-30T02:00:07.427930+00:00",
+  "branch": "arena/4cab7700-apartgemsdoe1",
+  "session_kind": "repository_review_only; no model experiment, no new raster, no slot selection",
+  "hypothesis": "Inherited H-APART-2 / MAW-GSI hypothesis under review: multi-azimuth terrain and potential-field lineaments may help locate unmapped faults. No new candidate hypothesis was tested in this stopped lane.",
+  "mechanism": "No current mechanism result is claimed. The existing prior candidate combined multi-azimuth terrain/potential-field indicators and sparse allocation; its score on corrected v3 holdout was not measured.",
+  "named_non_fault_mimic_process": "Alluvial-fan channels and erosional scarps can mimic linear topographic breaks; lithologic contacts can produce magnetic and gravity edges.",
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v3",
+    "withheld_positive_pixels": 11360,
+    "dti": null,
+    "ci95": null,
+    "status": "Not run: the historical candidate failed the mandatory literal overlap stop. The value is unavailable, not zero or a leaderboard estimate."
+  },
+  "correlation_overlap_vs_registry": {
+    "evidence_class": "REGISTRY-MEASUREMENT",
+    "inventory_scope": "One immutable, SHA-256-pinned 13GEMSDOE lattice witness; inventory is incomplete and can prove failure but not certify uniqueness.",
+    "preplacement_surface": {
+      "tested": false,
+      "reason": "Original pre-placement surface is not persisted."
+    },
+    "final_dots": {
+      "candidate_status": "Historical artifact; not generated in this review.",
+      "candidate_dots": 37654,
+      "candidate_dots_within_3px": 37533,
+      "forward_overlap_3px": 0.9967865299835342,
+      "spearman_full_footprint": 0.000445460069555539,
+      "limits": {
+        "forward_overlap": 0.7,
+        "spearman": 0.9
+      },
+      "duplicate": true
+    }
+  },
+  "raster_sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
+  "raster_provenance": "Existing historical audit-only TIFF; no new GeoTIFF generated.",
+  "validator_output": {
+    "file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+    "sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
+    "validation_class": "LOCAL_FORMAT_ONLY; not registry clearance, selector approval, or organizer acceptance",
+    "no_nan_inside_footprint": true,
+    "values_inside_footprint_in_0_1": true,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "matches_stored_sample_submission_grid": true,
+    "all_local_format_checks_passed": true,
+    "full_preflight_ok_to_submit": false,
+    "blockers": [
+      "final registry uniqueness fails",
+      "pre-placement surface unverified",
+      "corrected v3 holdout not run",
+      "no separate selector approval"
+    ]
+  },
+  "submission_name": "apartgems1-maw-gsi-e3-20261028-87f83db9",
+  "submission_note": "Historical audit artifact only; literal overlap duplicate; DO NOT SUBMIT.",
+  "submission_note_chars": 73,
+  "verdict": "negative"
+}

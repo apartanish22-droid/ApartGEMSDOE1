@@ -187,8 +187,20 @@ def test_placement_requires_exact_complete_surface_gates_then_respects_lane_stop
 
 def test_current_negative_card_and_historical_format_are_not_a_promotion():
     card = json.loads((ROOT / 'evidence/run_card.json').read_text())
+    review = json.loads((ROOT / 'evidence/run_card_20261030.json').read_text())
     witness = json.loads((ROOT / 'evidence/literal_witness_audit.json').read_text())
     assert card['verdict'] == 'negative' and witness['stop_required'] is True
+    assert review['verdict'] == 'negative' and review['branch'] == 'arena/4cab7700-apartgemsdoe1'
+    assert review['session_kind'].startswith('repository_review_only')
+    assert review['holdout_dti']['label'] == 'HOLDOUT-DTI'
+    assert review['holdout_dti']['evaluator_version'] == 'gems57-pooled-hide-v3'
+    assert review['holdout_dti']['withheld_positive_pixels'] == 11360
+    assert review['holdout_dti']['dti'] is None and review['holdout_dti']['ci95'] is None
+    assert review['raster_sha256'] == witness['candidate_sha256']
+    assert review['correlation_overlap_vs_registry']['final_dots']['forward_overlap_3px'] > .70
+    assert review['validator_output']['all_local_format_checks_passed'] is True
+    assert review['validator_output']['full_preflight_ok_to_submit'] is False
+    assert len(review['submission_note']) == review['submission_note_chars'] <= 140
     assert card['holdout_dti']['dti'] is None and card['holdout_dti']['ci95'] is None
     hist = card['holdout_dti']['historical_noncomparable']
     assert hist['evaluator_version'].endswith('-v2') and len(hist['ci95']) == 2

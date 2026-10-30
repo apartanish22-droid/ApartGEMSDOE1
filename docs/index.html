@@ -19,102 +19,104 @@
       <div class="metric"><span class="label">Current holdout</span><strong>Not run</strong><small>v3 proxy score unavailable after stop.</small></div>
       <div class="metric"><span class="label">Weekly slot</span><strong>Not selected</strong><small>Separate selector approval required.</small></div>
     </div>
+    <p class="callout" style="margin-bottom:20px"><strong>Leaderboard correction (2026-10-30 UTC):</strong> the official public table showed <strong>0.4544 at rank 1</strong>; the cited <strong>0.3195 appeared at rank 48</strong>, not as the leader. The user-cited 0.4413 was not displayed in the fetched top 50. These are team standings, not a score for a TIFF in this repository. <a href="data/leaderboard_observation_20261030.json">View the dated observation.</a></p>
     <section class="panel" id="decision"><div class="section-heading"><div><p class="eyebrow">01 / Executive decision</p><h2>What can I download?</h2></div></div>
       <p><strong>No competition-ready file is available.</strong> The previous MAW-GSI TIFF remains accessible only to reproduce the negative audit. Do not upload it or any already-submitted historical file as a new entry.</p>
       <p class="subtle"><strong>Audit-only file:</strong> <code>apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif</code> · SHA-256 <code>09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f</code></p>
       <div class="actions"><a class="button secondary" href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a></div>
       <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> 37,533 of 37,654 dots lie within three pixels of the <a href="https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
     </section>
-    <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest file named for each site in your prompt. Reported values are unconfirmed user claims, not organizer receipts. All estimates for future submissions are unavailable.</p></div></div>
-      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt claim</th><th scope="col">Future score estimate</th><th scope="col">Unique among focus nine?</th><th scope="col">Decision</th></tr></thead><tbody><tr>
+    <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest historical file named for each site in your prompt. GEMSDOE32 has the highest user-reported claim (0.2778), but it is unconfirmed. All nine fail the focus-nine 70% directed-overlap uniqueness gate. New submission estimates are not defensibly available.</p></div></div>
+      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Highest historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt-reported score</th><th scope="col">New-file score estimate</th><th scope="col">Unique vs other eight?</th><th scope="col">Recommendation</th></tr></thead><tbody><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE24/">GEMSDOE24</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE24/blob/9e185929eeaa6244f96c3022cf3462faa8ca4de0/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif?raw=1">gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described 1.5-pixel thinning of H19-5 ridges.</td>
           <td><strong>0.2477</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 49.94%</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+          <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
+          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE25. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE25/">GEMSDOE25</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE25/blob/fb1db37274776a29dbc48abe55b2e531f2ba6aad/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif?raw=1">gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described 2.8-pixel thinning of H19-5 ridges.</td>
           <td><strong>0.2600</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 48.56%</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+          <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
+          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE27/">GEMSDOE27</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE27/blob/6704fa2a5133e751df2516feb2e32565ad5fc1df/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif?raw=1">gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described topographic gap closure added to a D1.5 dotted map.</td>
           <td><strong>0.2449</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 50.85%</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+          <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
+          <td><span class="tag stop">NO</span><br><small>98.02% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE28/">GEMSDOE28</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE28/blob/9509b73eaf35f66d0b23fce63b2540ceff2a88e0/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif?raw=1">gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described one-pixel collar prune plus blind step-over rungs on D2.8.</td>
           <td><strong>0.2710</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 47.36%</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+          <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
+          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE30/">GEMSDOE30</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE30/blob/31696c6541cfc54620ff850a748c51625461f27f/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif?raw=1">gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described D2.8 Poisson-disk baseline; footprint values equal GEMSDOE25.</td>
           <td><strong>0.2600</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 48.56%</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+          <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
+          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE31/">GEMSDOE31</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE31/blob/06930b9d03473a9313094a4f2312c4fc6efd4fbb/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif?raw=1">gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described solo / one-pixel catalogue-collar pruning on D2.8.</td>
           <td><strong>0.2708</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 47.88%</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+          <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
+          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/">GEMSDOE32</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/97597a066d1c61d2c226fdba349716f41b30c1c6/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif?raw=1">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a><br><small>Historical file · research only</small></td>
           <td>D2.8 set minus points at distance ≤2 pixels from mapped catalogue (verified support identity).</td>
           <td><strong>0.2778</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 46.71%</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+          <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
+          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE33/">GEMSDOE33</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE33/blob/3eaf85efb49f364b84f8be04e8b084b12d0303b9/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif?raw=1">GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described analog fault-tip and step-over additions on D2.8.</td>
           <td><strong>0.2632</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 48.36%</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+          <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
+          <td><span class="tag stop">NO</span><br><small>99.71% within 3 px of GEMSDOE27. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE36/">GEMSDOE36</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE36/blob/e280188adbbe762e6b7ac6f3b8e105e8e7915026/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif?raw=1">gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described Andersonian geothermal PINN additions to the B2 base.</td>
           <td><strong>0.2750</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · duplicate family</span><br><small>Prior candidate overlap: 47.41%</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
+          <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
+          <td><span class="tag stop">NO</span><br><small>97.58% within 3 px of GEMSDOE27. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
         </tr></tbody></table></div>
-      <p class="subtle" style="margin-top:14px">“Prior candidate overlap” means the fraction of the prior MAW-GSI dots within three pixels of that site’s file. Even though these nine comparisons are below the limit, the candidate fails against the additional registered lattice. The nine-site audit is not a complete registry.</p>
+      <p class="subtle" style="margin-top:14px">The uniqueness field is the largest directed share of each site's positive cells lying within 3 pixels of any one of the other eight named rasters; the threshold is strictly greater than 70%. These are protocol-level spatial near-duplicate flags, not claims of identical file bytes. The audit covers only the nine named sites, so it cannot certify uniqueness against a complete registry.</p>
     </section>
     <div class="two-col"><section class="panel"><p class="eyebrow">03 / Mechanism, not proof</p><h2>Why did GEMSDOE32 stand out?</h2>
-      <p>The user reports <strong>0.2778</strong> for B2, but no submission-page receipt is present. Our pixel audit shows B2's dots equal the GEMSDOE25 dot set after removing points within two pixels of the mapped-fault catalogue.</p>
-      <p>The official metric credits each truth pixel by its best nearby prediction. Pruning redundant dots <em>may</em> reduce false-positive mass while retaining that credit, but it can also lose useful coverage. Hidden labels prevent a causal conclusion or a justified claim of improvement.</p>
+      <p>GEMSDOE32 has the highest of the nine user-reported claims at <strong>0.2778</strong>, versus GEMSDOE25's reported <strong>0.2600</strong> (claimed difference +0.0178); neither has a submission-page receipt, so neither is ORGANIZER-CONFIRMED. The pixel audit shows B2's support equals GEMSDOE25's support after removing pixels within two pixels of the mapped-fault catalogue; GEMSDOE25 and GEMSDOE30 have identical support.</p>
+      <p>The official DTI weights false negatives by 0.8 and false positives by 0.2, with 300 m triangular support. True-positive credit is a per-truth-pixel maximum, so extra nearby dots can have diminishing benefit while off-fault mass adds false-positive cost. Collar pruning is therefore a plausible mechanism only if it removes low-value mass without losing needed coverage; hidden labels and absent receipts prevent causal attribution or a claim that the method will improve future scores.</p>
       <p class="subtle">GEMSDOE25 and GEMSDOE30 also have identical footprint values despite different file encodings. <a href="data/focus9_reaudit.json">Inspect the pixel audit →</a></p></section>
     <section class="panel"><p class="eyebrow">04 / Holdout correction</p><h2>Local evidence is not a leaderboard score.</h2>
       <p>The previous run recorded <strong>HOLDOUT-DTI 0.1174 [0.0994, 0.1361]</strong> (gems57-pooled-hide-v2, 11,360 withheld positives, 95% CI). That historical result is <strong>not comparable</strong> to the corrected evaluator and has not been rerun here.</p>
       <p>The previous mask also excluded catalogue cells removed from the model’s visible context by the buffer. The shared v3 evaluator now masks only visible catalogue pixels; buffer-removed cells remain unlabelled and are conservatively counted if predicted.</p>
-      <p class="subtle">The original pre-placement surface was not saved, and the older canaries did not separately cover every stage-2 feature. <a href="data/v3_mask_regression.json">View mask-only regression</a> · <a href="data/run_card.json">Open current run card →</a></p></section></div>
+      <p class="subtle">The original pre-placement surface was not saved, and the older canaries did not separately cover every stage-2 feature. <a href="data/v3_mask_regression.json">View mask-only regression</a> · <a href="data/run_card_20261030.json">Open current review card →</a></p></section></div>
     <section class="panel"><p class="eyebrow">05 / Archived negative experiment</p><h2>H-APART-6 OTSP did not clear promotion.</h2>
       <p>Before the lattice witness was discovered, exactly three orientation-transport experiments were measured. The best was <strong>HOLDOUT-DTI 0.110930 [0.094184, 0.128997]</strong> (gems57-pooled-hide-v2, 11,360 withheld positives, 95% CI), below its historical v2 comparator. Maximum feature-canary symmetric AUC was 0.672831, below the 0.90 suspicion threshold.</p>
       <p><strong>This result is archived and non-comparable to v3.</strong> No H-APART-6 raster was written, the later literal witness mandates a stop, and zero weekly slots were used.</p>
       <div class="actions"><a class="button secondary" href="data/run_card_h6_otsp.json">H6 run card</a><a class="button secondary" href="data/experiments_h6_otsp.json">Three-arm evidence</a></div></section>
     <section class="panel"><p class="eyebrow">06 / Research and next steps</p><h2>Evidence before another slot</h2>
-      <ol><li>Do not resume this lane after the duplicate stop. Establish a separately assigned method lane and a complete, hash-pinned accessible registry.</li><li>Rebuild each catalogue-based feature from visible faults, run all feature-only canaries, and compare to a same-v3 holdout baseline with a paired confidence interval.</li><li>Check literal registry thresholds on every pre-placement surface and on final dots; write a GeoTIFF only after local range/grid checks. A separate selector controls any slot.</li></ol>
+      <ol><li>Do not resume this lane after the duplicate stop. Establish a separately assigned method lane and a complete, hash-pinned accessible registry.</li><li>Restore the feature cache, rebuild catalogue-based features from visible faults, run all feature-only canaries, and compare against a same-v3 holdout baseline with a paired confidence interval.</li><li>Check literal registry thresholds on every pre-placement surface and on final dots; write a GeoTIFF only after local range/grid checks. A separate selector controls any slot.</li></ol>
+      <p><strong>Input readiness:</strong> 0/19 cached feature bands; training_features.tif absent in this checkout. The cache receipt in evidence is historical; without the actual 19-band stack, feature canaries and model holdout cannot be run here.</p>
       <p class="subtle" style="margin-top:14px">The witness leaves 6,514 allowed pixels outside its 3-pixel halo. At most 21,713 distinct dots could possibly meet the 70% rule against this one witness; this necessary bound is not a quality or uniqueness guarantee.</p>
       <div class="actions"><a class="button secondary" href="next-hypotheses.html">Read future hypotheses</a><a class="button secondary" href="research-sources.html">View research source register</a></div></section>
     <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or updating.</p><ul class="source-list">
@@ -125,5 +127,5 @@
         <li><a href="https://www.usgs.gov/3d-elevation-program">USGS · 3DEP elevation ↗</a></li>
         <li><a href="https://github.com/drivendataorg/gems-prize-reference-solution">DrivenData · reference solution ↗</a></li>
       </ul></section>
-<footer>Research decisions are automated; a local preflight is not an organizer receipt. <a href="data/run_card.json">Current run card</a> · <a href="research-sources.html">Source register</a></footer>
+<footer>Research decisions are automated; a local preflight is not an organizer receipt. <a href="data/run_card_20261030.json">Current review card</a> · <a href="data/run_card.json">Prior lane card</a> · <a href="research-sources.html">Source register</a></footer>
 </main><script src="feed.js" defer></script></body></html>
