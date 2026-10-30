@@ -2,7 +2,7 @@
 
 > **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF is locally format-valid against an owner-mirror template, but 99.68% of its dots overlap a registered lattice within three pixels, exceeding the 70% protocol limit. The surface gate is unverified. No new GeoTIFF or competition submission was made; archived H-APART-6 v2 experiments predated discovery of the witness.
 >
-> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Three-pass review](evidence/review_passes.md) · [Repo review 2026-10-30](evidence/repo_review_2026-10-30.md)
+> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Prior three-pass review](evidence/review_passes.md) · [2026-10-30 repo review](evidence/repository_review_2026-10-30.md) · [Overlap and metric verification 2026-10-30](evidence/repo_review_2026-10-30_overlap.md)
 >
 > [Download the **prior TIFF for research only — do not submit**](docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif) · SHA-256 `09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f`
 
@@ -39,12 +39,24 @@ These are the highest historical files **named in the user prompt**, not a compl
 
 The re-audit confirms GEMSDOE32 B2's support equals GEMSDOE25's support outside a two-pixel catalogue collar; GEMSDOE25 and GEMSDOE30 have identical footprint values. The user-reported GEMSDOE32 value of 0.2778 has no linked organizer receipt. The official max-kernel DTI makes reduced redundancy a plausible explanation, not proof; hidden labels are unavailable. No result here establishes that a new method will exceed it.
 
+## Official rule check (verified 2026-10-30)
+
+Quoted excerpts and sources are in [`evidence/official_rules_check.json`](evidence/official_rules_check.json).
+
+* **Format:** [official problem page](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) — "data outside the bounds is null or nan", values between 0 and 1, float32, single layer, EPSG 32611, 100 m.
+* **Metric:** same page — distance-weighted Tversky with α=0.2, β=0.8 and R = 300 m (3 px).
+* **Test labels:** same page — the scored faults are new faults "not included in the existing USGS fault database". The repository's holdout uses the existing catalogue, so it is only a proxy.
+* **Limits and originality:** [official rules PDF](https://docs.nlr.gov/docs/fy26osti/96647.pdf) — three submissions per week (§3.2), one final submission (§3.4), originality warranty (A.5 item 1), and a generative-AI disclosure in the narrative (§3.2).
+* **Reference solution:** [drivendataorg/gems-prize-reference-solution](https://github.com/drivendataorg/gems-prize-reference-solution) writes raw float predictions with no NaN step, georeferenced from the labels raster.
+* **Leaderboard:** [official public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) shows a top public DW-Tversky of **0.4544** (observed 2026-10-30). The prompt's 0.4413 and 0.3195 do not match it, and the prompt's site claims (0.2449–0.2778) are unconfirmed.
+* **Unresolved:** whether the portal accepts NaN outside the footprint, and which file produced the reported "Predicted values must be in range [0, 1]" error. A NaN-outside variant with identical in-footprint values reproduces the sample template's NaN mask exactly (verified locally, not uploaded).
+
 ## Current result and limitations
 
 * **HOLDOUT-DTI, historical only:** 0.1174 [0.0994, 0.1361], evaluator `gems57-pooled-hide-v2`, 11,360 withheld positives, 95% CI. This prior run used a scoring mask that included buffer-removed non-visible catalogue pixels; it is not a comparable v3 baseline or a leaderboard prediction. No v3 model run was performed after the duplicate stop.
 * **Literal uniqueness:** 37,533/37,654 prior dots overlap the [pinned lattice witness](https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif); only one witness is necessary to prove failure, but this is not a complete registry inventory. The word duplicate here means protocol overlap, not byte identity.
 * **Feasibility:** the lattice leaves 6,514 allowed cells outside its halo, so a 37,654-dot budget cannot pass. A budget no larger than 21,713 is necessary against this witness, not sufficient for quality or uniqueness.
-* **Format:** the prior file has one float32 band, finite [0,1] values, and matches the stored sample grid. This is local preflight only, not organizer acceptance. The authenticated organizer template and outside-bounds policy have not been independently verified here.
+* **Format:** the prior file has one float32 band, finite [0,1] values, and matches the stored sample grid. Its outside-footprint cells are zeros. The official rule requires null/NaN outside the bounds (verified below), so this file does **not** match the rule. This is local preflight only, not organizer acceptance.
 * **Access:** the [competition data page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/) redirected to login; no hidden labels, submission-page receipt, quota, or authorized upload session is available. Mirror hash equality does not prove official origin. The official reference solution supports CPU as well as GPU.
 * **Official sources:** [problem and DTI](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/), [USGS GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and), [DOE GDR INGENIOUS](https://gdr.openei.org/submissions/1391), and the [research source register](evidence/research_sources.md).
 

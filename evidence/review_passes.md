@@ -1,6 +1,8 @@
 # Three-pass implementation and review record
 
-Review date: 2026-10-28 UTC. No model experiment, replacement candidate, submission, or slot selection was performed in this review. The negative result is the release decision.
+Original implementation review date: 2026-10-28 UTC. That review performed no model experiment, replacement candidate, submission, or slot selection; the negative result was the release decision.
+
+Follow-up repository review: 2026-10-30 UTC. The newer review ran 24 tests, refreshed the leaderboard feed to explicit unavailable status after a TLS failure, rechecked the non-submission decision and local format-only TIFF validation, and confirms no new TIFF or experiment was produced. See [`repository_review_2026-10-30.md`](repository_review_2026-10-30.md).
 
 ## Pass 1 — inventory, scientific assumptions, and stop witness
 

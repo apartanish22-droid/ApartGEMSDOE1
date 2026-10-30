@@ -85,6 +85,7 @@ def main() -> int:
     audit = json.loads((ROOT / 'evidence/literal_witness_audit.json').read_text())
     focus = json.loads((ROOT / 'evidence/focus9_reaudit.json').read_text())
     h6 = json.loads((ROOT / 'evidence/run_card_h6_otsp.json').read_text())
+    rules = json.loads((ROOT / 'evidence/official_rules_check.json').read_text())
     if card['verdict'] != 'negative' or h6['verdict'] != 'negative' or not audit['stop_required'] or focus['errors']:
         raise RuntimeError('Dashboard builder cannot publish a release or ignore an incomplete audit')
     if focus['prior_candidate_sha256'] != audit['candidate_sha256']:
@@ -137,7 +138,7 @@ def main() -> int:
         <strong>No file is ready to submit.</strong><p>The existing candidate fails the literal registry overlap rule. No new GeoTIFF was generated and no competition slot was used. Archived H-APART-6 v2 experiments predated discovery of the witness.</p></aside>
     </section>
     <div class="metric-grid" aria-label="Release gates">
-      <div class="metric"><span class="label">Format · local only</span><strong class="success-text">PASS</strong><small>All finite; [0,1]; matches owner-mirror grid.</small></div>
+      <div class="metric"><span class="label">Format · local policy</span><strong class="success-text">PASS</strong><small>Single band; float32; [0,1]; zeros outside footprint. Official rule: null/NaN outside bounds, so this file does NOT match the rule.</small></div>
       <div class="metric"><span class="label">Literal uniqueness</span><strong class="danger-text">FAIL · {overlap:.2f}%</strong><small>Forward 3-pixel overlap; limit 70%.</small></div>
       <div class="metric"><span class="label">Current holdout</span><strong>Not run</strong><small>v3 proxy score unavailable after stop.</small></div>
       <div class="metric"><span class="label">Weekly slot</span><strong>Not selected</strong><small>Separate selector approval required.</small></div>
@@ -145,7 +146,7 @@ def main() -> int:
     <section class="panel" id="decision"><div class="section-heading"><div><p class="eyebrow">01 / Executive decision</p><h2>What can I download?</h2></div></div>
       <p><strong>No competition-ready file is available.</strong> The previous MAW-GSI TIFF remains accessible only to reproduce the negative audit. Do not upload it or any already-submitted historical file as a new entry.</p>
       <p class="subtle"><strong>Audit-only file:</strong> <code>{esc(file_name)}</code> · SHA-256 <code>{digest}</code></p>
-      <div class="actions"><a class="button secondary" href="{esc(research_path)}" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a></div>
+      <div class="actions"><a class="button secondary" href="{esc(research_path)}" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a><a class="button secondary" href="executive-summary.html#official-rules">Official rule check</a></div>
       <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> {audit['final_dot_gate']['candidate_dots_within_3px']:,} of {audit['final_dot_gate']['candidate_dots']:,} dots lie within three pixels of the <a href="{esc(witness['url'])}">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
     </section>
     <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest file named for each site in your prompt. Reported values are unconfirmed user claims, not organizer receipts. All estimates for future submissions are unavailable.</p></div></div>
@@ -169,27 +170,62 @@ def main() -> int:
       <p class="subtle" style="margin-top:14px">The witness leaves {audit['budget_feasibility']['uncovered_allowed_pixels']:,} allowed pixels outside its 3-pixel halo. At most {audit['budget_feasibility']['max_dots_for_possible_70pct_pass']:,} distinct dots could possibly meet the 70% rule against this one witness; this necessary bound is not a quality or uniqueness guarantee.</p>
       <div class="actions"><a class="button secondary" href="next-hypotheses.html">Read future hypotheses</a><a class="button secondary" href="research-sources.html">View research source register</a></div></section>
     <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or updating.</p>{source_links}</section>'''
+    claims = [r['prompt_reported_claim'] for r in focus['sites']]
+    nearest = [r['max_forward_overlap_3px_among_focus9'] * 100 for r in focus['sites']]
+    claim_lo, claim_hi = min(claims), max(claims)
+    near_lo, near_hi = min(nearest), max(nearest)
+    lb_top = rules['leaderboard_observed']['top_public_dti']
+    lb_date = rules['leaderboard_observed']['observed_utc']
+    glance = f'''<section class="panel" id="status-table"><p class="eyebrow">Answer first</p><h2>Can I download and submit a file today?</h2>
+      <p class="lead"><strong>No.</strong> No file in this repository is cleared for upload. Nothing here is a leaderboard estimate, and no new file was generated in this session.</p>
+      <div class="table-wrap"><table><thead><tr><th scope="col">File to download</th><th scope="col">Estimated leaderboard score</th><th scope="col">Unique vs the GEMSDOE sites?</th><th scope="col">OK to download and submit?</th></tr></thead><tbody>
+      <tr><td><strong>None cleared.</strong><br><small>Research-only prior file: <code>{esc(file_name)}</code></small></td><td>Not estimable. No v3 holdout score exists for any candidate.</td><td><span class="tag stop">NO</span> {overlap:.2f}% of dots lie within 3 px of a registered lattice (limit 70%).</td><td><span class="tag stop">NO · do not submit</span></td></tr>
+      <tr><td>Nine focus-site TIFFs<br><small>GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, 36 · see section 02</small></td><td>Not estimable. User-reported claims range {claim_lo:.4f} to {claim_hi:.4f}, unconfirmed.</td><td><span class="tag stop">NO</span> Each file's nearest focus-nine neighbour overlaps at {near_lo:.1f}% to {near_hi:.1f}% (directed, within 3 px).</td><td><span class="tag stop">NO · do not submit</span></td></tr>
+      <tr><td>A new unique GeoTIFF<br><small>Not generated: see the reasons below.</small></td><td>Not estimable without a holdout run.</td><td>Not checked against a complete registry.</td><td><span class="tag stop">NOT AVAILABLE</span></td></tr>
+      </tbody></table></div>
+      <p class="subtle">Official top public DW-Tversky: <strong>{lb_top:.4f}</strong> (observed {esc(lb_date)}). The prompt's values of 0.4413 and 0.3195 do not match that page.</p></section>
+    <section class="panel" id="official-rules"><p class="eyebrow">Official rule check · verified</p><h2>Does the file match the competition format?</h2>
+      <div class="table-wrap"><table><thead><tr><th scope="col">Requirement</th><th scope="col">Official requirement (verbatim quotes in the JSON)</th><th scope="col">Prior file in this repo</th><th scope="col">Match?</th></tr></thead><tbody>
+      <tr><td>CRS, resolution, bounds</td><td>EPSG 32611; 100 m; same bounds as the training data</td><td>EPSG:32611; 100 m; 3730 × 3292</td><td><span class="tag ok">YES</span></td></tr>
+      <tr><td>Layers and dtype</td><td>A single layer, float32</td><td>1 band, float32</td><td><span class="tag ok">YES</span></td></tr>
+      <tr><td>Values</td><td>values between 0 and 1</td><td>finite, min 0.0, max 1.0</td><td><span class="tag ok">YES</span></td></tr>
+      <tr><td>Outside the bounds</td><td>data outside the bounds is null or nan</td><td>zeros outside the footprint</td><td><span class="tag stop">NO</span> A NaN-outside variant with the same in-footprint values reproduces the sample's NaN mask exactly (verified locally; not uploaded).</td></tr>
+      <tr><td>Originality</td><td>the entire submission is an original work by the competitor (A.5, item 1)</td><td>Literal 3-px overlap test is an internal protocol, not an official rule</td><td><span class="tag warn">REVIEW</span></td></tr>
+      <tr><td>Generative-AI disclosure</td><td>indicate in the narrative the extent of any generative-AI use (3.2)</td><td>No narrative drafted</td><td><span class="tag warn">PENDING</span></td></tr>
+      <tr><td>Weekly cap and final choice</td><td>three submissions per week; one final submission (3.2, 3.4)</td><td>0 slots used</td><td><span class="tag ok">N/A</span></td></tr>
+      </tbody></table></div>
+      <p class="subtle">Sources: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem page ↗</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules PDF ↗</a> · <a href="data/official_rules_check.json">quoted excerpts (JSON) ↗</a></p></section>
+    <section class="panel" id="why-no-tif"><p class="eyebrow">Why no new TIF yet</p><h2>What blocks a unique, validated file</h2>
+      <ol><li><strong>No holdout score.</strong> The v3 evaluator has not been run on any new candidate. The training-feature stack now restores from the owner mirror (verified this session), but the mirror is not organizer-origin data.</li>
+      <li><strong>Uniqueness is not cleared.</strong> The literal gate needs a complete, pinned registry. Only one lattice witness and the nine focus files have been checked.</li>
+      <li><strong>Format is unresolved on the portal side.</strong> The rule-literal NaN convention is verified, but the portal's response to it has not been tested.</li>
+      <li><strong>The bar is high.</strong> The official public top is {lb_top:.4f}. A new file would have to clear that, not the 0.27–0.28 site claims.</li></ol>
+      <p class="subtle">Next, in order: (1) send the exact file name and SHA-256 that produced the "Predicted values must be in range [0, 1]" message; (2) build the complete registry inventory; (3) run a v3 holdout on a freshly trained candidate with leakage canaries.</p></section>
+    '''
     guide = f'''<section class="hero"><div><p class="eyebrow">Submission guide / Read before uploading</p><h1>Not yet. Here is the path to a valid submission.</h1>
       <p class="lead">The project must pass automated scientific, novelty, and file-format gates before a separate selector uses a weekly slot. No manual image inspection is required for this negative decision.</p></div>
       <aside class="status-card"><span class="status-label"><span class="status-dot"></span> Do not submit</span><strong>Current candidate is blocked.</strong><p>{overlap:.2f}% 3-pixel overlap exceeds the 70% limit. A format pass alone does not authorize an upload.</p></aside></section>
+    {glance}
     <section class="panel"><p class="eyebrow">Current file / audit only</p><h2>One-click research artifact</h2>
-      <p>The prior <code>{esc(file_name)}</code> is locally finite and in range, but it is a protocol duplicate and is <strong>not approved to submit</strong>.</p>
+      <p>The prior <code>{esc(file_name)}</code> is locally finite and in range, but it writes zeros outside the footprint (the official rule says null/NaN), and it is a protocol duplicate. It is <strong>not approved to submit</strong>.</p>
       <p class="subtle">SHA-256: <code>{digest}</code><br>Prior name: <code>{current_name}</code></p>
       <div class="actions"><a class="button secondary" href="{esc(research_path)}" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View validation report</a></div></section>
     <section class="panel"><p class="eyebrow">Automated gate checklist</p><h2>What must be true first?</h2>
       <div class="table-wrap"><table><thead><tr><th scope="col">Gate</th><th scope="col">Current status</th><th scope="col">Meaning</th></tr></thead><tbody>
-      <tr><td>Format and range</td><td><span class="tag warn">LOCAL PASS ONLY</span></td><td>Single-band float32; finite [0,1]; matches the restored mirror's CRS, shape, and transform. This is not an organizer receipt.</td></tr>
+      <tr><td>Format and range</td><td><span class="tag stop">RULE MISMATCH</span></td><td>Local checks pass (single-band float32, finite [0,1], mirror CRS/shape/transform). The official rule requires null/NaN outside bounds; this file writes zeros there. Not an organizer receipt.</td></tr>
       <tr><td>Surface and final uniqueness</td><td><span class="tag stop">FAIL</span></td><td>Final dots fail against a pinned registry raster; original pre-placement surface is unavailable.</td></tr>
       <tr><td>Leakage canary and holdout</td><td><span class="tag stop">NOT CLEARED</span></td><td>No corrected v3 result against a same-evaluator best; previous v2 numbers are historical only.</td></tr>
       <tr><td>Separate selector</td><td><span class="tag stop">NOT APPROVED</span></td><td>Do not use a weekly slot until all gates pass and a separate selector chooses a candidate.</td></tr></tbody></table></div></section>
     <section class="panel"><p class="eyebrow">Only after a future selector approval</p><h2>How to submit on DrivenData</h2>
       <ol class="steps"><li><div><strong>Download the newly approved file.</strong><br>Use the exact filename and SHA-256 in that future run card. The research file above is not that file.</div></li>
       <li><div><strong>Open the competition.</strong><br>Sign in to <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData</a>, open the submissions page, and check the current weekly cap and available slot.</div></li>
-      <li><div><strong>Choose the file.</strong><br>Upload the single-band GeoTIFF using the submission form, if the current portal instructions permit it. Use the authenticated organizer template and current rules to verify the grid and outside-bounds policy.</div></li>
+      <li><div><strong>Choose the file.</strong><br>Upload the single-band GeoTIFF using the submission form, if the current portal instructions permit it. Outside-bounds cells must be null/NaN under the official rule (verified). Compare against the sample template before uploading.</div></li>
       <li><div><strong>Use the future run card’s note.</strong><br>Paste its distinct comment of at most 140 characters into the optional Note field; the filename identifies the file. Do not reuse this negative audit’s note as an approval.</div></li>
       <li><div><strong>Record the receipt.</strong><br>Only the submission-page result tied to the file hash is an ORGANIZER-CONFIRMED score. A local holdout or a public team standing is not a receipt for this file.</div></li></ol></section>
     <section class="panel"><p class="eyebrow">Limitations</p><h2>What still needs access?</h2><p>The organizer data page redirects to login; the current bridge files are owner mirrors. This sandbox cannot authenticate the organizer template, see hidden labels, read your weekly quota, or upload on your behalf. External dataset catalogs were reviewed, but raw official provenance and licensing still need verification before use.</p>{source_links}</section>'''
     DOCS.mkdir(exist_ok=True)
+    (DOCS/'data').mkdir(exist_ok=True)
+    shutil.copyfile(ROOT/'evidence/official_rules_check.json', DOCS/'data/official_rules_check.json')
     (DOCS/'index.html').write_text(page('Overview', 'overview', index), encoding='utf-8')
     (DOCS/'executive-summary.html').write_text(page('Submission guide', 'guide', guide), encoding='utf-8')
     for name in ('research_sources.md', 'next_hypotheses.md'):
@@ -205,7 +241,7 @@ def main() -> int:
 
 > **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF is locally format-valid against an owner-mirror template, but {overlap:.2f}% of its dots overlap a registered lattice within three pixels, exceeding the 70% protocol limit. The surface gate is unverified. No new GeoTIFF or competition submission was made; archived H-APART-6 v2 experiments predated discovery of the witness.
 >
-> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Three-pass review](evidence/review_passes.md)
+> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Prior three-pass review](evidence/review_passes.md) · [2026-10-30 repo review](evidence/repository_review_2026-10-30.md) · [Overlap and metric verification 2026-10-30](evidence/repo_review_2026-10-30_overlap.md)
 >
 > [Download the **prior TIFF for research only — do not submit**](docs/downloads/{file_name}) · SHA-256 `{digest}`
 
@@ -234,12 +270,24 @@ These are the highest historical files **named in the user prompt**, not a compl
 
 The re-audit confirms GEMSDOE32 B2's support equals GEMSDOE25's support outside a two-pixel catalogue collar; GEMSDOE25 and GEMSDOE30 have identical footprint values. The user-reported GEMSDOE32 value of 0.2778 has no linked organizer receipt. The official max-kernel DTI makes reduced redundancy a plausible explanation, not proof; hidden labels are unavailable. No result here establishes that a new method will exceed it.
 
+## Official rule check (verified 2026-10-30)
+
+Quoted excerpts and sources are in [`evidence/official_rules_check.json`](evidence/official_rules_check.json).
+
+* **Format:** [official problem page](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) — "data outside the bounds is null or nan", values between 0 and 1, float32, single layer, EPSG 32611, 100 m.
+* **Metric:** same page — distance-weighted Tversky with α=0.2, β=0.8 and R = 300 m (3 px).
+* **Test labels:** same page — the scored faults are new faults "not included in the existing USGS fault database". The repository's holdout uses the existing catalogue, so it is only a proxy.
+* **Limits and originality:** [official rules PDF](https://docs.nlr.gov/docs/fy26osti/96647.pdf) — three submissions per week (§3.2), one final submission (§3.4), originality warranty (A.5 item 1), and a generative-AI disclosure in the narrative (§3.2).
+* **Reference solution:** [drivendataorg/gems-prize-reference-solution](https://github.com/drivendataorg/gems-prize-reference-solution) writes raw float predictions with no NaN step, georeferenced from the labels raster.
+* **Leaderboard:** [official public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) shows a top public DW-Tversky of **0.4544** (observed 2026-10-30). The prompt's 0.4413 and 0.3195 do not match it, and the prompt's site claims (0.2449–0.2778) are unconfirmed.
+* **Unresolved:** whether the portal accepts NaN outside the footprint, and which file produced the reported "Predicted values must be in range [0, 1]" error. A NaN-outside variant with identical in-footprint values reproduces the sample template's NaN mask exactly (verified locally, not uploaded).
+
 ## Current result and limitations
 
 * **HOLDOUT-DTI, historical only:** {holdout}, evaluator `{hist['evaluator_version']}`, {hist['withheld_positive_pixels']:,} withheld positives, 95% CI. This prior run used a scoring mask that included buffer-removed non-visible catalogue pixels; it is not a comparable v3 baseline or a leaderboard prediction. No v3 model run was performed after the duplicate stop.
 * **Literal uniqueness:** {audit['final_dot_gate']['candidate_dots_within_3px']:,}/{audit['final_dot_gate']['candidate_dots']:,} prior dots overlap the [pinned lattice witness]({witness['url']}); only one witness is necessary to prove failure, but this is not a complete registry inventory. The word duplicate here means protocol overlap, not byte identity.
 * **Feasibility:** the lattice leaves {audit['budget_feasibility']['uncovered_allowed_pixels']:,} allowed cells outside its halo, so a {audit['budget_feasibility']['requested_previous_budget']:,}-dot budget cannot pass. A budget no larger than {audit['budget_feasibility']['max_dots_for_possible_70pct_pass']:,} is necessary against this witness, not sufficient for quality or uniqueness.
-* **Format:** the prior file has one float32 band, finite [0,1] values, and matches the stored sample grid. This is local preflight only, not organizer acceptance. The authenticated organizer template and outside-bounds policy have not been independently verified here.
+* **Format:** the prior file has one float32 band, finite [0,1] values, and matches the stored sample grid. Its outside-footprint cells are zeros. The official rule requires null/NaN outside the bounds (verified below), so this file does **not** match the rule. This is local preflight only, not organizer acceptance.
 * **Access:** the [competition data page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/) redirected to login; no hidden labels, submission-page receipt, quota, or authorized upload session is available. Mirror hash equality does not prove official origin. The official reference solution supports CPU as well as GPU.
 * **Official sources:** [problem and DTI](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/), [USGS GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and), [DOE GDR INGENIOUS](https://gdr.openei.org/submissions/1391), and the [research source register](evidence/research_sources.md).
 
