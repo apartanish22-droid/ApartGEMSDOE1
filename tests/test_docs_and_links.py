@@ -70,6 +70,8 @@ def test_focus_nine_table_answers_uniqueness_and_estimate_questions():
 
 def test_official_leaderboard_snapshot_is_dated_and_not_file_scoring():
     snapshot = json.loads((ROOT / 'evidence/leaderboard_observation_20261030.json').read_text())
+    feed = json.loads((ROOT / 'docs/data/public_feed.json').read_text())
+    assert feed['status'] == 'unavailable' and feed['top_public_dti'] is None
     assert snapshot['observed_utc'] == '2026-10-30'
     assert snapshot['evidence_class'] == 'OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT'
     assert snapshot['observations'][0] == {'rank': 1, 'public_dw_tversky': 0.4544}

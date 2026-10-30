@@ -1,6 +1,8 @@
 # Three-pass implementation and review record
 
-Review date: 2026-10-28 UTC. No model experiment, replacement candidate, submission, or slot selection was performed in this review. The negative result is the release decision.
+Original implementation review date: 2026-10-28 UTC. That review performed no model experiment, replacement candidate, submission, or slot selection; the negative result was the release decision.
+
+Follow-up repository review: 2026-10-30 UTC. The newer review ran 24 tests, refreshed the leaderboard feed to explicit unavailable status after a TLS failure, rechecked the non-submission decision and local format-only TIFF validation, and confirms no new TIFF or experiment was produced. See [`repository_review_2026-10-30.md`](repository_review_2026-10-30.md).
 
 ## Pass 1 — inventory, scientific assumptions, and stop witness
 
@@ -42,7 +44,7 @@ No new model experiment, candidate raster, selector action, or competition submi
 
 * Fixed the README/dashboard generator to render each focus site's maximum directed 3-pixel overlap, its closest listed site, the 70% gate, and “DO NOT SUBMIT”; clarified that this is spatial near-duplicate status, not byte identity.
 * Added the same auditable nine-site table to the executive-summary/submission-guide page. The table distinguishes user-reported historical claims from a new-file score estimate; the latter remains unavailable because no same-version holdout-to-leaderboard calibration exists.
-* Corrected the user-cited leaderboard figures in the pages and current public-feed snapshot, and added `evidence/leaderboard_observation_20261030.json`. The official top public standing is not presented as a score for this repository's TIFF.
+* Corrected the user-cited leaderboard figures in the pages and added `evidence/leaderboard_observation_20261030.json` as a dated manual observation. The scheduled feed remains fail-closed and `unavailable` after its recorded TLS EOF; the official top public standing is not presented as a score for this repository's TIFF.
 * Hardened the scheduled feed parser to accept either the official HTML table or a rendered pipe-table fragment while still requiring one labeled rank-one Tversky value; corrected the malformed HTML unit fixture.
 * Added a generated input-readiness disclosure for the missing feature stack. Kept all historical TIFF download links explicitly labeled research-only; generated no new TIFF and did not spend a slot.
 * Added regression tests for all nine uniqueness rows, the no-estimate state, the dated leaderboard observation, both HTML summary pages, and HTML/pipe-table feed parsing.
@@ -54,3 +56,25 @@ No new model experiment, candidate raster, selector action, or competition submi
 * `validate_submission.py ... --format-only` returned a local format/range pass for the **historical** TIFF (one float32 band, EPSG:32611, shape 3730×3292, matching stored sample transform, finite [0,1]); the full preflight still reports `ok_to_submit=false`, no registry clearance, no holdout evaluation, and no selector approval.
 * Added `evidence/run_card_20261030.json` as the current review-only negative card; it references the existing audit TIFF and explicitly records that no new raster or model score was produced. The older `evidence/run_card.json` remains the historical lane card.
 * Final status remains **negative / no file ready**. The candidate's pre-placement surface is still unavailable, the complete registry is still inaccessible, the 19-band cache is absent, and no corrected v3 HOLDOUT-DTI run was authorized after the literal duplicate stop. The 2026-10-28 v2 holdout result remains historical and non-comparable; no new leader-score estimate is made.
+
+## Main-branch reconciliation review — 2026-10-30 UTC
+
+A concurrent review merged into `main` while this branch was active. The current branch incorporated that base and reconciled, rather than overwrote, its findings and this review's focus-nine/current-card work.
+
+### Pass 1 — compare scopes and resolve evidence
+
+* Preserved the other review's official-rule quotes, fresh-checked format tests, CLI writer correction, and focus-overlap audit. The other review's scratch-copy mirror restore does not mean this working checkout contains feature data: the current checkout still has 0/19 cached bands and no training feature TIFF.
+* Reconciled the official sample-mask finding: the archived TIFF's local float32/range/grid checks pass, but it writes zeros outside the stored footprint; the official page and checked sample require null/NaN outside. Portal acceptance remains untested. Added the mismatch to the current review card and submission guide.
+* Kept the scheduled public feed fail-closed (`status=unavailable`) while retaining the separately dated manual leaderboard observation. They are distinct evidence sources.
+
+### Pass 2 — combine the release documentation
+
+* Unified the generated dashboard and README: retained the per-site 3-pixel focus-nine table, the 2026-10-30 review card, and the leaderboard observation; added the official format/rules table, quoted evidence links, and the independent pinned-witness audit showing 99.91–99.92% overlap for each of the nine historical rasters.
+* Corrected the GEMSDOE32 mechanism note: user-reported 0.2778 versus 0.2600 implies +0.0178 but neither is confirmed. The DTI's β=0.8 false-negative weight makes recall important; max-kernel credit saturates per truth pixel. The collar-pruning explanation remains a hypothesis, not causal proof.
+* No model or feature experiment, new TIFF, submission, or selector action was added. Hypotheses remain future work after a separately assigned lane and complete registry.
+
+### Pass 3 — validate the merged result
+
+* `pytest -q`: **32 passed**, with 12 rasterio/Affine pending-deprecation warnings. Python compileall, `node --check docs/feed.js`, the generator, and `git diff --check` passed.
+* The official-format regression verifies the local NaN-outside variant matches the stored sample mask; it was not uploaded. The review card keeps local checks separate from the official mismatch, registry failure, missing v3 holdout, and selector approval.
+* Delivery remains fail-closed: no file is ready to submit; no new score estimate or organizer receipt exists.

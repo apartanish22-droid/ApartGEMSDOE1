@@ -14,16 +14,16 @@
         <strong>No file is ready to submit.</strong><p>The existing candidate fails the literal registry overlap rule. No new GeoTIFF was generated and no competition slot was used. Archived H-APART-6 v2 experiments predated discovery of the witness.</p></aside>
     </section>
     <div class="metric-grid" aria-label="Release gates">
-      <div class="metric"><span class="label">Format · local only</span><strong class="success-text">PASS</strong><small>All finite; [0,1]; matches owner-mirror grid.</small></div>
+      <div class="metric"><span class="label">Format · official rule check</span><strong class="danger-text">MISMATCH</strong><small>Local float32/range/grid checks pass; archived TIFF writes zeros outside the footprint, while the official page requires null/NaN.</small></div>
       <div class="metric"><span class="label">Literal uniqueness</span><strong class="danger-text">FAIL · 99.68%</strong><small>Forward 3-pixel overlap; limit 70%.</small></div>
       <div class="metric"><span class="label">Current holdout</span><strong>Not run</strong><small>v3 proxy score unavailable after stop.</small></div>
       <div class="metric"><span class="label">Weekly slot</span><strong>Not selected</strong><small>Separate selector approval required.</small></div>
     </div>
-    <p class="callout" style="margin-bottom:20px"><strong>Leaderboard correction (2026-10-30 UTC):</strong> the official public table showed <strong>0.4544 at rank 1</strong>; the cited <strong>0.3195 appeared at rank 48</strong>, not as the leader. The user-cited 0.4413 was not displayed in the fetched top 50. These are team standings, not a score for a TIFF in this repository. <a href="data/leaderboard_observation_20261030.json">View the dated observation.</a></p>
+    <p class="callout" style="margin-bottom:20px"><strong>Leaderboard correction (2026-10-30 UTC):</strong> the official public table showed <strong>0.4544 at rank 1</strong>; the cited <strong>0.3195 appeared at rank 48</strong>, not as the leader. The user-cited 0.4413 was not displayed in the fetched top 50. These are team standings, not a score for a TIFF in this repository. Scheduled feed is unavailable; URLError: &lt;urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)&gt;. <a href="data/leaderboard_observation_20261030.json">View the dated observation.</a></p>
     <section class="panel" id="decision"><div class="section-heading"><div><p class="eyebrow">01 / Executive decision</p><h2>What can I download?</h2></div></div>
       <p><strong>No competition-ready file is available.</strong> The previous MAW-GSI TIFF remains accessible only to reproduce the negative audit. Do not upload it or any already-submitted historical file as a new entry.</p>
       <p class="subtle"><strong>Audit-only file:</strong> <code>apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif</code> · SHA-256 <code>09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f</code></p>
-      <div class="actions"><a class="button secondary" href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a></div>
+      <div class="actions"><a class="button secondary" href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a><a class="button secondary" href="data/official_rules_check.json">View official-rule check</a><a class="button secondary" href="data/run_card_20261030.json">View current review card</a></div>
       <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> 37,533 of 37,654 dots lie within three pixels of the <a href="https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
     </section>
     <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest historical file named for each site in your prompt. GEMSDOE32 has the highest user-reported claim (0.2778), but it is unconfirmed. All nine fail the focus-nine 70% directed-overlap uniqueness gate. New submission estimates are not defensibly available.</p></div></div>
@@ -122,10 +122,12 @@
     <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or updating.</p><ul class="source-list">
         <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData · problem &amp; metric ↗</a></li>
         <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData · public leaderboard ↗</a></li>
+        <li><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">DOE · official prize rules ↗</a></li>
         <li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS · GeoDAWN release ↗</a></li>
         <li><a href="https://gdr.openei.org/submissions/1391">DOE GDR · INGENIOUS data ↗</a></li>
         <li><a href="https://www.usgs.gov/3d-elevation-program">USGS · 3DEP elevation ↗</a></li>
         <li><a href="https://github.com/drivendataorg/gems-prize-reference-solution">DrivenData · reference solution ↗</a></li>
+        <li><a href="data/official_rules_check.json">Quoted official rules and dated leaderboard evidence ↗</a></li>
       </ul></section>
 <footer>Research decisions are automated; a local preflight is not an organizer receipt. <a href="data/run_card_20261030.json">Current review card</a> · <a href="data/run_card.json">Prior lane card</a> · <a href="research-sources.html">Source register</a></footer>
 </main><script src="feed.js" defer></script></body></html>

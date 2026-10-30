@@ -1,8 +1,8 @@
 # ApartGEMSDOE1 · Geothermal fault discovery
 
-> **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF is locally format-valid against an owner-mirror template, but 99.68% of its dots overlap a registered lattice within three pixels, exceeding the 70% protocol limit. The surface gate is unverified. No new GeoTIFF or competition submission was made; archived H-APART-6 v2 experiments predated discovery of the witness.
+> **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF passes local float32/range/grid checks but writes zeros outside the footprint, contrary to the official null/NaN outside-bounds instruction. Also, 99.68% of its dots overlap a registered lattice within three pixels, exceeding the 70% protocol limit. The pre-placement surface gate is unverified. No new GeoTIFF or competition submission was made; archived H-APART-6 v2 experiments predated discovery of the witness.
 >
-> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current review run card](evidence/run_card_20261030.json) · [Prior lane card](evidence/run_card.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Three-pass review](evidence/review_passes.md)
+> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current review run card](evidence/run_card_20261030.json) · [Prior lane card](evidence/run_card.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Three-pass review](evidence/review_passes.md) · [Official-rule check](evidence/official_rules_check.json) · [Focus-raster overlap data](evidence/focus_overlap_review_2026-10-30.json) · [2026-10-30 overlap review](evidence/repo_review_2026-10-30_overlap.md) · [Official-rules repo review](evidence/repo_review_2026-10-30.md)
 >
 > [Download the **prior TIFF for research only — do not submit**](docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif) · SHA-256 `09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f`
 
@@ -23,7 +23,7 @@ Before implementation, the user requests 3–5 previously untried geological hyp
 
 ## Official public leaderboard observation
 
-On **2026-10-30 UTC**, the official public table showed **0.4544 at rank 1** and **0.3195 at rank 48**. The prompt's 0.3195 value is therefore not the leader in this observation; 0.4413 was not present in the displayed top 50. These are public team standings, not file-level submission receipts and not score estimates for this repository. See the [dated observation record](evidence/leaderboard_observation_20261030.json) and the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/).
+On **2026-10-30 UTC**, the official public table showed **0.4544 at rank 1** and **0.3195 at rank 48**. The prompt's 0.3195 value is therefore not the leader in this observation; 0.4413 was not present in the displayed top 50. These are public team standings, not file-level submission receipts and not score estimates for this repository. The scheduled feed status in this checkout is **unavailable** (URLError: &lt;urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)&gt;); it must not be conflated with this direct, date-stamped observation. See the [dated observation record](evidence/leaderboard_observation_20261030.json), [feed snapshot](docs/data/public_feed.json), and [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/).
 
 ## Executive summary · nine requested sites
 
@@ -43,13 +43,25 @@ These are the highest historical files **named in the user prompt**, not a compl
 
 The re-audit confirms GEMSDOE32 B2's support equals GEMSDOE25's support outside a two-pixel catalogue collar; GEMSDOE25 and GEMSDOE30 have identical footprint values. The user-reported claims imply +0.0178 for B2 over GEMSDOE25, but neither is ORGANIZER-CONFIRMED. Under the official DTI (α=0.2 false-positive weight, β=0.8 false-negative weight), the per-truth max kernel gives diminishing benefit to extra nearby dots; pruning might reduce low-value mass, but can also reduce crucial recall. Geometry and reported scores cannot establish causation. No result here establishes that a new method will exceed 0.2778.
 
+A separate pinned-witness audit found 99.91–99.92% of each of the nine historical focus-site rasters' dots within 3 pixels of the same lattice witness. This is protocol overlap evidence, not byte identity and not a complete registry scan; see [`evidence/focus_overlap_review_2026-10-30.json`](evidence/focus_overlap_review_2026-10-30.json).
+
+## Official rule check · read 2026-10-30
+
+Quoted source excerpts are in [`evidence/official_rules_check.json`](evidence/official_rules_check.json).
+
+* **Task:** the competition target is geological fault prediction, not direct geothermal-vent detection. The new expert-labeled test faults are described as not included in the existing USGS database; a holdout on mapped faults is a proxy, not a calibrated estimate of the hidden test.
+* **Metric:** DTI uses α=0.2 for false positives, β=0.8 for false negatives, and a 300 m triangular kernel. The false-negative term is weighted four times the false-positive term; removing dots can improve or worsen score depending on coverage.
+* **Raster:** a single float32 band, values in [0,1], same bounds/resolution/CRS as training data (EPSG:32611, 100 m), and null/NaN outside bounds. The prior file's zero fill outside the stored sample footprint violates that documented outside-bounds convention; its local mirror-grid/range pass is not organizer acceptance.
+* **Rules:** up to three submissions per week and one final submission; the official rules include an originality warranty and require disclosure of generative-AI use in the narrative. No slot was used and no narrative/receipt exists.
+* **Unresolved:** the organizer data page is login-gated and portal acceptance has not been tested. The reference sample uses NaN outside its footprint; an automated variant reproduces that mask locally but was not uploaded.
+
 ## Current result and limitations
 
 * **HOLDOUT-DTI, historical only:** 0.1174 [0.0994, 0.1361], evaluator `gems57-pooled-hide-v2`, 11,360 withheld positives, 95% CI. This prior run used a scoring mask that included buffer-removed non-visible catalogue pixels; it is not a comparable v3 baseline or a leaderboard prediction. No v3 model run was performed after the duplicate stop.
 * **Literal uniqueness:** 37,533/37,654 prior dots overlap the [pinned lattice witness](https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif); only one witness is necessary to prove failure, but this is not a complete registry inventory. The word duplicate here means protocol overlap, not byte identity.
 * **Feasibility:** the lattice leaves 6,514 allowed cells outside its halo, so a 37,654-dot budget cannot pass. A budget no larger than 21,713 is necessary against this witness, not sufficient for quality or uniqueness.
-* **Format:** the prior file has one float32 band, finite [0,1] values, and matches the stored sample grid. This is local preflight only, not organizer acceptance. The authenticated organizer template and outside-bounds policy have not been independently verified here.
-* **Inputs/access:** the [competition data page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/) redirects to login; no hidden labels, submission-page receipt, quota, or authorized upload session is available. In this checkout, 0/19 cached feature bands; training_features.tif absent; `evidence/feature_cache.json` is a historical receipt, not the feature tensors. Mirror hashes do not prove official origin.
+* **Format:** the prior file has one float32 band, finite [0,1] values, and matches the stored owner-mirror sample grid. Local format-only preflight passes, but its zero fill outside the footprint does not match the documented official null/NaN convention. This file is not safe to submit.
+* **Inputs/access:** the [competition data page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/) redirects to login; no hidden labels, submission-page receipt, quota, or authorized upload session is available. In this checkout, 0/19 cached feature bands; training_features.tif absent; a separate scratch-copy restore from pinned owner mirrors is recorded in `evidence/repo_review_2026-10-30.md`, but those bytes are not organizer-origin data. `evidence/feature_cache.json` is a historical receipt, not the tensors in this checkout.
 * **Official sources:** [problem and DTI](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/), [USGS GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and), [DOE GDR INGENIOUS](https://gdr.openei.org/submissions/1391), and the [research source register](evidence/research_sources.md).
 
 ## Archived H-APART-6 OTSP experiment

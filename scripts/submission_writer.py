@@ -13,6 +13,7 @@ if str(ROOT / "src") not in sys.path:
 
 import numpy as np
 
+from gems57 import grid as grid_module
 from gems57 import load_grid
 from gems57.submission_writer import write_submission
 
@@ -27,10 +28,13 @@ def main() -> int:
 
     grid = load_grid()
     arr = np.load(args.npy)
+    # Fixed: the sample grid lives in data/bridge (the same directory load_grid
+    # hash-checks). The old path data/sample_submission.tif only exists after
+    # prepare_data.py has created symlinks, so the CLI failed on a fresh checkout.
     receipt = write_submission(
         args.out_tif,
         arr,
-        ROOT / "data/sample_submission.tif",
+        grid_module.DATA_DIR / "sample_submission.tif",
         grid.footprint,
         name=args.name,
         note=args.note,

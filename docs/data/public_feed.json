@@ -1,9 +1,10 @@
 {
-  "status": "ok",
-  "observed_utc": "2026-10-30",
-  "timestamp_precision": "date",
+  "status": "unavailable",
+  "observed_utc": "2026-10-30T01:51:36.500608+00:00",
   "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "data_endpoint": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard_partial/",
   "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",
-  "top_public_dti": 0.4544,
-  "caveat": "Official public leaderboard page read on 2026-10-30: rank 1 showed 0.4544 and 0.3195 appeared at rank 48. Public standings are not a score for any file in this repository; see the dated observation record."
+  "top_public_dti": null,
+  "reason": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+  "caveat": "Refresh failed. Do not treat an earlier number as current; use the linked official leaderboard."
 }

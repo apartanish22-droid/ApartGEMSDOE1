@@ -1,0 +1,233 @@
+{
+  "radius_px": 3.0,
+  "witness": {
+    "path": "https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "positives": 206895,
+    "repository": "buffedlizard55-lab/13GEMSDOE",
+    "commit": "92ee6f074323f161eed837b80ec3ee5b662e26f5",
+    "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+    "source_url": "https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif"
+  },
+  "rasters": {
+    "gems24.tif": {
+      "dots": 60069,
+      "within_3px_of_witness": 0.9992175664652316
+    },
+    "gems25.tif": {
+      "dots": 44090,
+      "within_3px_of_witness": 0.9991608074393287
+    },
+    "gems27.tif": {
+      "dots": 61328,
+      "within_3px_of_witness": 0.9992336290112184
+    },
+    "gems28.tif": {
+      "dots": 37660,
+      "within_3px_of_witness": 0.9990971853425386
+    },
+    "gems30.tif": {
+      "dots": 44090,
+      "within_3px_of_witness": 0.9991608074393287
+    },
+    "gems31.tif": {
+      "dots": 40199,
+      "within_3px_of_witness": 0.9991790840568173
+    },
+    "gems32.tif": {
+      "dots": 37654,
+      "within_3px_of_witness": 0.9991501566898603
+    },
+    "gems33.tif": {
+      "dots": 41865,
+      "within_3px_of_witness": 0.9991400931565747
+    },
+    "gems36.tif": {
+      "dots": 38854,
+      "within_3px_of_witness": 0.9991764039738509
+    },
+    "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif": {
+      "dots": 37654,
+      "within_3px_of_witness": 0.9967865299835342
+    }
+  },
+  "pairwise_directed_within_3px": {
+    "gems24.tif -> gems25.tif": 1.0,
+    "gems24.tif -> gems27.tif": 1.0,
+    "gems24.tif -> gems28.tif": 0.9347916562619654,
+    "gems24.tif -> gems30.tif": 1.0,
+    "gems24.tif -> gems31.tif": 0.9407847641878506,
+    "gems24.tif -> gems32.tif": 0.88476585260284,
+    "gems24.tif -> gems33.tif": 0.9623932477650702,
+    "gems24.tif -> gems36.tif": 0.8856148762256738,
+    "gems24.tif -> apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif": 0.34874893872047147,
+    "gems25.tif -> gems24.tif": 1.0,
+    "gems25.tif -> gems27.tif": 1.0,
+    "gems25.tif -> gems28.tif": 0.9318212746654571,
+    "gems25.tif -> gems30.tif": 1.0,
+    "gems25.tif -> gems31.tif": 0.937151281469721,
+    "gems25.tif -> gems32.tif": 0.8817192107053754,
+    "gems25.tif -> gems33.tif": 0.9605806305284645,
+    "gems25.tif -> gems36.tif": 0.8826491267861193,
+    "gems25.tif -> apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif": 0.34164209571331366,
+    "gems27.tif -> gems24.tif": 0.9801884946517089,
+    "gems27.tif -> gems25.tif": 0.9801558831202714,
+    "gems27.tif -> gems28.tif": 0.9161557526741456,
+    "gems27.tif -> gems30.tif": 0.9801558831202714,
+    "gems27.tif -> gems31.tif": 0.9220910513957735,
+    "gems27.tif -> gems32.tif": 0.8671895382207149,
+    "gems27.tif -> gems33.tif": 0.9432885468301592,
+    "gems27.tif -> gems36.tif": 0.8680374380380903,
+    "gems27.tif -> apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif": 0.3471660579180798,
+    "gems28.tif -> gems24.tif": 1.0,
+    "gems28.tif -> gems25.tif": 1.0,
+    "gems28.tif -> gems27.tif": 1.0,
+    "gems28.tif -> gems30.tif": 1.0,
+    "gems28.tif -> gems31.tif": 0.9975570897503983,
+    "gems28.tif -> gems32.tif": 0.9547265002655337,
+    "gems28.tif -> gems33.tif": 0.9984067976633032,
+    "gems28.tif -> gems36.tif": 0.9552044609665428,
+    "gems28.tif -> apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif": 0.36046202867764204,
+    "gems30.tif -> gems24.tif": 1.0,
+    "gems30.tif -> gems25.tif": 1.0,
+    "gems30.tif -> gems27.tif": 1.0,
+    "gems30.tif -> gems28.tif": 0.9318212746654571,
+    "gems30.tif -> gems31.tif": 0.937151281469721,
+    "gems30.tif -> gems32.tif": 0.8817192107053754,
+    "gems30.tif -> gems33.tif": 0.9605806305284645,
+    "gems30.tif -> gems36.tif": 0.8826491267861193,
+    "gems30.tif -> apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif": 0.34164209571331366,
+    "gems31.tif -> gems24.tif": 1.0,
+    "gems31.tif -> gems25.tif": 1.0,
+    "gems31.tif -> gems27.tif": 1.0,
+    "gems31.tif -> gems28.tif": 0.9956217816363591,
+    "gems31.tif -> gems30.tif": 1.0,
+    "gems31.tif -> gems32.tif": 0.9539043259782581,
+    "gems31.tif -> gems33.tif": 0.9990547028533048,
+    "gems31.tif -> gems36.tif": 0.9544018507923082,
+    "gems31.tif -> apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif": 0.36170053981442324,
+    "gems32.tif -> gems24.tif": 1.0,
+    "gems32.tif -> gems25.tif": 1.0,
+    "gems32.tif -> gems27.tif": 1.0,
+    "gems32.tif -> gems28.tif": 0.9987517926382323,
+    "gems32.tif -> gems30.tif": 1.0,
+    "gems32.tif -> gems31.tif": 1.0,
+    "gems32.tif -> gems33.tif": 0.9998406543793488,
+    "gems32.tif -> gems36.tif": 1.0,
+    "gems32.tif -> apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif": 0.36792903808360333,
+    "gems33.tif -> gems24.tif": 0.9970619849516302,
+    "gems33.tif -> gems25.tif": 0.997038098650424,
+    "gems33.tif -> gems27.tif": 0.9970858712528365,
+    "gems33.tif -> gems28.tif": 0.9705004180102711,
+    "gems33.tif -> gems30.tif": 0.997038098650424,
+    "gems33.tif -> gems31.tif": 0.9747999522273976,
+    "gems33.tif -> gems32.tif": 0.9264301922847247,
+    "gems33.tif -> gems36.tif": 0.9271228950197062,
+    "gems33.tif -> apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif": 0.3543293920936343,
+    "gems36.tif -> gems24.tif": 0.9756781798527822,
+    "gems36.tif -> gems25.tif": 0.9749832707057189,
+    "gems36.tif -> gems27.tif": 0.9757811293560509,
+    "gems36.tif -> gems28.tif": 0.9731301796468832,
+    "gems36.tif -> gems30.tif": 0.9749832707057189,
+    "gems36.tif -> gems31.tif": 0.9745714726926442,
+    "gems36.tif -> gems32.tif": 0.9740309878004839,
+    "gems36.tif -> gems33.tif": 0.9750347454573531,
+    "gems36.tif -> apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif": 0.36637154475729655,
+    "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif -> gems24.tif": 0.49941573272427897,
+    "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif -> gems25.tif": 0.48557922133106707,
+    "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif -> gems27.tif": 0.508498433101397,
+    "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif -> gems28.tif": 0.4736017421787858,
+    "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif -> gems30.tif": 0.48557922133106707,
+    "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif -> gems31.tif": 0.4787539172465077,
+    "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif -> gems32.tif": 0.46709512933552877,
+    "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif -> gems33.tif": 0.4836405162798109,
+    "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif -> gems36.tif": 0.4740532214372975
+  },
+  "feasibility": {
+    "footprint_cells": 5167373,
+    "footprint_cells_beyond_3px_of_witness": 6649,
+    "of_which_not_catalogue": 6514,
+    "max_budget_for_70pct_cap_using_non_catalogue_outside_cells": 21713
+  },
+  "method": {
+    "script": "scripts/audit_focus_overlap.py",
+    "definition": "For each raster, fraction of positive finite cells within Euclidean distance <= 3 pixels of positive cells in the comparison raster.",
+    "threshold_source": "Repository parallel-run protocol; internal novelty gate, not an organizer scoring rule.",
+    "threshold_forward_overlap": 0.7,
+    "model_experiments_run": 0,
+    "submission_slots_used": 0
+  },
+  "input_sources": [
+    {
+      "site": "GEMSDOE24",
+      "filename": "gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "pinned_commit": "9e185929eeaa6244f96c3022cf3462faa8ca4de0",
+      "sha256": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE24/blob/9e185929eeaa6244f96c3022cf3462faa8ca4de0/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif"
+    },
+    {
+      "site": "GEMSDOE25",
+      "filename": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "pinned_commit": "fb1db37274776a29dbc48abe55b2e531f2ba6aad",
+      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE25/blob/fb1db37274776a29dbc48abe55b2e531f2ba6aad/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif"
+    },
+    {
+      "site": "GEMSDOE27",
+      "filename": "gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "pinned_commit": "6704fa2a5133e751df2516feb2e32565ad5fc1df",
+      "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE27/blob/6704fa2a5133e751df2516feb2e32565ad5fc1df/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif"
+    },
+    {
+      "site": "GEMSDOE28",
+      "filename": "gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "pinned_commit": "9509b73eaf35f66d0b23fce63b2540ceff2a88e0",
+      "sha256": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE28/blob/9509b73eaf35f66d0b23fce63b2540ceff2a88e0/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif"
+    },
+    {
+      "site": "GEMSDOE30",
+      "filename": "gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "pinned_commit": "31696c6541cfc54620ff850a748c51625461f27f",
+      "sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE30/blob/31696c6541cfc54620ff850a748c51625461f27f/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif"
+    },
+    {
+      "site": "GEMSDOE31",
+      "filename": "gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "pinned_commit": "06930b9d03473a9313094a4f2312c4fc6efd4fbb",
+      "sha256": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE31/blob/06930b9d03473a9313094a4f2312c4fc6efd4fbb/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif"
+    },
+    {
+      "site": "GEMSDOE32",
+      "filename": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "pinned_commit": "97597a066d1c61d2c226fdba349716f41b30c1c6",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/97597a066d1c61d2c226fdba349716f41b30c1c6/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif"
+    },
+    {
+      "site": "GEMSDOE33",
+      "filename": "GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "pinned_commit": "3eaf85efb49f364b84f8be04e8b084b12d0303b9",
+      "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE33/blob/3eaf85efb49f364b84f8be04e8b084b12d0303b9/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif"
+    },
+    {
+      "site": "GEMSDOE36",
+      "filename": "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "pinned_commit": "e280188adbbe762e6b7ac6f3b8e105e8e7915026",
+      "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE36/blob/e280188adbbe762e6b7ac6f3b8e105e8e7915026/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif"
+    },
+    {
+      "site": "ApartGEMSDOE1 prior audit candidate",
+      "filename": "apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+      "sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
+      "url": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+      "provenance": "Existing repository artifact; audit-only, not newly generated."
+    }
+  ],
+  "generated_utc": "2026-10-30T02:12:31.618753+00:00",
+  "evidence_class": "REGISTRY SPATIAL-OVERLAP AUDIT; NO MODEL SCORE OR SUBMISSION RECEIPT"
+}

@@ -200,6 +200,11 @@ def test_current_negative_card_and_historical_format_are_not_a_promotion():
     assert review['correlation_overlap_vs_registry']['final_dots']['forward_overlap_3px'] > .70
     assert review['validator_output']['all_local_format_checks_passed'] is True
     assert review['validator_output']['full_preflight_ok_to_submit'] is False
+    official = review['validator_output']['official_rule_review']
+    assert official['official_outside_bounds_requirement'] == 'null or NaN'
+    assert official['historical_candidate_outside_footprint'] == 'zero'
+    assert official['matches_documented_convention'] is False
+    assert 'official format convention mismatch' in review['validator_output']['blockers'][-1]
     assert len(review['submission_note']) == review['submission_note_chars'] <= 140
     assert card['holdout_dti']['dti'] is None and card['holdout_dti']['ci95'] is None
     hist = card['holdout_dti']['historical_noncomparable']
