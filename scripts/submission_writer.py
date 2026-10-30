@@ -18,7 +18,7 @@ from gems57.submission_writer import write_submission
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Write validated all-finite [0,1] GeoTIFF submission.")
+    ap = argparse.ArgumentParser(description="Write a validated float32 [0,1] GeoTIFF with NaN nodata outside the valid footprint.")
     ap.add_argument("npy", type=Path, help="Input 2-D float32 numpy array")
     ap.add_argument("out_tif", type=Path, help="Output GeoTIFF path")
     ap.add_argument("--name", required=True, help="Submission name (<=140 chars)")

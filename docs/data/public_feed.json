@@ -1,9 +1,10 @@
 {
   "status": "ok",
-  "observed_utc": "2026-10-28",
+  "observed_utc": "2026-10-30",
   "timestamp_precision": "date",
   "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
   "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",
   "top_public_dti": 0.4544,
-  "caveat": "Public leaderboard observed on this date, not a forecast or a score for a file in this repository. The scheduled refresh may be unavailable until Pages deployment is enabled."
+  "observation_method": "Rank-one public leaderboard row inspected through the official public page; this is not a submission-page receipt or a score for a TIFF in this repository.",
+  "caveat": "The user prompt lists 0.4413 and 0.3195 as current highs; those conflict with the rank-one public-page value observed on 2026-10-30. Public leaderboard standings may change. No future score estimate is inferred."
 }

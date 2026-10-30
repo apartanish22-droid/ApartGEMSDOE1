@@ -202,10 +202,15 @@ def test_current_negative_card_and_historical_format_are_not_a_promotion():
     grid = load_grid()
     tif = ROOT / card['validator_output']['file']
     report = validate(tif, footprint=grid.footprint, catalogue=grid.catalogue)
-    assert_submittable(report)
     assert report['sha256'] == card['raster_sha256']
     assert report['n_nan'] == report['n_infinite'] == 0
     assert report['min'] == 0 and report['max'] == 1
+    assert report['checks']['values_in_0_1_inside_footprint']
+    assert report['checks']['no_nan_inside_footprint']
+    assert not report['checks']['outside_footprint_is_nan']
+    assert not report['checks']['nodata_tag_is_nan']
+    with pytest.raises(AssertionError, match='outside_footprint_is_nan'):
+        assert_submittable(report)
     assert not json.loads((ROOT / 'evidence/uniqueness_gate.json').read_text())['overall_uniqueness_passed']
 
 
@@ -214,6 +219,11 @@ def test_nine_site_audit_and_stopped_cli():
     assert audit['fetched_and_checked'] == 9 and not audit['errors']
     assert {r['site'] for r in audit['sites']} == {f'GEMSDOE{n}' for n in (24, 25, 27, 28, 30, 31, 32, 33, 36)}
     assert all(r['unique_among_focus9'] is False for r in audit['sites'])
+    format_passes = [r['site'] for r in audit['sites'] if r['local_format']['format_pass']]
+    format_fails = [r for r in audit['sites'] if not r['local_format']['format_pass']]
+    assert len(format_passes) == 5 and len(format_fails) == 4
+    assert all(r['local_format']['format_failure_checks'] == ['outside_footprint_is_nan', 'nodata_tag_is_nan']
+               for r in format_fails)
     assert all('USER-REPORTED' in r['score_evidence'] and 'not ORGANIZER-CONFIRMED' in r['score_evidence'] for r in audit['sites'])
     assert audit['geometry_proof']['xor_differing_pixels'] == 0
     assert audit['geometry_proof']['gems25_vs_gems30_support_xor'] == 0
@@ -225,6 +235,9 @@ def test_nine_site_audit_and_stopped_cli():
     ordinary = subprocess.run(validator, capture_output=True, text=True)
     result = json.loads(ordinary.stdout)
     assert ordinary.returncode != 0 and result['ok_to_submit'] is False
-    assert result['format']['all_checks_passed'] and result['selector_approval'] is False
+    assert not result['format']['all_checks_passed']
+    assert result['format']['checks']['values_in_0_1_inside_footprint']
+    assert not result['format']['checks']['outside_footprint_is_nan']
+    assert result['selector_approval'] is False
     format_only = subprocess.run([*validator, '--format-only'], capture_output=True, text=True)
-    assert format_only.returncode == 0 and json.loads(format_only.stdout)['ok_to_submit'] is False
+    assert format_only.returncode != 0 and json.loads(format_only.stdout)['ok_to_submit'] is False

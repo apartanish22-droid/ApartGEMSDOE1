@@ -1,9 +1,10 @@
 """Fail-closed GeoTIFF packaging for a potential GEMS submission.
 
-The writer never clips, fills, or otherwise repairs model output.  It validates
-in memory, writes to private temporary paths, validates the on-disk TIFF and ZIP,
-and only then atomically replaces the requested outputs.  Local format validity
-is not a uniqueness clearance or organizer acceptance.
+The writer never clips probabilities or repairs invalid values.  It validates
+in memory, writes the organizer-template NaN/nodata mask outside the valid
+footprint, validates the saved TIFF and one-TIFF ZIP, and only then atomically
+replaces the requested outputs.  Local format validity is not a uniqueness
+clearance or organizer acceptance.
 """
 from __future__ import annotations
 
@@ -30,10 +31,14 @@ def write_submission(path, prediction, sample, footprint, *, note, name,
                      catalogue=None, metadata=None):
     """Write a locally validated single-band GeoTIFF and one-TIFF ZIP.
 
-    ``name`` and ``note`` are limited to 140 characters.  The prediction must
-    already be a 2-D finite float field in ``[0,1]``, aligned with the footprint,
-    and have no positive support outside it.  If ``catalogue`` is supplied, the
-    candidate must also have zero positive pixels on mapped faults.
+    ``name`` and ``note`` are limited to 140 characters.  Predictions inside
+    the 2-D footprint must be finite and in [0,1].  Finite input values anywhere
+    must also be in range, infinities are rejected, and positive support outside
+    the footprint is rejected.  Exterior zeros/NaNs are serialized as NaN with
+    a NaN nodata tag, matching the public format rule and pinned sample.  If
+    ``catalogue`` is supplied, positive pixels on mapped faults are rejected.
+    This does not authenticate the owner-mirror template or guarantee portal
+    acceptance.
     """
     if not isinstance(name, str) or not name.strip() or len(name) > 140:
         raise ValueError('name must contain 1..140 non-whitespace characters')
@@ -46,9 +51,15 @@ def write_submission(path, prediction, sample, footprint, *, note, name,
         raise ValueError('prediction and footprint must be matching 2-D arrays')
     if not np.issubdtype(p.dtype, np.number):
         raise ValueError('prediction must be numeric')
-    if not np.isfinite(p).all() or (p < 0).any() or (p > 1).any():
-        raise ValueError('prediction must already be normalized, finite and in [0,1]; no silent repair')
-    if np.any((p > 0) & ~fp):
+    if np.isinf(p).any():
+        raise ValueError('prediction contains infinity')
+    finite = np.isfinite(p)
+    finite_values = p[finite]
+    if finite_values.size and ((finite_values < 0.0).any() or (finite_values > 1.0).any()):
+        raise ValueError('finite prediction values must already be in [0,1]; no clipping or silent repair')
+    if not finite[fp].all():
+        raise ValueError('prediction contains NaN inside the valid footprint')
+    if np.any((p > 0) & finite & ~fp):
         raise ValueError('positive prediction mass outside the valid footprint')
     cat = None
     if catalogue is not None:
@@ -57,6 +68,11 @@ def write_submission(path, prediction, sample, footprint, *, note, name,
             raise ValueError('catalogue shape must match the prediction grid')
         if np.any((p > 0) & cat):
             raise ValueError('positive prediction mass on the mapped catalogue')
+
+    # Preserve all in-footprint predictions exactly (apart from float32
+    # serialization); put explicit NaN nodata outside to match the public spec.
+    export = np.full(p.shape, np.nan, dtype=np.float32)
+    export[fp] = p[fp].astype(np.float32, copy=False)
 
     path = Path(path)
     if path.suffix.lower() not in {'.tif', '.tiff'}:
@@ -77,8 +93,8 @@ def write_submission(path, prediction, sample, footprint, *, note, name,
         tmp_tif = _temp_path(path.parent, path.stem, path.suffix)
         tmp_zip = _temp_path(path.parent, path.stem, '.zip')
         tmp_receipt = _temp_path(path.parent, path.stem, '.json')
-        # grid.write_geotiff itself rejects shape, dtype, NaN/inf, and range drift.
-        grid.write_geotiff(tmp_tif, p.astype(np.float32, copy=False), nodata=None)
+        # The shared writer rechecks shape, dtype, range, footprint, and NaN nodata.
+        grid.write_geotiff(tmp_tif, export, nodata=float('nan'), footprint=fp)
         report = gates.format_report(tmp_tif, sample, footprint=fp)
         if not report['ok']:
             raise ValueError(f'on-disk template validator rejected output: {report["problems"]}')
@@ -87,10 +103,14 @@ def write_submission(path, prediction, sample, footprint, *, note, name,
             assert_submittable(local_validation)
         except AssertionError as exc:
             raise ValueError(f'on-disk range/format validator rejected output: {exc}') from exc
-        if report.get('n_nonzero', 0) != int((p > 0).sum()):
-            raise ValueError('on-disk positive support changed during serialization')
+        expected_positive = int(((p > 0) & fp).sum())
+        if report.get('n_nonzero', 0) != expected_positive:
+            raise ValueError('on-disk in-footprint positive support changed during serialization')
         local_validation['file'] = str(path)
+        local_validation['outside_footprint_policy'] = 'NaN pixel values with NaN nodata tag'
+        local_validation['outside_footprint_nan_pixels'] = int((~fp).sum())
         report['path'] = str(path)
+        report['outside_footprint_policy'] = 'NaN pixel values with NaN nodata tag'
 
         # A submission ZIP contains ONLY the one TIFF; evidence stays adjacent.
         with zipfile.ZipFile(tmp_zip, 'w', compression=zipfile.ZIP_DEFLATED) as z:

@@ -1,0 +1,17 @@
+{
+  "observed_utc": "2026-10-30",
+  "timestamp_precision": "date",
+  "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",
+  "rank_one_public_dw_tversky": 0.4544,
+  "observation_method": "The official public leaderboard table was inspected through the page retrieval tool during this review. The observed rank-one row showed 0.4544.",
+  "not_established": [
+    "No submission name or TIFF hash is linked to this public top score by the retrieved page.",
+    "This is not an ORGANIZER-CONFIRMED receipt for any file in this repository.",
+    "This observation does not estimate a future candidate score."
+  ],
+  "prompt_discrepancy": {
+    "user_prompt_values": [0.4413, 0.3195],
+    "status": "These user-supplied values conflict with the official public leaderboard observation dated 2026-10-30; do not call either current without a new page observation."
+  }
+}

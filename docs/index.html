@@ -14,16 +14,16 @@
         <strong>No file is ready to submit.</strong><p>The existing candidate fails the literal registry overlap rule. No new GeoTIFF was generated and no competition slot was used. Archived H-APART-6 v2 experiments predated discovery of the witness.</p></aside>
     </section>
     <div class="metric-grid" aria-label="Release gates">
-      <div class="metric"><span class="label">Format · local only</span><strong class="success-text">PASS</strong><small>All finite; [0,1]; matches owner-mirror grid.</small></div>
+      <div class="metric"><span class="label">Format · legacy TIFF</span><strong class="danger-text">FAIL</strong><small>In-footprint [0,1] and grid pass, but 7,111,787 exterior cells are zero; NaN nodata is required.</small></div>
       <div class="metric"><span class="label">Literal uniqueness</span><strong class="danger-text">FAIL · 99.68%</strong><small>Forward 3-pixel overlap; limit 70%.</small></div>
       <div class="metric"><span class="label">Current holdout</span><strong>Not run</strong><small>v3 proxy score unavailable after stop.</small></div>
       <div class="metric"><span class="label">Weekly slot</span><strong>Not selected</strong><small>Separate selector approval required.</small></div>
     </div>
     <section class="panel" id="decision"><div class="section-heading"><div><p class="eyebrow">01 / Executive decision</p><h2>What can I download?</h2></div></div>
-      <p><strong>No competition-ready file is available.</strong> The previous MAW-GSI TIFF remains accessible only to reproduce the negative audit. Do not upload it or any already-submitted historical file as a new entry.</p>
+      <p><strong>No competition-ready file is available.</strong> The previous MAW-GSI TIFF is available only to reproduce the negative audit. Do not submit it: it fails both the literal uniqueness rule and the corrected outside-footprint format check.</p>
       <p class="subtle"><strong>Audit-only file:</strong> <code>apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif</code> · SHA-256 <code>09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f</code></p>
-      <div class="actions"><a class="button secondary" href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a></div>
-      <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> 37,533 of 37,654 dots lie within three pixels of the <a href="https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
+      <div class="actions"><a class="button secondary" href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif" download>Download prior TIFF · research only · DO NOT SUBMIT</a><a class="button secondary" href="data/literal_witness_audit.json">View uniqueness evidence</a><a class="button secondary" href="data/format_irregularity_audit.json">View format audit</a></div>
+      <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> 37,533 of 37,654 dots lie within three pixels of the <a href="https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif">registered 13GEMSDOE lattice</a>. The legacy file also has 7,111,787 zero-valued exterior cells and no NaN nodata tag; the public format calls for null/NaN outside. Neither local audit is an organizer receipt.</div>
     </section>
     <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest file named for each site in your prompt. Reported values are unconfirmed user claims, not organizer receipts. All estimates for future submissions are unavailable.</p></div></div>
       <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt claim</th><th scope="col">Future score estimate</th><th scope="col">Unique among focus nine?</th><th scope="col">Decision</th></tr></thead><tbody><tr>
@@ -120,6 +120,8 @@
     <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or updating.</p><ul class="source-list">
         <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData · problem &amp; metric ↗</a></li>
         <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData · public leaderboard ↗</a></li>
+        <li><a href="data/public_feed.json">Dated public-feed snapshot · not a submission receipt</a></li>
+        <li><a href="data/official_leaderboard_observation.json">Observation provenance</a></li>
         <li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS · GeoDAWN release ↗</a></li>
         <li><a href="https://gdr.openei.org/submissions/1391">DOE GDR · INGENIOUS data ↗</a></li>
         <li><a href="https://www.usgs.gov/3d-elevation-program">USGS · 3DEP elevation ↗</a></li>

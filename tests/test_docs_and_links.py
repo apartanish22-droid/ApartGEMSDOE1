@@ -42,10 +42,15 @@ def test_html_pages_are_negative_have_local_links_and_no_localhost():
             target = (docs / clean).resolve()
             assert target.exists() and target.stat().st_size > 0, f'broken {ref} in {name}'
     index = (docs / 'index.html').read_text()
+    assert 'outside_footprint' in (docs / 'data/format_irregularity_audit.json').read_text()
+    assert 'FAIL' in index and 'NaN' in index and 'DO NOT SUBMIT' in index
     for site in (24, 25, 27, 28, 30, 31, 32, 33, 36):
         assert f'GEMSDOE{site}' in index
     assert '0.2778' in index and 'user-reported; unconfirmed' in index
     assert 'not comparable' in index and '11,360' in index
+    public = json.loads((docs / 'data/public_feed.json').read_text())
+    assert public['top_public_dti'] == 0.4544
+    assert public['evidence_class'] == 'OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT'
     assert 'top_public_dti' in (docs / 'feed.js').read_text()
 
 
@@ -96,9 +101,20 @@ def test_all_evidence_json_strict_and_unsafe_receipts_not_promoted():
         for path in folder.rglob('*.json'):
             obj = json.loads(path.read_text(), parse_constant=lambda c: (_ for _ in ()).throw(ValueError(c)))
             assert obj is not None, path
+    canonical = json.loads((ROOT / 'evidence/run_card.json').read_text())
     for p in (ROOT / 'docs/data/run_card.json', ROOT / 'docs/data/current-run-card.json'):
-        assert json.loads(p.read_text())['verdict'] == 'negative'
-    assert 'DO_NOT_SUBMIT' in json.loads((ROOT / 'docs/data/validation_receipt.json').read_text())['ready_to_submit_verdict']
+        published = json.loads(p.read_text())
+        assert published['verdict'] == 'negative'
+        assert published['raster_sha256'] == canonical['raster_sha256']
+        assert published['validator_output']['checks']['outside_footprint_is_nan'] is False
+    public_receipt = json.loads((ROOT / 'docs/data/validation_receipt.json').read_text())
+    assert public_receipt['evidence_status'] == 'SUPERSEDED_HISTORICAL_ALL_FINITE_POLICY'
+    assert public_receipt['format_policy_status'] == 'SUPERSEDED_HISTORICAL_ALL_FINITE_ZERO_EXTERIOR_POLICY'
+    assert public_receipt['current_format_validation']['current_format_pass'] is False
+    assert public_receipt['current_format_validation']['current_format_failure_checks'] == [
+        'outside_footprint_is_nan', 'nodata_tag_is_nan'
+    ]
+    assert 'DO_NOT_SUBMIT' in public_receipt['ready_to_submit_verdict']
     sidecar = next((ROOT / 'docs/downloads').glob('*maw-gsi*.json'))
     assert json.loads(sidecar.read_text())['approved_for_weekly_slot'] is False
 

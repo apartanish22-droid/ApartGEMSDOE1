@@ -85,10 +85,16 @@ def main() -> int:
     audit = json.loads((ROOT / 'evidence/literal_witness_audit.json').read_text())
     focus = json.loads((ROOT / 'evidence/focus9_reaudit.json').read_text())
     h6 = json.loads((ROOT / 'evidence/run_card_h6_otsp.json').read_text())
+    format_audit = json.loads((ROOT / 'evidence/format_irregularity_audit.json').read_text())
+    public_feed = json.loads((DOCS / 'data/public_feed.json').read_text())
     if card['verdict'] != 'negative' or h6['verdict'] != 'negative' or not audit['stop_required'] or focus['errors']:
         raise RuntimeError('Dashboard builder cannot publish a release or ignore an incomplete audit')
     if focus['prior_candidate_sha256'] != audit['candidate_sha256']:
         raise RuntimeError('Focus audit and literal witness audit refer to different candidates')
+    if format_audit['legacy_candidate']['sha256'] != card['raster_sha256']:
+        raise RuntimeError('Format audit and negative run card refer to different candidate bytes')
+    if format_audit['legacy_candidate']['format_pass']:
+        raise RuntimeError('The historical artifact is not cleared for download or submission')
     rows = sorted(focus['sites'], key=lambda r: int(r['site'].replace('GEMSDOE', '')))
     table = []
     md_rows = []
@@ -119,9 +125,23 @@ def main() -> int:
     witness = audit['witness']
     current_name = esc(card['submission_name'])
     research_path = 'downloads/' + file_name
+    format_result = format_audit['legacy_candidate']['validation']
+    format_failures = format_audit['legacy_candidate']['failure_checks']
+    outside_pixels = format_result.get('outside_footprint_pixels', 0)
+    outside_nan_pixels = format_result.get('outside_footprint_nan_pixels', 0)
+    public_score = public_feed.get('top_public_dti') if public_feed.get('status') == 'ok' else None
+    public_date = public_feed.get('observed_utc', 'date unavailable')
+    leaderboard_summary = (
+        f"**PUBLIC-LEADERBOARD observation:** {public_score:.4f} on {public_date}; not an organizer receipt for any file here. "
+        "The prompt's 0.4413 and 0.3195 claims conflict with this observed public page."
+        if public_score is not None else
+        "**PUBLIC-LEADERBOARD observation:** unavailable in the current feed; do not reuse a stale top score."
+    )
     source_links = '''<ul class="source-list">
         <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData · problem &amp; metric ↗</a></li>
         <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData · public leaderboard ↗</a></li>
+        <li><a href="data/public_feed.json">Dated public-feed snapshot · not a submission receipt</a></li>
+        <li><a href="data/official_leaderboard_observation.json">Observation provenance</a></li>
         <li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS · GeoDAWN release ↗</a></li>
         <li><a href="https://gdr.openei.org/submissions/1391">DOE GDR · INGENIOUS data ↗</a></li>
         <li><a href="https://www.usgs.gov/3d-elevation-program">USGS · 3DEP elevation ↗</a></li>
@@ -137,16 +157,16 @@ def main() -> int:
         <strong>No file is ready to submit.</strong><p>The existing candidate fails the literal registry overlap rule. No new GeoTIFF was generated and no competition slot was used. Archived H-APART-6 v2 experiments predated discovery of the witness.</p></aside>
     </section>
     <div class="metric-grid" aria-label="Release gates">
-      <div class="metric"><span class="label">Format · local only</span><strong class="success-text">PASS</strong><small>All finite; [0,1]; matches owner-mirror grid.</small></div>
+      <div class="metric"><span class="label">Format · legacy TIFF</span><strong class="danger-text">FAIL</strong><small>In-footprint [0,1] and grid pass, but {outside_pixels:,} exterior cells are zero; NaN nodata is required.</small></div>
       <div class="metric"><span class="label">Literal uniqueness</span><strong class="danger-text">FAIL · {overlap:.2f}%</strong><small>Forward 3-pixel overlap; limit 70%.</small></div>
       <div class="metric"><span class="label">Current holdout</span><strong>Not run</strong><small>v3 proxy score unavailable after stop.</small></div>
       <div class="metric"><span class="label">Weekly slot</span><strong>Not selected</strong><small>Separate selector approval required.</small></div>
     </div>
     <section class="panel" id="decision"><div class="section-heading"><div><p class="eyebrow">01 / Executive decision</p><h2>What can I download?</h2></div></div>
-      <p><strong>No competition-ready file is available.</strong> The previous MAW-GSI TIFF remains accessible only to reproduce the negative audit. Do not upload it or any already-submitted historical file as a new entry.</p>
+      <p><strong>No competition-ready file is available.</strong> The previous MAW-GSI TIFF is available only to reproduce the negative audit. Do not submit it: it fails both the literal uniqueness rule and the corrected outside-footprint format check.</p>
       <p class="subtle"><strong>Audit-only file:</strong> <code>{esc(file_name)}</code> · SHA-256 <code>{digest}</code></p>
-      <div class="actions"><a class="button secondary" href="{esc(research_path)}" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a></div>
-      <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> {audit['final_dot_gate']['candidate_dots_within_3px']:,} of {audit['final_dot_gate']['candidate_dots']:,} dots lie within three pixels of the <a href="{esc(witness['url'])}">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
+      <div class="actions"><a class="button secondary" href="{esc(research_path)}" download>Download prior TIFF · research only · DO NOT SUBMIT</a><a class="button secondary" href="data/literal_witness_audit.json">View uniqueness evidence</a><a class="button secondary" href="data/format_irregularity_audit.json">View format audit</a></div>
+      <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> {audit['final_dot_gate']['candidate_dots_within_3px']:,} of {audit['final_dot_gate']['candidate_dots']:,} dots lie within three pixels of the <a href="{esc(witness['url'])}">registered 13GEMSDOE lattice</a>. The legacy file also has {outside_pixels:,} zero-valued exterior cells and no NaN nodata tag; the public format calls for null/NaN outside. Neither local audit is an organizer receipt.</div>
     </section>
     <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest file named for each site in your prompt. Reported values are unconfirmed user claims, not organizer receipts. All estimates for future submissions are unavailable.</p></div></div>
       <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt claim</th><th scope="col">Future score estimate</th><th scope="col">Unique among focus nine?</th><th scope="col">Decision</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
@@ -171,24 +191,25 @@ def main() -> int:
     <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or updating.</p>{source_links}</section>'''
     guide = f'''<section class="hero"><div><p class="eyebrow">Submission guide / Read before uploading</p><h1>Not yet. Here is the path to a valid submission.</h1>
       <p class="lead">The project must pass automated scientific, novelty, and file-format gates before a separate selector uses a weekly slot. No manual image inspection is required for this negative decision.</p></div>
-      <aside class="status-card"><span class="status-label"><span class="status-dot"></span> Do not submit</span><strong>Current candidate is blocked.</strong><p>{overlap:.2f}% 3-pixel overlap exceeds the 70% limit. A format pass alone does not authorize an upload.</p></aside></section>
-    <section class="panel"><p class="eyebrow">Current file / audit only</p><h2>One-click research artifact</h2>
-      <p>The prior <code>{esc(file_name)}</code> is locally finite and in range, but it is a protocol duplicate and is <strong>not approved to submit</strong>.</p>
-      <p class="subtle">SHA-256: <code>{digest}</code><br>Prior name: <code>{current_name}</code></p>
-      <div class="actions"><a class="button secondary" href="{esc(research_path)}" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View validation report</a></div></section>
+      <aside class="status-card"><span class="status-label"><span class="status-dot"></span> Do not submit</span><strong>Current artifact is blocked.</strong><p>{overlap:.2f}% 3-pixel overlap exceeds the 70% limit, and the legacy TIFF fails the outside-footprint NaN/nodata format check.</p></aside></section>
+    <section class="panel"><p class="eyebrow">Current file / audit only</p><h2>One-click research artifact — not a submission</h2>
+      <p>The prior <code>{esc(file_name)}</code> has finite [0,1] values inside the footprint and the grid metadata matches the owner mirror, but it has {outside_pixels:,} zero-valued exterior cells and no NaN nodata tag. It is also a literal registry duplicate. <strong>Do not upload it.</strong></p>
+      <p class="subtle">SHA-256: <code>{digest}</code><br>Prior name: <code>{current_name}</code><br>Format check failures: <code>{esc(', '.join(format_failures))}</code></p>
+      <div class="actions"><a class="button secondary" href="{esc(research_path)}" download>Download prior TIFF · research only · DO NOT SUBMIT</a><a class="button secondary" href="data/format_irregularity_audit.json">View format audit</a><a class="button secondary" href="data/literal_witness_audit.json">View uniqueness audit</a></div></section>
     <section class="panel"><p class="eyebrow">Automated gate checklist</p><h2>What must be true first?</h2>
       <div class="table-wrap"><table><thead><tr><th scope="col">Gate</th><th scope="col">Current status</th><th scope="col">Meaning</th></tr></thead><tbody>
-      <tr><td>Format and range</td><td><span class="tag warn">LOCAL PASS ONLY</span></td><td>Single-band float32; finite [0,1]; matches the restored mirror's CRS, shape, and transform. This is not an organizer receipt.</td></tr>
+      <tr><td>Format and range</td><td><span class="tag stop">FAIL · LEGACY TIFF</span></td><td>In-footprint values and grid pass, but {outside_pixels:,} exterior pixels are zero rather than NaN and the nodata tag is absent. Shared writer was corrected; no new candidate is generated.</td></tr>
       <tr><td>Surface and final uniqueness</td><td><span class="tag stop">FAIL</span></td><td>Final dots fail against a pinned registry raster; original pre-placement surface is unavailable.</td></tr>
       <tr><td>Leakage canary and holdout</td><td><span class="tag stop">NOT CLEARED</span></td><td>No corrected v3 result against a same-evaluator best; previous v2 numbers are historical only.</td></tr>
       <tr><td>Separate selector</td><td><span class="tag stop">NOT APPROVED</span></td><td>Do not use a weekly slot until all gates pass and a separate selector chooses a candidate.</td></tr></tbody></table></div></section>
     <section class="panel"><p class="eyebrow">Only after a future selector approval</p><h2>How to submit on DrivenData</h2>
       <ol class="steps"><li><div><strong>Download the newly approved file.</strong><br>Use the exact filename and SHA-256 in that future run card. The research file above is not that file.</div></li>
       <li><div><strong>Open the competition.</strong><br>Sign in to <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData</a>, open the submissions page, and check the current weekly cap and available slot.</div></li>
-      <li><div><strong>Choose the file.</strong><br>Upload the single-band GeoTIFF using the submission form, if the current portal instructions permit it. Use the authenticated organizer template and current rules to verify the grid and outside-bounds policy.</div></li>
+      <li><div><strong>Run the automated local preflight.</strong><br><code>python scripts/validate_submission.py candidate.tif --format-only</code> must pass: finite [0,1] values inside the footprint, NaN outside, matching CRS/shape/transform. This check never authorizes a slot or proves portal acceptance.</div></li>
+      <li><div><strong>Choose the file only after the separate selector approves it.</strong><br>Upload the new single-band GeoTIFF using the submission form only if the current portal instructions permit it. The currently downloadable audit artifact is not eligible.</div></li>
       <li><div><strong>Use the future run card’s note.</strong><br>Paste its distinct comment of at most 140 characters into the optional Note field; the filename identifies the file. Do not reuse this negative audit’s note as an approval.</div></li>
       <li><div><strong>Record the receipt.</strong><br>Only the submission-page result tied to the file hash is an ORGANIZER-CONFIRMED score. A local holdout or a public team standing is not a receipt for this file.</div></li></ol></section>
-    <section class="panel"><p class="eyebrow">Limitations</p><h2>What still needs access?</h2><p>The organizer data page redirects to login; the current bridge files are owner mirrors. This sandbox cannot authenticate the organizer template, see hidden labels, read your weekly quota, or upload on your behalf. External dataset catalogs were reviewed, but raw official provenance and licensing still need verification before use.</p>{source_links}</section>'''
+    <section class="panel"><p class="eyebrow">Limitations and irregularities</p><h2>What still needs access?</h2><p>The official data page is login-protected; the checked local template is an owner mirror, not authenticated organizer data. Its alleged sample-submission raster contains {format_audit['owner_mirror_integrity']['sample']['positive_pixels']:,} positive cells exactly on the mapped catalogue, contrary to the official page's description of a total-absence sample. Hidden labels, a submission-page receipt, weekly quota, and upload authorization are unavailable here. The reported portal range error cannot be causally diagnosed without the exact uploaded bytes and organizer receipt.</p><p>The shared writer now emits NaN/nodata outside the footprint and rejects out-of-range or missing in-footprint predictions; a synthetic test-only TIFF passed the local contract. No competition candidate was generated. This is not organizer-confirmed acceptance.</p>{source_links}</section>'''
     DOCS.mkdir(exist_ok=True)
     (DOCS/'index.html').write_text(page('Overview', 'overview', index), encoding='utf-8')
     (DOCS/'executive-summary.html').write_text(page('Submission guide', 'guide', guide), encoding='utf-8')
@@ -200,14 +221,49 @@ def main() -> int:
         rendered += f'<p class="subtle"><a href="{slug}">View the source Markdown</a></p>'
         title = 'Research sources' if name.startswith('research') else 'Future hypotheses'
         (DOCS/slug.replace('.md', '.html')).write_text(page(title, 'sources' if name.startswith('research') else '', rendered), encoding='utf-8')
+
+    # Keep downloadable public evidence synchronized from its canonical source.
+    docs_data = DOCS / 'data'
+    docs_data.mkdir(exist_ok=True)
+    public_evidence = (
+        'run_card.json', 'literal_witness_audit.json', 'focus9_reaudit.json',
+        'format_irregularity_audit.json', 'official_leaderboard_observation.json',
+        'run_card_h6_otsp.json',
+        'experiments_h6_otsp.json', 'experiments_holdout.json',
+        'focus_sites_forensic_audit.json', 'v3_mask_regression.json',
+        'leakage_canary.json', 'hypotheses_preregistration.json',
+        'hypotheses_preregistration_h6.json', 'uniqueness_gate.json',
+        'sibling_runs_uniqueness.json', 'concealed_piedmont_benchmarks.json',
+    )
+    for name in public_evidence:
+        source = ROOT / 'evidence' / name
+        if source.is_file():
+            shutil.copyfile(source, docs_data / name)
+    current_card_text = (ROOT / 'evidence/run_card.json').read_text(encoding='utf-8')
+    current_card_data = json.loads(current_card_text)
+    (docs_data / 'current-run-card.json').write_text(current_card_text, encoding='utf-8')
+    (docs_data / 'run_summary.json').write_text(json.dumps({
+        'run_card': current_card_data,
+        'status': 'negative_stop_no_file_ready_to_submit',
+        'source': 'evidence/run_card.json',
+    }, indent=2, allow_nan=False) + '\n', encoding='utf-8')
+    historical_receipt = json.loads((ROOT / 'evidence/validation_receipt.json').read_text(encoding='utf-8'))
+    historical_receipt['evidence_status'] = 'SUPERSEDED_HISTORICAL_ALL_FINITE_POLICY'
+    historical_receipt['superseded_by'] = 'format_irregularity_audit.json'
+    historical_receipt['current_format_decision'] = 'DO_NOT_SUBMIT: legacy TIFF exterior is zero rather than NaN/nodata.'
+    (docs_data / 'validation_receipt.json').write_text(
+        json.dumps(historical_receipt, indent=2, allow_nan=False) + '\n', encoding='utf-8')
+
     (ROOT/'index.html').write_text('''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0; url=docs/index.html"><title>GEMS Field Notes</title></head><body><p><strong>DO NOT SUBMIT:</strong> the prior file failed the literal uniqueness gate. <a href="docs/index.html">Open the project dashboard</a>.</p></body></html>\n''')
     readme = f'''# ApartGEMSDOE1 · Geothermal fault discovery
 
-> **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF is locally format-valid against an owner-mirror template, but {overlap:.2f}% of its dots overlap a registered lattice within three pixels, exceeding the 70% protocol limit. The surface gate is unverified. No new GeoTIFF or competition submission was made; archived H-APART-6 v2 experiments predated discovery of the witness.
+> **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF fails the literal 3-pixel overlap rule ({overlap:.2f}%, limit 70%) and fails the official outside-footprint format rule: {outside_pixels:,} exterior cells are zero rather than NaN. The surface gate is unverified. No new candidate or competition submission was made; archived H-APART-6 v2 experiments predated discovery of the witness.
 >
-> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Three-pass review](evidence/review_passes.md)
+> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Format irregularity audit](evidence/format_irregularity_audit.json) · [Three-pass review](evidence/review_passes.md)
 >
-> [Download the **prior TIFF for research only — do not submit**](docs/downloads/{file_name}) · SHA-256 `{digest}`
+> [Download the **prior TIFF for research only — DO NOT SUBMIT**](docs/downloads/{file_name}) · SHA-256 `{digest}`
+
+> {leaderboard_summary}
 
 ## Standing reference: task and parallel-run protocol (read first)
 
@@ -239,7 +295,7 @@ The re-audit confirms GEMSDOE32 B2's support equals GEMSDOE25's support outside 
 * **HOLDOUT-DTI, historical only:** {holdout}, evaluator `{hist['evaluator_version']}`, {hist['withheld_positive_pixels']:,} withheld positives, 95% CI. This prior run used a scoring mask that included buffer-removed non-visible catalogue pixels; it is not a comparable v3 baseline or a leaderboard prediction. No v3 model run was performed after the duplicate stop.
 * **Literal uniqueness:** {audit['final_dot_gate']['candidate_dots_within_3px']:,}/{audit['final_dot_gate']['candidate_dots']:,} prior dots overlap the [pinned lattice witness]({witness['url']}); only one witness is necessary to prove failure, but this is not a complete registry inventory. The word duplicate here means protocol overlap, not byte identity.
 * **Feasibility:** the lattice leaves {audit['budget_feasibility']['uncovered_allowed_pixels']:,} allowed cells outside its halo, so a {audit['budget_feasibility']['requested_previous_budget']:,}-dot budget cannot pass. A budget no larger than {audit['budget_feasibility']['max_dots_for_possible_70pct_pass']:,} is necessary against this witness, not sufficient for quality or uniqueness.
-* **Format:** the prior file has one float32 band, finite [0,1] values, and matches the stored sample grid. This is local preflight only, not organizer acceptance. The authenticated organizer template and outside-bounds policy have not been independently verified here.
+* **Format:** the prior file has one float32 band, in-footprint values in [0,1], and the owner-mirror grid metadata. It nevertheless fails the official exterior rule: {outside_pixels:,} cells outside the footprint are zero, not null/NaN, and its nodata tag is absent. The shared writer/validator now use NaN nodata outside the footprint; local format success is not organizer acceptance. The local sample's positive cells match all mapped-fault cells, contradicting the official description that the sample predicts total fault absence; mirror origin is unauthenticated.
 * **Access:** the [competition data page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/) redirected to login; no hidden labels, submission-page receipt, quota, or authorized upload session is available. Mirror hash equality does not prove official origin. The official reference solution supports CPU as well as GPU.
 * **Official sources:** [problem and DTI](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/), [USGS GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and), [DOE GDR INGENIOUS](https://gdr.openei.org/submissions/1391), and the [research source register](evidence/research_sources.md).
 
@@ -254,6 +310,7 @@ python -m pip install -r requirements.txt
 python scripts/audit_literal_witness.py             # downloads one pinned witness through gh; never submits
 python scripts/audit_historical_focus.py           # nine pinned GitHub mirror files; no model experiment
 python scripts/audit_holdout_mask.py               # rebuild masks only; no model score
+python scripts/audit_submission_format.py          # read-only: official format rule vs local mirror bytes
 python scripts/validate_submission.py docs/downloads/{file_name} --format-only
 python scripts/run_apartgems_pipeline.py          # deliberately exits nonzero: this lane is stopped
 pytest -q

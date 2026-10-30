@@ -96,50 +96,40 @@ def load_grid(data_dir: Path | None = None) -> Grid:
                 transform=TRANSFORM, height=HEIGHT, width=WIDTH)
 
 
-def write_submission(path: Path, values: np.ndarray, *, mode: str = "zeros") -> dict:
-    """Serialize a pre-normalized array on the pinned grid without repairing it.
+def write_submission(path: Path, values: np.ndarray, *, mode: str = "nan") -> dict:
+    """Write probabilities on the template footprint and NaN outside it.
 
-    ``mode="zeros"`` enforces the project's current all-finite local policy:
-    callers pass values already in ``[0,1]`` (normally with cells outside the
-    footprint set to zero). Nothing is clipped or silently replaced. This is
-    not proof of organizer compliance: the public instructions say data outside
-    the bounds must be null/NaN, and how that maps to the authenticated template
-    footprint has not been verified.
-
-    ``mode="nan"`` is retained for local diagnostics only. A prior portal range
-    error does not establish NaN as its cause; reconcile the official template,
-    outside-bounds rule and portal validator before any future submission.
+    The input must be finite and normalized inside the valid footprint. Outside
+    cells may be zero or NaN, but positive finite mass and infinities are
+    rejected; the serializer then writes NaN/nodata outside, matching the
+    organizer's public format text and pinned sample's exterior mask. No
+    clipping, sentinel replacement, or probability repair is performed.
+    ``mode="zeros"`` is explicitly rejected because zero outside is not the
+    template's nodata convention.
     """
     values = np.asarray(values)
     if values.shape != (HEIGHT, WIDTH):
         raise ValueError(f"values shape {values.shape} != {(HEIGHT, WIDTH)}")
     if not np.issubdtype(values.dtype, np.number):
         raise ValueError("values must be numeric")
-    if mode == "zeros":
-        if not np.isfinite(values).all():
-            raise ValueError("zeros mode requires all values finite; set outside-footprint cells to 0 explicitly")
-        if (values < 0.0).any() or (values > 1.0).any():
-            raise ValueError("submission values must already be in [0,1]; no clipping")
-        out = values.astype(np.float32, copy=False)
-        nodata = None
-    elif mode == "nan":
-        finite = np.isfinite(values)
-        if np.isinf(values).any() or (values[finite] < 0.0).any() or (values[finite] > 1.0).any():
-            raise ValueError("diagnostic values must remain in [0,1] except for NaN cells; no silent clipping")
-        out = values.astype(np.float32, copy=False)
-        nodata = float("nan")
-    else:
-        raise ValueError("mode must be 'zeros' or 'nan'")
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with rasterio.open(
-        path, "w", driver="GTiff", height=HEIGHT, width=WIDTH, count=1,
-        dtype="float32", crs=f"EPSG:{EPSG}", transform=TRANSFORM,
-        nodata=nodata, compress="lzw", tiled=False,
-    ) as dst:
-        dst.write(out, 1)
-        dst.set_band_description(1, "predicted_new_fault_probability")
-    return {"path": str(path), "mode": mode, "nodata": nodata}
+    if mode != "nan":
+        raise ValueError("only mode='nan' is valid; outside-footprint zeros are not submission nodata")
+    if np.isinf(values).any():
+        raise ValueError("submission values contain infinity")
+    finite_values = values[np.isfinite(values)]
+    if finite_values.size and ((finite_values < 0.0).any() or (finite_values > 1.0).any()):
+        raise ValueError("finite submission values must already be in [0,1]; no clipping")
+
+    current = load_grid()
+    fp = current.footprint
+    if not np.isfinite(values[fp]).all():
+        raise ValueError("submission contains NaN inside the valid footprint")
+    if np.any((values[~fp] > 0.0) & np.isfinite(values[~fp])):
+        raise ValueError("positive prediction mass outside the valid footprint")
+    out = np.full((HEIGHT, WIDTH), np.nan, dtype=np.float32)
+    out[fp] = values[fp].astype(np.float32, copy=False)
+    receipt = write_geotiff(path, out, nodata=float("nan"), footprint=fp)
+    return {**receipt, "mode": mode, "outside_footprint_nan": int((~fp).sum())}
 
 def read_geotiff(path: str | Path) -> dict:
     """Everything a validator can complain about, re-derived from the bytes on disk.
@@ -159,7 +149,8 @@ def read_geotiff(path: str | Path) -> dict:
             crs=str(src.crs) if src.crs is not None else None,
             transform=[float(v) for v in tuple(src.transform)[:6]],
             res=[float(v) for v in src.res],
-            nodata=src.nodata, nodata_repr=repr(src.nodata),
+            nodata=("NaN" if src.nodata is not None and np.isnan(float(src.nodata)) else src.nodata),
+            nodata_repr=repr(src.nodata),
         )
     finite = np.isfinite(a)
     info.update(
@@ -173,24 +164,49 @@ def read_geotiff(path: str | Path) -> dict:
     return info
 
 
-def write_geotiff(path: str | Path, arr: np.ndarray, *, nodata: float | None = None) -> dict:
-    """Write a single-band float32 GeoTIFF on the pinned grid and re-read it.
+def write_geotiff(path: str | Path, arr: np.ndarray, *, nodata: float | None = None,
+                   footprint: np.ndarray | None = None) -> dict:
+    """Write one float32 GeoTIFF on the pinned grid and re-read the saved bytes.
 
-    The re-read is the contract: this returns what the *file* says. Tiled 256 px
-    with deflate + horizontal predictor, matching what this family has shipped.
+    Finite probabilities must lie in [0,1]. NaN is permitted only when a
+    footprint is supplied, every footprint cell is finite, every exterior cell
+    is NaN, and the GeoTIFF nodata tag is NaN. Infinities are always rejected.
+    The re-read receipt describes the actual TIFF, not an organizer upload.
     """
     from rasterio.transform import from_origin
 
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
+    arr = np.asarray(arr)
     if arr.dtype != np.float32:
         raise TypeError(f"submission must be float32, got {arr.dtype}")
     if arr.shape != SHAPE:
         raise ValueError(f"submission must be {SHAPE}, got {arr.shape}")
-    if not np.isfinite(arr).all():
-        raise ValueError("submission contains NaN/inf; the local all-finite export policy rejects it")
-    if arr.min() < 0.0 or arr.max() > 1.0:
-        raise ValueError(f"submission out of range: min={arr.min()} max={arr.max()}")
+    if np.isinf(arr).any():
+        raise ValueError("submission contains infinity")
+    finite = np.isfinite(arr)
+    finite_values = arr[finite]
+    if not finite_values.size:
+        raise ValueError("submission contains no finite probabilities")
+    if (finite_values < 0.0).any() or (finite_values > 1.0).any():
+        raise ValueError(f"submission out of range: min={finite_values.min()} max={finite_values.max()}")
+    if footprint is None:
+        if not finite.all():
+            raise ValueError("NaN requires an explicit footprint; cannot distinguish exterior nodata from missing predictions")
+        if nodata is not None:
+            raise ValueError("nodata requires an explicit footprint")
+    else:
+        fp = np.asarray(footprint, dtype=bool)
+        if fp.shape != SHAPE:
+            raise ValueError(f"footprint must be {SHAPE}, got {fp.shape}")
+        if not fp.any():
+            raise ValueError("footprint must contain at least one valid cell")
+        if not finite[fp].all():
+            raise ValueError("submission contains NaN inside the valid footprint")
+        if not np.isnan(arr[~fp]).all():
+            raise ValueError("every cell outside the valid footprint must be NaN")
+        if nodata is None or not np.isnan(float(nodata)):
+            raise ValueError("the exterior nodata tag must be NaN")
     tr = Affine(*[float(v) for v in tuple(TRANSFORM)[:6]])
     west, north, xs, ys = tr.c, tr.f, tr.a, -tr.e
     check = from_origin(west, north, xs, ys)
@@ -206,4 +222,5 @@ def write_geotiff(path: str | Path, arr: np.ndarray, *, nodata: float | None = N
         profile["nodata"] = float(nodata)
     with rasterio.open(path, "w", **profile) as dst:
         dst.write(arr, 1)
+        dst.set_band_description(1, "predicted_new_fault_probability")
     return read_geotiff(path)

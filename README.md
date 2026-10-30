@@ -1,10 +1,12 @@
 # ApartGEMSDOE1 · Geothermal fault discovery
 
-> **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF is locally format-valid against an owner-mirror template, but 99.68% of its dots overlap a registered lattice within three pixels, exceeding the 70% protocol limit. The surface gate is unverified. No new GeoTIFF or competition submission was made; archived H-APART-6 v2 experiments predated discovery of the witness.
+> **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF fails the literal 3-pixel overlap rule (99.68%, limit 70%) and fails the official outside-footprint format rule: 7,111,787 exterior cells are zero rather than NaN. The surface gate is unverified. No new candidate or competition submission was made; archived H-APART-6 v2 experiments predated discovery of the witness.
 >
-> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Three-pass review](evidence/review_passes.md)
+> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Format irregularity audit](evidence/format_irregularity_audit.json) · [Three-pass review](evidence/review_passes.md)
 >
-> [Download the **prior TIFF for research only — do not submit**](docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif) · SHA-256 `09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f`
+> [Download the **prior TIFF for research only — DO NOT SUBMIT**](docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif) · SHA-256 `09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f`
+
+> **PUBLIC-LEADERBOARD observation:** 0.4544 on 2026-10-30; not an organizer receipt for any file here. The prompt's 0.4413 and 0.3195 claims conflict with this observed public page.
 
 ## Standing reference: task and parallel-run protocol (read first)
 
@@ -44,7 +46,7 @@ The re-audit confirms GEMSDOE32 B2's support equals GEMSDOE25's support outside 
 * **HOLDOUT-DTI, historical only:** 0.1174 [0.0994, 0.1361], evaluator `gems57-pooled-hide-v2`, 11,360 withheld positives, 95% CI. This prior run used a scoring mask that included buffer-removed non-visible catalogue pixels; it is not a comparable v3 baseline or a leaderboard prediction. No v3 model run was performed after the duplicate stop.
 * **Literal uniqueness:** 37,533/37,654 prior dots overlap the [pinned lattice witness](https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif); only one witness is necessary to prove failure, but this is not a complete registry inventory. The word duplicate here means protocol overlap, not byte identity.
 * **Feasibility:** the lattice leaves 6,514 allowed cells outside its halo, so a 37,654-dot budget cannot pass. A budget no larger than 21,713 is necessary against this witness, not sufficient for quality or uniqueness.
-* **Format:** the prior file has one float32 band, finite [0,1] values, and matches the stored sample grid. This is local preflight only, not organizer acceptance. The authenticated organizer template and outside-bounds policy have not been independently verified here.
+* **Format:** the prior file has one float32 band, in-footprint values in [0,1], and the owner-mirror grid metadata. It nevertheless fails the official exterior rule: 7,111,787 cells outside the footprint are zero, not null/NaN, and its nodata tag is absent. The shared writer/validator now use NaN nodata outside the footprint; local format success is not organizer acceptance. The local sample's positive cells match all mapped-fault cells, contradicting the official description that the sample predicts total fault absence; mirror origin is unauthenticated.
 * **Access:** the [competition data page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/) redirected to login; no hidden labels, submission-page receipt, quota, or authorized upload session is available. Mirror hash equality does not prove official origin. The official reference solution supports CPU as well as GPU.
 * **Official sources:** [problem and DTI](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/), [USGS GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and), [DOE GDR INGENIOUS](https://gdr.openei.org/submissions/1391), and the [research source register](evidence/research_sources.md).
 
@@ -59,6 +61,7 @@ python -m pip install -r requirements.txt
 python scripts/audit_literal_witness.py             # downloads one pinned witness through gh; never submits
 python scripts/audit_historical_focus.py           # nine pinned GitHub mirror files; no model experiment
 python scripts/audit_holdout_mask.py               # rebuild masks only; no model score
+python scripts/audit_submission_format.py          # read-only: official format rule vs local mirror bytes
 python scripts/validate_submission.py docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif --format-only
 python scripts/run_apartgems_pipeline.py          # deliberately exits nonzero: this lane is stopped
 pytest -q

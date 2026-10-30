@@ -127,5 +127,17 @@
     "surface_max_abs_spearman": 0.691092,
     "dot_max_3px_overlap": 0.642641
   },
-  "current_audit": "../data/literal_witness_audit.json"
+  "current_audit": "../data/literal_witness_audit.json",
+  "format_policy_status": "SUPERSEDED_HISTORICAL_ALL_FINITE_ZERO_EXTERIOR_POLICY",
+  "format_policy_superseded_by": "../data/format_irregularity_audit.json",
+  "current_format_validation": {
+    "current_format_sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
+    "current_format_pass": false,
+    "current_format_failure_checks": [
+      "outside_footprint_is_nan",
+      "nodata_tag_is_nan"
+    ],
+    "current_format_decision": "DO NOT SUBMIT; this historical TIFF has zero rather than NaN outside the footprint and no NaN nodata tag."
+  },
+  "current_format_audit": "../data/format_irregularity_audit.json"
 }

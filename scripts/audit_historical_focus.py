@@ -23,6 +23,7 @@ import numpy as np
 import rasterio
 from scipy.ndimage import binary_dilation, distance_transform_edt
 from gems57 import load_grid
+from gems57.validate import validate
 
 OWNER = "buffedlizard55-lab"
 MANIFEST = ROOT / "evidence/focus9_manifest.json"
@@ -94,6 +95,8 @@ def main():
         b = finite & (a > 0) & fp
         support[d['site']] = b
         canonical = np.where(finite & fp, a, 0).astype('<f4', copy=False)
+        format_report = validate(d['local_cache'], footprint=fp)
+        format_failures = [name for name, passed in format_report['checks'].items() if not passed]
         rows.append({
             "site": d['site'], "filename": Path(d['path']).name,
             "owner_git_url": f"https://github.com/{OWNER}/{d['site']}/blob/{d['commit']}/{d['path']}",
@@ -106,10 +109,19 @@ def main():
             "score_evidence": "USER-REPORTED claim; no submission-page receipt found; not ORGANIZER-CONFIRMED",
             "estimated_leaderboard_score": None,
             "prediction_support_pixels": int(b.sum()),
-            "local_format": {"grid_matches_owner_mirror": same_grid, "bands": count,
-                "dtype": dtype, "all_finite": bool(finite.all()),
-                "inside_footprint_finite": inside_finite, "finite_values_in_0_1": in_range,
-                "strict_all_finite_range_policy_pass": bool(same_grid and count == 1 and dtype == 'float32' and finite.all() and in_range)},
+            "local_format": {
+                "policy": "Finite float32 [0,1] predictions inside the pinned template footprint; NaN pixels and NaN nodata outside. The official source text is public, but the owner-mirror template is unauthenticated.",
+                "grid_matches_owner_mirror": same_grid, "bands": count, "dtype": dtype,
+                "all_finite": bool(finite.all()),
+                "inside_footprint_finite": inside_finite,
+                "finite_values_in_0_1": in_range,
+                "outside_footprint_nan_pixels": format_report['outside_footprint_nan_pixels'],
+                "nodata_tag_is_nan": format_report['checks']['nodata_tag_is_nan'],
+                "format_checks": format_report['checks'],
+                "format_failure_checks": format_failures,
+                "format_pass": bool(format_report['all_checks_passed']),
+                "validation_sha256": format_report['sha256'],
+            },
         })
         del a, canonical
 

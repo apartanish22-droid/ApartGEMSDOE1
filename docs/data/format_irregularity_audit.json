@@ -1,0 +1,215 @@
+{
+  "generated_utc": "2026-10-30T02:06:46.054678+00:00",
+  "evidence_class": "LOCAL FORMAT AUDIT + OFFICIAL PUBLIC SPEC REVIEW; NOT ORGANIZER ACCEPTANCE",
+  "official_source": {
+    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+    "reviewed_utc_date": "2026-10-30",
+    "evidence_class": "OFFICIAL PUBLIC FORMAT TEXT; source page was read in this review",
+    "requirements_transcribed": [
+      "EPSG:32611 / UTM zone 11N; 100 m resolution; same bounds as training data.",
+      "Data outside the bounds must be null or NaN.",
+      "Single-layer float32 predictions with values in [0, 1].",
+      "The sample submission is described as predicting total fault absence."
+    ],
+    "provenance_limit": "The official page text is verified, but the downloaded owner-mirror TIFFs are not authenticated organizer-origin files."
+  },
+  "owner_mirror_integrity": {
+    "sample_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+    "labels_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "existing_faults_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "sample": {
+      "file": "data/bridge/sample_submission.tif",
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "count": 1,
+      "dtype": "float32",
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": "NaN",
+      "finite_pixels": 5167373,
+      "nan_pixels": 7111787,
+      "infinite_pixels": 0,
+      "positive_pixels": 60988,
+      "zero_pixels": 5106385,
+      "finite_min": 0.0,
+      "finite_max": 1.0
+    },
+    "labels": {
+      "file": "data/official/labels.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "count": 1,
+      "dtype": "int8",
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": -1.0,
+      "finite_pixels": 12279160,
+      "nan_pixels": 0,
+      "infinite_pixels": 0,
+      "positive_pixels": 60988,
+      "zero_pixels": 5106385,
+      "finite_min": -1.0,
+      "finite_max": 1.0
+    },
+    "existing_faults": {
+      "file": "data/bridge/existing_faults.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "count": 1,
+      "dtype": "int8",
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": -1.0,
+      "finite_pixels": 12279160,
+      "nan_pixels": 0,
+      "infinite_pixels": 0,
+      "positive_pixels": 60988,
+      "zero_pixels": 5106385,
+      "finite_min": -1.0,
+      "finite_max": 1.0
+    },
+    "sample_positive_support_equals_mapped_catalogue": true,
+    "sample_vs_catalogue_support_xor_pixels": 0,
+    "published_total_absence_description_matches_mirror_content": false,
+    "irregularity": "The mirrored sample has 60,988 positive cells, and its positive support exactly equals the mapped-fault catalogue; this conflicts with the official page's description of the sample as total fault absence.",
+    "origin_authenticated": false
+  },
+  "legacy_candidate": {
+    "file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+    "sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
+    "is_new_candidate": false,
+    "submission_name": "apartgems1-maw-gsi-e3-20261028-87f83db9",
+    "validation": {
+      "file": "/home/user/ApartGEMSDOE1/docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+      "bytes": 145748,
+      "sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
+      "meta": {
+        "crs": "EPSG:32611",
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "count": 1,
+        "nodata": null,
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "profile_compress": "deflate"
+      },
+      "band_description": [
+        null
+      ],
+      "n_finite": 12279160,
+      "n_nan": 0,
+      "n_infinite": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.0030664964579045773,
+      "emitted_positive_pixels": 37654,
+      "checks": {
+        "single_band": true,
+        "dtype_float32": true,
+        "dimensions_3730x3292": true,
+        "crs_epsg_32611": true,
+        "transform_matches_sample_submission": true,
+        "no_inf_anywhere": true,
+        "no_sentinel_values_in_finite_data": true,
+        "footprint_nonempty": true,
+        "no_nan_inside_footprint": true,
+        "values_in_0_1_inside_footprint": true,
+        "outside_footprint_is_nan": false,
+        "nodata_tag_is_nan": false,
+        "all_finite_values_in_0_1": true,
+        "zero_dots_on_mapped_catalogue": true
+      },
+      "all_checks_passed": false,
+      "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+      "on_catalogue_positive_pixels": 0,
+      "in_footprint_positive_pixels": 37654,
+      "footprint_pixels": 5167373,
+      "outside_footprint_pixels": 7111787,
+      "footprint_fraction": 0.4208246329553487,
+      "outside_footprint_nan_pixels": 0
+    },
+    "format_pass": false,
+    "failure_checks": [
+      "outside_footprint_is_nan",
+      "nodata_tag_is_nan"
+    ],
+    "decision": "DO NOT DOWNLOAD OR SUBMIT AS A COMPETITION CANDIDATE; historical duplicate and exterior zeros do not match the public sample nodata convention."
+  },
+  "historical_validation_transition": {
+    "status": "OLDER_ALL_FINITE_ZERO_EXTERIOR_REPORTS_ARE_SUPERSEDED",
+    "superseded_reports": [
+      "evidence/validation_receipt.json",
+      "evidence/literal_witness_audit.json",
+      "evidence/cli_validator_check.json",
+      "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.json"
+    ],
+    "current_format_failures": [
+      "outside_footprint_is_nan",
+      "nodata_tag_is_nan"
+    ],
+    "interpretation": "Their all-finite/zero-exterior checks are historical facts about an older private policy, not current format clearance; the public outside-footprint NaN/nodata rule supersedes them."
+  },
+  "shared_writer_repair": {
+    "status": "IMPLEMENTED_AND_TESTED_LOCALLY",
+    "test_command": ".venv/bin/pytest -q tests/test_submission_format.py",
+    "test_result": "5 passed in this review; synthetic local TIFF round-trip only, not organizer acceptance.",
+    "policy": "Require finite in-footprint [0,1] probabilities; reject infinities, in-footprint NaNs, out-of-range values, and positive mass outside; serialize exterior cells as NaN with a NaN nodata tag.",
+    "acceptance_limit": "The tests prove the local writer/validator contract against the pinned owner-mirror sample, not organizer-origin authenticity or portal acceptance.",
+    "modules": [
+      "src/gems57/grid.py",
+      "src/gems57/gates.py",
+      "src/gems57/submission_writer.py",
+      "src/gems57/validate.py"
+    ]
+  },
+  "reported_portal_error": {
+    "text": "Predicted values must be in range [0, 1]",
+    "cause": "UNKNOWN; no organizer submission receipt, uploaded file hash, or authenticated template validation is available.",
+    "note": "The legacy TIFF's finite values are in [0,1], but its exterior-zero policy is inconsistent with the public outside-bounds rule. This does not prove that the exterior zeros caused the reported portal error."
+  },
+  "competition_status": {
+    "new_geotiff_generated": false,
+    "model_experiment_run": false,
+    "weekly_slots_used": 0,
+    "reason": "The assigned lane has a mandatory literal-duplicate stop, and there is no complete registry or comparable v3 holdout baseline to clear a new candidate."
+  }
+}

@@ -1,6 +1,10 @@
 # Three-pass implementation and review record
 
-Review date: 2026-10-28 UTC. No model experiment, replacement candidate, submission, or slot selection was performed in this review. The negative result is the release decision.
+Review date: 2026-10-28 UTC. No model experiment, replacement candidate, submission, or slot selection was performed in that review. The negative result was the release decision.
+
+# Follow-up review — 2026-10-30 UTC
+
+No new geological experiment, candidate raster, submission, or selector action was performed. The lane's duplicate stop remains binding. The material change in this review is a correction to the shared GeoTIFF format gate, after comparing it to the official public format text and the pinned owner-mirror sample.
 
 ## Pass 1 — inventory, scientific assumptions, and stop witness
 
@@ -23,3 +27,21 @@ Review date: 2026-10-28 UTC. No model experiment, replacement candidate, submiss
 * Automated regression suite: **23 passed**, including synthetic soft-DTI against the literal brute-force formula, whole-component/buffer holdout, >70% dense/lattice witness, empty/partial/unpinned/undefined-rank registry failures, pre-placement hash attestations, source-bound cache rebuilds, negative runner, local preflight, page links and fresh-feed parser. Twelve rasterio/Affine deprecation warnings were emitted; no test failed.
 * `python -m compileall -q src scripts tests`, `node --check docs/feed.js`, and `git diff --check` passed. The local static preview served the root, dashboard, audit-only TIFF and feed over HTTP. The local GeoTIFF preflight passed format checks but returned `ok_to_submit=false`.
 * GitHub repository metadata reported push/admin permission and a legacy Pages site rooted at `main:/`; branch-protection and Actions-permissions reads returned HTTP 403. Concurrent PRs #23 and #24 repeated the superseded promotion claims. PR #25 merged the corrective negative audit; its Pages workflow completed and the public dashboard was independently observed with the stop verdict. The feed refresh ran but returned unavailable because the leaderboard HTML could not be parsed on the runner; a successful deployment is not evidence of a successful refresh. No slot was used.
+
+## Follow-up pass 1 — source and code inspection (2026-10-30)
+
+* Re-read the official DrivenData problem/metric page and public leaderboard. The task page requires null/NaN outside the task bounds and describes the sample as total fault absence. The public leaderboard row observed in this review showed 0.4544. The user-supplied 0.4413/0.3195 remain conflicting claims; 0.4544 is a dated public standings observation only, not a score receipt for a repository raster. See `official_leaderboard_observation.json` and `docs/data/public_feed.json`.
+* Rechecked the local owner-mirror template, labels, mapped catalogue, prior candidate, and relevant writer/gate/validator code. The mirror sample's 60,988 positive pixels match the mapped catalogue pixel-for-pixel (XOR 0), contrary to the official page's total-absence description. Its source remains unauthenticated. The prior TIFF retains SHA-256 `09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f`, has 7,111,787 exterior zeros, and no NaN nodata tag; it still fails both format and literal-duplicate gates.
+* Confirmed there is no restored `.cache/features` band stack or `data/training_features.tif` in this checkout. The official data page is login-protected. Checked alternative official catalogs: USGS GeoDAWN publicly lists CC0 flight-line ZIPs (414.43 MB and 3.74 GB), DOE GDR #1391 publicly lists the 19.85 MB well/spring archive under CC BY 4.0, and NASA catalogs AG100 as a global, openly shared 100 m product. These are catalog-availability checks only; no raw source archives or granules were downloaded or validated. Four ranked geological hypotheses remain preregistered but are not marked viable or tested; the top candidate cannot be validated here without the prescribed source features and a fresh, duplicate-cleared lane.
+
+## Follow-up pass 2 — implementation and regression review (2026-10-30)
+
+* Replaced the retired all-finite/zero-exterior assumption in `src/gems57/gates.py`, `validate.py`, `grid.py`, and `submission_writer.py`. Current export requires finite [0,1] values inside the explicit footprint, serializes exterior cells as float32 NaN with a NaN nodata tag, rejects infinities/missing interior/range errors/positive exterior support, and writes JSON-safe receipts. CLI preflight and help text were aligned.
+* Added `tests/test_submission_format.py`: the legacy raster must fail exterior/nodata checks; a synthetic writer output is re-opened and checked against the template/grid, NaN mask/tag, sidecar, one-TIFF ZIP and local validation; invalid predictions are rejected without partial output. Updated the two stale tests that encoded the old format policy.
+* Corrected the format-audit status so it records implementation and tests separately. Generated the read-only `evidence/format_irregularity_audit.json`, refreshed the negative run card with current validator output, updated the dated public leaderboard observation, and ran the page/README builder. The guide marks the historical TIFF “research only — DO NOT SUBMIT”; no candidate TIFF was produced.
+
+## Follow-up pass 3 — independent recheck and release decision (2026-10-30)
+
+* Full suite: **29 passed, 13 rasterio/Affine pending-deprecation warnings**. `python -m compileall -q src scripts tests`, `node --check docs/feed.js`, and `git diff --check` passed. The five new format regression tests passed, including a synthetic local writer round-trip; this is not an organizer upload or acceptance test.
+* Reran `scripts/audit_submission_format.py` and `scripts/validate_submission.py` on the exact historical bytes. Audit says `legacy_format_pass=false`, with failures `outside_footprint_is_nan` and `nodata_tag_is_nan`; the latest run card stays negative and tied to the same SHA. The refreshed nine-file audit reports five historical rasters locally format-compliant and four failing the exterior NaN/nodata rule; all remain non-candidates and fail the relevant uniqueness status. The builder synced the docs evidence and current run card.
+* Line-by-line review of the generated guide, README, evidence links and current validator outputs found no claim that the synthetic TIFF was submitted, no new organizer-confirmed score, and no approved file. No new experiment, TIFF, download authorization, slot, or PR/merge is asserted. Release decision remains **NO FILE READY TO SUBMIT** because the mandatory duplicate stop persists and no replacement was tested on an authorized holdout.

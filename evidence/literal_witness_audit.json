@@ -101,5 +101,12 @@
   "complete_registry_checked": false,
   "verdict": "negative",
   "stop_required": true,
-  "note": "The existing candidate was generated in a prior session; no new raster or experiment was created in this audit."
+  "note": "The existing candidate was generated in a prior session; no new raster or experiment was created in this audit.",
+  "historical_format_validation_status": "SUPERSEDED_HISTORICAL_ALL_FINITE_ZERO_EXTERIOR_POLICY",
+  "current_format_audit": "evidence/format_irregularity_audit.json",
+  "current_format_failure_checks": [
+    "outside_footprint_is_nan",
+    "nodata_tag_is_nan"
+  ],
+  "current_format_decision": "DO NOT SUBMIT; this historical TIFF has zero rather than NaN outside the footprint and no NaN nodata tag."
 }
