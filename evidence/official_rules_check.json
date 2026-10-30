@@ -1,0 +1,106 @@
+{
+  "record": "Official rule and metric excerpts used by this repository",
+  "checked_utc": "2026-10-30",
+  "verification_method": "fetch_page tool read of the official pages listed below; excerpts copied verbatim from the returned text. The sandbox network allowlist does not include drivendata.org or docs.nlr.gov, so these excerpts were not re-fetched by a repository script.",
+  "evidence_class": "OFFICIAL RULES / PUBLIC PAGE TEXT; NOT A SUBMISSION RECEIPT",
+  "claims": [
+    {
+      "id": "R1-format",
+      "topic": "Submission format (float32, [0,1], outside-bounds null/NaN, 100 m, EPSG 32611)",
+      "quote": "Your submission has the same bounds as the training data, and data outside the bounds is null or nan. Your submission contains a single layer with datatype of 32-bit float (`float32`) with values between 0 and 1 indicating the confidence or probability of fault presence, with higher values indicating higher probability.",
+      "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "section": "Submission format"
+    },
+    {
+      "id": "R2-crs-resolution",
+      "topic": "CRS and resolution",
+      "quote": "Your submission is in the same projected coordinate reference system as the training data (projected coordinate system for UTM zone 11N, EPSG 32611). Your submission is at the same resolution as the training data (100m).",
+      "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "section": "Submission format"
+    },
+    {
+      "id": "R3-metric",
+      "topic": "Distance-weighted Tversky index, alpha 0.2, beta 0.8, 300 m triangular kernel",
+      "quote": "For this competition, we set 𝛼=0.2 and 𝛽=0.8 ... the range 𝑅 is 300 meters (i.e., 3 pixels at 100m resolution).",
+      "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "section": "Performance metric"
+    },
+    {
+      "id": "R4-test-labels-are-new-faults",
+      "topic": "Scored test labels are NOT the USGS catalogue",
+      "quote": "For this competition, the sponsors have compiled a set of newly identified faults in the GeoDAWN region that are not included in the existing USGS fault database. These new faults have been manually labeled by fault experts and comprise the test dataset for the competition.",
+      "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "section": "Competition structure"
+    },
+    {
+      "id": "R5-training-labels",
+      "topic": "Training labels are existing fault data",
+      "quote": "The training labels contain existing fault data at 100-m resolution where positively labeled pixels indicate fault presence.",
+      "source_url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "section": "3.3 Algorithm and Testing"
+    },
+    {
+      "id": "R6-submission-limits",
+      "topic": "Submissions per week and one final submission",
+      "quote": "each participating entity may submit more than one set of predictions for automated scoring on the competition platform up to three per week, as specified on the competition website. ... Each participating entity ... is allowed to have one final submission",
+      "source_url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "section": "3.4 Feedback"
+    },
+    {
+      "id": "R6b-weekly-cap-wording",
+      "topic": "Weekly cap wording in the process overview",
+      "quote": "subject to the limits specified on the competition website (three submissions per week).",
+      "source_url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "section": "3.2 Process Overview"
+    },
+    {
+      "id": "R7-originality-warranty",
+      "topic": "Originality warranty (basis for the 'do not copy a previous submission' rule)",
+      "quote": "The competitor’s entire submission is an original work by the competitor and the competitor has not included third-party content",
+      "source_url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "section": "A.5 Representation and Warranties, item 1"
+    },
+    {
+      "id": "R8-genai-disclosure",
+      "topic": "Generative-AI disclosure is required in the narrative",
+      "quote": "you must indicate in the narrative (not included in the word count) the extent to which, if any, you used generative AI technology and how you used it to develop your submission",
+      "source_url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "section": "3.2 Process Overview"
+    },
+    {
+      "id": "R9-leaderboard-metric",
+      "topic": "Public leaderboard shows best public DW-Tversky",
+      "quote": "Best public DW-Tversky (in descending order)",
+      "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "section": "Leaderboard table header"
+    }
+  ],
+  "reference_solution_check": {
+    "repository": "drivendataorg/gems-prize-reference-solution",
+    "commit_observed": "default branch main, read via GitHub API on 2026-10-30",
+    "source_url": "https://github.com/drivendataorg/gems-prize-reference-solution",
+    "observation": "The notebook writes its final float prediction array directly with rasterio, using dtype=y_final.dtype and the CRS and transform of data/labels.tif. The notebook contains no NaN masking step before writing. It publishes CPU and GPU environment files.",
+    "notebook_cell_19_excerpt": "new_dataset = rasterio.open(fname_out, \"w\", driver=\"GTiff\", height=y_final.shape[0], width=y_final.shape[1], count=1, dtype=y_final.dtype, crs=fault_dataset.crs, transform=fault_dataset.transform)"
+  },
+  "leaderboard_observed": {
+    "observed_utc": "2026-10-30",
+    "method": "fetch_page tool read of the public leaderboard page (first chunk; ranks 1-22 with scores visible; rank 23 truncated in the read)",
+    "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "top_public_dti": 0.4544,
+    "note": "The scheduled feed in docs/data/public_feed.json was last written 2026-10-28 with the same top value. The sandbox cannot run the refresh script (drivendata.org is not on the allowlist).",
+    "rows_1_to_22_range": [
+      0.4544,
+      0.3334
+    ]
+  },
+  "user_claims_not_on_leaderboard": {
+    "0.4413": "User prompt calls 0.4413 the current GEMSDOE leaderboard high. The official top is 0.4544. 0.4413 does not appear in ranks 1-22 read here.",
+    "0.3195": "User prompt calls 0.3195 the highest score right now. Ranks 1-22 already run from 0.4544 down to 0.3334, so 0.3195 is not the top of the public board."
+  },
+  "gaps_not_verified": [
+    "Whether the portal accepts NaN outside the footprint versus zeros outside the footprint. The rule text supports NaN; portal behaviour was not tested.",
+    "The exact portal validator message for 'Predicted values must be in range [0, 1]' and which file produced it.",
+    "Full leaderboard beyond rank 22, and whether any GEMSDOE team appears on it.",
+    "Organizer-origin hashes for any data file. All local data is an owner mirror."
+  ]
+}
