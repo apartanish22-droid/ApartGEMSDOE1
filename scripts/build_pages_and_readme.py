@@ -93,22 +93,26 @@ def main() -> int:
     table = []
     md_rows = []
     for r in rows:
-        overlap = r['prior_candidate_forward_overlap_3px']
-        prior_overlap = 'not checked' if overlap is None else f'{overlap * 100:.2f}%'
+        prior_overlap = r['prior_candidate_forward_overlap_3px']
+        prior_overlap_text = 'not checked' if prior_overlap is None else f'{prior_overlap * 100:.2f}%'
+        peer_overlap = r.get('max_forward_overlap_3px_among_focus9')
+        peer_overlap_text = 'not measured' if peer_overlap is None else f'{peer_overlap * 100:.2f}%'
+        peer = r.get('closest_focus_site') or 'no peer recorded'
         historical = f"{r['prompt_reported_claim']:.4f}"
         research = r['owner_git_url'] + '?raw=1'
         duplicate = r['unique_among_focus9'] is False
-        decision = 'NO · duplicate family' if duplicate else 'Unknown'
+        decision = 'NO · focus-nine overlap exceeds 70%' if duplicate else 'Unknown'
         table.append(f'''<tr>
           <td><strong><a href="https://{esc('buffedlizard55-lab')}.github.io/{esc(r['site'])}/">{esc(r['site'])}</a></strong></td>
           <td><a class="file" href="{esc(research)}">{esc(r['filename'])}</a><br><small>Historical file · research only</small></td>
           <td>{esc(r['method_summary'])}</td>
           <td><strong>{historical}</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Unavailable</td>
-          <td><span class="tag stop">{esc(decision)}</span><br><small>Prior candidate overlap: {prior_overlap}</small></td>
+          <td><span class="tag stop">{esc(decision)}</span><br><small>{peer_overlap_text} of this file's positive pixels are within 3 px of {esc(peer)}.</small></td>
+          <td>{prior_overlap_text}<br><small>overlap with prior ApartGEMSDOE1 candidate; not the focus-nine test</small></td>
           <td><span class="tag stop">DO NOT RESUBMIT</span></td>
         </tr>''')
-        md_rows.append(f"| [{r['site']}](https://buffedlizard55-lab.github.io/{r['site']}/) | [`{r['filename']}`]({research}) | {r['method_summary']} | {historical} (user claim, unconfirmed) | Unavailable | {decision}; prior candidate {prior_overlap} | Do not resubmit |")
+        md_rows.append(f"| [{r['site']}](https://buffedlizard55-lab.github.io/{r['site']}/) | [`{r['filename']}`]({research}) | {r['method_summary']} | {historical} (user claim, unconfirmed) | Unavailable | {decision}; {peer_overlap_text} within 3 px of {peer} | Prior candidate overlap {prior_overlap_text} (diagnostic only) | Do not resubmit |")
     overlap = audit['final_dot_gate']['forward_overlap_3px'] * 100
     hist = card['holdout_dti']['historical_noncomparable']
     holdout = f"{hist['dti']:.4f} [{hist['ci95'][0]:.4f}, {hist['ci95'][1]:.4f}]"
@@ -149,8 +153,8 @@ def main() -> int:
       <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> {audit['final_dot_gate']['candidate_dots_within_3px']:,} of {audit['final_dot_gate']['candidate_dots']:,} dots lie within three pixels of the <a href="{esc(witness['url'])}">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
     </section>
     <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest file named for each site in your prompt. Reported values are unconfirmed user claims, not organizer receipts. All estimates for future submissions are unavailable.</p></div></div>
-      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt claim</th><th scope="col">Future score estimate</th><th scope="col">Unique among focus nine?</th><th scope="col">Decision</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
-      <p class="subtle" style="margin-top:14px">“Prior candidate overlap” means the fraction of the prior MAW-GSI dots within three pixels of that site’s file. Even though these nine comparisons are below the limit, the candidate fails against the additional registered lattice. The nine-site audit is not a complete registry.</p>
+      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt claim</th><th scope="col">Future score estimate</th><th scope="col">Unique among focus nine? (closest peer)</th><th scope="col">Overlap with prior candidate (diagnostic)</th><th scope="col">Decision</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
+      <p class="subtle" style="margin-top:14px">The focus-nine percentage is directed from each historical file's positive pixels to the closest peer's three-pixel halo. The separate MAW-GSI comparison is diagnostic and does not clear uniqueness. This nine-file audit is not a complete registry; the current candidate also fails against an additional pinned lattice witness.</p>
     </section>
     <div class="two-col"><section class="panel"><p class="eyebrow">03 / Mechanism, not proof</p><h2>Why did GEMSDOE32 stand out?</h2>
       <p>The user reports <strong>0.2778</strong> for B2, but no submission-page receipt is present. Our pixel audit shows B2's dots equal the GEMSDOE25 dot set after removing points within two pixels of the mapped-fault catalogue.</p>
@@ -168,7 +172,7 @@ def main() -> int:
       <ol><li>Do not resume this lane after the duplicate stop. Establish a separately assigned method lane and a complete, hash-pinned accessible registry.</li><li>Rebuild each catalogue-based feature from visible faults, run all feature-only canaries, and compare to a same-v3 holdout baseline with a paired confidence interval.</li><li>Check literal registry thresholds on every pre-placement surface and on final dots; write a GeoTIFF only after local range/grid checks. A separate selector controls any slot.</li></ol>
       <p class="subtle" style="margin-top:14px">The witness leaves {audit['budget_feasibility']['uncovered_allowed_pixels']:,} allowed pixels outside its 3-pixel halo. At most {audit['budget_feasibility']['max_dots_for_possible_70pct_pass']:,} distinct dots could possibly meet the 70% rule against this one witness; this necessary bound is not a quality or uniqueness guarantee.</p>
       <div class="actions"><a class="button secondary" href="next-hypotheses.html">Read future hypotheses</a><a class="button secondary" href="research-sources.html">View research source register</a></div></section>
-    <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or updating.</p>{source_links}</section>'''
+    <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or stale. Check the official page; no file score is inferred.</p>{source_links}</section>'''
     guide = f'''<section class="hero"><div><p class="eyebrow">Submission guide / Read before uploading</p><h1>Not yet. Here is the path to a valid submission.</h1>
       <p class="lead">The project must pass automated scientific, novelty, and file-format gates before a separate selector uses a weekly slot. No manual image inspection is required for this negative decision.</p></div>
       <aside class="status-card"><span class="status-label"><span class="status-dot"></span> Do not submit</span><strong>Current candidate is blocked.</strong><p>{overlap:.2f}% 3-pixel overlap exceeds the 70% limit. A format pass alone does not authorize an upload.</p></aside></section>
@@ -226,10 +230,10 @@ Before implementation, the user requests 3–5 previously untried geological hyp
 
 ## Executive summary · nine requested sites
 
-These are the highest historical files **named in the user prompt**, not a complete census. Prompt values are unverified user reports; no submission-page receipts were found. The future leaderboard estimate is unavailable for every row. “Prior candidate” overlap is directed from the prior MAW-GSI dots to the site's dots. Each historical file fails the focus-nine spatial-uniqueness rule and must not be resubmitted as new.
+These are the highest historical files **named in the user prompt**, not a complete census of every site or submission. Prompt values are unverified user reports; no submission-page receipts were found. The future leaderboard estimate is unavailable for every row. The focus-nine column reports each raster's directed positive-pixel overlap with its closest of the other eight historical rasters; the separate prior-candidate column is diagnostic only and does not define focus-nine uniqueness. Every historical file exceeds the 70% focus-nine overlap limit and must not be resubmitted as new.
 
-| Site | Historical file (research only) | Method (owner-described) | Prompt claim | Future estimate | Unique among focus nine? | Decision |
-| --- | --- | --- | --- | --- | --- | --- |
+| Site | Historical file (research only) | Method (owner-described) | Prompt claim | Future estimate | Unique among focus nine? (closest peer) | Prior candidate overlap (diagnostic) | Decision |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 {chr(10).join(md_rows)}
 
 The re-audit confirms GEMSDOE32 B2's support equals GEMSDOE25's support outside a two-pixel catalogue collar; GEMSDOE25 and GEMSDOE30 have identical footprint values. The user-reported GEMSDOE32 value of 0.2778 has no linked organizer receipt. The official max-kernel DTI makes reduced redundancy a plausible explanation, not proof; hidden labels are unavailable. No result here establishes that a new method will exceed it.

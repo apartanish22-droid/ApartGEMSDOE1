@@ -23,3 +23,28 @@ Review date: 2026-10-28 UTC. No model experiment, replacement candidate, submiss
 * Automated regression suite: **23 passed**, including synthetic soft-DTI against the literal brute-force formula, whole-component/buffer holdout, >70% dense/lattice witness, empty/partial/unpinned/undefined-rank registry failures, pre-placement hash attestations, source-bound cache rebuilds, negative runner, local preflight, page links and fresh-feed parser. Twelve rasterio/Affine deprecation warnings were emitted; no test failed.
 * `python -m compileall -q src scripts tests`, `node --check docs/feed.js`, and `git diff --check` passed. The local static preview served the root, dashboard, audit-only TIFF and feed over HTTP. The local GeoTIFF preflight passed format checks but returned `ok_to_submit=false`.
 * GitHub repository metadata reported push/admin permission and a legacy Pages site rooted at `main:/`; branch-protection and Actions-permissions reads returned HTTP 403. Concurrent PRs #23 and #24 repeated the superseded promotion claims. PR #25 merged the corrective negative audit; its Pages workflow completed and the public dashboard was independently observed with the stop verdict. The feed refresh ran but returned unavailable because the leaderboard HTML could not be parsed on the runner; a successful deployment is not evidence of a successful refresh. No slot was used.
+
+## Session review — 2026-10-30 UTC
+
+No new hypothesis experiment or submission candidate was started. The inherited lane already has a mandatory duplicate stop, the original pre-placement surface is missing, and no complete registry or current v3 baseline is available.
+
+### Pass 1 — inspect and re-verify evidence
+
+* Re-read the README charter, generated dashboard, data-preparation path, shared uniqueness/holdout/format validators, run cards, and focus-nine manifest. Confirmed that `.cache/training_features.tif` and cached feature bands are absent in this checkout; the checked-in `data/manifest.json` is a historical receipt, not proof that those ignored cache files are present now.
+* Re-fetched all nine immutable focus-site rasters through GitHub at their manifest-pinned commits. All 9/9 fetched, Git blob IDs and SHA-256 pins matched, grid metadata matched, and the audit reported zero errors. No organizer receipt or hidden target labels were available.
+* Re-fetched the immutable 13GEMSDOE lattice witness and re-ran the negative candidate audit: 37,533/37,654 prior dots are within three pixels (99.6787% directed overlap, above the 70% stop). The original surface gate and complete registry remain unavailable; this single witness proves failure but cannot certify any other candidate's uniqueness.
+* Reconfirmed the focus-nine pairwise nearest-peer overlaps: 97.5781%–100.0000%, all above 70%. GEMSDOE32 support is pixel-exactly GEMSDOE25 support after removing cells within two pixels of the catalogue; GEMSDOE25 and GEMSDOE30 supports are identical. This establishes geometry, not why their user-reported scores differ.
+
+### Pass 2 — fix review findings
+
+* Replaced the confusing focus-nine table label: it now gives the exact directed overlap and closest peer separately from the prior ApartGEMSDOE1 candidate comparison. The prior-candidate overlap is explicitly diagnostic and is not misrepresented as the focus-nine uniqueness test.
+* Found that the archived H-APART-6 runner imported NumPy/SciPy/scikit-learn before checking the mandatory stop. Replaced it with a standard-library-only retired-runner tombstone that exits before scientific imports; missing or malformed audit evidence also fails closed. No historical experiment can be relaunched by this entry point.
+* Added a 24-hour freshness rule to the leaderboard feed. The stored 2026-10-28 observation (0.4544) is now marked historical, not current; the current value is null/unavailable, and the browser hides stale or out-of-range values. The 0.3195 and 0.4413 figures in the request conflict with each other and were not independently verified in this sandbox.
+* Added a pull-request / main-branch CI workflow that installs the documented Python stack, checks Python and browser JavaScript syntax, and runs the automated test suite.
+
+### Pass 3 — regression and final decision
+
+* `27 passed, 12 warnings` with `.venv/bin/python -m pytest -q`; warnings are rasterio/Affine pending deprecations. `node --check docs/feed.js`, Python `compileall`, and `git diff --check` passed.
+* The archived H-APART-6 command exited 2 under `python -S` (no third-party packages on `sys.path`) with the duplicate-stop message. The H-APART-2 runner also exited 2 before an experiment.
+* The existing TIFF passed local single-band/grid/float32/finiteness/[0,1] checks, SHA-256 `09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f`, but `ok_to_submit=false` because uniqueness/holdout/selector gates are not cleared. No new TIFF, holdout DTI, projection, organizer receipt, upload, or weekly slot was produced.
+* Decision: **negative; do not download or submit the archived TIFF**. A future candidate requires an assigned method lane, present/source-bound feature cache, same-v3 holdout baseline and feature canaries, pre-placement and final checks against a complete accessible registry, and authenticated organizer template/outside-bounds behavior before separate selector review.
