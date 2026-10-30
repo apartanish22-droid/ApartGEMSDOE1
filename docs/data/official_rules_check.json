@@ -87,7 +87,7 @@
     "method": "fetch_page tool read of the public leaderboard page (first chunk; ranks 1-22 with scores visible; rank 23 truncated in the read)",
     "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
     "top_public_dti": 0.4544,
-    "note": "The scheduled feed in docs/data/public_feed.json was last written 2026-10-28 with the same top value. The sandbox cannot run the refresh script (drivendata.org is not on the allowlist).",
+    "note": "Direct read by the fetch tool. It is NOT the scheduled feed. On 2026-10-30 the scheduled script (scripts/update_public_feed.py) failed with a TLS EOF, and docs/data/public_feed.json now reads status=unavailable. Do not treat 0.4544 as the feed's value; it is a dated, sourced observation.",
     "rows_1_to_22_range": [
       0.4544,
       0.3334
