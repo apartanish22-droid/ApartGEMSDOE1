@@ -104,7 +104,8 @@ def find_priors(roots, exclude=None, *, min_bytes=1000):
             # the "prior union" then covers more pixels than the footprint itself -- which silently
             # destroys both the novelty fraction and the not-the-union test, and in the H54 build
             # emptied the novel pool to 93 px.  Measured before this exclusion: union 5,363,764 px
-            # against a 5,167,373 px footprint.  IR-52-027; regression test in tests/test_gates.py.
+            # against a 5,167,373 px footprint.  IR-52-027; review 2026-10-30: the cited tests/test_gates.py does not exist and no
+            # regression test for this exclusion is currently in tests/ (open item).
             sp = str(path)
             if ("data/raw" in sp or path.name == "labels.tif"
                     or path.name.startswith("sample_submission")

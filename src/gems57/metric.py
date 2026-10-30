@@ -56,7 +56,8 @@ For a non-redundant dot (``dT == k``) this reduces to the simple bar
    Caught by the DTI-vs-brute-force test suite; see irregularity ``IR-57-BAR-01``.
 :func:`gems57.emit.greedy_allocate` uses the **exact** two-sided test above,
 tracking both ``T`` and ``M``.  All of it is verified against
-:func:`dti_bruteforce` by ``tests/test_metric.py``.
+:func:`dti_bruteforce` in ``tests/test_apartgems_gates.py`` (review 2026-10-30:
+the earlier reference to ``tests/test_metric.py`` was stale; that file does not exist).
 """
 
 from __future__ import annotations
