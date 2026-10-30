@@ -33,6 +33,7 @@ h2 { font-size: clamp(1.55rem, 3vw, 2.2rem); margin: 0 0 14px; }
 h3 { font-size: 1.1rem; margin: 0 0 7px; }
 p { margin: 0 0 14px; }
 .lead { max-width: 74ch; font-size: 1.08rem; color: #476364; }
+.feed-strip { max-width: 74ch; margin: 18px 0 8px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: #365354; font-size: 13px; }
 .hero { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, .7fr); gap: 35px; align-items: start; padding: 12px 0 32px; }
 .status-card { background: var(--danger-bg); border: 1px solid #efc5bd; border-radius: 16px; padding: 22px; box-shadow: var(--shadow); }
 .status-label { display: inline-flex; align-items: center; gap: 8px; color: var(--danger); font-weight: 800; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }

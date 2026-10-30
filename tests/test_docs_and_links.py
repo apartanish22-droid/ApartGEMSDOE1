@@ -42,8 +42,14 @@ def test_html_pages_are_negative_have_local_links_and_no_localhost():
             target = (docs / clean).resolve()
             assert target.exists() and target.stat().st_size > 0, f'broken {ref} in {name}'
     index = (docs / 'index.html').read_text()
+    assert index.index('class="hero"') < index.index('id="public-feed"') < index.index('id="sites"')
+    feed_script = (docs / 'feed.js').read_text()
+    assert 'PUBLIC_FEED_MAX_AGE_MS' in feed_script and 'top_public_dti > 1' in feed_script
     for site in (24, 25, 27, 28, 30, 31, 32, 33, 36):
         assert f'GEMSDOE{site}' in index
+    assert 'Unique among focus nine? (3px rule)' in index
+    assert 'Max directed 3px overlap: 100.00% vs GEMSDOE25' in index
+    assert 'not byte identity' in index
     assert '0.2778' in index and 'user-reported; unconfirmed' in index
     assert 'not comparable' in index and '11,360' in index
     assert 'top_public_dti' in (docs / 'feed.js').read_text()
@@ -81,8 +87,11 @@ def test_readme_standing_protocol_and_links():
     text = (ROOT / 'README.md').read_text()
     card = json.loads((ROOT / 'evidence/run_card.json').read_text())
     assert card['raster_sha256'] in text
-    assert 'Standing reference: task and parallel-run protocol' in text
-    assert 'GEMSDOE32' in text and '0.2778' in text and 'no linked organizer receipt' in text
+    assert 'Standing reference: full task charter' in text and 'read before every change' in text
+    assert 'Objective.' in text and 'Maximize P(Win)' in text and 'Own the Outcome' in text
+    assert 'the cached 19-band feature stack is absent' in text
+    assert 'GEMSDOE32' in text and '0.2778' in text and 'no submission-page receipt' in text
+    assert 'max directed 3px overlap 100.00% vs GEMSDOE25' in text
     assert 'HOLDOUT-DTI' in text and '11,360' in text and '95% CI' in text
     for m in re.finditer(r'\]\(([^)]+)\)', text):
         ref = m.group(1).strip()

@@ -2,15 +2,16 @@ from datetime import datetime, timezone
 from pathlib import Path
 import json
 import os
+import shutil
 import subprocess
 import sys
 
 import pytest
 from scripts import update_public_feed
-from scripts.update_public_feed import make_snapshot, parse_public_leaderboard
+from scripts.update_public_feed import make_snapshot, parse_public_leaderboard, unavailable
 
 HTML = '''<!doctype html><table><thead><tr><th>Rank</th><th>Team</th><th>Best public DW-Tversky</th></tr></thead>
-<tbody><tr><td>#1</td><a>Example team</a></td><td>0.4544</td></tr><tr><td>#2</td><td>Team B</td><td>0.4200</td></tr></tbody></table>'''
+<tbody><tr><td>#1</td><td>Example team</td><td>0.4544</td></tr><tr><td>#2</td><td>Team B</td><td>0.4200</td></tr></tbody></table>'''
 
 
 def test_public_leaderboard_requires_unambiguous_labeled_rank_one():
@@ -35,17 +36,53 @@ def test_refresh_failures_clear_score_instead_of_publishing_stale_value(tmp_path
     assert '::warning title=Public leaderboard refresh failed::' in p.stdout
     feed = json.loads(out.read_text())
     assert feed['status'] == 'unavailable' and feed['top_public_dti'] is None
+    assert feed['observed_utc'] is None
+    assert feed['checked_utc'] and feed['checked_utc'] != feed['observed_utc']
     assert feed['parse_diagnostics']['table_count'] == 0
     assert 'not a submission receipt' in feed['evidence_class'].lower()
+
+
+def test_failed_refresh_records_check_time_not_a_fictitious_observation():
+    checked = '2026-10-30T00:00:00+00:00'
+    feed = unavailable('timeout', checked_utc=checked)
+    assert feed['status'] == 'unavailable'
+    assert feed['checked_utc'] == checked
+    assert feed['observed_utc'] is None
+    assert feed['top_public_dti'] is None
 
 
 def test_public_score_is_not_a_file_level_receipt_or_forecast():
     snap = make_snapshot(HTML, now=datetime(2026, 10, 28, tzinfo=timezone.utc))
     assert snap['status'] == 'ok' and snap['top_public_dti'] == .4544
+    assert snap['checked_utc'] == snap['observed_utc'] == '2026-10-28T00:00:00+00:00'
     assert 'NOT A SUBMISSION RECEIPT' in snap['evidence_class']
     assert 'not a forecast' in snap['caveat']
     assert snap['source'].endswith('/leaderboard/')
     assert snap['data_endpoint'].endswith('/leaderboard_partial/')
+
+
+def test_browser_feed_hides_stale_values_and_rejects_invalid_scores():
+    node = shutil.which('node')
+    if node is None:
+        pytest.skip('Node.js is needed only for this browser-formatting regression')
+    feed_script = Path(__file__).resolve().parents[1] / 'docs/feed.js'
+    code = r"""
+const assert = require('node:assert/strict');
+const {formatPublicFeedStatus} = require(process.argv[1]);
+const now = Date.parse('2026-10-30T00:00:00.000Z');
+const recent = {status: 'ok', top_public_dti: 0.4413, observed_utc: '2026-10-29T12:00:00.000Z'};
+const message = formatPublicFeedStatus(recent, now);
+assert.match(message, /0\.4413/);
+assert.match(message, /not a score or receipt/);
+const stale = formatPublicFeedStatus({status: 'ok', top_public_dti: 0.4544, observed_utc: '2026-10-28'}, now);
+assert.match(stale, /stale/i);
+assert.doesNotMatch(stale, /0\.4544/);
+const boundary = formatPublicFeedStatus({...recent, observed_utc: '2026-10-29T00:00:00.000Z'}, now);
+assert.match(boundary, /stale/i);
+assert.match(formatPublicFeedStatus({...recent, top_public_dti: 1.01}, now), /unavailable/i);
+assert.match(formatPublicFeedStatus({...recent, observed_utc: '2026-10-30T00:20:00.000Z'}, now), /unavailable/i);
+"""
+    subprocess.run([node, '-e', code, str(feed_script)], check=True, capture_output=True, text=True)
 
 
 def test_fetch_uses_public_html_fragment_not_empty_page_shell(tmp_path, monkeypatch, capsys):

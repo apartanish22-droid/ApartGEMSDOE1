@@ -108,6 +108,7 @@ def make_snapshot(html: str, *, now: datetime | None = None) -> dict:
     try:
         return {
             "status": "ok",
+            "checked_utc": stamp,
             "observed_utc": stamp,
             "source": URL,
             "data_endpoint": PARTIAL_URL,
@@ -116,15 +117,17 @@ def make_snapshot(html: str, *, now: datetime | None = None) -> dict:
             "caveat": "Public leaderboard only; not a forecast, private score, or a score for a file in this repository.",
         }
     except ValueError as exc:
-        result = unavailable(str(exc), stamp=stamp)
+        result = unavailable(str(exc), checked_utc=stamp)
         result['parse_diagnostics'] = table_diagnostics(html)
         return result
 
 
-def unavailable(reason: str, *, stamp: str | None = None) -> dict:
+def unavailable(reason: str, *, checked_utc: str | None = None) -> dict:
+    """Represent a failed refresh without falsely dating it as an observation."""
     return {
         "status": "unavailable",
-        "observed_utc": stamp or datetime.now(timezone.utc).isoformat(),
+        "checked_utc": checked_utc or datetime.now(timezone.utc).isoformat(),
+        "observed_utc": None,
         "source": URL,
         "data_endpoint": PARTIAL_URL,
         "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",
