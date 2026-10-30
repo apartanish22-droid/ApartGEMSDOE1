@@ -22,6 +22,37 @@ URL = "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderbo
 # The public leaderboard page loads its rows from this public fragment; the
 # response has appeared as either an HTML table or a rendered pipe table.
 PARTIAL_URL = "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard_partial/"
+MAX_AGE_SECONDS = 24 * 60 * 60
+FUTURE_CLOCK_TOLERANCE_SECONDS = 300
+
+
+def is_fresh_observation(snapshot: dict, *, now: datetime | None = None) -> bool:
+    """Return whether a stored public observation is recent enough to present as current.
+
+    Date-only timestamps are interpreted as UTC midnight, conservatively. Invalid,
+    future-dated, unavailable, or older-than-one-day records fail closed.
+    """
+    if not isinstance(snapshot, dict) or snapshot.get('status') != 'ok':
+        return False
+    score = snapshot.get('top_public_dti')
+    if isinstance(score, bool) or not isinstance(score, (int, float)) or not 0 <= score <= 1:
+        return False
+    try:
+        value = str(snapshot['observed_utc'])
+        observed = datetime.fromisoformat(value.replace('Z', '+00:00'))
+        if observed.tzinfo is None:
+            observed = observed.replace(tzinfo=timezone.utc)
+        current = now or datetime.now(timezone.utc)
+        if current.tzinfo is None:
+            current = current.replace(tzinfo=timezone.utc)
+        age = (current.astimezone(timezone.utc) - observed.astimezone(timezone.utc)).total_seconds()
+        configured_age = snapshot.get('max_age_seconds', MAX_AGE_SECONDS)
+        if isinstance(configured_age, bool) or not isinstance(configured_age, (int, float)):
+            return False
+        max_age = min(float(configured_age), float(MAX_AGE_SECONDS))
+        return -FUTURE_CLOCK_TOLERANCE_SECONDS <= age <= max_age
+    except (KeyError, TypeError, ValueError, OverflowError):
+        return False
 
 
 class TableParser(HTMLParser):
@@ -143,7 +174,9 @@ def make_snapshot(html: str, *, now: datetime | None = None) -> dict:
     try:
         return {
             "status": "ok",
+            "checked_utc": stamp,
             "observed_utc": stamp,
+            "max_age_seconds": MAX_AGE_SECONDS,
             "source": URL,
             "data_endpoint": PARTIAL_URL,
             "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",
@@ -151,15 +184,18 @@ def make_snapshot(html: str, *, now: datetime | None = None) -> dict:
             "caveat": "Public leaderboard only; not a forecast, private score, or a score for a file in this repository.",
         }
     except ValueError as exc:
-        result = unavailable(str(exc), stamp=stamp)
+        result = unavailable(str(exc), checked_utc=stamp)
         result['parse_diagnostics'] = table_diagnostics(html)
         return result
 
 
-def unavailable(reason: str, *, stamp: str | None = None) -> dict:
+def unavailable(reason: str, *, checked_utc: str | None = None) -> dict:
+    """Record a failed refresh without inventing a leaderboard observation time."""
     return {
         "status": "unavailable",
-        "observed_utc": stamp or datetime.now(timezone.utc).isoformat(),
+        "checked_utc": checked_utc or datetime.now(timezone.utc).isoformat(),
+        "observed_utc": None,
+        "max_age_seconds": MAX_AGE_SECONDS,
         "source": URL,
         "data_endpoint": PARTIAL_URL,
         "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",

@@ -11,8 +11,12 @@ import json
 from pathlib import Path
 import re
 import shutil
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from scripts.update_public_feed import is_fresh_observation
+
 DOCS = ROOT / 'docs'
 
 
@@ -122,42 +126,38 @@ def main() -> int:
     focus_witness_range = (min(focus_witness_scores) * 100, max(focus_witness_scores) * 100)
     rows = sorted(focus['sites'], key=lambda r: int(r['site'].replace('GEMSDOE', '')))
     best_reported = max(rows, key=lambda r: r['prompt_reported_claim'])
+    peer_values = [r['max_forward_overlap_3px_among_focus9'] * 100 for r in rows]
+    peer_overlap_range = (min(peer_values), max(peer_values))
     top_public_score = rank1['public_dw_tversky']
     reference_rank = reference['rank']
     feed_status = feed.get('status', 'unavailable')
-    feed_is_current = feed_status == 'ok' and isinstance(feed.get('top_public_dti'), (int, float))
+    feed_is_current = is_fresh_observation(feed)
     feed_summary = (f"Scheduled feed currently reports {float(feed['top_public_dti']):.4f} "
                     f"(observed {feed.get('observed_utc', 'date unavailable')})." if feed_is_current
-                    else f"Scheduled feed is {feed_status}; {feed.get('reason', 'no live value is recorded')}.")
+                    else f"Scheduled feed is {feed_status}; {feed.get('reason') or feed.get('caveat', 'no live value is recorded')}.")
     table = []
     md_rows = []
     for r in rows:
-        overlap = r.get('max_forward_overlap_3px_among_focus9')
-        closest = r.get('closest_focus_site')
+        peer_value = r.get('max_forward_overlap_3px_among_focus9')
+        peer_overlap = 'not measured' if peer_value is None else f'{peer_value * 100:.2f}%'
+        peer = r.get('closest_focus_site') or 'no peer recorded'
+        prior_value = r.get('prior_candidate_forward_overlap_3px')
+        prior_overlap = 'not checked' if prior_value is None else f'{prior_value * 100:.2f}%'
         historical = f"{r['prompt_reported_claim']:.4f}"
         research = r['owner_git_url'] + '?raw=1'
-        if r.get('unique_among_focus9') is False and overlap is not None and closest:
-            uniqueness = f"NO — {overlap * 100:.2f}% within 3 px of {closest}"
-            uniqueness_detail = (f"Maximum directed overlap against one of the other eight named files; "
-                                f"the protocol limit is 70%. This is a spatial duplicate flag, "
-                                f"not a claim of byte-identical files.")
-            decision = 'DO NOT SUBMIT — historical; not unique under the stated gate'
-            decision_detail = 'Historical file; fails the spatial uniqueness gate'
-        else:
-            uniqueness = 'NOT CERTIFIED'
-            uniqueness_detail = 'The nine-file comparison cannot prove uniqueness outside its limited scope.'
-            decision = 'DO NOT SUBMIT — historical file; not a new candidate'
-            decision_detail = 'Historical file; uniqueness not certified'
+        duplicate = r.get('unique_among_focus9') is False and peer_value is not None and peer
+        decision = 'DO NOT SUBMIT — historical; not unique under the stated gate' if duplicate else 'DO NOT SUBMIT — uniqueness not certified'
         table.append(f'''<tr>
           <td><strong><a href="https://{esc('buffedlizard55-lab')}.github.io/{esc(r['site'])}/">{esc(r['site'])}</a></strong></td>
           <td><a class="file" href="{esc(research)}">{esc(r['filename'])}</a><br><small>Historical file · research only</small></td>
           <td>{esc(r['method_summary'])}</td>
           <td><strong>{historical}</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
-          <td><span class="tag stop">{esc(uniqueness.split(' — ', 1)[0])}</span><br><small>{esc(uniqueness.split(' — ', 1)[1] if ' — ' in uniqueness else uniqueness)}. {esc(uniqueness_detail)}</small></td>
-          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>{esc(decision_detail)}</small></td>
+          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>{peer_overlap} within 3 px of {esc(peer)}. This is a directed spatial-near-duplicate flag, not byte identity.</small></td>
+          <td>{prior_overlap}<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span></td>
         </tr>''')
-        md_rows.append(f"| [{r['site']}](https://buffedlizard55-lab.github.io/{r['site']}/) | [`{r['filename']}`]({research}) | {r['method_summary']} | {historical} (user claim, unconfirmed) | Not defensibly estimable | {uniqueness}; {uniqueness_detail} | {decision} |")
+        md_rows.append(f"| [{r['site']}](https://buffedlizard55-lab.github.io/{r['site']}/) | [`{r['filename']}`]({research}) | {r['method_summary']} | {historical} (user claim, unconfirmed) | Not defensibly estimable | NO · focus-nine overlap exceeds 70%; {peer_overlap} within 3 px of {peer} | Prior candidate overlap {prior_overlap} (diagnostic only) | DO NOT SUBMIT |")
     overlap = audit['final_dot_gate']['forward_overlap_3px'] * 100
     hist = card['holdout_dti']['historical_noncomparable']
     holdout = f"{hist['dti']:.4f} [{hist['ci95'][0]:.4f}, {hist['ci95'][1]:.4f}]"
@@ -216,8 +216,8 @@ def main() -> int:
       <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> {audit['final_dot_gate']['candidate_dots_within_3px']:,} of {audit['final_dot_gate']['candidate_dots']:,} dots lie within three pixels of the <a href="{esc(witness['url'])}">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
     </section>
     <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest historical file named for each site in your prompt. GEMSDOE32 has the highest user-reported claim ({best_reported['prompt_reported_claim']:.4f}), but it is unconfirmed. All nine fail the focus-nine 70% directed-overlap uniqueness gate. New submission estimates are not defensibly available.</p></div></div>
-      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Highest historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt-reported score</th><th scope="col">New-file score estimate</th><th scope="col">Unique vs other eight?</th><th scope="col">Recommendation</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
-      <p class="subtle" style="margin-top:14px">The uniqueness field is the largest directed share of each site's positive cells lying within 3 pixels of any one of the other eight named rasters; the threshold is strictly greater than 70%. These are protocol-level spatial near-duplicate flags, not claims of identical file bytes. The audit covers only the nine named sites, so it cannot certify uniqueness against a complete registry.</p>
+      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Highest historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt-reported score</th><th scope="col">New-file score estimate</th><th scope="col">Unique among focus nine? (closest peer)</th><th scope="col">Prior candidate overlap (diagnostic)</th><th scope="col">Recommendation</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
+      <p class="subtle" style="margin-top:14px">The focus-nine percentage is directed from each historical file's positive cells to its closest peer's 3-pixel halo; all nine exceed the 70% cap ({peer_overlap_range[0]:.4f}%–{peer_overlap_range[1]:.4f}%). The separate prior-candidate overlap is diagnostic only and does not define focus-nine uniqueness. These are spatial near-duplicate flags, not claims of identical file bytes; the nine-file audit cannot certify uniqueness against a complete registry.</p>
     </section>
     <div class="two-col"><section class="panel"><p class="eyebrow">03 / Mechanism, not proof</p><h2>Why did GEMSDOE32 stand out?</h2>
       <p>GEMSDOE32 has the highest of the nine user-reported claims at <strong>0.2778</strong>, versus GEMSDOE25's reported <strong>0.2600</strong> (claimed difference +0.0178); neither has a submission-page receipt, so neither is ORGANIZER-CONFIRMED. The pixel audit shows B2's support equals GEMSDOE25's support after removing pixels within two pixels of the mapped-fault catalogue; GEMSDOE25 and GEMSDOE30 have identical support.</p>
@@ -245,8 +245,8 @@ def main() -> int:
     {official_rule_panel}
     <section class="panel"><p class="eyebrow">Executive summary / nine requested sites</p><h2>Best reported history is not a submission recommendation</h2>
       <p>GEMSDOE32 has the highest user-reported score among these nine ({best_reported['prompt_reported_claim']:.4f}), but the claim is unconfirmed. Every listed file fails the 70% directed-overlap uniqueness gate against at least one of the other eight; none is approved for submission.</p>
-      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt-reported score</th><th scope="col">New-file score estimate</th><th scope="col">Unique vs other eight?</th><th scope="col">Recommendation</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
-      <p class="subtle" style="margin-top:14px">The uniqueness test measures the fraction of a raster's positive cells within 3 pixels of another listed raster. A spatial near-duplicate flag is not an assertion that the TIFF bytes are identical. A separate one-witness audit found {focus_witness_range[0]:.2f}–{focus_witness_range[1]:.2f}% of each of these nine files' dots within 3 px of the pinned lattice; one witness proves failure but does not certify a complete registry. <a href="data/focus_overlap_review_2026-10-30.json">View the full overlap audit.</a> Future score estimates are withheld because no current same-version holdout result is linked to leaderboard calibration.</p></section>
+      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt-reported score</th><th scope="col">New-file score estimate</th><th scope="col">Unique among focus nine? (closest peer)</th><th scope="col">Prior candidate overlap (diagnostic)</th><th scope="col">Recommendation</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
+      <p class="subtle" style="margin-top:14px">The focus-nine test measures the fraction of each raster's positive cells within 3 pixels of its closest peer. The separate prior-candidate column is diagnostic only. A spatial near-duplicate flag is not an assertion that the TIFF bytes are identical. A separate one-witness audit found {focus_witness_range[0]:.2f}–{focus_witness_range[1]:.2f}% of each of these nine files' dots within 3 px of the pinned lattice; one witness proves failure but does not certify a complete registry. <a href="data/focus_overlap_review_2026-10-30.json">View the full overlap audit.</a> Future score estimates are withheld because no current same-version holdout result is linked to leaderboard calibration.</p></section>
     <section class="panel"><p class="eyebrow">Current file / audit only</p><h2>One-click research artifact</h2>
       <p>The prior <code>{esc(file_name)}</code> is locally finite and in range on the owner-mirror grid, but it writes zeros outside the footprint where the official page requires null/NaN. It is also a protocol duplicate and is <strong>not approved to submit</strong>.</p>
       <p class="subtle">SHA-256: <code>{digest}</code><br>Prior name: <code>{current_name}</code></p>
@@ -288,30 +288,34 @@ def main() -> int:
 >
 > [Download the **prior TIFF for research only — do not submit**](docs/downloads/{file_name}) · SHA-256 `{digest}`
 
-## Standing reference: task and parallel-run protocol (read first)
+## Future-session start-up: read before every run
 
-At the start of every project session, reread this standing reference, the current run card, the stop witness, and the nine-site table before changing code or data. The objective is an original, competition-format GeoTIFF for mapping faults relevant to geothermal exploration, with autonomous, reproducible validation and no fabricated scores. Review the nine focus sites, make download status unambiguous, test scientific hypotheses on a spatial holdout, preserve official source links, perform three review passes, and use a separate selector before any weekly slot. The long site ledger is summarized in the audited table below; the exact operational requirements are retained here as the governing charter.
+**Objective.** Create an original, evidence-led GeoTIFF for geological-fault prediction relevant to geothermal exploration, and state plainly whether any file is safe to download or submit. Fault predictions are not direct geothermal-vent detections. Review GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, and 36; their historical score claims are user-reported, not receipts. GEMSDOE32's claimed 0.2778 is not explained by geometry alone: B2's support equals GEMSDOE25 after a two-pixel catalogue-collar removal, a possible but unproven redundancy-pruning mechanism.
 
-1. **LANE.** Stay inside the assigned single method. If rank correlation with any registry raster exceeds 0.90 or more than 70% of candidate dots fall within three pixels of one registry raster’s dots, log a duplicate and stop. Check the surface before placement and final dots; no density exemptions.
-2. **REUSE, DON’T REBUILD.** Reuse the template feature stack, `evaluate_holdout.py`, and `submission_writer.py`. Hide whole fault segments with a buffer; derive catalogue-based features only from visible faults; mask visible faults pixel-exactly; use pooled DTI with α=0.2, β=0.8 and a 300 m triangular kernel. Fix shared tools rather than maintaining a private fork.
-3. **EVIDENCE LABELS.** A measured model result is HOLDOUT-DTI with evaluator version, withheld-positive count and 95% CI. ORGANIZER-CONFIRMED means a submission-page receipt; an unverified prompt claim or projection is not such a receipt or a future score.
-4. **LEAKAGE CANARY.** Test each feature alone on holdout; AUC above 0.90 is leakage until proven otherwise.
-5. **RUN CARD.** Record hypothesis, mechanism, named non-fault mimic, holdout DTI and CI, registry correlations/overlaps, raster SHA-256, range/footprint/grid validation, submission name and ≤140-character note, and promote/negative verdict. Negative results are deliverables.
-6. **BUDGET.** Stop after at most three experiments or two hours, and stop immediately on duplication. A separate selector chooses a real slot within the current weekly cap.
+**Current lane status — stop.** The request does not unambiguously assign a fresh untried method; repo evidence identifies the inherited H-APART-2 candidate, which overlaps a pinned registry lattice by 37,533/37,654 dots ({overlap:.2f}%), above the 70% stop. Its pre-placement surface and the complete registry are unavailable. This checkout has no feature cache; a separate scratch-copy restore used owner mirrors, not organizer-origin data. Do not run more experiments, generate a new TIFF, estimate a leaderboard score, or spend a slot in this stopped lane.
 
-Before implementation, the user requests 3–5 previously untried geological hypotheses, ranked by expected DTI improvement and cost, with layers, physical signature, catalogue-missing rationale, differences from this repo, mimics, and official data availability. [Future hypotheses are recorded here](evidence/next_hypotheses.md); none was run after the stop.
+### Mandatory gates
 
-**Core values:** *Maximize P(Win)* means weigh trade-offs, uncertainty, and risk; do not spend a submission slot on an unvalidated idea. *Own the Outcome* means own results end to end, report failure as a signal, and fix shared defects when possible. Review changes in at least three passes, document limitations, and support factual claims with official sources. Keep the feed and submission gate fail-closed.
+1. **Hypotheses before implementation.** Rank 3–5 untried geological hypotheses by expected DTI improvement and cost. For each, name layers, physical signature, catalogue-missing rationale, differences from this repo, a non-fault mimic, and official data availability. [Future hypotheses are recorded here](evidence/next_hypotheses.md); they are not permission to run them.
+2. **One lane; surface before placement.** Stay within the assigned single method. Compare every pre-placement surface and final dots with the complete pinned registry. Stop immediately if Spearman rank correlation exceeds 0.90 or over 70% of dots fall within 3 px of any registry raster. No density exemptions.
+3. **Reuse shared tools.** Reuse the template feature stack, shared holdout evaluator, and `submission_writer.py`; fix shared tools rather than keeping a private fork. Hold out whole fault segments with a buffer, derive catalogue features only from visible faults, mask visible faults pixel-exactly, and use pooled DTI (α=0.2, β=0.8; 300 m triangular kernel).
+4. **Leakage canary.** Run every feature alone through holdout; **AUC >0.90 is leakage** until proven otherwise.
+5. **Score labels.** Label measured model results `HOLDOUT-DTI` with evaluator version, withheld-positive count, and 95% CI. Use `ORGANIZER-CONFIRMED` only for a score on an actual submission-page receipt. Never present projections as scores.
+6. **Run card.** Record hypothesis, mechanism, named non-fault mimic, holdout DTI/CI, registry correlations/overlaps, raster SHA-256, validator output, submission name, ≤140-character note, and promote/negative verdict.
+7. **Budget and selector.** Stop after at most **three experiments or two hours**, and stop at once on duplication. A separate selector—not the experiment runner—chooses any real submission slot within the weekly cap.
+8. **Review and report.** Use official sources, preserve limitations, run three review passes, and report negative results. Local validation is not organizer acceptance; no slot without all gates and selector approval.
+
+**Core values:** *Maximize P(Win)* means weigh evidence, expected value, and risk; *Own the Outcome* means report failure, fix shared defects, and preserve reproducible evidence.
 
 ## Official public leaderboard observation
 
-On **{leaderboard['observed_utc']} UTC**, the official public table showed **{top_public_score:.4f} at rank 1** and **0.3195 at rank {reference_rank}**. The prompt's 0.3195 value is therefore not the leader in this observation; 0.4413 was not present in the displayed top 50. These are public team standings, not file-level submission receipts and not score estimates for this repository. The scheduled feed status in this checkout is **{feed_status}** ({esc(feed.get('reason', 'a dated manual observation is recorded separately'))}); it must not be conflated with this direct, date-stamped observation. See the [dated observation record](evidence/leaderboard_observation_20261030.json), [feed snapshot](docs/data/public_feed.json), and [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/).
+On **{leaderboard['observed_utc']} UTC**, the official public table showed **{top_public_score:.4f} at rank 1** and **0.3195 at rank {reference_rank}**. The prompt's 0.3195 value is therefore not the leader in this observation; 0.4413 was not present in the displayed top 50. These are public team standings, not file-level submission receipts and not score estimates for this repository. The scheduled feed status in this checkout is **{feed_status}** ({esc(feed.get('reason') or feed.get('caveat', 'a dated manual observation is recorded separately'))}); it must not be conflated with this direct, date-stamped observation. See the [dated observation record](evidence/leaderboard_observation_20261030.json), [feed snapshot](docs/data/public_feed.json), and [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/).
 
 ## Executive summary · nine requested sites
 
 These are the highest historical files **named in the user prompt**, not a complete census. GEMSDOE32 has the highest user-reported historical score among the nine (**0.2778**, unconfirmed); no linked organizer receipt was found. A new-file leaderboard estimate is **not defensibly available** for any row because there is no same-version holdout-to-leaderboard calibration. The uniqueness value is the maximum directed share of each raster's dots within three pixels of one of the other eight focus-site rasters. All nine exceed the protocol's 70% threshold and are therefore **not unique under that spatial rule**; this does not mean every pair is byte-identical. None should be resubmitted as a new submission.
 
-| Site | Historical file (research only) | Method (owner-described) | Prompt-reported score | New-file estimate | Unique vs other eight? | Recommendation |
+| Site | Historical file (research only) | Method (owner-described) | Prompt claim | Future estimate | Unique among focus nine? (closest peer) | Prior candidate overlap (diagnostic) | Decision |
 | --- | --- | --- | --- | --- | --- | --- |
 {chr(10).join(md_rows)}
 

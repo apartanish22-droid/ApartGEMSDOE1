@@ -26,55 +26,70 @@ Follow-up repository review: 2026-10-30 UTC. The newer review ran 24 tests, refr
 * `python -m compileall -q src scripts tests`, `node --check docs/feed.js`, and `git diff --check` passed. The local static preview served the root, dashboard, audit-only TIFF and feed over HTTP. The local GeoTIFF preflight passed format checks but returned `ok_to_submit=false`.
 * GitHub repository metadata reported push/admin permission and a legacy Pages site rooted at `main:/`; branch-protection and Actions-permissions reads returned HTTP 403. Concurrent PRs #23 and #24 repeated the superseded promotion claims. PR #25 merged the corrective negative audit; its Pages workflow completed and the public dashboard was independently observed with the stop verdict. The feed refresh ran but returned unavailable because the leaderboard HTML could not be parsed on the runner; a successful deployment is not evidence of a successful refresh. No slot was used.
 
-## Three-pass repository review — 2026-10-30 UTC
+## Session review — 2026-10-30 UTC
 
-No new model experiment, candidate raster, selector action, or competition submission was made. The protocol's existing duplicate stop remained controlling.
+No new hypothesis experiment or submission candidate was started. The inherited lane already has a mandatory duplicate stop, the original pre-placement surface is missing, and no complete registry or current v3 baseline is available.
 
-### Pass 1 — reproduce the high-risk evidence and inspect the published claims
+### Pass 1 — inspect and re-verify evidence
 
-* Installed the declared Python dependencies in an ignored local `.venv` only; no project dependency files or data were changed by installation.
-* Re-ran `scripts/audit_historical_focus.py`: all nine pinned owner-mirror rasters resolved with no errors. Every one of the nine has more than 70% of its positive cells within three pixels of at least one of the other eight named rasters (`unique_among_focus9=false`). The audit remains limited to these nine mirrors, not the complete competition registry.
-* Re-ran `scripts/audit_literal_witness.py`: the historical ApartGEMSDOE1 raster remains a protocol duplicate against the hash-pinned 13GEMSDOE lattice: 37,533 / 37,654 dots, forward 3-pixel overlap 0.9967865299835342. The one-witness result proves failure but cannot certify uniqueness.
-* Re-ran `scripts/audit_holdout_mask.py`: v3 mask regression reproduced 11,360 withheld positives and an exact visible-only mask; this is a mask check, not a HOLDOUT-DTI model result.
-* Re-read the official DrivenData problem page and public leaderboard on 2026-10-30. The task is geological-fault prediction (not direct vent detection); DTI uses α=0.2 for false positives, β=0.8 for false negatives, and a 300 m triangular kernel. The public table showed 0.4544 at rank 1; 0.3195 at rank 48; 0.4413 was absent from the displayed top 50. Stored a date-stamped observation and labeled it as public standings, not a file receipt.
-* Confirmed the actual cached feature stack is absent in this checkout: 0 of 19 `.cache/features/band-*.npy` arrays and no `data/official/training_features.tif`. The old feature-cache JSON is a historical report, not usable features.
-* Found a published-summary defect: the audit recorded all nine focus-site uniqueness flags as `false`, while the generated executive table displayed “Unavailable” and said those nine comparisons were below the threshold. This contradicted the underlying audited measurements.
+* Re-read the README charter, generated dashboard, data-preparation path, shared uniqueness/holdout/format validators, run cards, and focus-nine manifest. Confirmed that `.cache/training_features.tif` and cached feature bands are absent in this checkout; the checked-in `data/manifest.json` is a historical receipt, not proof that those ignored cache files are present now.
+* Re-fetched all nine immutable focus-site rasters through GitHub at their manifest-pinned commits. All 9/9 fetched, Git blob IDs and SHA-256 pins matched, grid metadata matched, and the audit reported zero errors. No organizer receipt or hidden target labels were available.
+* Re-fetched the immutable 13GEMSDOE lattice witness and re-ran the negative candidate audit: 37,533/37,654 prior dots are within three pixels (99.6787% directed overlap, above the 70% stop). The original surface gate and complete registry remain unavailable; this single witness proves failure but cannot certify any other candidate's uniqueness.
+* Reconfirmed the focus-nine pairwise nearest-peer overlaps: 97.5781%–100.0000%, all above 70%. GEMSDOE32 support is pixel-exactly GEMSDOE25 support after removing cells within two pixels of the catalogue; GEMSDOE25 and GEMSDOE30 supports are identical. This establishes geometry, not why their user-reported scores differ.
 
-### Pass 2 — correct the decision surface without bypassing the stop
+### Pass 2 — fix review findings
 
-* Fixed the README/dashboard generator to render each focus site's maximum directed 3-pixel overlap, its closest listed site, the 70% gate, and “DO NOT SUBMIT”; clarified that this is spatial near-duplicate status, not byte identity.
-* Added the same auditable nine-site table to the executive-summary/submission-guide page. The table distinguishes user-reported historical claims from a new-file score estimate; the latter remains unavailable because no same-version holdout-to-leaderboard calibration exists.
-* Corrected the user-cited leaderboard figures in the pages and added `evidence/leaderboard_observation_20261030.json` as a dated manual observation. The scheduled feed remains fail-closed and `unavailable` after its recorded TLS EOF; the official top public standing is not presented as a score for this repository's TIFF.
-* Hardened the scheduled feed parser to accept either the official HTML table or a rendered pipe-table fragment while still requiring one labeled rank-one Tversky value; corrected the malformed HTML unit fixture.
-* Added a generated input-readiness disclosure for the missing feature stack. Kept all historical TIFF download links explicitly labeled research-only; generated no new TIFF and did not spend a slot.
-* Added regression tests for all nine uniqueness rows, the no-estimate state, the dated leaderboard observation, both HTML summary pages, and HTML/pipe-table feed parsing.
+* Replaced the confusing focus-nine table label: it now gives the exact directed overlap and closest peer separately from the prior ApartGEMSDOE1 candidate comparison. The prior-candidate overlap is explicitly diagnostic and is not misrepresented as the focus-nine uniqueness test.
+* Found that the archived H-APART-6 runner imported NumPy/SciPy/scikit-learn before checking the mandatory stop. Replaced it with a standard-library-only retired-runner tombstone that exits before scientific imports; missing or malformed audit evidence also fails closed. No historical experiment can be relaunched by this entry point.
+* Added a 24-hour freshness rule to the leaderboard feed. The 2026-10-28 scheduled snapshot (0.4544) is historical, not current feed data; its `top_public_dti` is null after the refresh failed. Separately, the official-source record contains a direct public-page read of 0.4544 dated 2026-10-30; that is a public standing, not a score for a file or a projection. The browser hides stale or out-of-range feed values.
+* Added a pull-request / main-branch CI workflow that installs the documented Python stack, checks Python and browser JavaScript syntax, and runs the automated test suite.
 
-### Pass 3 — independently re-check the final state
+### Pass 3 — regression and final decision
 
-* `pytest -q`: **27 passed**, with 12 rasterio/Affine pending-deprecation warnings. The new tests verify each row's overlap against the checked audit JSON, ensure a public leaderboard observation cannot be mistaken for a file score, and cover both feed encodings.
-* `python -m compileall -q src scripts tests`, `node --check docs/feed.js`, the page generator, HTML/README link tests, and `git diff --check` all passed.
-* `validate_submission.py ... --format-only` returned a local format/range pass for the **historical** TIFF (one float32 band, EPSG:32611, shape 3730×3292, matching stored sample transform, finite [0,1]); the full preflight still reports `ok_to_submit=false`, no registry clearance, no holdout evaluation, and no selector approval.
-* Added `evidence/run_card_20261030.json` as the current review-only negative card; it references the existing audit TIFF and explicitly records that no new raster or model score was produced. The older `evidence/run_card.json` remains the historical lane card.
-* Final status remains **negative / no file ready**. The candidate's pre-placement surface is still unavailable, the complete registry is still inaccessible, the 19-band cache is absent, and no corrected v3 HOLDOUT-DTI run was authorized after the literal duplicate stop. The 2026-10-28 v2 holdout result remains historical and non-comparable; no new leader-score estimate is made.
+* `27 passed, 12 warnings` with `.venv/bin/python -m pytest -q`; warnings are rasterio/Affine pending deprecations. `node --check docs/feed.js`, Python `compileall`, and `git diff --check` passed.
+* The archived H-APART-6 command exited 2 under `python -S` (no third-party packages on `sys.path`) with the duplicate-stop message. The H-APART-2 runner also exited 2 before an experiment.
+* The existing TIFF passed local single-band/grid/float32/finiteness/[0,1] checks, SHA-256 `09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f`, but `ok_to_submit=false` because uniqueness/holdout/selector gates are not cleared. No new TIFF, holdout DTI, projection, organizer receipt, upload, or weekly slot was produced.
+* Decision: **negative; do not download or submit the archived TIFF**. A future candidate requires an assigned method lane, present/source-bound feature cache, same-v3 holdout baseline and feature canaries, pre-placement and final checks against a complete accessible registry, and authenticated organizer template/outside-bounds behavior before separate selector review.
 
-## Main-branch reconciliation review — 2026-10-30 UTC
+## Main-branch integration review — 2026-10-30 UTC
 
-A concurrent review merged into `main` while this branch was active. The current branch incorporated that base and reconciled, rather than overwrote, its findings and this review's focus-nine/current-card work.
+### Pass 1 — reconcile concurrent main changes
 
-### Pass 1 — compare scopes and resolve evidence
+* Fetched `origin/main` at `35933e5` while remaining on `arena/6e95da7a-apartgemsdoe1`. It includes the official format/rules evidence and a corrected fresh-checkout path in the submission CLI. The working tree contained no training-feature cache; another review's mirror restore was performed in an isolated scratch copy, not this checkout.
+* Noted a concurrent open PR with overlapping focus-table/feed changes. Preserved distinct measures: closest-peer overlap among the nine sites versus diagnostic overlap with the prior candidate. Kept the official 2026-10-30 direct leaderboard read distinct from the scheduled feed's TLS failure.
 
-* Preserved the other review's official-rule quotes, fresh-checked format tests, CLI writer correction, and focus-overlap audit. The other review's scratch-copy mirror restore does not mean this working checkout contains feature data: the current checkout still has 0/19 cached bands and no training feature TIFF.
-* Reconciled the official sample-mask finding: the archived TIFF's local float32/range/grid checks pass, but it writes zeros outside the stored footprint; the official page and checked sample require null/NaN outside. Portal acceptance remains untested. Added the mismatch to the current review card and submission guide.
-* Kept the scheduled public feed fail-closed (`status=unavailable`) while retaining the separately dated manual leaderboard observation. They are distinct evidence sources.
+### Pass 2 — resolve and harden
 
-### Pass 2 — combine the release documentation
+* Resolved the main merge while retaining the official rule table, submission guide, source register, and prior review evidence. The rebuilt focus-nine table explicitly names closest peer and directed 3-pixel overlap; all nine exceed 70% (97.5781%–100%).
+* Separated feed refresh time (`checked_utc`) from successful observation time (`observed_utc`); failed refreshes now have `observed_utc: null` and no score. Kept 0.4544 only in the stale scheduled-snapshot record; the separate direct public-page observation remains documented in `official_rules_check.json`.
+* Expanded README startup instructions with the unresolved assigned-lane warning, inherited hard stop, hypothesis preregistration, evaluator/score labels, leakage canary, run-card, and separate-slot-selector requirements. Corrected the dashboard to say the training-feature cache is absent from this checkout.
 
-* Unified the generated dashboard and README: retained the per-site 3-pixel focus-nine table, the 2026-10-30 review card, and the leaderboard observation; added the official format/rules table, quoted evidence links, and the independent pinned-witness audit showing 99.91–99.92% overlap for each of the nine historical rasters.
-* Corrected the GEMSDOE32 mechanism note: user-reported 0.2778 versus 0.2600 implies +0.0178 but neither is confirmed. The DTI's β=0.8 false-negative weight makes recall important; max-kernel credit saturates per truth pixel. The collar-pruning explanation remains a hypothesis, not causal proof.
-* No model or feature experiment, new TIFF, submission, or selector action was added. Hypotheses remain future work after a separately assigned lane and complete registry.
+### Pass 3 — integration checks
 
-### Pass 3 — validate the merged result
+* Verified the generated dashboard and README from `scripts/build_pages_and_readme.py`, including all nine rows, the GEMSDOE32 limitation, no score projection, official format rules, and do-not-submit decision.
+* Re-ran the complete Python suite after the sync: **33 passed, 12 pending-deprecation warnings** (Rasterio/Affine). `compileall`, `node --check docs/feed.js`, `git diff --cached --check`, and `git diff --check` passed. The H-APART-6 tombstone still exits 2 under `python -S` with the stop message. No model experiments, new TIFF, upload, or weekly slot were created.
+* PR #34 remains open pending these synchronized changes and remote CI/mergeability verification; no merge to `main` has yet occurred.
 
-* `pytest -q`: **32 passed**, with 12 rasterio/Affine pending-deprecation warnings. Python compileall, `node --check docs/feed.js`, the generator, and `git diff --check` passed.
-* The official-format regression verifies the local NaN-outside variant matches the stored sample mask; it was not uploaded. The review card keeps local checks separate from the official mismatch, registry failure, missing v3 holdout, and selector approval.
-* Delivery remains fail-closed: no file is ready to submit; no new score estimate or organizer receipt exists.
+## Follow-up main sync — 2026-10-30 UTC
+
+* After the first integration commit, `origin/main` advanced to `86c703a` (PR #31). Merged that update on this same feature branch; it adds an independently documented all-pairs overlap audit, confirms the 13GEMSDOE witness relationship, corrects two stale test references in comments/docstrings, and links the companion review from the generated README. No experiment or TIFF was produced.
+* Rebuilt the README/Pages outputs and reran the full suite: **33 passed, 12 pending-deprecation warnings**. `compileall`, `node --check docs/feed.js`, and `git show --check HEAD` passed. The current public-feed behavior remains fail-closed.
+* Branch head is the merge of the current `origin/main` and this feature branch. PR #34 is still open and unmerged; the update must be pushed and remote checks/mergeability verified before any merge attempt.
+
+## Current branch follow-up — 2026-10-30 UTC
+
+### Pass 1 — reconcile the newest `main`
+
+* Fetched `origin/main` after it advanced to `7d51342` (PR #34) while remaining on `arena/4cab7700-apartgemsdoe1`. Preserved its pull-request CI workflow, stale-feed freshness gates, additional focus-nine diagnostic column, and retired H-APART-6 entry-point tombstone.
+* Kept current focus-nine uniqueness separate from diagnostic overlap against the old ApartGEMSDOE1 candidate. The dated manual leaderboard read (0.4544 rank 1; 0.3195 rank 48) remains distinct from the unavailable scheduled feed and its stale 2026-10-28 snapshot.
+
+### Pass 2 — resolve and disclose
+
+* Rebuilt the generated docs from the merged generator: all nine peer overlaps and prior-candidate diagnostics, official outside-bounds mismatch, current negative run card, dated public observation, and linkable witness/rules evidence are visible. User-reported B2 score and +0.0178 difference remain unconfirmed and non-causal.
+* Updated the current card to record that the archived TIFF's local grid/range checks pass while its zero fill outside the footprint conflicts with the official null/NaN instruction. No portal acceptance was inferred.
+* No feature/model experiment, new TIFF, score projection, selector action, upload, or slot use occurred. Current checkout still has 0/19 cached feature bands and no `training_features.tif`.
+
+### Pass 3 — final regression
+
+* `pytest -q`: **36 passed**, 12 rasterio/Affine pending-deprecation warnings. The builder, Python compileall, `node --check docs/feed.js`, and `git diff --check` passed. The historical TIFF's local format-only validator passes but remains `ok_to_submit=false`.
+* Final status: negative; no file is safe to submit and no new score is established. The complete registry and pre-placement surface remain unavailable; the duplicate stop is controlling.

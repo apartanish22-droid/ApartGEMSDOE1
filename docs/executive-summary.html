@@ -8,7 +8,7 @@
       <p class="lead">The project must pass automated scientific, novelty, and file-format gates before a separate selector uses a weekly slot. No manual image inspection is required for this negative decision.</p></div>
       <aside class="status-card"><span class="status-label"><span class="status-dot"></span> Do not submit</span><strong>Current candidate is blocked.</strong><p>99.68% 3-pixel overlap exceeds the 70% limit. A format pass alone does not authorize an upload.</p></aside></section>
     <section class="panel" id="status-table"><p class="eyebrow">Answer first</p><h2>Can I download and submit a file today?</h2><p class="lead"><strong>No.</strong> No file in this repository is cleared for upload. No new TIFF was generated and no competition slot was used. No new-file score estimate is defensible.</p><div class="table-wrap"><table><thead><tr><th scope="col">File class</th><th scope="col">Score evidence</th><th scope="col">Uniqueness / format</th><th scope="col">OK to submit?</th></tr></thead><tbody><tr><td>Prior MAW-GSI candidate</td><td>No corrected v3 holdout or organizer receipt</td><td>99.68% of dots overlap the pinned witness within 3 px; zero outside footprint mismatches official null/NaN convention</td><td><span class="tag stop">NO · DO NOT SUBMIT</span></td></tr><tr><td>Nine historical focus TIFFs</td><td>User-reported scores only; all unconfirmed</td><td>Each fails the 70% focus-nine uniqueness gate; separate witness overlap is 99.91–99.92%</td><td><span class="tag stop">NO · DO NOT SUBMIT</span></td></tr><tr><td>New candidate</td><td>Not estimated; no holdout model run</td><td>Not generated or checked against a complete registry</td><td><span class="tag stop">NOT AVAILABLE</span></td></tr></tbody></table></div></section>
-    <p class="callout" style="margin-bottom:20px"><strong>Leaderboard correction (2026-10-30 UTC):</strong> the official public table showed <strong>0.4544 at rank 1</strong>; the cited <strong>0.3195 appeared at rank 48</strong>, not as the leader. The user-cited 0.4413 was not displayed in the fetched top 50. This is a dated public-standings observation, not a score for this repository's TIFF. Scheduled feed is unavailable; URLError: &lt;urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)&gt;. <a href="data/leaderboard_observation_20261030.json">View the evidence.</a></p>
+    <p class="callout" style="margin-bottom:20px"><strong>Leaderboard correction (2026-10-30 UTC):</strong> the official public table showed <strong>0.4544 at rank 1</strong>; the cited <strong>0.3195 appeared at rank 48</strong>, not as the leader. The user-cited 0.4413 was not displayed in the fetched top 50. This is a dated public-standings observation, not a score for this repository's TIFF. Scheduled feed is unavailable; The scheduled refresh attempt failed on 2026-10-30 with a TLS/SSL EOF. The separate direct official-page read is documented in evidence/official_rules_check.json; it is not a successful feed refresh.. <a href="data/leaderboard_observation_20261030.json">View the evidence.</a></p>
     <section class="panel" id="official-rules"><p class="eyebrow">Official rules · verified from source text</p><h2>Does the archived TIFF meet the submission specification?</h2>
       <div class="table-wrap"><table><thead><tr><th scope="col">Requirement</th><th scope="col">Official requirement</th><th scope="col">Archived audit TIFF</th><th scope="col">Status</th></tr></thead><tbody>
       <tr><td>CRS and resolution</td><td>EPSG 32611; 100 m</td><td>Matches the stored owner-mirror grid (3730 × 3292). Official data-page access is not available here.</td><td><span class="tag warn">LOCAL ONLY</span></td></tr>
@@ -21,80 +21,89 @@
       <p class="subtle">The official page says outside-bounds data must be null/NaN. The checked sample raster also stores NaN outside its footprint; an automated local variant matches that mask, but neither is a portal acceptance receipt. <a href="data/official_rules_check.json">Review quoted rules and evidence ↗</a></p></section>
     <section class="panel"><p class="eyebrow">Executive summary / nine requested sites</p><h2>Best reported history is not a submission recommendation</h2>
       <p>GEMSDOE32 has the highest user-reported score among these nine (0.2778), but the claim is unconfirmed. Every listed file fails the 70% directed-overlap uniqueness gate against at least one of the other eight; none is approved for submission.</p>
-      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt-reported score</th><th scope="col">New-file score estimate</th><th scope="col">Unique vs other eight?</th><th scope="col">Recommendation</th></tr></thead><tbody><tr>
+      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt-reported score</th><th scope="col">New-file score estimate</th><th scope="col">Unique among focus nine? (closest peer)</th><th scope="col">Prior candidate overlap (diagnostic)</th><th scope="col">Recommendation</th></tr></thead><tbody><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE24/">GEMSDOE24</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE24/blob/9e185929eeaa6244f96c3022cf3462faa8ca4de0/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif?raw=1">gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described 1.5-pixel thinning of H19-5 ridges.</td>
           <td><strong>0.2477</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
-          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE25. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
-          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
+          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% within 3 px of GEMSDOE25. This is a directed spatial-near-duplicate flag, not byte identity.</small></td>
+          <td>49.94%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE25/">GEMSDOE25</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE25/blob/fb1db37274776a29dbc48abe55b2e531f2ba6aad/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif?raw=1">gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described 2.8-pixel thinning of H19-5 ridges.</td>
           <td><strong>0.2600</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
-          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
-          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
+          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% within 3 px of GEMSDOE24. This is a directed spatial-near-duplicate flag, not byte identity.</small></td>
+          <td>48.56%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE27/">GEMSDOE27</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE27/blob/6704fa2a5133e751df2516feb2e32565ad5fc1df/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif?raw=1">gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described topographic gap closure added to a D1.5 dotted map.</td>
           <td><strong>0.2449</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
-          <td><span class="tag stop">NO</span><br><small>98.02% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
-          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
+          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>98.02% within 3 px of GEMSDOE24. This is a directed spatial-near-duplicate flag, not byte identity.</small></td>
+          <td>50.85%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE28/">GEMSDOE28</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE28/blob/9509b73eaf35f66d0b23fce63b2540ceff2a88e0/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif?raw=1">gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described one-pixel collar prune plus blind step-over rungs on D2.8.</td>
           <td><strong>0.2710</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
-          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
-          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
+          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% within 3 px of GEMSDOE24. This is a directed spatial-near-duplicate flag, not byte identity.</small></td>
+          <td>47.36%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE30/">GEMSDOE30</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE30/blob/31696c6541cfc54620ff850a748c51625461f27f/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif?raw=1">gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described D2.8 Poisson-disk baseline; footprint values equal GEMSDOE25.</td>
           <td><strong>0.2600</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
-          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
-          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
+          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% within 3 px of GEMSDOE24. This is a directed spatial-near-duplicate flag, not byte identity.</small></td>
+          <td>48.56%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE31/">GEMSDOE31</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE31/blob/06930b9d03473a9313094a4f2312c4fc6efd4fbb/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif?raw=1">gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described solo / one-pixel catalogue-collar pruning on D2.8.</td>
           <td><strong>0.2708</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
-          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
-          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
+          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% within 3 px of GEMSDOE24. This is a directed spatial-near-duplicate flag, not byte identity.</small></td>
+          <td>47.88%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/">GEMSDOE32</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/97597a066d1c61d2c226fdba349716f41b30c1c6/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif?raw=1">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a><br><small>Historical file · research only</small></td>
           <td>D2.8 set minus points at distance ≤2 pixels from mapped catalogue (verified support identity).</td>
           <td><strong>0.2778</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
-          <td><span class="tag stop">NO</span><br><small>100.00% within 3 px of GEMSDOE24. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
-          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
+          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% within 3 px of GEMSDOE24. This is a directed spatial-near-duplicate flag, not byte identity.</small></td>
+          <td>46.71%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE33/">GEMSDOE33</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE33/blob/3eaf85efb49f364b84f8be04e8b084b12d0303b9/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif?raw=1">GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described analog fault-tip and step-over additions on D2.8.</td>
           <td><strong>0.2632</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
-          <td><span class="tag stop">NO</span><br><small>99.71% within 3 px of GEMSDOE27. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
-          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
+          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>99.71% within 3 px of GEMSDOE27. This is a directed spatial-near-duplicate flag, not byte identity.</small></td>
+          <td>48.36%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE36/">GEMSDOE36</a></strong></td>
           <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE36/blob/e280188adbbe762e6b7ac6f3b8e105e8e7915026/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif?raw=1">gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif</a><br><small>Historical file · research only</small></td>
           <td>Owner-described Andersonian geothermal PINN additions to the B2 base.</td>
           <td><strong>0.2750</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Not defensibly estimable<br><small>No comparable holdout-to-leaderboard calibration</small></td>
-          <td><span class="tag stop">NO</span><br><small>97.58% within 3 px of GEMSDOE27. Maximum directed overlap against one of the other eight named files; the protocol limit is 70%. This is a spatial duplicate flag, not a claim of byte-identical files.</small></td>
-          <td><span class="tag stop">DO NOT SUBMIT</span><br><small>Historical file; fails the spatial uniqueness gate</small></td>
+          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>97.58% within 3 px of GEMSDOE27. This is a directed spatial-near-duplicate flag, not byte identity.</small></td>
+          <td>47.41%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
+          <td><span class="tag stop">DO NOT SUBMIT</span></td>
         </tr></tbody></table></div>
-      <p class="subtle" style="margin-top:14px">The uniqueness test measures the fraction of a raster's positive cells within 3 pixels of another listed raster. A spatial near-duplicate flag is not an assertion that the TIFF bytes are identical. A separate one-witness audit found 99.91–99.92% of each of these nine files' dots within 3 px of the pinned lattice; one witness proves failure but does not certify a complete registry. <a href="data/focus_overlap_review_2026-10-30.json">View the full overlap audit.</a> Future score estimates are withheld because no current same-version holdout result is linked to leaderboard calibration.</p></section>
+      <p class="subtle" style="margin-top:14px">The focus-nine test measures the fraction of each raster's positive cells within 3 pixels of its closest peer. The separate prior-candidate column is diagnostic only. A spatial near-duplicate flag is not an assertion that the TIFF bytes are identical. A separate one-witness audit found 99.91–99.92% of each of these nine files' dots within 3 px of the pinned lattice; one witness proves failure but does not certify a complete registry. <a href="data/focus_overlap_review_2026-10-30.json">View the full overlap audit.</a> Future score estimates are withheld because no current same-version holdout result is linked to leaderboard calibration.</p></section>
     <section class="panel"><p class="eyebrow">Current file / audit only</p><h2>One-click research artifact</h2>
       <p>The prior <code>apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif</code> is locally finite and in range on the owner-mirror grid, but it writes zeros outside the footprint where the official page requires null/NaN. It is also a protocol duplicate and is <strong>not approved to submit</strong>.</p>
       <p class="subtle">SHA-256: <code>09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f</code><br>Prior name: <code>apartgems1-maw-gsi-e3-20261028-87f83db9</code></p>
