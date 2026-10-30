@@ -69,3 +69,9 @@ No new hypothesis experiment or submission candidate was started. The inherited 
 * Verified the generated dashboard and README from `scripts/build_pages_and_readme.py`, including all nine rows, the GEMSDOE32 limitation, no score projection, official format rules, and do-not-submit decision.
 * Re-ran the complete Python suite after the sync: **33 passed, 12 pending-deprecation warnings** (Rasterio/Affine). `compileall`, `node --check docs/feed.js`, `git diff --cached --check`, and `git diff --check` passed. The H-APART-6 tombstone still exits 2 under `python -S` with the stop message. No model experiments, new TIFF, upload, or weekly slot were created.
 * PR #34 remains open pending these synchronized changes and remote CI/mergeability verification; no merge to `main` has yet occurred.
+
+## Follow-up main sync — 2026-10-30 UTC
+
+* After the first integration commit, `origin/main` advanced to `86c703a` (PR #31). Merged that update on this same feature branch; it adds an independently documented all-pairs overlap audit, confirms the 13GEMSDOE witness relationship, corrects two stale test references in comments/docstrings, and links the companion review from the generated README. No experiment or TIFF was produced.
+* Rebuilt the README/Pages outputs and reran the full suite: **33 passed, 12 pending-deprecation warnings**. `compileall`, `node --check docs/feed.js`, and `git show --check HEAD` passed. The current public-feed behavior remains fail-closed.
+* Branch head is the merge of the current `origin/main` and this feature branch. PR #34 is still open and unmerged; the update must be pushed and remote checks/mergeability verified before any merge attempt.
