@@ -263,10 +263,17 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
     if expected_grid is not None and (len(expected_grid) != 3 or expected_grid[0] != mine.shape
                                       or expected_grid[1] is None or expected_grid[2] is None):
         raise ValueError('expected grid must include matching shape, CRS and transform')
-    if not np.isfinite(mine).all() or (mine < 0).any() or (mine > 1).any():
-        raise ValueError('candidate must already be finite in [0,1]')
-    if (mine[~fp] > 0).any():
-        raise ValueError('positive candidate mass outside footprint')
+    if np.isinf(mine).any() or not np.isfinite(mine[fp]).all():
+        raise ValueError('candidate must be finite throughout the valid footprint and contain no infinities')
+    if (mine[fp] < 0).any() or (mine[fp] > 1).any():
+        raise ValueError('candidate in-footprint values must be in [0,1]')
+    outside = mine[~fp]
+    if not np.all(np.isnan(outside) | (outside == 0.0)):
+        raise ValueError('outside-footprint candidate values must be zero or NaN; positive mass is not allowed')
+    # Registry comparisons intentionally ignore the outside mask. Canonicalize
+    # it to zero so a compliant NaN-outside TIFF compares identically to its
+    # zero-outside research representation.
+    mine = np.where(fp, mine, 0.0).astype(np.float32, copy=False)
     idx = registry_index if isinstance(registry_index, (list, dict)) else json.loads(Path(registry_index).read_text())
     records, inventory_complete, source_errors = records_from_index(idx)
     rows = []

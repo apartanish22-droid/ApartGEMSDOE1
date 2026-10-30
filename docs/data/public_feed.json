@@ -1,9 +1,11 @@
 {
-  "status": "ok",
-  "observed_utc": "2026-10-28",
-  "timestamp_precision": "date",
+  "status": "unavailable",
+  "checked_utc": "2026-10-30T01:51:36.500608+00:00",
+  "observed_utc": null,
   "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "data_endpoint": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard_partial/",
   "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",
-  "top_public_dti": 0.4544,
-  "caveat": "Public leaderboard observed on this date, not a forecast or a score for a file in this repository. The scheduled refresh may be unavailable until Pages deployment is enabled."
+  "top_public_dti": null,
+  "reason": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+  "caveat": "Refresh failed. Do not treat an earlier number as current; use the linked official leaderboard."
 }

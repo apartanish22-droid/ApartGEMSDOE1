@@ -1,6 +1,8 @@
 # Three-pass implementation and review record
 
-Review date: 2026-10-28 UTC. No model experiment, replacement candidate, submission, or slot selection was performed in this review. The negative result is the release decision.
+Original implementation review date: 2026-10-28 UTC. That review performed no model experiment, replacement candidate, submission, or slot selection; the negative result was the release decision.
+
+Follow-up repository review: 2026-10-30 UTC. The newer review ran 24 tests, refreshed the leaderboard feed to explicit unavailable status after a TLS failure, rechecked the non-submission decision and local format-only TIFF validation, and confirms no new TIFF or experiment was produced. See [`repository_review_2026-10-30.md`](repository_review_2026-10-30.md).
 
 ## Pass 1 — inventory, scientific assumptions, and stop witness
 
@@ -46,3 +48,26 @@ Review date: 2026-10-28 UTC. No model experiment, replacement candidate, submiss
 * `.venv/bin/pytest -q`: **26 passed**, 12 existing Rasterio `PendingDeprecationWarning`s. The environment was installed into ignored `.venv/`; no dependency artifacts are tracked.
 * `python -m compileall -q src scripts tests`, `node --check docs/feed.js`, generated-page/link tests, and `git diff --check` pass. The local preflight passes only format/range checks for the historical artifact; `ok_to_submit` remains false. The retired pipeline exits nonzero at the duplicate stop as designed.
 * **No new model experiment, holdout score, submission TIFF, or weekly-slot selection was performed.** The single pinned witness still places 37,533/37,654 existing candidate dots within 3 px (99.68%), above the 70% cap; that candidate remains DO NOT SUBMIT. The original surface gate and complete registry inventory are unavailable.
+
+## Re-review — 2026-10-30 UTC (merge reconciliation and format-gate correction)
+
+### Pass 1 — reconcile concurrent repository changes and evidence
+
+* After opening PR #33, `main` advanced through PRs #28, #29, #30 and #32, making the feature-table generator conflict. Fetched and merged the updated `origin/main` into this assigned branch, reviewed the incoming changes, and preserved the official-rule evidence, CLI fix, and answer-first executive section. No other branch was checked out or modified.
+* Reviewed `evidence/official_rules_check.json`, whose recorded 2026-10-30 fetch-tool excerpts state that outside-bounds data must be null/NaN. The local sample's NaN mask is tested in `tests/test_official_format.py`. These are inherited, dated evidence; this sandbox could not independently refetch the competition portal or current public leaderboard.
+* Confirmed the archived MAW-GSI TIFF contains zeros outside the mirrored sample footprint. It therefore passes only the historical local grid/range checks, not the documented outside-mask rule. Its uniqueness stop remains unchanged: 37,533/37,654 dots (99.68%) overlap one pinned witness within 3 px.
+* Corrected the public-feed snapshot semantics: the 2026-10-30 failed refresh is recorded as `checked_utc` with `observed_utc: null`; the dated fetch-tool observation of 0.4544 is not put in the live feed or labeled current. The fresh-feed viewer hides successful snapshots at 24 hours.
+* Re-audited `focus9_reaudit.json`: every focus-site TIFF fails the 70% directed 3px rule against its closest other focus site. These spatial measurements do not claim byte identity. The training-feature TIFF and feature cache are absent from this checkout; no model work was resumed.
+
+### Pass 2 — correct executive reporting and shared format tooling
+
+* Kept the nine-site executive summary and added each site's measured maximum directed 3px overlap and closest peer to README/dashboard rows. The builder fails closed if a measurement/peer is missing, the nine sites are not distinct, or the stored uniqueness flag disagrees with the 70% threshold.
+* Restored the detailed project charter in the README, placed the public-feed status at the top of the dashboard, and labeled 0.4544 as a dated direct observation rather than a current value or file score. The current scheduled feed remains explicitly unavailable.
+* Updated the shared writer/validators to preserve every in-footprint prediction, require finite [0,1] values inside the sample footprint, reject infinities and outside positive mass, and serialize NaN exactly outside the sample mask. The validation receipt records the NaN mask in a JSON-safe form. The literal uniqueness gate canonicalizes only outside-mask zero/NaN cells for comparison, so NaN outside does not bypass or weaken the overlap/rank thresholds.
+* Added regression coverage for the CLI's grid path, exact sample mask, no NaN inside, no positive mass outside, mask mismatch, and zero-outside versus NaN-outside uniqueness equivalence. The archived TIFF remains unchanged and fails the corrected outside-mask check.
+
+### Pass 3 — test and stop-state verification
+
+* `.venv/bin/pytest -q`: **32 passed**, 15 Rasterio pending-deprecation warnings.
+* Python `compileall`, `node --check docs/feed.js`, generated-page/link checks, and `git diff --check` passed. The format-only validator now correctly returns failure on the historical zero-outside TIFF; it also returns `ok_to_submit: false` because uniqueness and selector approval remain blocked.
+* `scripts/run_apartgems_pipeline.py` still exits 2 at the mandatory duplicate stop, before model execution or raster generation. No new HOLDOUT-DTI result, TIFF, upload, receipt, or weekly slot was created. PR #33 is the only PR created by this review; do not merge until CI and final branch checks are green.

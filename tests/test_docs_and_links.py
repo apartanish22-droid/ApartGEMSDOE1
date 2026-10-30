@@ -89,7 +89,7 @@ def test_readme_standing_protocol_and_links():
     assert card['raster_sha256'] in text
     assert 'Standing reference: full task charter' in text and 'read before every change' in text
     assert 'Objective.' in text and 'Maximize P(Win)' in text and 'Own the Outcome' in text
-    assert 'the cached 19-band feature stack is absent' in text
+    assert 'this checkout lacks the cached 19-band feature stack' in text
     assert 'GEMSDOE32' in text and '0.2778' in text and 'no submission-page receipt' in text
     assert 'max directed 3px overlap 100.00% vs GEMSDOE25' in text
     assert 'HOLDOUT-DTI' in text and '11,360' in text and '95% CI' in text

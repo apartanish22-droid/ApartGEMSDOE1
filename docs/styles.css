@@ -65,6 +65,7 @@ td small { color: var(--muted); }
 .tag { display: inline-block; padding: 3px 8px; border-radius: 99px; font-size: 11px; font-weight: 800; white-space: nowrap; }
 .tag.stop { color: var(--danger); background: #fbe9e5; }
 .tag.warn { color: var(--amber); background: #fff4dc; }
+.tag.ok { color: var(--teal); background: #e3f5f1; }
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .two-col > * { min-width: 0; }
 ul, ol { padding-left: 21px; margin: 8px 0 0; }

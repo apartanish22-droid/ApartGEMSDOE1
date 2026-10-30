@@ -142,6 +142,32 @@ def test_incomplete_unpinned_invalid_and_wrong_grid_fail_closed(tmp_path):
     assert undefined['rows'][0]['rank_comparison_defined'] is False
 
 
+def test_registry_gate_normalizes_nan_only_outside_footprint(tmp_path):
+    fp = np.zeros((40, 40), bool)
+    fp[4:36, 4:36] = True
+    mine = np.zeros(fp.shape, np.float32)
+    mine[12, 12] = .7
+    prior = np.zeros_like(mine)
+    prior[27, 27] = 1.0
+    p = tmp_path / 'masked-prior.tif'
+    transform = from_origin(0, 4000, 100, 100)
+    digest = raster(p, prior, transform)
+    expected = (fp.shape, CRS.from_epsg(32611), transform)
+    zero_outside = compare_array_to_registry(mine, index(p, digest), fp, expected_grid=expected)
+    nan_outside = mine.copy()
+    nan_outside[~fp] = np.nan
+    nan_result = compare_array_to_registry(nan_outside, index(p, digest), fp, expected_grid=expected)
+    assert nan_result['candidate_decoded_sha256'] == zero_outside['candidate_decoded_sha256']
+    assert nan_result['unique'] is True
+
+    bad_inside = nan_outside.copy(); bad_inside[10, 10] = np.nan
+    with pytest.raises(ValueError, match='finite throughout the valid footprint'):
+        compare_array_to_registry(bad_inside, index(p, digest), fp, expected_grid=expected)
+    bad_outside = nan_outside.copy(); bad_outside[0, 0] = .5
+    with pytest.raises(ValueError, match='outside-footprint candidate values'):
+        compare_array_to_registry(bad_outside, index(p, digest), fp, expected_grid=expected)
+
+
 def test_summary_rederives_thresholds_and_empty_registry_never_passes():
     meta = {'my_dots': 10, 'candidate_rank_variation': True, 'candidate_decoded_sha256': 'a' * 64}
     row = {'submission': 'prior', 'sha256': 'b' * 64,
@@ -202,8 +228,13 @@ def test_current_negative_card_and_historical_format_are_not_a_promotion():
     grid = load_grid()
     tif = ROOT / card['validator_output']['file']
     report = validate(tif, footprint=grid.footprint, catalogue=grid.catalogue)
-    assert_submittable(report)
     assert report['sha256'] == card['raster_sha256']
+    assert report['checks']['no_nan_inside_footprint'] is True
+    assert report['checks']['in_footprint_range_0_1'] is True
+    assert report['checks']['outside_footprint_nan'] is False
+    assert report['all_checks_passed'] is False
+    with pytest.raises(AssertionError, match='outside_footprint_nan'):
+        assert_submittable(report)
     assert report['n_nan'] == report['n_infinite'] == 0
     assert report['min'] == 0 and report['max'] == 1
     assert not json.loads((ROOT / 'evidence/uniqueness_gate.json').read_text())['overall_uniqueness_passed']
@@ -225,6 +256,9 @@ def test_nine_site_audit_and_stopped_cli():
     ordinary = subprocess.run(validator, capture_output=True, text=True)
     result = json.loads(ordinary.stdout)
     assert ordinary.returncode != 0 and result['ok_to_submit'] is False
-    assert result['format']['all_checks_passed'] and result['selector_approval'] is False
+    assert not result['format']['all_checks_passed'] and result['selector_approval'] is False
+    assert result['format']['checks']['outside_footprint_nan'] is False
     format_only = subprocess.run([*validator, '--format-only'], capture_output=True, text=True)
-    assert format_only.returncode == 0 and json.loads(format_only.stdout)['ok_to_submit'] is False
+    format_result = json.loads(format_only.stdout)
+    assert format_only.returncode != 0 and format_result['ok_to_submit'] is False
+    assert format_result['format']['checks']['outside_footprint_nan'] is False

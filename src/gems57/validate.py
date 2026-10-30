@@ -1,9 +1,9 @@
 """Local preflight validation for a GEMS submission GeoTIFF.
 
-Checks grid metadata and the project's conservative all-finite, ``[0,1]``
-export policy. The portal error's cause remains unproven (IR-57-NAN-02); zero
-outside the mirror footprint may not satisfy the organizer's outside-bounds
-null/NaN instruction. A local PASS is not organizer acceptance or uniqueness.
+Checks grid metadata, finite [0,1] values inside the supplied sample footprint,
+NaN outside it, and no infinities. This follows the recorded official
+outside-bounds instruction and the mirrored sample mask; portal acceptance is
+still untested. A local PASS is not organizer acceptance or uniqueness.
 """
 
 from __future__ import annotations
@@ -33,8 +33,13 @@ def validate(path: Path, footprint: np.ndarray | None = None,
     path = Path(path)
     with rasterio.open(path) as ds:
         a = ds.read(1)
+        if ds.nodata is None:
+            nodata = None
+        else:
+            nodata_value = float(ds.nodata)
+            nodata = str(nodata_value) if not np.isfinite(nodata_value) else nodata_value
         meta = dict(crs=str(ds.crs), shape=[ds.height, ds.width], dtype=ds.dtypes[0],
-                    count=ds.count, nodata=None if ds.nodata is None else float(ds.nodata),
+                    count=ds.count, nodata=nodata,
                     transform=list(tuple(ds.transform)[:6]),
                     profile_compress=ds.profile.get("compress"))
         desc = ds.descriptions
@@ -51,30 +56,33 @@ def validate(path: Path, footprint: np.ndarray | None = None,
     finite = np.isfinite(a)
     has_finite = bool(finite.any())
     finite_values = a[finite]
-    lo = float(finite_values.min()) if has_finite else None
-    hi = float(finite_values.max()) if has_finite else None
-    mean = float(finite_values.mean()) if has_finite else None
-    in_range = bool(has_finite and lo >= 0.0 and hi <= 1.0)
+    valid_values = finite_values if footprint is None else a[footprint]
+    has_valid = bool(valid_values.size and np.isfinite(valid_values).all())
+    lo = float(valid_values.min()) if has_valid else None
+    hi = float(valid_values.max()) if has_valid else None
+    mean = float(valid_values.mean()) if has_valid else None
+    in_range = bool(has_valid and lo >= 0.0 and hi <= 1.0)
     checks = {
         "single_band": meta["count"] == 1,
         "dtype_float32": meta["dtype"] == "float32",
         f"dimensions_{HEIGHT}x{WIDTH}": (h, w) == (HEIGHT, WIDTH),
         f"crs_epsg_{EPSG}": meta["crs"] == f"EPSG:{EPSG}",
         "transform_matches_sample_submission": meta["transform"] == list(tuple(TRANSFORM)[:6]),
-        "no_nan_anywhere": bool(finite.all()),
         "no_inf_anywhere": bool(not np.isinf(a).any()),
-        "no_sentinel_values": bool(not np.isin(finite_values, SENTINELS).any()),
+        "no_sentinel_values": bool(not np.isin(valid_values[np.isfinite(valid_values)], SENTINELS).any()),
         "range_0_1_guaranteed": in_range,
-        "min_ge_0": bool(has_finite and lo >= 0.0),
-        "max_le_1": bool(has_finite and hi <= 1.0),
+        "min_ge_0": bool(has_valid and lo >= 0.0),
+        "max_le_1": bool(has_valid and hi <= 1.0),
     }
-    if footprint is not None:
+    if footprint is None:
+        checks["no_nan_anywhere_without_mask"] = bool(finite.all())
+    else:
         n_fp = int(footprint.sum())
-        checks["in_footprint_all_finite"] = bool(n_fp > 0 and finite[footprint].all())
+        checks["no_nan_inside_footprint"] = bool(n_fp > 0 and finite[footprint].all())
         checks["in_footprint_range_0_1"] = bool(
             n_fp > 0 and np.isfinite(a[footprint]).all()
             and (a[footprint] >= 0.0).all() and (a[footprint] <= 1.0).all())
-        checks["outside_footprint_zero"] = bool(np.all(a[~footprint] == 0.0))
+        checks["outside_footprint_nan"] = bool(np.isnan(a[~footprint]).all())
     if catalogue is not None:
         checks["zero_dots_on_mapped_catalogue"] = int((a[catalogue] > 0).sum()) == 0
 

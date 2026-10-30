@@ -96,25 +96,21 @@ def load_grid(data_dir: Path | None = None) -> Grid:
                 transform=TRANSFORM, height=HEIGHT, width=WIDTH)
 
 
-def write_submission(path: Path, values: np.ndarray, *, mode: str = "zeros") -> dict:
-    """Serialize a pre-normalized array on the pinned grid without repairing it.
+def write_submission(path: Path, values: np.ndarray, *, mode: str = "nan") -> dict:
+    """Serialize a pre-normalized array on the pinned grid without clipping.
 
-    ``mode="zeros"`` enforces the project's current all-finite local policy:
-    callers pass values already in ``[0,1]`` (normally with cells outside the
-    footprint set to zero). Nothing is clipped or silently replaced. This is
-    not proof of organizer compliance: the public instructions say data outside
-    the bounds must be null/NaN, and how that maps to the authenticated template
-    footprint has not been verified.
-
-    ``mode="nan"`` is retained for local diagnostics only. A prior portal range
-    error does not establish NaN as its cause; reconcile the official template,
-    outside-bounds rule and portal validator before any future submission.
+    ``mode="nan"`` (the default) implements the documented outside-bounds convention: the
+    in-footprint data must be finite and in [0,1], and all cells outside the
+    pinned sample footprint must already be NaN. It does not move or alter any
+    in-footprint value. ``mode="zeros"`` is retained only for historical audit
+    reproduction; neither mode proves portal acceptance.
     """
     values = np.asarray(values)
     if values.shape != (HEIGHT, WIDTH):
         raise ValueError(f"values shape {values.shape} != {(HEIGHT, WIDTH)}")
     if not np.issubdtype(values.dtype, np.number):
         raise ValueError("values must be numeric")
+    footprint = load_grid().footprint
     if mode == "zeros":
         if not np.isfinite(values).all():
             raise ValueError("zeros mode requires all values finite; set outside-footprint cells to 0 explicitly")
@@ -124,8 +120,12 @@ def write_submission(path: Path, values: np.ndarray, *, mode: str = "zeros") -> 
         nodata = None
     elif mode == "nan":
         finite = np.isfinite(values)
-        if np.isinf(values).any() or (values[finite] < 0.0).any() or (values[finite] > 1.0).any():
-            raise ValueError("diagnostic values must remain in [0,1] except for NaN cells; no silent clipping")
+        if np.isinf(values).any() or not finite[footprint].all():
+            raise ValueError("in-footprint values must be finite and outside cells must be NaN")
+        if (values[footprint] < 0.0).any() or (values[footprint] > 1.0).any():
+            raise ValueError("in-footprint values must be in [0,1]; no clipping")
+        if not np.isnan(values[~footprint]).all():
+            raise ValueError("outside-footprint cells must match the sample's NaN mask")
         out = values.astype(np.float32, copy=False)
         nodata = float("nan")
     else:
@@ -139,7 +139,8 @@ def write_submission(path: Path, values: np.ndarray, *, mode: str = "zeros") -> 
     ) as dst:
         dst.write(out, 1)
         dst.set_band_description(1, "predicted_new_fault_probability")
-    return {"path": str(path), "mode": mode, "nodata": nodata}
+    nodata_receipt = "NaN" if nodata is not None and np.isnan(nodata) else nodata
+    return {"path": str(path), "mode": mode, "nodata": nodata_receipt}
 
 def read_geotiff(path: str | Path) -> dict:
     """Everything a validator can complain about, re-derived from the bytes on disk.
@@ -152,6 +153,13 @@ def read_geotiff(path: str | Path) -> dict:
     p = Path(path)
     with rasterio.open(p) as src:
         a = src.read(1)
+        nodata_value = src.nodata
+        if nodata_value is None:
+            nodata = None
+        elif not np.isfinite(nodata_value):
+            nodata = str(nodata_value)
+        else:
+            nodata = float(nodata_value)
         info = dict(
             path=str(p), bytes=p.stat().st_size,
             sha256=hashlib.sha256(p.read_bytes()).hexdigest(),
@@ -159,7 +167,7 @@ def read_geotiff(path: str | Path) -> dict:
             crs=str(src.crs) if src.crs is not None else None,
             transform=[float(v) for v in tuple(src.transform)[:6]],
             res=[float(v) for v in src.res],
-            nodata=src.nodata, nodata_repr=repr(src.nodata),
+            nodata=nodata, nodata_repr=repr(src.nodata),
         )
     finite = np.isfinite(a)
     info.update(
@@ -173,11 +181,14 @@ def read_geotiff(path: str | Path) -> dict:
     return info
 
 
-def write_geotiff(path: str | Path, arr: np.ndarray, *, nodata: float | None = None) -> dict:
+def write_geotiff(path: str | Path, arr: np.ndarray, *, nodata: float | None = None,
+                  footprint: np.ndarray | None = None) -> dict:
     """Write a single-band float32 GeoTIFF on the pinned grid and re-read it.
 
-    The re-read is the contract: this returns what the *file* says. Tiled 256 px
-    with deflate + horizontal predictor, matching what this family has shipped.
+    When ``footprint`` is supplied, require finite [0,1] values inside it and
+    NaN exactly outside it, matching the documented sample mask. Otherwise keep
+    the generic all-finite local policy. The re-read is the contract: this
+    returns what the *file* says.
     """
     from rasterio.transform import from_origin
 
@@ -187,10 +198,23 @@ def write_geotiff(path: str | Path, arr: np.ndarray, *, nodata: float | None = N
         raise TypeError(f"submission must be float32, got {arr.dtype}")
     if arr.shape != SHAPE:
         raise ValueError(f"submission must be {SHAPE}, got {arr.shape}")
-    if not np.isfinite(arr).all():
-        raise ValueError("submission contains NaN/inf; the local all-finite export policy rejects it")
-    if arr.min() < 0.0 or arr.max() > 1.0:
-        raise ValueError(f"submission out of range: min={arr.min()} max={arr.max()}")
+    if footprint is None:
+        if not np.isfinite(arr).all():
+            raise ValueError("submission contains NaN/inf without an explicit footprint")
+        valid_values = arr
+    else:
+        fp = np.asarray(footprint, dtype=bool)
+        if fp.shape != arr.shape:
+            raise ValueError(f"footprint shape {fp.shape} != submission shape {arr.shape}")
+        if np.isinf(arr).any() or not np.isfinite(arr[fp]).all() or not np.isnan(arr[~fp]).all():
+            raise ValueError("submission must be finite inside and NaN exactly outside the supplied footprint")
+        if nodata is None or not np.isnan(nodata):
+            raise ValueError("NaN-outside submission must declare NaN nodata")
+        valid_values = arr[fp]
+    if not valid_values.size or valid_values.min() < 0.0 or valid_values.max() > 1.0:
+        lo = float(valid_values.min()) if valid_values.size else None
+        hi = float(valid_values.max()) if valid_values.size else None
+        raise ValueError(f"submission out of range or empty: min={lo} max={hi}")
     tr = Affine(*[float(v) for v in tuple(TRANSFORM)[:6]])
     west, north, xs, ys = tr.c, tr.f, tr.a, -tr.e
     check = from_origin(west, north, xs, ys)
