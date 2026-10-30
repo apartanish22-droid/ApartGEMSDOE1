@@ -10,6 +10,16 @@ Scope: full repo review of `arena/cf36ddec-apartgemsdoe1` (base `351c64c`, `main
 
 Every fact below cites either a file in this repo, an official page (quoted in `evidence/official_rules_check.json`), or a command output recorded here. Anything not checked is labelled.
 
+## Reconciliation with the parallel review on main
+
+Another session added `evidence/repository_review_2026-10-30.md` to `main` (merge of PR #29). It reaches the same decision: negative, do not submit. Differences:
+
+- It records the scripted feed as unavailable (TLS EOF). This review records a fetch-tool read of 0.4544, labelled as a direct read and not as the feed value.
+- It reports 24 passing tests. This review reports 29 after the regression tests added here.
+- This review adds the CLI fix (F1), the official-rule finding that the zero-outside policy does not match the official null/NaN rule (F2), and the verbatim official excerpts. The other review does not contain these.
+
+Neither review generates or clears a file.
+
 ## Pass 1 · Inventory and verification
 
 | Check | Result | Evidence |
@@ -35,7 +45,7 @@ Every fact below cites either a file in this repo, an official page (quoted in `
 | F2 | High (rule) | The repo's gated writer and validator require all-finite values, which means zeros outside the footprint. The official rule says outside-bounds cells must be null or nan. The sample template uses NaN. The prior file therefore does not match the rule. | **FLAGGED, not changed.** Changing the default policy is a portal-behaviour decision. Verified locally: a NaN-outside variant with identical in-footprint values reproduces the sample's NaN mask exactly. | `tests/test_official_format.py::test_nan_outside_variant_reproduces_official_sample_nan_mask`; the gated writer still refuses NaN (`…gated_writer_still_refuses_nan…`) |
 | F3 | High (unknown) | The user-reported portal error "Predicted values must be in range [0, 1]" cannot be tied to a file. The error text is unexplained, and no file in this repo produces it: the prior file is finite and in range. | **OPEN.** Needs the exact file name and SHA-256 that was uploaded, plus the portal message. | Listed in the executive summary |
 | F4 | Medium (claims) | The prompt gives 0.4413 as the leaderboard high and 0.3195 as "highest right now". The official public top is 0.4544. The prompt's site claims (0.2449–0.2778) are unconfirmed. | **FLAGGED.** Labelled USER-REPORTED throughout. | `official_rules_check.json` → `user_claims_not_on_leaderboard` |
-| F5 | Medium (feed) | `docs/data/public_feed.json` was observed 2026-10-28. The scheduled refresh cannot run in this sandbox because drivendata.org is not on the allowlist. | **FLAGGED.** Not hand-edited; the 2026-10-30 value (0.4544) was read with a fetch tool and recorded separately. | `scripts/update_public_feed.py`, `.github/workflows/pages.yml` |
+| F5 | Medium (feed) | On 2026-10-30 the scheduled leaderboard refresh failed (TLS EOF), so `docs/data/public_feed.json` now reads `unavailable`. This sandbox cannot run the script either, because drivendata.org is not on the allowlist. | **FLAGGED.** The feed was not hand-edited. The 0.4544 value was read with a fetch tool, labelled as a direct read, and kept out of the feed. | `scripts/update_public_feed.py`, `.github/workflows/pages.yml` |
 | F6 | Medium (API hazard) | Two different `write_submission` functions. `gems57/__init__.py` exports the `grid.py` version (`mode="zeros"|"nan"`). The gated `submission_writer.py` version has a different signature. A caller who imports from the package gets the wrong one. | **FLAGGED.** Rename recommended in the next session; not renamed now to avoid breaking callers. | `src/gems57/__init__.py`, `src/gems57/grid.py`, `src/gems57/submission_writer.py` |
 | F7 | Info | `data/official/labels.tif` is byte-identical to `existing_faults.tif` (SHA-256 `7ba308cc…093`). This is consistent with the official rule that training labels are existing fault data. It also means no separate label raster exists. | Verified consistent; noted. | R5 |
 | F8 | High (scientific) | The scored test faults are new, not in the USGS catalogue. The repo's hide-and-recover holdout uses the same catalogue. The holdout is a proxy and will not reproduce leaderboard behaviour directly. | **FLAGGED** as a standing limitation. | R4 |
