@@ -46,7 +46,7 @@ def test_html_pages_are_negative_have_local_links_and_no_localhost():
         assert f'GEMSDOE{site}' in index
     assert '0.2778' in index and 'user-reported; unconfirmed' in index
     assert 'Unique among focus nine? (closest peer)' in index
-    assert 'overlap with prior ApartGEMSDOE1 candidate; not the focus-nine test' in index
+    assert 'Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test' in index
     audit = json.loads((ROOT / 'evidence/focus9_reaudit.json').read_text())
     assert all(r['max_forward_overlap_3px_among_focus9'] > .70 for r in audit['sites'])
     assert all(r['closest_focus_site'] for r in audit['sites'])
@@ -90,7 +90,11 @@ def test_readme_standing_protocol_and_links():
     text = (ROOT / 'README.md').read_text()
     card = json.loads((ROOT / 'evidence/run_card.json').read_text())
     assert card['raster_sha256'] in text
-    assert 'Standing reference: task and parallel-run protocol' in text
+    assert 'Future-session start-up: read before every run' in text
+    assert 'Current lane status — stop' in text and 'single method' in text
+    assert 'AUC >0.90 is leakage' in text and 'three experiments or two hours' in text
+    assert 'Unique among focus nine? (closest peer)' in text
+    assert 'Prior candidate overlap (diagnostic)' in text
     assert 'GEMSDOE32' in text and '0.2778' in text and 'no linked organizer receipt' in text
     assert 'HOLDOUT-DTI' in text and '11,360' in text and '95% CI' in text
     for m in re.finditer(r'\]\(([^)]+)\)', text):

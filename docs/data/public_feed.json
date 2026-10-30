@@ -1,18 +1,18 @@
 {
   "status": "unavailable",
-  "observed_utc": "2026-10-28",
-  "timestamp_precision": "date",
+  "checked_utc": "2026-10-30T01:51:36.500608+00:00",
+  "observed_utc": null,
   "max_age_seconds": 86400,
   "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
   "data_endpoint": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard_partial/",
   "evidence_class": "OFFICIAL PUBLIC LEADERBOARD OBSERVATION; NOT A SUBMISSION RECEIPT",
   "top_public_dti": null,
-  "last_successful_observation": {
+  "historical_scheduled_snapshot": {
     "observed_utc": "2026-10-28",
     "timestamp_precision": "date",
     "top_public_dti": 0.4544,
-    "status": "historical snapshot only; older than the 24-hour freshness window"
+    "status": "historical scheduled-feed snapshot only; stale as of 2026-10-30"
   },
-  "reason": "The stored leaderboard observation is dated 2026-10-28 and is stale as of 2026-10-30. A current value was not independently refreshed in this review.",
-  "caveat": "Current leaderboard value unavailable. The 2026-10-28 number is a historical public standings observation, not a forecast or file-level receipt. Check the official leaderboard."
+  "reason": "The scheduled refresh attempt failed on 2026-10-30 with a TLS/SSL EOF. The separate direct official-page read is documented in evidence/official_rules_check.json; it is not a successful feed refresh.",
+  "caveat": "No current value is published by this feed. The direct public-page observation recorded separately for 2026-10-30 is not a score receipt for any file. Check the official leaderboard for the current standings."
 }

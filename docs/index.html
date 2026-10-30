@@ -14,7 +14,7 @@
         <strong>No file is ready to submit.</strong><p>The existing candidate fails the literal registry overlap rule. No new GeoTIFF was generated and no competition slot was used. Archived H-APART-6 v2 experiments predated discovery of the witness.</p></aside>
     </section>
     <div class="metric-grid" aria-label="Release gates">
-      <div class="metric"><span class="label">Format · local only</span><strong class="success-text">PASS</strong><small>All finite; [0,1]; matches owner-mirror grid.</small></div>
+      <div class="metric"><span class="label">Format · local policy</span><strong class="success-text">PASS</strong><small>Single band; float32; [0,1]; zeros outside footprint. Official rule: null/NaN outside bounds, so this file does NOT match the rule.</small></div>
       <div class="metric"><span class="label">Literal uniqueness</span><strong class="danger-text">FAIL · 99.68%</strong><small>Forward 3-pixel overlap; limit 70%.</small></div>
       <div class="metric"><span class="label">Current holdout</span><strong>Not run</strong><small>v3 proxy score unavailable after stop.</small></div>
       <div class="metric"><span class="label">Weekly slot</span><strong>Not selected</strong><small>Separate selector approval required.</small></div>
@@ -22,7 +22,7 @@
     <section class="panel" id="decision"><div class="section-heading"><div><p class="eyebrow">01 / Executive decision</p><h2>What can I download?</h2></div></div>
       <p><strong>No competition-ready file is available.</strong> The previous MAW-GSI TIFF remains accessible only to reproduce the negative audit. Do not upload it or any already-submitted historical file as a new entry.</p>
       <p class="subtle"><strong>Audit-only file:</strong> <code>apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif</code> · SHA-256 <code>09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f</code></p>
-      <div class="actions"><a class="button secondary" href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a></div>
+      <div class="actions"><a class="button secondary" href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a><a class="button secondary" href="executive-summary.html#official-rules">Official rule check</a></div>
       <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> 37,533 of 37,654 dots lie within three pixels of the <a href="https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
     </section>
     <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest file named for each site in your prompt. Reported values are unconfirmed user claims, not organizer receipts. All estimates for future submissions are unavailable.</p></div></div>
@@ -33,7 +33,7 @@
           <td><strong>0.2477</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Unavailable</td>
           <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE25.</small></td>
-          <td>49.94%<br><small>overlap with prior ApartGEMSDOE1 candidate; not the focus-nine test</small></td>
+          <td>49.94%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
           <td><span class="tag stop">DO NOT RESUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE25/">GEMSDOE25</a></strong></td>
@@ -42,7 +42,7 @@
           <td><strong>0.2600</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Unavailable</td>
           <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>48.56%<br><small>overlap with prior ApartGEMSDOE1 candidate; not the focus-nine test</small></td>
+          <td>48.56%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
           <td><span class="tag stop">DO NOT RESUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE27/">GEMSDOE27</a></strong></td>
@@ -51,7 +51,7 @@
           <td><strong>0.2449</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Unavailable</td>
           <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>98.02% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>50.85%<br><small>overlap with prior ApartGEMSDOE1 candidate; not the focus-nine test</small></td>
+          <td>50.85%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
           <td><span class="tag stop">DO NOT RESUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE28/">GEMSDOE28</a></strong></td>
@@ -60,7 +60,7 @@
           <td><strong>0.2710</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Unavailable</td>
           <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>47.36%<br><small>overlap with prior ApartGEMSDOE1 candidate; not the focus-nine test</small></td>
+          <td>47.36%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
           <td><span class="tag stop">DO NOT RESUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE30/">GEMSDOE30</a></strong></td>
@@ -69,7 +69,7 @@
           <td><strong>0.2600</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Unavailable</td>
           <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>48.56%<br><small>overlap with prior ApartGEMSDOE1 candidate; not the focus-nine test</small></td>
+          <td>48.56%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
           <td><span class="tag stop">DO NOT RESUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE31/">GEMSDOE31</a></strong></td>
@@ -78,7 +78,7 @@
           <td><strong>0.2708</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Unavailable</td>
           <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>47.88%<br><small>overlap with prior ApartGEMSDOE1 candidate; not the focus-nine test</small></td>
+          <td>47.88%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
           <td><span class="tag stop">DO NOT RESUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/">GEMSDOE32</a></strong></td>
@@ -87,7 +87,7 @@
           <td><strong>0.2778</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Unavailable</td>
           <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>46.71%<br><small>overlap with prior ApartGEMSDOE1 candidate; not the focus-nine test</small></td>
+          <td>46.71%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
           <td><span class="tag stop">DO NOT RESUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE33/">GEMSDOE33</a></strong></td>
@@ -96,7 +96,7 @@
           <td><strong>0.2632</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Unavailable</td>
           <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>99.71% of this file's positive pixels are within 3 px of GEMSDOE27.</small></td>
-          <td>48.36%<br><small>overlap with prior ApartGEMSDOE1 candidate; not the focus-nine test</small></td>
+          <td>48.36%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
           <td><span class="tag stop">DO NOT RESUBMIT</span></td>
         </tr><tr>
           <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE36/">GEMSDOE36</a></strong></td>
@@ -105,10 +105,10 @@
           <td><strong>0.2750</strong><br><small>user-reported; unconfirmed</small></td>
           <td>Unavailable</td>
           <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>97.58% of this file's positive pixels are within 3 px of GEMSDOE27.</small></td>
-          <td>47.41%<br><small>overlap with prior ApartGEMSDOE1 candidate; not the focus-nine test</small></td>
+          <td>47.41%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
           <td><span class="tag stop">DO NOT RESUBMIT</span></td>
         </tr></tbody></table></div>
-      <p class="subtle" style="margin-top:14px">The focus-nine percentage is directed from each historical file's positive pixels to the closest peer's three-pixel halo. The separate MAW-GSI comparison is diagnostic and does not clear uniqueness. This nine-file audit is not a complete registry; the current candidate also fails against an additional pinned lattice witness.</p>
+      <p class="subtle" style="margin-top:14px">The focus-nine percentage is directed from each historical file's positive pixels to the 3-pixel halo of its closest peer; all nine exceed the 70% cap (97.5781%–100.0000%). The separate prior-candidate overlap is diagnostic and does not define focus-nine uniqueness. This nine-file audit is not a complete registry; the current candidate also fails against an additional pinned lattice witness.</p>
     </section>
     <div class="two-col"><section class="panel"><p class="eyebrow">03 / Mechanism, not proof</p><h2>Why did GEMSDOE32 stand out?</h2>
       <p>The user reports <strong>0.2778</strong> for B2, but no submission-page receipt is present. Our pixel audit shows B2's dots equal the GEMSDOE25 dot set after removing points within two pixels of the mapped-fault catalogue.</p>

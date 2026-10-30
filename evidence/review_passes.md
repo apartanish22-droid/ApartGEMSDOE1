@@ -1,6 +1,8 @@
 # Three-pass implementation and review record
 
-Review date: 2026-10-28 UTC. No model experiment, replacement candidate, submission, or slot selection was performed in this review. The negative result is the release decision.
+Original implementation review date: 2026-10-28 UTC. That review performed no model experiment, replacement candidate, submission, or slot selection; the negative result was the release decision.
+
+Follow-up repository review: 2026-10-30 UTC. The newer review ran 24 tests, refreshed the leaderboard feed to explicit unavailable status after a TLS failure, rechecked the non-submission decision and local format-only TIFF validation, and confirms no new TIFF or experiment was produced. See [`repository_review_2026-10-30.md`](repository_review_2026-10-30.md).
 
 ## Pass 1 — inventory, scientific assumptions, and stop witness
 
@@ -39,7 +41,7 @@ No new hypothesis experiment or submission candidate was started. The inherited 
 
 * Replaced the confusing focus-nine table label: it now gives the exact directed overlap and closest peer separately from the prior ApartGEMSDOE1 candidate comparison. The prior-candidate overlap is explicitly diagnostic and is not misrepresented as the focus-nine uniqueness test.
 * Found that the archived H-APART-6 runner imported NumPy/SciPy/scikit-learn before checking the mandatory stop. Replaced it with a standard-library-only retired-runner tombstone that exits before scientific imports; missing or malformed audit evidence also fails closed. No historical experiment can be relaunched by this entry point.
-* Added a 24-hour freshness rule to the leaderboard feed. The stored 2026-10-28 observation (0.4544) is now marked historical, not current; the current value is null/unavailable, and the browser hides stale or out-of-range values. The 0.3195 and 0.4413 figures in the request conflict with each other and were not independently verified in this sandbox.
+* Added a 24-hour freshness rule to the leaderboard feed. The 2026-10-28 scheduled snapshot (0.4544) is historical, not current feed data; its `top_public_dti` is null after the refresh failed. Separately, the official-source record contains a direct public-page read of 0.4544 dated 2026-10-30; that is a public standing, not a score for a file or a projection. The browser hides stale or out-of-range feed values.
 * Added a pull-request / main-branch CI workflow that installs the documented Python stack, checks Python and browser JavaScript syntax, and runs the automated test suite.
 
 ### Pass 3 — regression and final decision
@@ -48,3 +50,22 @@ No new hypothesis experiment or submission candidate was started. The inherited 
 * The archived H-APART-6 command exited 2 under `python -S` (no third-party packages on `sys.path`) with the duplicate-stop message. The H-APART-2 runner also exited 2 before an experiment.
 * The existing TIFF passed local single-band/grid/float32/finiteness/[0,1] checks, SHA-256 `09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f`, but `ok_to_submit=false` because uniqueness/holdout/selector gates are not cleared. No new TIFF, holdout DTI, projection, organizer receipt, upload, or weekly slot was produced.
 * Decision: **negative; do not download or submit the archived TIFF**. A future candidate requires an assigned method lane, present/source-bound feature cache, same-v3 holdout baseline and feature canaries, pre-placement and final checks against a complete accessible registry, and authenticated organizer template/outside-bounds behavior before separate selector review.
+
+## Main-branch integration review — 2026-10-30 UTC
+
+### Pass 1 — reconcile concurrent main changes
+
+* Fetched `origin/main` at `35933e5` while remaining on `arena/6e95da7a-apartgemsdoe1`. It includes the official format/rules evidence and a corrected fresh-checkout path in the submission CLI. The working tree contained no training-feature cache; another review's mirror restore was performed in an isolated scratch copy, not this checkout.
+* Noted a concurrent open PR with overlapping focus-table/feed changes. Preserved distinct measures: closest-peer overlap among the nine sites versus diagnostic overlap with the prior candidate. Kept the official 2026-10-30 direct leaderboard read distinct from the scheduled feed's TLS failure.
+
+### Pass 2 — resolve and harden
+
+* Resolved the main merge while retaining the official rule table, submission guide, source register, and prior review evidence. The rebuilt focus-nine table explicitly names closest peer and directed 3-pixel overlap; all nine exceed 70% (97.5781%–100%).
+* Separated feed refresh time (`checked_utc`) from successful observation time (`observed_utc`); failed refreshes now have `observed_utc: null` and no score. Kept 0.4544 only in the stale scheduled-snapshot record; the separate direct public-page observation remains documented in `official_rules_check.json`.
+* Expanded README startup instructions with the unresolved assigned-lane warning, inherited hard stop, hypothesis preregistration, evaluator/score labels, leakage canary, run-card, and separate-slot-selector requirements. Corrected the dashboard to say the training-feature cache is absent from this checkout.
+
+### Pass 3 — integration checks
+
+* Verified the generated dashboard and README from `scripts/build_pages_and_readme.py`, including all nine rows, the GEMSDOE32 limitation, no score projection, official format rules, and do-not-submit decision.
+* Re-ran the complete Python suite after the sync: **33 passed, 12 pending-deprecation warnings** (Rasterio/Affine). `compileall`, `node --check docs/feed.js`, `git diff --cached --check`, and `git diff --check` passed. The H-APART-6 tombstone still exits 2 under `python -S` with the stop message. No model experiments, new TIFF, upload, or weekly slot were created.
+* PR #34 remains open pending these synchronized changes and remote CI/mergeability verification; no merge to `main` has yet occurred.
