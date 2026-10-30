@@ -81,7 +81,17 @@ def test_official_rules_record_contains_verified_quotes_and_sources():
     for claim in rec['claims']:
         assert claim['source_url'].startswith('https://')
     assert rec['leaderboard_observed']['top_public_dti'] == 0.4544
+    assert 'NOT the scheduled feed' in rec['leaderboard_observed']['note']
     assert rec['user_claims_not_on_leaderboard']['0.4413'] and rec['user_claims_not_on_leaderboard']['0.3195']
+    feed = json.loads((ROOT / 'docs/data/public_feed.json').read_text())
+    if feed['status'] == 'unavailable':
+        assert feed['top_public_dti'] is None
+    else:
+        assert 'NOT A SUBMISSION RECEIPT' in feed['evidence_class']
+    guide = (ROOT / 'docs/executive-summary.html').read_text().lower()
+    assert 'direct read' in guide and 'scheduled feed script returned unavailable' in guide
+    assert 'team-level public standing' in guide and 'not a score receipt for any file' in guide
+    assert feed['status'] == 'unavailable' and feed['top_public_dti'] is None
 
 
 def test_review_record_declares_no_experiment_and_no_slot():

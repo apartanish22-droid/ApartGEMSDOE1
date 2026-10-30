@@ -51,6 +51,10 @@ def test_html_pages_are_negative_have_local_links_and_no_localhost():
     assert all(r['max_forward_overlap_3px_among_focus9'] > .70 for r in audit['sites'])
     assert all(r['closest_focus_site'] for r in audit['sites'])
     assert 'not comparable' in index and '11,360' in index
+    guide = (docs / 'executive-summary.html').read_text()
+    assert '0.4544' in guide and 'direct read' in guide and 'scheduled feed script returned unavailable' in guide
+    assert 'team-level public standing' in guide and 'not a score receipt for any file' in guide
+    assert 'outside bounds' in index.lower() and 'zeros' in index.lower()
     assert 'top_public_dti' in (docs / 'feed.js').read_text()
 
 
@@ -59,7 +63,7 @@ def test_research_pages_are_rendered_and_linked_without_score_projections():
     sources = (docs / 'research-sources.html').read_text()
     hypotheses = (docs / 'next-hypotheses.html').read_text()
     assert '<table>' in sources and 'AG100' in sources and '100 m' in sources
-    assert 'not run in this stopped lane' in hypotheses.lower()
+    assert 'none validated here' in hypotheses.lower() and 'not viable for a holdout run' in hypotheses.lower()
     assert 'flight-line repeatability' in hypotheses.lower()
     for name, text in [('research-sources.html', sources), ('next-hypotheses.html', hypotheses)]:
         parser = AttrCollector(); parser.feed(text)
