@@ -103,6 +103,10 @@ def test_readme_standing_protocol_and_links():
     card = json.loads((ROOT / 'evidence/run_card.json').read_text())
     assert card['raster_sha256'] in text
     assert 'Future-session start-up: read before every run' in text
+    dec = json.loads((ROOT / 'evidence/submission_decision_2026-10-31.json').read_text())
+    assert dec['candidate']['sha256'] in text and 'No. Do not submit the new GeoTIFF' in text
+    assert 'docs/PROJECT_BRIEF.md' in text and 'docs/download-and-submit.html' in text
+    assert 'not measured' in text.lower()
     assert 'Latest repository review 2026-10-31' in text
     assert 'run_card_2026-10-31.json' in text
     assert 'Current lane status — stop' in text and 'single method' in text
@@ -174,9 +178,14 @@ def test_regenerators_and_preflight_cannot_promote(tmp_path):
     generated_index = (ROOT / 'docs/index.html').read_text()
     assert 'No file is ready to submit' in generated_index
     assert '99.93%' in generated_index and 'research only' in generated_index.lower()
+    assert 'No. Do not submit the new GeoTIFF' in generated_index and 'download-and-submit.html' in generated_index
     generated_readme = (ROOT / 'README.md').read_text()
     assert 'apartgems1-stepover-relay-dots-20261031.tif' in generated_readme
     assert 'not safe to submit' in generated_readme.lower()
+    assert 'No. Do not submit the new GeoTIFF' in generated_readme
+    decision_bytes = (ROOT / 'evidence/submission_decision_2026-10-31.json').read_bytes()
+    assert (ROOT / 'docs/data/submission_decision_2026-10-31.json').read_bytes() == decision_bytes
+    assert 'No. Do not submit this file yet.' in (ROOT / 'docs/download-and-submit.html').read_text()
     current_card = (ROOT / 'evidence/run_card_2026-10-31.json').read_bytes()
     for name in ('run_card_2026-10-31.json', 'run_card.json', 'current-run-card.json'):
         assert (ROOT / 'docs/data' / name).read_bytes() == current_card
@@ -186,3 +195,36 @@ def test_regenerators_and_preflight_cannot_promote(tmp_path):
     assert not (ROOT / 'src/apartgems/uniqueness.py').exists()
     text = (ROOT / 'src/apartgems/features.py').read_text()
     assert 'derived_sgmc_faults' not in text  # not silently used as a feature
+
+
+def test_submission_decision_record_and_page_are_consistent():
+    """The new E3 GeoTIFF is not cleared: format passes, uniqueness gate fails, holdout not measured."""
+    import hashlib
+    docs = ROOT / 'docs'
+    dec = json.loads((ROOT / 'evidence/submission_decision_2026-10-31.json').read_text())
+    assert dec['verdict']['ok_to_submit'] is False
+    assert dec['uniqueness']['exact_copy_found'] is False
+    assert dec['uniqueness']['unique_vs_registry'] is False
+    assert dec['uniqueness']['spatial_duplicate_flags'] == 186
+    assert dec['uniqueness']['spatial_duplicate_flags_sparse_dot_files'] + dec['uniqueness']['spatial_duplicate_flags_dense_surfaces'] == 186
+    cand = ROOT / dec['candidate']['repo_path']
+    assert cand.is_file() and cand.stat().st_size == dec['candidate']['bytes']
+    assert hashlib.sha256(cand.read_bytes()).hexdigest() == dec['candidate']['sha256']
+    assert len(dec['candidate']['submission_name']) <= 140 and len(dec['candidate']['note']) <= 140
+    page = (docs / 'download-and-submit.html').read_text()
+    assert 'localhost' not in page and '127.0.0.1' not in page
+    assert dec['candidate']['sha256'] in page and 'No. Do not submit the new GeoTIFF' not in page
+    assert 'No. Do not submit this file yet.' in page
+    assert 'unconfirmed' in page.lower() and '0.2778' in page and '0.4544' in page
+    for site in (24, 25, 27, 28, 30, 31, 32, 33, 36):
+        assert f'GEMSDOE{site}' in page
+    parser = AttrCollector(); parser.feed(page)
+    for ref in parser.refs:
+        if ref.startswith(('http://', 'https://', '#', 'mailto:')):
+            continue
+        clean = ref.split('#', 1)[0].split('?', 1)[0]
+        assert (docs / clean).resolve().exists(), f'broken {ref} in download-and-submit.html'
+    audit = json.loads((ROOT / 'evidence/focus9_reaudit.json').read_text())
+    assert all(r['max_forward_overlap_3px_among_focus9'] > .70 for r in audit['sites'])
+    xor = audit['geometry_proof']['xor_differing_pixels']
+    assert xor == 0

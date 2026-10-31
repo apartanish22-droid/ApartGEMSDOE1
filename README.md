@@ -1,5 +1,11 @@
 # ApartGEMSDOE1 · Geothermal fault discovery
 
+> **Decision (2026-10-31): No. Do not submit the new GeoTIFF.** It fails the project's uniqueness gate, and its own score is unmeasured.
+>
+> New file: [`apartgems-e3-geo-paired-static-30562dots-NOT-CLEARED-20261031.tif`](docs/downloads/apartgems-e3-geo-paired-static-30562dots-NOT-CLEARED-20261031.tif) · SHA-256 `c4d504b8a09f94a6f0b2a757eda60bc69095b21bc95cfae0a626dfd4bf76468e` · exact copy: none among 3,273 GeoTIFF blobs · spatial gate: **NOT UNIQUE · gate failed** (186 registry rasters flagged at >70% forward 3-px overlap) · holdout score for this file: **not measured**.
+>
+> Full decision and automated checks: [Download and submit](docs/download-and-submit.html) · Standing brief: [`docs/PROJECT_BRIEF.md`](docs/PROJECT_BRIEF.md)
+
 > **H-SC1 lane (2026-10-31, branch arena/ff2aae12-apartgemsdoe1): NOT CLEARED — no file cleared to submit.** Candidate `apartgems1-hsc1-q090` (SHA-256 `f36bf98e18cd31d8147a65cf1af377092231551dfed8df6286874167e69d3029`) is not in docs/downloads. Literal uniqueness: FAIL (worst 3-px overlap 100.00%). HOLDOUT-DTI (submitted policy) 0.0508 [95% CI 0.0407, 0.0613], evaluator `gems57-pooled-hide-v3`, 11,360 withheld positives. Proxy only; ORGANIZER-CONFIRMED: none. Details: [H-SC1 summary](docs/h-sc1-summary.html) · [run card](evidence/run_card_h-sc1-hsc1_q090.json) · [candidate selection](evidence/candidate_selection.json).
 
 > **STOP — NO FILE IS READY TO SUBMIT.** The archived MAW-GSI TIFF passes local range/grid checks but writes zeros outside the footprint despite the official null/NaN instruction; 99.68% of its dots also fall within 3 px of the pinned witness (70% limit). No file is cleared to submit; no competition upload or slot was used. The surface gate and complete registry remain unavailable. Archived H-APART-6 v2 experiments predated the witness.
@@ -11,6 +17,8 @@
 > [Download the **prior TIFF for research only — do not submit**](docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif) · SHA-256 `09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f`
 
 ## Future-session start-up: read before every run
+
+Read the condensed standing brief first: [`docs/PROJECT_BRIEF.md`](docs/PROJECT_BRIEF.md).
 
 **Objective.** Build an evidence-led, original fault-prediction GeoTIFF for geothermal exploration, and say plainly whether any file is safe to download or submit. The nine focus sites are GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, and 36. Their historical scores are user-reported claims, not submission receipts; the reported GEMSDOE32 value 0.2778 is not explained by geometry alone. Its support matches GEMSDOE25 after a two-pixel catalogue collar is removed, which suggests—but does not prove—a redundancy-pruning mechanism under max-kernel DTI. Do not turn this into a causal claim, score estimate, or promotion without hidden-label evidence.
 
@@ -27,6 +35,37 @@
 **Future-session checklist:** read this section, [`evidence/repository_review_2026-10-31.md`](evidence/repository_review_2026-10-31.md), [`evidence/run_card_2026-10-31.json`](evidence/run_card_2026-10-31.json), the latest review in [`evidence/review_passes.md`](evidence/review_passes.md), the run cards, and [`evidence/official_rules_check.json`](evidence/official_rules_check.json); confirm the assigned lane and current stop state; check whether required data/cache is actually present in this checkout; only then proceed. Keep the public feed fail-closed and do not revive retired runners.
 
 **Core values:** *Maximize P(Win)* means weigh evidence, expected value, and risk rather than spending a slot on a weak or duplicated method. *Own the Outcome* means report failure, fix shared defects, and preserve reproducible negative evidence.
+
+## New candidate · holdout, remaining work, limitations
+
+Labels: `HOLDOUT-DTI` (evaluator `gems57-pooled-hide-v3`, 22,641 withheld positives, 95% quadrant-jackknife CI). Nothing here is a leaderboard estimate.
+
+| Run | Features | HOLDOUT-DTI | 95% CI | Leakage canary | Status |
+| --- | --- | --- | --- | --- | --- |
+| E1 | base (catalogue-proximity features) | 0.3323 | [0.2966, 0.3681] | flags d, d_perp | INVALID (leakage) |
+| E2 | geo-static (no catalogue column) | 0.0635 | [0.0514, 0.0757] | none (max single-feature AUC 0.609) | leak-free baseline |
+| E3 | geo + paired-static | 0.0704 | [0.0595, 0.0813] | none (max AUC 0.620) | leak-free; +0.0069 over E2 pooled; eight paired cells (weak); NOT the score of the emitted file |
+
+Details: [`evidence/leakage_audit_2026-10-31.md`](evidence/leakage_audit_2026-10-31.md). Top hypothesis and the other ranked candidates: [`evidence/next_hypotheses.md`](evidence/next_hypotheses.md) (none validated here; the top one was not run because the experiment budget is spent).
+
+### Remaining work
+
+1. Obtain organizer-confirmed scores (submission-page receipts) for any historical file; none exist in this repository.
+2. Assign a lane. Run the top hypothesis (signed paired-flank agreement) on the leak-free holdout, with a per-cell allocation that matches the emitted surface, before any weekly slot is used. Budget is spent for this lane.
+3. Scan the remaining 1,456 owner-repo GeoTIFF blobs spatially; resolve the 24 rasters that could not be compared (CRS/grid mismatch, NaN inside footprint, corrupt header).
+4. Decide how the 3-px forward-overlap gate treats dense surfaces. It is currently applied as written.
+5. Confirm with the organizers how the portal treats NaN outside bounds, and what produces 'Predicted values must be in range [0, 1]'.
+6. Verify the GitHub Pages URL for this repository; page links are relative.
+7. Draft the generative-AI disclosure required by the rules (§3.2) before any submission.
+
+### Limitations
+
+* The holdout uses the USGS catalogue, while the scored test faults are new faults outside it (official problem page). It is a proxy.
+* The E3 vs E2 gain rests on eight paired cells. Treat it as weak evidence.
+* The emitted file's score is unmeasured: the holdout allocates dots per cell (281,318 dots); the file uses one full-footprint allocation (30,562 dots).
+* Owner-mirror data (6GEMSDOE) are not organizer downloads; hashes verify mirror equality only.
+* The owner-repo scan covers docs/downloads only (1,817 of 3,273 GeoTIFF blobs); the exact-copy check covers all 3,273.
+* This repository's local TIFs (top level and archive/) were compared separately: no duplicates (evidence/registry/local_docs_downloads_check.json).
 
 ## Executive summary · nine requested sites
 

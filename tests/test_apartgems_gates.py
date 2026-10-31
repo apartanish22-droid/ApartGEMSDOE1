@@ -225,6 +225,7 @@ def test_nine_site_audit_and_stopped_cli():
     ordinary = subprocess.run(validator, capture_output=True, text=True)
     result = json.loads(ordinary.stdout)
     assert ordinary.returncode != 0 and result['ok_to_submit'] is False
-    assert result['format']['all_checks_passed'] and result['selector_approval'] is False
+    # Official-template rule (NaN outside bounds): the prior zeros-outside file must FAIL format.
+    assert result['format']['all_checks_passed'] is False and result['selector_approval'] is False
     format_only = subprocess.run([*validator, '--format-only'], capture_output=True, text=True)
-    assert format_only.returncode == 0 and json.loads(format_only.stdout)['ok_to_submit'] is False
+    assert format_only.returncode != 0 and json.loads(format_only.stdout)['ok_to_submit'] is False  # fails closed

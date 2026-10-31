@@ -131,3 +131,76 @@ def load_planes(footprint: np.ndarray, path: Path | None = None) -> dict[str, np
         if v.shape != fp.shape or v.dtype != np.float32:
             raise ValueError(f"plane {k} has wrong shape/dtype")
     return out
+
+
+# ---------------------------------------------------------------------------
+# Opt-in signed paired-flank block (research queue rank 1, 2026-10-31).
+#
+# Local Pearson correlation, over a 7x7 cell window (700 m), between the
+# detrended elevation and two potential-field planes: reduced-to-pole magnetics
+# (band 2) and isostatic gravity anomaly (band 13).  Unlike the unsigned edge
+# planes above, the sign records polarity: a buried basin margin that offsets
+# both the topographic step and the potential-field contrast in the same sense
+# gives a coherent sign; a lithologic contact with no relief generally does not.
+# These are static rasters, not catalogue-derived, so they cannot leak the
+# withholding mask; they still pass through the leakage canary like every column.
+# This block is opt-in and is NOT part of GEO_FEATURES, so the shipped geo
+# matrix and its recorded results are unchanged.
+# ---------------------------------------------------------------------------
+
+PAIRED_FEATURES = (
+    "p_corr_elev_mag",   # signed local r(det_elev, rtp), window 7x7
+    "p_corr_elev_grav",  # signed local r(det_elev, iso_grav_anom), window 7x7
+)
+_PAIRED_BAND = {"rtp": 2, "iso_grav_anom": 13}
+_PAIRED_WIN = 7
+
+
+def _local_pearson(a: np.ndarray, b: np.ndarray, valid: np.ndarray,
+                   win: int = _PAIRED_WIN) -> np.ndarray:
+    """Signed Pearson r in a ``win`` x ``win`` box over ``valid`` cells only; 0 elsewhere."""
+    w = valid.astype(np.float64)
+    a = np.where(valid, a, 0.0)
+    b = np.where(valid, b, 0.0)
+    cnt = ndi.uniform_filter(w, size=win, mode="constant") * (win * win)
+    cnt = np.maximum(cnt, 1.0)
+    ma = ndi.uniform_filter(a, size=win, mode="constant") * (win * win) / cnt
+    mb = ndi.uniform_filter(b, size=win, mode="constant") * (win * win) / cnt
+    saa = ndi.uniform_filter(a * a, size=win, mode="constant") * (win * win) / cnt - ma * ma
+    sbb = ndi.uniform_filter(b * b, size=win, mode="constant") * (win * win) / cnt - mb * mb
+    sab = ndi.uniform_filter(a * b, size=win, mode="constant") * (win * win) / cnt - ma * mb
+    denom = np.sqrt(np.maximum(saa, 0.0) * np.maximum(sbb, 0.0))
+    r = np.where(denom > 1e-12, sab / np.maximum(denom, 1e-12), 0.0)
+    r = np.clip(r, -1.0, 1.0)
+    r[~valid] = 0.0
+    return r.astype(np.float32)
+
+
+def paired_planes(footprint: np.ndarray, path: Path | None = None) -> dict[str, np.ndarray]:
+    """Signed paired-flank correlation planes (opt-in, see block comment above)."""
+    p = Path(path) if path else FEATURES_PATH
+    if not p.exists():
+        raise FileNotFoundError(f"{p} missing -- run scripts/prepare_data.py --fetch")
+    fp = np.asarray(footprint, bool)
+    raw = {}
+    with rasterio.open(p) as src:
+        if (src.height, src.width) != fp.shape:
+            raise ValueError(f"feature stack grid {src.shape} != footprint {fp.shape}")
+        for name, bidx in (("det_elev", 12), *_PAIRED_BAND.items()):
+            raw[name] = src.read(bidx).astype(np.float64)
+
+    def _clean(v: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        ok = fp & np.isfinite(v) & (np.abs(v) <= 1e18)
+        fill = float(np.median(v[ok])) if ok.any() else 0.0
+        out = np.where(ok, v, fill)
+        return out, ok
+
+    elev, ok_e = _clean(raw["det_elev"])
+    rtp, ok_r = _clean(raw["rtp"])
+    grav, ok_g = _clean(raw["iso_grav_anom"])
+    # Only cells where all three fields are real take part in the correlation.
+    valid = fp & ok_e & ok_r & ok_g
+    return {
+        "p_corr_elev_mag": _local_pearson(elev, rtp, valid),
+        "p_corr_elev_grav": _local_pearson(elev, grav, valid),
+    }

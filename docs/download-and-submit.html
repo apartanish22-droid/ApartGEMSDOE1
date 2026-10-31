@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Download and submit · GEMS DOE ApartGEMSDOE1</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:1040px;margin:0 auto;padding:24px;line-height:1.5;color:#1b1f24}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border:1px solid #d0d7de;padding:8px;vertical-align:top;text-align:left;font-size:14px}
+th{background:#f6f8fa}
+.banner{padding:16px;border-radius:8px;margin:12px 0;font-size:18px}
+.banner.stop{background:#ffebe9;border:2px solid #cf222e}
+.banner.ok{background:#dafbe1;border:2px solid #1a7f37}
+.tag{display:inline-block;padding:2px 8px;border-radius:12px;font-weight:600;font-size:12px}
+.tag.ok{background:#dafbe1} .tag.stop{background:#ffebe9} .tag.warn{background:#fff8c5}
+code{background:#f6f8fa;padding:2px 4px;border-radius:4px;word-break:break-all}
+.dl{display:inline-block;background:#0969da;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600}
+small{color:#57606a}
+</style></head><body>
+<p><a href="../README.md">← README</a></p>
+<h1>Download and submit</h1>
+<div class="banner stop"><strong>No. Do not submit this file yet.</strong><br>It fails the project&#x27;s uniqueness gate, and its own score is unmeasured.</div>
+
+<h2>1 · File to download</h2>
+<table>
+<thead><tr><th>File to download</th><th>Estimated leaderboard score</th><th>Unique vs GEMSDOE sites?</th><th>OK to download and submit?</th></tr></thead>
+<tbody>
+<tr>
+<td><a class="dl" href="downloads/apartgems-e3-geo-paired-static-30562dots-NOT-CLEARED-20261031.tif" download>Download GeoTIFF</a><br><code>apartgems-e3-geo-paired-static-30562dots-NOT-CLEARED-20261031.tif</code><br><small>SHA-256 <code>c4d504b8a09f94a6f0b2a757eda60bc69095b21bc95cfae0a626dfd4bf76468e</code> · 1,559,038 bytes · float32, single band, EPSG:32611, 100 m</small></td>
+<td>NOT ESTIMATED · the measured HOLDOUT-DTI belongs to a different allocation</td>
+<td><span class="tag warn">NOT UNIQUE · gate failed</span><br><small>Exact-copy check clean (0 of 3,273 blobs). Spatial gate fails: 186 flagged at &gt;70% forward 3-px overlap; the correlation and Jaccard tests flag none. 24 rasters not comparable. Scope: docs/downloads only (1,817 TIFs); 1,456 other GeoTIFF blobs were not spatially compared.</small></td>
+<td><span class="tag stop">NO</span><br><small>Valid format, but it fails the uniqueness gate and has no measured score.</small></td>
+</tr>
+</tbody></table>
+
+<h3>Submission form values (use only after it is cleared)</h3>
+<ul>
+<li>Submission name: <code>apartgems-e3-paired-static-30562dots</code> (36 characters)</li>
+<li>Note: <code>geo+paired-static full-footprint dots n=30562; not holdout-measured; uniqueness gate failed</code> (91 characters; limit 140)</li>
+</ul>
+
+<h2>2 · Automated checks (no human inspection)</h2>
+<table><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody>
+<tr><td>Single band, float32, grid 3730 × 3292, EPSG:32611, 100 m, transform equal to the sample</td><td><span class="tag ok">PASS</span></td></tr>
+<tr><td>Values inside the footprint are finite and in [0, 1]</td><td><span class="tag ok">PASS</span></td></tr>
+<tr><td>NaN mask equals the sample template's NaN mask (official: outside bounds is null or nan)</td><td><span class="tag ok">PASS</span></td></tr>
+<tr><td>No dots on the mapped catalogue; no positive value outside the footprint</td><td><span class="tag ok">PASS</span></td></tr>
+<tr><td>Exact-copy check against every GeoTIFF blob in the owner-repo inventory (3,273 blobs)</td><td>NO exact copy among 3,273 GeoTIFF git blobs</td></tr>
+<tr><td>Spatial overlap against 1,797 submitted rasters (3-px dot overlap ≤ 70%; correlation ≤ 0.90)</td><td>186 of 1,797 checked rasters exceed the 70% 3-px forward overlap (137 sparse dot sets, 49 dense surfaces); 24 rasters could not be compared; verdict: negative</td></tr>
+<tr><td>Holdout score measured for this exact file</td><td><span class="tag stop">NO</span> The emitted file&#x27;s score has not been measured. The holdout ran a per-cell allocation (281,318 dots); the file uses a full-footprint allocation (30,562 dots). A fourth experiment would be needed, and the budget is spent.</td></tr>
+</tbody></table>
+
+<h2>3 · The nine focus sites</h2>
+<p>Each site has one file named in the prompt. The "highest-scoring submission" is therefore the named file. Claims are the prompt's values, not organizer receipts. The highest claim is GEMSDOE32 at 0.2778.</p>
+<table><thead><tr><th>Site</th><th>File to download</th><th>Prompt claim (unconfirmed)</th><th>Estimated score</th><th>Unique among focus nine?</th></tr></thead>
+<tbody><tr>
+<td><strong>GEMSDOE24</strong></td>
+<td><a href="https://buffedlizard55-lab.github.io/GEMSDOE24/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif">gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif</a><br><small>historical · owner mirror · research only</small></td>
+<td>0.2477 (user-reported)</td>
+<td>Not estimable · no organizer receipt</td>
+<td><span class="tag stop">NO</span> overlaps the nearest focus-nine file by 100.00% within 3 px (GEMSDOE25)</td>
+</tr>
+<tr>
+<td><strong>GEMSDOE25</strong></td>
+<td><a href="https://buffedlizard55-lab.github.io/GEMSDOE25/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif">gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</a><br><small>historical · owner mirror · research only</small></td>
+<td>0.2600 (user-reported)</td>
+<td>Not estimable · no organizer receipt</td>
+<td><span class="tag stop">NO</span> overlaps the nearest focus-nine file by 100.00% within 3 px (GEMSDOE24)</td>
+</tr>
+<tr>
+<td><strong>GEMSDOE27</strong></td>
+<td><a href="https://buffedlizard55-lab.github.io/GEMSDOE27/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif">gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif</a><br><small>historical · owner mirror · research only</small></td>
+<td>0.2449 (user-reported)</td>
+<td>Not estimable · no organizer receipt</td>
+<td><span class="tag stop">NO</span> overlaps the nearest focus-nine file by 98.02% within 3 px (GEMSDOE24)</td>
+</tr>
+<tr>
+<td><strong>GEMSDOE28</strong></td>
+<td><a href="https://buffedlizard55-lab.github.io/GEMSDOE28/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif">gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif</a><br><small>historical · owner mirror · research only</small></td>
+<td>0.2710 (user-reported)</td>
+<td>Not estimable · no organizer receipt</td>
+<td><span class="tag stop">NO</span> overlaps the nearest focus-nine file by 100.00% within 3 px (GEMSDOE24)</td>
+</tr>
+<tr>
+<td><strong>GEMSDOE30</strong></td>
+<td><a href="https://buffedlizard55-lab.github.io/GEMSDOE30/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif">gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif</a><br><small>historical · owner mirror · research only</small></td>
+<td>0.2600 (user-reported)</td>
+<td>Not estimable · no organizer receipt</td>
+<td><span class="tag stop">NO</span> overlaps the nearest focus-nine file by 100.00% within 3 px (GEMSDOE24)</td>
+</tr>
+<tr>
+<td><strong>GEMSDOE31</strong></td>
+<td><a href="https://buffedlizard55-lab.github.io/GEMSDOE31/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif">gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif</a><br><small>historical · owner mirror · research only</small></td>
+<td>0.2708 (user-reported)</td>
+<td>Not estimable · no organizer receipt</td>
+<td><span class="tag stop">NO</span> overlaps the nearest focus-nine file by 100.00% within 3 px (GEMSDOE24)</td>
+</tr>
+<tr>
+<td><strong>GEMSDOE32</strong></td>
+<td><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a><br><small>historical · owner mirror · research only</small></td>
+<td>0.2778 (user-reported)</td>
+<td>Not estimable · no organizer receipt</td>
+<td><span class="tag stop">NO</span> overlaps the nearest focus-nine file by 100.00% within 3 px (GEMSDOE24)</td>
+</tr>
+<tr>
+<td><strong>GEMSDOE33</strong></td>
+<td><a href="https://buffedlizard55-lab.github.io/GEMSDOE33/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif">GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif</a><br><small>historical · owner mirror · research only</small></td>
+<td>0.2632 (user-reported)</td>
+<td>Not estimable · no organizer receipt</td>
+<td><span class="tag stop">NO</span> overlaps the nearest focus-nine file by 99.71% within 3 px (GEMSDOE27)</td>
+</tr>
+<tr>
+<td><strong>GEMSDOE36</strong></td>
+<td><a href="https://buffedlizard55-lab.github.io/GEMSDOE36/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif">gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif</a><br><small>historical · owner mirror · research only</small></td>
+<td>0.2750 (user-reported)</td>
+<td>Not estimable · no organizer receipt</td>
+<td><span class="tag stop">NO</span> overlaps the nearest focus-nine file by 97.58% within 3 px (GEMSDOE27)</td>
+</tr></tbody></table>
+<p><strong>Best submission pick:</strong> None cleared. Among the nine named historical files, GEMSDOE32 has the highest user-reported value (0.2778). That value is unconfirmed, and GEMSDOE32 is not unique among the focus nine (3 px overlap 97.6%–100%). The new file is not a better pick: it is not cleared and its score is unmeasured.</p>
+
+<h2>4 · Leaderboard reference</h2>
+<p>Top public DW-Tversky: <strong>0.4544</strong>, direct read of the official page on 2026-10-30; the scheduled feed script returned unavailable the same day, so no feed value is shown. This is team-level public standing, not a score receipt for any file. The prompt's 0.4413 and 0.3195 do not match this reading.</p>
+
+<h2>5 · Irregularities flagged</h2>
+<ul><li>Prompt values 0.4413 and 0.3195 do not match the repo&#x27;s recorded official top of 0.4544; no receipt for either.</li><li>The nine historical scores (0.2449–0.2778) are user-reported only; no organizer receipt exists in the repository.</li><li>Data in data/official/ are owner-mirror copies (6GEMSDOE), not organizer downloads; the competition data page redirects to login.</li><li>The portal error &#x27;Predicted values must be in range [0, 1]&#x27; is unexplained. The new file&#x27;s in-footprint values are in [0,1]; its out-of-footprint cells are NaN, as the official rule requires.</li><li>The E3 holdout score measures a different dot allocation from the emitted file (see holdout).</li><li>The uniqueness scan covers only docs/downloads (1,817 of 3,273 GeoTIFF blobs); 24 registry rasters could not be compared (CRS/grid mismatch, NaN inside footprint, or corrupt header).</li><li>The 3-px forward overlap rule is directional and was used as written; its measurement against dense surfaces is trivially 100%. The gate was not re-interpreted to pass.</li><li>The repository review cites base 351c64c and branch arena/cf36ddec, which do not match this branch (branch base 404231f).</li><li>The GitHub Pages URL for this repository was not verified in this session; links are relative.</li></ul>
+
+<h2>6 · Why the answer is "no"</h2>
+<ul><li>Uniqueness gate fails: 186 registry rasters exceed 70% forward 3-px overlap (137 sparse dot sets, 49 dense surfaces).</li><li>Its score is unmeasured. The E3 holdout allocated dots per cell (281,318 dots); this file uses one full-footprint allocation (30,562 dots).</li><li>The experiment budget (3 experiments, 2 hours) is spent. A fourth experiment cannot measure it under the rules.</li><li>Single-method lane has not been assigned: lane status pending selector approval.</li><li>Format is valid but the official-format question (NaN outside bounds vs the portal error) is not closed by any evidence.</li><li>The official test labels are new faults not in the USGS catalogue; the holdout is a proxy only.</li></ul>
+
+<h2>Sources</h2>
+<ul><li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData · problem, format and DW-Tversky metric</a></li><li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData · public leaderboard (read 2026-10-30)</a></li><li><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">DOE GEMS Prize · official rules (PDF)</a></li><li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">DrivenData · data page (login-gated; not obtained)</a></li><li><a href="https://github.com/drivendataorg/gems-prize-reference-solution">DrivenData · reference solution</a></li><li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS · GeoDAWN release</a></li><li><a href="https://gdr.openei.org/submissions/1391">DOE GDR · INGENIOUS data</a></li></ul>
+<p><small>Generated from <code>evidence/submission_decision_2026-10-31.json</code> by <code>scripts/build_submit_page.py</code>.</small></p>
+</body></html>
