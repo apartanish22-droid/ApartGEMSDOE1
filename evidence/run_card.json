@@ -145,7 +145,7 @@
     "branch": "arena/cd4f4205-apartgemsdoe1",
     "repository_review": {
       "result": "negative / blocked",
-      "tests": "40 passed, 16 Rasterio pending-deprecation warnings",
+      "tests": "41 passed, 16 Rasterio pending-deprecation warnings",
       "format_only_validator": "PASS for local format/range/grid only; ok_to_submit=false",
       "pipeline": "retired duplicate lane refuses execution",
       "new_experiments": 0,

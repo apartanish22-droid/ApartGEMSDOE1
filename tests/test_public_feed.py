@@ -8,7 +8,13 @@ import sys
 
 import pytest
 from scripts import update_public_feed
-from scripts.update_public_feed import is_fresh_observation, make_snapshot, parse_public_leaderboard, unavailable
+from scripts.update_public_feed import (
+    is_fresh_observation,
+    make_snapshot,
+    parse_public_leaderboard,
+    preserve_fresh_direct_observation,
+    unavailable,
+)
 
 HTML = '''<!doctype html><table><thead><tr><th>Rank</th><th>Team</th><th>Best public DW-Tversky</th></tr></thead>
 <tbody><tr><td>#1</td><td>Example team</td><td>0.4544</td></tr><tr><td>#2</td><td>Team B</td><td>0.4200</td></tr></tbody></table>'''
@@ -48,6 +54,34 @@ def test_unavailable_refresh_records_check_time_not_a_fictitious_observation():
     assert feed['checked_utc'] == checked
     assert feed['observed_utc'] is None
     assert feed['top_public_dti'] is None
+
+
+def test_failed_refresh_preserves_only_a_fresh_verified_direct_page_read():
+    now = datetime(2026, 10, 31, 12, tzinfo=timezone.utc)
+    direct = {
+        'status': 'observed',
+        'observed_utc': '2026-10-31',
+        'top_rank': 1,
+        'top_participant': 'xiaofanhu',
+        'top_public_dti': .4544,
+        'source': update_public_feed.URL,
+        'evidence_class': 'OFFICIAL PUBLIC TEAM-LEVEL STANDING; NOT A SUBMISSION RECEIPT',
+    }
+    failed = unavailable('test failure', checked_utc=now.isoformat())
+    fresh = preserve_fresh_direct_observation(failed, {'direct_page_observation': direct}, now=now)
+    assert fresh['status'] == 'unavailable' and fresh['top_public_dti'] is None
+    assert fresh['observed_utc'] is None
+    assert fresh['direct_page_observation'] == direct
+    assert 'not the scheduled feed' in fresh['caveat']
+
+    stale = preserve_fresh_direct_observation(
+        failed, {'direct_page_observation': {**direct, 'observed_utc': '2026-10-30'}}, now=now)
+    assert 'direct_page_observation' not in stale
+    malformed = preserve_fresh_direct_observation(
+        failed, {'direct_page_observation': {**direct, 'source': 'https://example.invalid/'}}, now=now)
+    assert 'direct_page_observation' not in malformed
+    success = {'status': 'ok', 'top_public_dti': .4, 'observed_utc': now.isoformat()}
+    assert preserve_fresh_direct_observation(success, {'direct_page_observation': direct}, now=now) == success
 
 
 def test_public_score_is_not_a_file_level_receipt_or_forecast():
