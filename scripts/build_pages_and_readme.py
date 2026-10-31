@@ -81,6 +81,7 @@ def render_research_markdown(markdown: str) -> str:
 
 
 def main() -> int:
+    raise SystemExit('build_pages_and_readme.py is superseded: docs/index.html, docs/download-and-submit.html and README.md are written by scripts/build_submit_page.py from evidence/submission_decision_2026-10-31.json. Refusing to overwrite the current decision.')
     card = json.loads((ROOT / 'evidence/run_card.json').read_text())
     audit = json.loads((ROOT / 'evidence/literal_witness_audit.json').read_text())
     focus = json.loads((ROOT / 'evidence/focus9_reaudit.json').read_text())

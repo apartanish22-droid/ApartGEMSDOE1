@@ -263,10 +263,14 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
     if expected_grid is not None and (len(expected_grid) != 3 or expected_grid[0] != mine.shape
                                       or expected_grid[1] is None or expected_grid[2] is None):
         raise ValueError('expected grid must include matching shape, CRS and transform')
-    if not np.isfinite(mine).all() or (mine < 0).any() or (mine > 1).any():
-        raise ValueError('candidate must already be finite in [0,1]')
+    # Official-template files use NaN outside the bounds. Those cells are not
+    # support, so they are set to zero below after the strict checks pass.
+    inside = mine[fp]
+    if not np.isfinite(inside).all() or (inside < 0).any() or (inside > 1).any():
+        raise ValueError('candidate must already be finite in [0,1] inside the footprint')
     if (mine[~fp] > 0).any():
         raise ValueError('positive candidate mass outside footprint')
+    mine = np.where(fp, mine, np.float32(0.0)).astype(np.float32)
     idx = registry_index if isinstance(registry_index, (list, dict)) else json.loads(Path(registry_index).read_text())
     records, inventory_complete, source_errors = records_from_index(idx)
     rows = []

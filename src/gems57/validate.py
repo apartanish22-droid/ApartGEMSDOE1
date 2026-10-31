@@ -107,3 +107,63 @@ def assert_submittable(receipt: dict) -> None:
     bad = [k for k, v in receipt["checks"].items() if not v]
     if bad:
         raise AssertionError(f"submission fails the local format/range preflight: {bad}")
+
+
+def validate_template(path: Path, footprint: np.ndarray, catalogue: np.ndarray | None = None,
+                      sample: Path | None = None) -> dict:
+    """Validate the OFFICIAL-TEMPLATE convention (outside bounds = NaN).
+
+    The published rule says data outside the bounds is null or NaN, and the
+    official sample template has NaN exactly outside the footprint with nodata NaN.
+    This validator requires the same NaN mask as the sample template (when
+    ``sample`` is given) or as ``~footprint``, finite float32 values in [0,1]
+    inside the footprint, no infinities or sentinels, and no positive dots on the
+    mapped catalogue. It does not clip, fill, or repair anything.
+    A PASS here is a local format check, not organizer acceptance.
+    """
+    path = Path(path)
+    with rasterio.open(path) as ds:
+        a = ds.read(1)
+        # NaN is written as the string "NaN": the receipt is strict JSON (allow_nan=False).
+        nd = ds.nodata
+        nodata_repr = None if nd is None else ("NaN" if np.isnan(nd) else float(nd))
+        meta = dict(crs=str(ds.crs), shape=[ds.height, ds.width], dtype=ds.dtypes[0],
+                    count=ds.count, nodata=nodata_repr,
+                    transform=list(tuple(ds.transform)[:6]))
+    fp = np.asarray(footprint, dtype=bool)
+    if a.shape != fp.shape:
+        raise ValueError(f"raster shape {a.shape} != footprint {fp.shape}")
+    nan = np.isnan(a)
+    inside = a[fp]
+    checks = {
+        "single_band": meta["count"] == 1,
+        "dtype_float32": meta["dtype"] == "float32",
+        f"dimensions_{HEIGHT}x{WIDTH}": (a.shape == (HEIGHT, WIDTH)),
+        f"crs_epsg_{EPSG}": meta["crs"] == f"EPSG:{EPSG}",
+        "transform_matches_sample_submission": meta["transform"] == list(tuple(TRANSFORM)[:6]),
+        "nodata_is_nan": meta["nodata"] == "NaN",
+        "no_inf_anywhere": bool(not np.isinf(a).any()),
+        "inside_footprint_all_finite": bool(np.isfinite(inside).all()),
+        "inside_footprint_range_0_1": bool(np.isfinite(inside).all() and (inside >= 0.0).all()
+                                           and (inside <= 1.0).all()),
+        "outside_footprint_all_nan": bool(nan[~fp].all()),
+        "nan_mask_equals_footprint_complement": bool(np.array_equal(nan, ~fp)),
+        "no_sentinel_values": bool(not np.isin(inside, SENTINELS).any()),
+        "no_positive_on_catalogue": True,
+    }
+    if sample is not None:
+        with rasterio.open(sample) as ref:
+            ref_nan = np.isnan(ref.read(1))
+        checks["nan_mask_equals_sample_template"] = bool(np.array_equal(nan, ref_nan))
+    if catalogue is not None:
+        cat = np.asarray(catalogue, dtype=bool)
+        checks["no_positive_on_catalogue"] = int((np.nan_to_num(a, nan=0.0)[cat] > 0).sum()) == 0
+    receipt = {
+        "file": str(path), "sha256": sha256(path), "bytes": path.stat().st_size,
+        "meta": meta, "checks": checks,
+        "all_checks_passed": bool(all(checks.values())),
+        "n_positive_dots": int((np.nan_to_num(a, nan=0.0) > 0).sum()),
+        "n_inside_footprint": int(fp.sum()),
+        "policy": "official-template NaN outside bounds (validate_template)",
+    }
+    return receipt

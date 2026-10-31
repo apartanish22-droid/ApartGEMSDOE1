@@ -1,0 +1,244 @@
+{
+  "record": "submission_decision_2026-10-31",
+  "generated_utc": "2026-10-31T06:09:15.592548Z",
+  "candidate": {
+    "filename": "apartgems-e3-geo-paired-static-30562dots-NOT-CLEARED-20261031.tif",
+    "repo_path": "docs/downloads/apartgems-e3-geo-paired-static-30562dots-NOT-CLEARED-20261031.tif",
+    "sha256": "c4d504b8a09f94a6f0b2a757eda60bc69095b21bc95cfae0a626dfd4bf76468e",
+    "bytes": 1559038,
+    "source_build": ".cache/staging/gems-geo-paired-static-dots.tif (same SHA-256; emitted by run_fold_honest_holdout.py --features geo+paired-static --emit-only)",
+    "submission_name": "apartgems-e3-paired-static-30562dots",
+    "note": "geo+paired-static full-footprint dots n=30562; not holdout-measured; uniqueness gate failed",
+    "format": "float32, 1 band, EPSG:32611, 3730x3292, 100 m, transform equal to sample, NaN outside footprint, values {0,1} inside footprint"
+  },
+  "validation": {
+    "validator": "gems57.validate.validate_template against data/official/sample_submission.tif",
+    "all_checks_passed": true,
+    "n_dots": 30562,
+    "dots_on_catalogue": 0,
+    "dots_outside_footprint": 0,
+    "note": "format passes the official rule; the portal error 'Predicted values must be in range [0, 1]' is not explained by this file"
+  },
+  "uniqueness": {
+    "blobs_listed": "all 3273 GeoTIFF blobs in 92 owner repos (git trees)",
+    "exact_copy_found": false,
+    "exact_copy_result": "NO exact copy among 3,273 GeoTIFF git blobs",
+    "spatial_files_scanned": 1797,
+    "spatial_scope": "1817 docs/downloads GeoTIFFs; 1456 other GeoTIFFs NOT downloaded",
+    "spatial_files_unreadable_or_mismatch": 24,
+    "spatial_duplicate_flags": 186,
+    "spatial_duplicate_flags_sparse_dot_files": 137,
+    "spatial_duplicate_flags_dense_surfaces": 49,
+    "spatial_max_forward_overlap": 1.0,
+    "spatial_max_spearman_over_all_rasters": 0.259807889572352,
+    "spatial_max_jaccard_over_all_rasters": 0.12636475278838552,
+    "unique_vs_registry": false,
+    "status_label": "NOT UNIQUE \u00b7 gate failed",
+    "spatial_result": "186 of 1,797 checked rasters exceed the 70% 3-px forward overlap (137 sparse dot sets, 49 dense surfaces); 24 rasters could not be compared; verdict: negative",
+    "summary": "Exact-copy check clean (0 of 3,273 blobs). Spatial gate fails: 186 flagged at >70% forward 3-px overlap; the correlation and Jaccard tests flag none. 24 rasters not comparable. Scope: docs/downloads only (1,817 TIFs); 1,456 other GeoTIFF blobs were not spatially compared.",
+    "scan_report": "evidence/registry/uniqueness_geo_paired_static_dots.json",
+    "scan_tool": "scripts/registry_scan.py + gems57.uniqueness.compare_array_to_registry",
+    "blobs_listed_count": 3273
+  },
+  "holdout": {
+    "measured_surface": "E3 geo+paired-static, per-cell greedy allocation over 16 withheld cells (281,318 dots)",
+    "emitted_surface": "E3 geo+paired-static, one full-footprint greedy allocation (30,562 dots; k_truth 11,983.4)",
+    "estimate_label": "NOT ESTIMATED \u00b7 the measured HOLDOUT-DTI belongs to a different allocation",
+    "measurement_gap": "The emitted file's score has not been measured. The holdout ran a per-cell allocation (281,318 dots); the file uses a full-footprint allocation (30,562 dots). A fourth experiment would be needed, and the budget is spent.",
+    "reference_e3_holdout": {
+      "evaluator": "gems57-pooled-hide-v3",
+      "dti": 0.0704,
+      "ci95": [
+        0.0595,
+        0.0813
+      ],
+      "withheld_positives": 22641,
+      "label": "HOLDOUT-DTI (other allocation; not this file)"
+    },
+    "reference_e2_holdout": {
+      "evaluator": "gems57-pooled-hide-v3",
+      "dti": 0.0635,
+      "ci95": [
+        0.0514,
+        0.0757
+      ],
+      "withheld_positives": 22641,
+      "label": "HOLDOUT-DTI (leak-free baseline)"
+    },
+    "reference_e1_holdout": {
+      "evaluator": "gems57-pooled-hide-v3",
+      "dti": 0.3323,
+      "ci95": [
+        0.2966,
+        0.3681
+      ],
+      "label": "HOLDOUT-DTI \u00b7 INVALID (catalogue-proximity leakage; canary flags d, d_perp)"
+    },
+    "leakage_audit": "evidence/leakage_audit_2026-10-31.md"
+  },
+  "verdict": {
+    "ok_to_download": true,
+    "ok_to_download_note": "Download for inspection and records only. The file is valid in format.",
+    "ok_to_submit": false,
+    "one_line": "Do not submit. It fails the project's uniqueness gate, and its own score is unmeasured.",
+    "download_note": "Valid format, but it fails the uniqueness gate and has no measured score.",
+    "reasons": [
+      "Uniqueness gate fails: 186 registry rasters exceed 70% forward 3-px overlap (137 sparse dot sets, 49 dense surfaces).",
+      "Its score is unmeasured. The E3 holdout allocated dots per cell (281,318 dots); this file uses one full-footprint allocation (30,562 dots).",
+      "The experiment budget (3 experiments, 2 hours) is spent. A fourth experiment cannot measure it under the rules.",
+      "Single-method lane has not been assigned: lane status pending selector approval.",
+      "Format is valid but the official-format question (NaN outside bounds vs the portal error) is not closed by any evidence.",
+      "The official test labels are new faults not in the USGS catalogue; the holdout is a proxy only."
+    ]
+  },
+  "best_pick": {
+    "text": "None cleared. Among the nine named historical files, GEMSDOE32 has the highest user-reported value (0.2778). That value is unconfirmed, and GEMSDOE32 is not unique among the focus nine (3 px overlap 97.6%\u2013100%). The new file is not a better pick: it is not cleared and its score is unmeasured."
+  },
+  "focus_nine": [
+    {
+      "site": "GEMSDOE24",
+      "filename": "gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "pages_download_url": "https://buffedlizard55-lab.github.io/GEMSDOE24/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "owner_git_url": "https://github.com/buffedlizard55-lab/GEMSDOE24/blob/9e185929eeaa6244f96c3022cf3462faa8ca4de0/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "sha256": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+      "claim_text": "0.2477 (user-reported)",
+      "nearest_peer_overlap_pct": "100.00",
+      "closest_peer": "GEMSDOE25",
+      "unique_among_focus9": false
+    },
+    {
+      "site": "GEMSDOE25",
+      "filename": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "pages_download_url": "https://buffedlizard55-lab.github.io/GEMSDOE25/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "owner_git_url": "https://github.com/buffedlizard55-lab/GEMSDOE25/blob/fb1db37274776a29dbc48abe55b2e531f2ba6aad/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "claim_text": "0.2600 (user-reported)",
+      "nearest_peer_overlap_pct": "100.00",
+      "closest_peer": "GEMSDOE24",
+      "unique_among_focus9": false
+    },
+    {
+      "site": "GEMSDOE27",
+      "filename": "gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "pages_download_url": "https://buffedlizard55-lab.github.io/GEMSDOE27/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "owner_git_url": "https://github.com/buffedlizard55-lab/GEMSDOE27/blob/6704fa2a5133e751df2516feb2e32565ad5fc1df/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+      "claim_text": "0.2449 (user-reported)",
+      "nearest_peer_overlap_pct": "98.02",
+      "closest_peer": "GEMSDOE24",
+      "unique_among_focus9": false
+    },
+    {
+      "site": "GEMSDOE28",
+      "filename": "gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "pages_download_url": "https://buffedlizard55-lab.github.io/GEMSDOE28/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "owner_git_url": "https://github.com/buffedlizard55-lab/GEMSDOE28/blob/9509b73eaf35f66d0b23fce63b2540ceff2a88e0/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "sha256": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
+      "claim_text": "0.2710 (user-reported)",
+      "nearest_peer_overlap_pct": "100.00",
+      "closest_peer": "GEMSDOE24",
+      "unique_among_focus9": false
+    },
+    {
+      "site": "GEMSDOE30",
+      "filename": "gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "pages_download_url": "https://buffedlizard55-lab.github.io/GEMSDOE30/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "owner_git_url": "https://github.com/buffedlizard55-lab/GEMSDOE30/blob/31696c6541cfc54620ff850a748c51625461f27f/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "claim_text": "0.2600 (user-reported)",
+      "nearest_peer_overlap_pct": "100.00",
+      "closest_peer": "GEMSDOE24",
+      "unique_among_focus9": false
+    },
+    {
+      "site": "GEMSDOE31",
+      "filename": "gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "pages_download_url": "https://buffedlizard55-lab.github.io/GEMSDOE31/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "owner_git_url": "https://github.com/buffedlizard55-lab/GEMSDOE31/blob/06930b9d03473a9313094a4f2312c4fc6efd4fbb/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "sha256": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
+      "claim_text": "0.2708 (user-reported)",
+      "nearest_peer_overlap_pct": "100.00",
+      "closest_peer": "GEMSDOE24",
+      "unique_among_focus9": false
+    },
+    {
+      "site": "GEMSDOE32",
+      "filename": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "pages_download_url": "https://buffedlizard55-lab.github.io/GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "owner_git_url": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/97597a066d1c61d2c226fdba349716f41b30c1c6/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "claim_text": "0.2778 (user-reported)",
+      "nearest_peer_overlap_pct": "100.00",
+      "closest_peer": "GEMSDOE24",
+      "unique_among_focus9": false
+    },
+    {
+      "site": "GEMSDOE33",
+      "filename": "GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "pages_download_url": "https://buffedlizard55-lab.github.io/GEMSDOE33/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "owner_git_url": "https://github.com/buffedlizard55-lab/GEMSDOE33/blob/3eaf85efb49f364b84f8be04e8b084b12d0303b9/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "claim_text": "0.2632 (user-reported)",
+      "nearest_peer_overlap_pct": "99.71",
+      "closest_peer": "GEMSDOE27",
+      "unique_among_focus9": false
+    },
+    {
+      "site": "GEMSDOE36",
+      "filename": "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "pages_download_url": "https://buffedlizard55-lab.github.io/GEMSDOE36/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "owner_git_url": "https://github.com/buffedlizard55-lab/GEMSDOE36/blob/e280188adbbe762e6b7ac6f3b8e105e8e7915026/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "claim_text": "0.2750 (user-reported)",
+      "nearest_peer_overlap_pct": "97.58",
+      "closest_peer": "GEMSDOE27",
+      "unique_among_focus9": false
+    }
+  ],
+  "leaderboard": {
+    "top_public_dti": 0.4544,
+    "observed": "2026-10-30",
+    "note": "direct read of the official page; team-level; not a file receipt"
+  },
+  "irregularities": [
+    "Prompt values 0.4413 and 0.3195 do not match the repo's recorded official top of 0.4544; no receipt for either.",
+    "The nine historical scores (0.2449\u20130.2778) are user-reported only; no organizer receipt exists in the repository.",
+    "Data in data/official/ are owner-mirror copies (6GEMSDOE), not organizer downloads; the competition data page redirects to login.",
+    "The portal error 'Predicted values must be in range [0, 1]' is unexplained. The new file's in-footprint values are in [0,1]; its out-of-footprint cells are NaN, as the official rule requires.",
+    "The E3 holdout score measures a different dot allocation from the emitted file (see holdout).",
+    "The uniqueness scan covers only docs/downloads (1,817 of 3,273 GeoTIFF blobs); 24 registry rasters could not be compared (CRS/grid mismatch, NaN inside footprint, or corrupt header).",
+    "The 3-px forward overlap rule is directional and was used as written; its measurement against dense surfaces is trivially 100%. The gate was not re-interpreted to pass.",
+    "The repository review cites base 351c64c and branch arena/cf36ddec, which do not match this branch (branch base 404231f).",
+    "The GitHub Pages URL for this repository was not verified in this session; links are relative."
+  ],
+  "sources": [
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "label": "DrivenData \u00b7 problem, format and DW-Tversky metric"
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "label": "DrivenData \u00b7 public leaderboard (read 2026-10-30)"
+    },
+    {
+      "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "label": "DOE GEMS Prize \u00b7 official rules (PDF)"
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
+      "label": "DrivenData \u00b7 data page (login-gated; not obtained)"
+    },
+    {
+      "url": "https://github.com/drivendataorg/gems-prize-reference-solution",
+      "label": "DrivenData \u00b7 reference solution"
+    },
+    {
+      "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+      "label": "USGS \u00b7 GeoDAWN release"
+    },
+    {
+      "url": "https://gdr.openei.org/submissions/1391",
+      "label": "DOE GDR \u00b7 INGENIOUS data"
+    }
+  ]
+}

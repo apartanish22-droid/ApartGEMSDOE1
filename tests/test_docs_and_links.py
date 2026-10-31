@@ -20,19 +20,26 @@ class AttrCollector(HTMLParser):
                 self.refs.append(value)
 
 
-def test_html_pages_are_negative_have_local_links_and_no_localhost():
+def test_submission_pages_state_the_current_decision():
     docs = ROOT / 'docs'
-    card = json.loads((ROOT / 'evidence/run_card.json').read_text())
-    assert card['verdict'] == 'negative'
-    for name in ('index.html', 'executive-summary.html'):
+    dec = json.loads((ROOT / 'evidence/submission_decision_2026-10-31.json').read_text())
+    assert dec['verdict']['ok_to_submit'] is False
+    assert dec['uniqueness']['unique_vs_registry'] is False
+    assert dec['uniqueness']['exact_copy_found'] is False
+    assert dec['uniqueness']['spatial_duplicate_flags'] == 186
+    sha = dec['candidate']['sha256']
+    cand = ROOT / dec['candidate']['repo_path']
+    assert cand.is_file() and cand.stat().st_size == dec['candidate']['bytes']
+    import hashlib
+    assert hashlib.sha256(cand.read_bytes()).hexdigest() == sha
+    for name in ('index.html', 'download-and-submit.html'):
         text = (docs / name).read_text()
         assert 'localhost' not in text and '127.0.0.1' not in text
-        assert card['raster_sha256'] in text
-        assert 'do not submit' in text.lower() or 'do not upload' in text.lower()
+        assert 'No. Do not submit this file yet.' in text
+        assert sha in text and 'NOT-CLEARED' in text
         assert 'research only' in text.lower()
-        assert 'ready to submit' not in text.lower() or 'no file is ready to submit' in text.lower()
-        assert '99.68%' in text and '70%' in text
-        assert 'ORGANIZER-CONFIRMED means' not in text  # no blanket file-level confirmation claim
+        assert 'user-reported; unconfirmed' in text or 'unconfirmed' in text.lower()
+        assert '0.2778' in text and '0.4544' in text
         parser = AttrCollector(); parser.feed(text)
         assert parser.refs
         for ref in parser.refs:
@@ -41,20 +48,15 @@ def test_html_pages_are_negative_have_local_links_and_no_localhost():
             clean = ref.split('#', 1)[0].split('?', 1)[0]
             target = (docs / clean).resolve()
             assert target.exists() and target.stat().st_size > 0, f'broken {ref} in {name}'
-    index = (docs / 'index.html').read_text()
+    text = (docs / 'download-and-submit.html').read_text()
     for site in (24, 25, 27, 28, 30, 31, 32, 33, 36):
-        assert f'GEMSDOE{site}' in index
-    assert '0.2778' in index and 'user-reported; unconfirmed' in index
-    assert 'Unique among focus nine? (closest peer)' in index
-    assert 'Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test' in index
+        assert f'GEMSDOE{site}' in text
+    assert (docs / 'index.html').read_text() == text
+    assert 'download-and-submit.html#sites' in (docs / 'executive-summary.html').read_text()
     audit = json.loads((ROOT / 'evidence/focus9_reaudit.json').read_text())
     assert all(r['max_forward_overlap_3px_among_focus9'] > .70 for r in audit['sites'])
     assert all(r['closest_focus_site'] for r in audit['sites'])
-    assert 'not comparable' in index and '11,360' in index
-    guide = (docs / 'executive-summary.html').read_text()
-    assert '0.4544' in guide and 'direct read' in guide and 'scheduled feed script returned unavailable' in guide
-    assert 'team-level public standing' in guide and 'not a score receipt for any file' in guide
-    assert 'outside bounds' in index.lower() and 'zeros' in index.lower()
+    assert 'outside bounds' in text.lower() or 'null or nan' in text.lower()
     assert 'top_public_dti' in (docs / 'feed.js').read_text()
 
 
@@ -92,15 +94,18 @@ def test_archived_h6_cannot_promote_after_literal_stop():
 
 def test_readme_standing_protocol_and_links():
     text = (ROOT / 'README.md').read_text()
-    card = json.loads((ROOT / 'evidence/run_card.json').read_text())
-    assert card['raster_sha256'] in text
+    dec = json.loads((ROOT / 'evidence/submission_decision_2026-10-31.json').read_text())
+    assert dec['candidate']['sha256'] in text
     assert 'Future-session start-up: read before every run' in text
-    assert 'Current lane status — stop' in text and 'single method' in text
+    assert 'Current lane status — stop' in text and 'Single method per lane' in text
     assert 'AUC >0.90 is leakage' in text and 'three experiments or two hours' in text
-    assert 'Unique among focus nine? (closest peer)' in text
-    assert 'Prior candidate overlap (diagnostic)' in text
+    assert 'Unique vs the other focus sites' in text
     assert 'GEMSDOE32' in text and '0.2778' in text and 'no linked organizer receipt' in text
-    assert 'HOLDOUT-DTI' in text and '11,360' in text and '95% CI' in text
+    assert 'HOLDOUT-DTI' in text and '95% CI' in text
+    assert 'docs/PROJECT_BRIEF.md' in text
+    assert 'Not measured' in text or 'not measured' in text
+    assert 'OK to submit?' in text and '**No**' in text
+    assert (ROOT / 'docs/PROJECT_BRIEF.md').is_file()
     for m in re.finditer(r'\]\(([^)]+)\)', text):
         ref = m.group(1).strip()
         if ref.startswith(('http://', 'https://', '#')):
@@ -121,10 +126,14 @@ def test_all_evidence_json_strict_and_unsafe_receipts_not_promoted():
 
 
 def test_regenerators_and_preflight_cannot_promote(tmp_path):
-    builder = subprocess.run([sys.executable, str(ROOT / 'scripts/build_pages_and_readme.py')],
-                             cwd=ROOT, capture_output=True, text=True)
-    assert builder.returncode == 0, builder.stderr
-    assert 'No file is ready to submit' in (ROOT / 'docs/index.html').read_text()
+    old = subprocess.run([sys.executable, str(ROOT / 'scripts/build_pages_and_readme.py')],
+                         cwd=ROOT, capture_output=True, text=True)
+    assert old.returncode != 0 and 'superseded' in old.stderr
+    before = (ROOT / 'docs/index.html').read_text()
+    run1 = subprocess.run([sys.executable, str(ROOT / 'scripts/build_submit_page.py')], cwd=ROOT, capture_output=True, text=True)
+    assert run1.returncode == 0, run1.stderr
+    assert (ROOT / 'docs/index.html').read_text() == before  # regenerating reproduces the same page
+    assert 'No. Do not submit this file yet.' in before
     figures = subprocess.run([sys.executable, str(ROOT / 'scripts/generate_figures.py')], capture_output=True, text=True)
     assert figures.returncode != 0 and 'stopped' in figures.stderr.lower()
     assert not (ROOT / 'src/apartgems/uniqueness.py').exists()

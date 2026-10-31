@@ -88,7 +88,7 @@ def test_official_rules_record_contains_verified_quotes_and_sources():
         assert feed['top_public_dti'] is None
     else:
         assert 'NOT A SUBMISSION RECEIPT' in feed['evidence_class']
-    guide = (ROOT / 'docs/executive-summary.html').read_text().lower()
+    guide = (ROOT / 'docs/download-and-submit.html').read_text().lower()
     assert 'direct read' in guide and 'scheduled feed script returned unavailable' in guide
     assert 'team-level public standing' in guide and 'not a score receipt for any file' in guide
     assert feed['status'] == 'unavailable' and feed['top_public_dti'] is None
