@@ -2,7 +2,7 @@
 
 > **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF passes the local finite/range/grid preflight against owner-mirror files, but its zero-outside policy conflicts with the official null/NaN requirement and 99.68% of its dots overlap a registered lattice within three pixels, exceeding the 70% internal protocol limit. The surface gate is unverified. No new submission-candidate GeoTIFF or competition submission was made; disposable format-test files were not candidates. Archived H-APART-6 v2 experiments predated discovery of the witness.
 >
-> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Official rule excerpts](evidence/official_rules_check.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Prior three-pass review](evidence/review_passes.md) · [2026-10-30 repo review](evidence/repository_review_2026-10-30.md) · [Overlap and metric verification 2026-10-30](evidence/repo_review_2026-10-30_overlap.md)
+> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Official rule excerpts](evidence/official_rules_check.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Latest repo review 2026-10-31](evidence/repository_review_2026-10-31.md) · [Review history](evidence/review_passes.md) · [Overlap and metric verification 2026-10-30](evidence/repo_review_2026-10-30_overlap.md)
 >
 > [Download the **prior TIFF for research only — do not submit**](docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif) · SHA-256 `09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f`
 
@@ -10,7 +10,7 @@
 
 **Objective.** Build an evidence-led, original fault-prediction GeoTIFF for geothermal exploration, and say plainly whether any file is safe to download or submit. The nine focus sites are GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, and 36. Their historical scores are user-reported claims, not submission receipts; the reported GEMSDOE32 value 0.2778 is not explained by geometry alone. Its support matches GEMSDOE25 after a two-pixel catalogue collar is removed, which suggests—but does not prove—a redundancy-pruning mechanism under max-kernel DTI. Do not turn this into a causal claim, score estimate, or promotion without hidden-label evidence.
 
-**Current lane status — stop.** The “single method” paragraph in the supplied request was not unambiguously identified. Repo context records an inherited H-APART-6 OTSP lane, three archived v2 experiments, and a later mandatory duplicate stop. The existing candidate overlaps one pinned lattice witness by 37,533/37,654 dots (99.6787%, over the 70% limit); the pre-placement surface and complete registry are unavailable, and the training-feature cache is absent from this checkout. Do not choose a replacement method, run experiments, generate a new TIFF, or use a slot until a new lane is explicitly assigned and its prerequisites are met. See the [ranked future hypotheses](evidence/next_hypotheses.md) for design candidates, not permission to run them.
+**Current lane status — stop.** The “single method” paragraph in the supplied request was not unambiguously identified. Repo context records an inherited H-APART-6 OTSP lane, three archived v2 experiments, and a later mandatory duplicate stop. The existing candidate overlaps one pinned lattice witness by 37,533/37,654 dots (99.6787%, over the 70% limit); the pre-placement surface and complete registry are unavailable, and the training-feature cache was absent from the earlier checkout. On 2026-10-31 `python scripts/prepare_data.py --fetch` restored and hash-verified all 19 bands (owner-mirror integrity only). A leakage canary on the v3 folds (`scripts/feature_canary_v3.py`) found no single-band leakage (symmetric AUC 0.505–0.568) and single-band top-K HOLDOUT-DTI ≤0.0122; no model or submission was produced. See [the 2026-10-31 review](evidence/review_2026-10-31.md). Do not choose a replacement method, run experiments, generate a new TIFF, or use a slot until a new lane is explicitly assigned and its prerequisites are met. See the [ranked future hypotheses](evidence/next_hypotheses.md) for design candidates, not permission to run them.
 
 ### Mandatory gates
 
@@ -26,7 +26,7 @@
 
 ## Executive summary · nine requested sites
 
-These are the highest historical files **named in the user prompt**, not a complete census. Prompt values are unverified user reports; no submission-page receipts were found. The future leaderboard estimate is unavailable for every row. The focus-nine column reports each file's maximum directed 3-pixel overlap with its closest peer; all nine exceed the 70% cap. The separate prior-candidate overlap is diagnostic only and does not define focus-nine uniqueness. Do not resubmit these historical files as new.
+The highest reported claim among these nine is **GEMSDOE32 · 0.2778**, but this is an unverified user report tied to a historical file—not a submission recommendation, organizer receipt, or estimated score. No file is cleared to submit. These are the highest historical files **named in the user prompt**, not a complete census. No submission-page receipts were found. A future leaderboard estimate is unavailable for every row. The focus-nine column reports each file's maximum directed 3-pixel overlap with its closest peer; all nine exceed the 70% cap. The separate prior-candidate overlap is diagnostic only and does not define focus-nine uniqueness. Do not resubmit these historical files as new.
 
 | Site | Historical file (research only) | Method (owner-described) | Prompt claim | Future estimate | Unique among focus nine? (closest peer) | Prior candidate overlap (diagnostic) | Decision |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -42,7 +42,7 @@ These are the highest historical files **named in the user prompt**, not a compl
 
 The re-audit confirms GEMSDOE32 B2's support equals GEMSDOE25's support outside a two-pixel catalogue collar; GEMSDOE25 and GEMSDOE30 have identical footprint values. The user-reported GEMSDOE32 value of 0.2778 has no linked organizer receipt. The official max-kernel DTI makes reduced redundancy a plausible explanation, not proof; hidden labels are unavailable. No result here establishes that a new method will exceed it.
 
-## Official rule check (verified 2026-10-30)
+## Official rule check (verified 2026-10-31)
 
 Quoted excerpts and sources are in [`evidence/official_rules_check.json`](evidence/official_rules_check.json).
 
@@ -51,7 +51,7 @@ Quoted excerpts and sources are in [`evidence/official_rules_check.json`](eviden
 * **Test labels:** same page — the scored faults are new faults "not included in the existing USGS fault database". The repository's holdout uses the existing catalogue, so it is only a proxy.
 * **Limits and originality:** [official rules PDF](https://docs.nlr.gov/docs/fy26osti/96647.pdf) — three submissions per week (§3.2), one final submission (§3.4), originality warranty (A.5 item 1), and a generative-AI disclosure in the narrative (§3.2).
 * **Reference solution:** [drivendataorg/gems-prize-reference-solution](https://github.com/drivendataorg/gems-prize-reference-solution) writes raw float predictions with no NaN step, georeferenced from the labels raster.
-* **Leaderboard:** [official public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) showed a top public DW-Tversky of **0.4544** (direct read on 2026-10-30; the scheduled feed script failed the same day, see `docs/data/public_feed.json`). This is a team-level public standing—not a file receipt, hidden-test score, or future estimate. The prompt's 0.4413 and 0.3195 do not match that page, and the prompt's site claims (0.2449–0.2778) are unconfirmed.
+* **Leaderboard:** [official public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) showed rank 1 at **0.4544** for xiaofanhu (direct page read on 2026-10-31; the scheduled feed remains unavailable, see `docs/data/public_feed.json`). This is a team-level public standing—not a file receipt, hidden-test score, or future estimate. The prompt's 0.4413 and 0.3195 do not match this dated observation, and the prompt's site claims (0.2449–0.2778) are unconfirmed.
 * **Unresolved:** whether the portal accepts NaN outside the footprint, and which file produced the reported "Predicted values must be in range [0, 1]" error. A NaN-outside variant with identical in-footprint values reproduces the sample template's NaN mask exactly (verified locally, not uploaded).
 
 ## Current result and limitations

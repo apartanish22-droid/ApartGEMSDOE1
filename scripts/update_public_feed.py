@@ -170,11 +170,54 @@ def unavailable(reason: str, *, checked_utc: str | None = None) -> dict:
     }
 
 
+def preserve_fresh_direct_observation(snapshot: dict, previous: dict, *, now: datetime | None = None) -> dict:
+    """Keep a separate, recent direct-page read when a scheduled refresh fails.
+
+    The scheduled fields remain unavailable/null. Only a source-identified direct
+    public-page observation, still within the same 24-hour freshness window, may
+    be carried forward; old or malformed observations are dropped.
+    """
+    if not isinstance(snapshot, dict) or snapshot.get('status') != 'unavailable':
+        return snapshot
+    if not isinstance(previous, dict):
+        return snapshot
+    direct = previous.get('direct_page_observation')
+    if not isinstance(direct, dict) or direct.get('status') != 'observed':
+        return snapshot
+    score = direct.get('top_public_dti')
+    if isinstance(score, bool) or not isinstance(score, (int, float)) or not 0 <= score <= 1:
+        return snapshot
+    if direct.get('source') != URL or 'NOT A SUBMISSION RECEIPT' not in str(direct.get('evidence_class', '')):
+        return snapshot
+    freshness_record = {
+        'status': 'ok',
+        'top_public_dti': score,
+        'observed_utc': direct.get('observed_utc'),
+        'max_age_seconds': MAX_AGE_SECONDS,
+    }
+    if not is_fresh_observation(freshness_record, now=now):
+        return snapshot
+    result = dict(snapshot)
+    result['direct_page_observation'] = direct
+    result['caveat'] = (
+        str(snapshot.get('caveat', '')) +
+        ' A separately recorded direct official-page observation is retained only while within 24 hours; '
+        'it is not the scheduled feed or a file-level receipt.'
+    ).strip()
+    return result
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--html", type=Path, help="Parse a local HTML fixture instead of making a request")
     ap.add_argument("--out", type=Path, default=ROOT / "docs/data/public_feed.json")
     args = ap.parse_args()
+    previous = {}
+    if args.out.is_file():
+        try:
+            previous = json.loads(args.out.read_text(encoding='utf-8'))
+        except (OSError, json.JSONDecodeError):
+            previous = {}
     try:
         if args.html:
             html = args.html.read_text(encoding="utf-8")
@@ -187,6 +230,8 @@ def main() -> int:
         snapshot = make_snapshot(html)
     except (OSError, ValueError) as exc:
         snapshot = unavailable(f"{type(exc).__name__}: {exc}")
+    if snapshot['status'] == 'unavailable':
+        snapshot = preserve_fresh_direct_observation(snapshot, previous)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     temporary = args.out.with_suffix(args.out.suffix + ".tmp")
     temporary.write_text(json.dumps(snapshot, indent=2, allow_nan=False) + "\n", encoding="utf-8")

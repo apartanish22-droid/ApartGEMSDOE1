@@ -45,6 +45,7 @@ def test_html_pages_are_negative_have_local_links_and_no_localhost():
     for site in (24, 25, 27, 28, 30, 31, 32, 33, 36):
         assert f'GEMSDOE{site}' in index
     assert '0.2778' in index and 'user-reported; unconfirmed' in index
+    assert 'Highest reported claim in this nine-site set: GEMSDOE32 · 0.2778' in index
     assert 'Unique among focus nine? (closest peer)' in index
     assert 'Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test' in index
     audit = json.loads((ROOT / 'evidence/focus9_reaudit.json').read_text())
@@ -52,7 +53,7 @@ def test_html_pages_are_negative_have_local_links_and_no_localhost():
     assert all(r['closest_focus_site'] for r in audit['sites'])
     assert 'not comparable' in index and '11,360' in index
     guide = (docs / 'executive-summary.html').read_text()
-    assert '0.4544' in guide and 'direct read' in guide and 'scheduled feed script returned unavailable' in guide
+    assert '0.4544' in guide and 'direct read' in guide and 'scheduled feed separately remains unavailable' in guide
     assert 'team-level public standing' in guide and 'not a score receipt for any file' in guide
     assert 'outside bounds' in index.lower() and 'zeros' in index.lower()
     assert 'top_public_dti' in (docs / 'feed.js').read_text()
@@ -100,12 +101,33 @@ def test_readme_standing_protocol_and_links():
     assert 'Unique among focus nine? (closest peer)' in text
     assert 'Prior candidate overlap (diagnostic)' in text
     assert 'GEMSDOE32' in text and '0.2778' in text and 'no linked organizer receipt' in text
+    assert 'The highest reported claim among these nine is **GEMSDOE32 · 0.2778**' in text
     assert 'HOLDOUT-DTI' in text and '11,360' in text and '95% CI' in text
     for m in re.finditer(r'\]\(([^)]+)\)', text):
         ref = m.group(1).strip()
         if ref.startswith(('http://', 'https://', '#')):
             continue
         assert (ROOT / ref).resolve().exists(), f'broken README link: {ref}'
+
+
+def test_public_run_card_mirrors_match_canonical_evidence():
+    canonical = (ROOT / 'evidence/run_card.json').read_bytes()
+    card = json.loads(canonical)
+    assert card['current_review']['branch'] == card['branch']
+    assert card['current_review']['repository_review']['branch'] == card['branch']
+    for name in ('run_card.json', 'current-run-card.json'):
+        assert (ROOT / 'docs/data' / name).read_bytes() == canonical
+
+
+def test_direct_leaderboard_read_is_dated_and_distinct_from_failed_feed():
+    observed = json.loads((ROOT / 'evidence/official_rules_check.json').read_text())['leaderboard_observed']
+    feed = json.loads((ROOT / 'docs/data/public_feed.json').read_text())
+    assert observed['observed_utc'] == '2026-10-31'
+    assert observed['top_rank'] == 1 and observed['top_participant'] == 'xiaofanhu'
+    assert observed['top_public_dti'] == 0.4544
+    assert 'not the scheduled feed' in observed['method']
+    assert feed['status'] == 'unavailable' and feed['top_public_dti'] is None
+    assert observed['top_public_dti'] != feed['top_public_dti']
 
 
 def test_all_evidence_json_strict_and_unsafe_receipts_not_promoted():
