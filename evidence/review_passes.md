@@ -60,4 +60,27 @@ No model experiment, fold-honest holdout evaluation, or new submission-candidate
 
 ## Continuation review — 2026-10-31 UTC
 
-The full current review is [`evidence/repository_review_2026-10-31.md`](repository_review_2026-10-31.md). Three passes were completed: repository/evidence inventory; dependency setup plus automated tests, format preflight and syntax/data-integrity checks; and adversarial release-gate review. Results: 37 tests passed (16 Rasterio deprecation warnings); archived TIFF local format/range/grid preflight passed but `ok_to_submit=false`; current candidate remains blocked by 99.6787% overlap against one witness, absent complete registry, no v3 holdout, no selector approval, and unresolved official outside-footprint acceptance. No new experiment, candidate TIFF, slot, or upload was performed. Branch metadata in all current run-card copies now matches `arena/7b1e19fc-apartgemsdoe1`.
+No model experiment, candidate prediction raster, weekly slot, or competition upload was made. The explicit duplicate stop remains active.
+
+### Pass 1 — current sources and evidence refresh
+
+* Re-read the supplied persistent mission contract in `README.md`, dashboard and submission guide, focus-nine manifest/audit, source register, hypothesis queue, run cards, shared tool code, and test suite.
+* Re-ran the pinned owner-mirror audit for GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, and 36: 9/9 files fetched and hash-checked, no errors. Reconfirmed GEMSDOE32 support equals GEMSDOE25 support after a two-pixel catalogue collar is removed (XOR 0); GEMSDOE25/GEMSDOE30 support XOR is 0. Reported scores remain unverified claims.
+* Re-fetched the pinned 13GEMSDOE witness and reran the literal duplicate audit. The candidate still has 37,533/37,654 positive pixels within 3 pixels (99.6787%); the incomplete registry cannot certify any alternative.
+* Directly re-read the official leaderboard with the fetch tool on 2026-10-31: rank 1 xiaofanhu at 0.4544. This is recorded as a dated team standing, not a file receipt or future estimate. The scheduled feed remains `unavailable` following its 2026-10-30 TLS/SSL EOF; the direct read was not inserted into the feed.
+
+### Pass 2 — edits, execution, and discovered assertion drift
+
+* Updated the date-stamped official-page observation, corrected the run card's branch to the active Arena branch, refreshed the README/dashboard, and made the highest focus-nine reported claim explicit: GEMSDOE32 0.2778, unconfirmed and not submission-cleared.
+* Added a freshness-limited display for the direct official-page observation while preserving `status=unavailable` and `top_public_dti=null` for the failed scheduled feed. The fallback labels the value as a team-level page read, states the scheduler is unavailable, and hides the date-only value after 24 hours.
+* Added regression checks distinguishing the direct leaderboard read from the unavailable scheduled feed and checking that the best historical claim is clearly labelled. Fixed stale test assertions that assumed the 2026-10-30 source date and same-day feed failure. The first test run after changing the observation exposed the stale date assertion; the second exposed the stale generated-page wording assertion. Both were corrected to preserve factual dates/provenance rather than weakening the new checks.
+* Ran the stopped pipeline (expected exit 2, no experiment/raster), and the existing prior TIFF's format-only validator. The local format check is true for its recorded checks but `ok_to_submit=false` because the outside-footprint policy is zeros and registry/selector/holdout gates are not cleared.
+* Four future geological candidates remain a research queue only: signed paired-flank agreement, flight-line repeatability, depth-normalized paired thermal gradients, and ASTER emissivity contrast. No lane was selected and no holdout was attempted because the inherited lane is stopped, the training-feature stack is absent from this checkout, and registry completeness is unavailable.
+
+### Pass 3 — full regression and release decision
+
+* Final checks: **40 passed**, 16 Rasterio/Affine pending-deprecation warnings; `compileall`, `node --check docs/feed.js`, strict evidence/docs JSON parsing, and `git diff --check` passed. Test suite includes output-link checks, byte-identical canonical/public run-card checks, strict JSON parsing, and fresh/stale browser rendering checks for the direct page fallback.
+* Reported 0.2778 and the direct public 0.4544 remain separated by evidence class. The prior v2 `HOLDOUT-DTI` remains explicitly historical/non-comparable and no new estimate is asserted.
+* Release verdict: **negative**. The only locally downloadable TIFF is marked audit/research only and **not OK to download and submit**. The explicit protocol stop precludes producing a unique TIFF in this lane; no alternative lane was silently substituted.
+
+See `evidence/repository_review_2026-10-31.md` for the complete current executive summary, nine-site decision, evidence-linked hypotheses, validator interpretation, run-card summary, and remaining work.

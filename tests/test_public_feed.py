@@ -84,6 +84,8 @@ def test_checked_in_feed_never_exposes_stale_value_as_current():
     assert feed["status"] == "unavailable"
     assert feed["checked_utc"] and feed["observed_utc"] is None
     assert feed["top_public_dti"] is None
+    assert feed["direct_page_observation"]["top_public_dti"] == .4544
+    assert feed["direct_page_observation"]["evidence_class"].startswith("OFFICIAL PUBLIC TEAM-LEVEL")
     assert feed["historical_scheduled_snapshot"]["top_public_dti"] == .4544
     assert "historical" in feed["historical_scheduled_snapshot"]["status"]
 
@@ -114,6 +116,41 @@ setTimeout(() => process.stdout.write(target.textContent), 0);
     assert "0.4544" not in stale.stdout
     assert "0.4544" in fresh.stdout
     assert "not a file-level submission receipt" in fresh.stdout
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="Node.js is unavailable")
+def test_browser_shows_fresh_direct_page_read_but_hides_it_when_stale():
+    script = r"""
+const target = {textContent: ''};
+global.document = {getElementById: () => target};
+global.fetch = async () => ({ok: true, json: async () => JSON.parse(process.env.FEED_JSON)});
+Date.now = () => Date.parse(process.env.NOW);
+require('./docs/feed.js');
+setTimeout(() => process.stdout.write(target.textContent), 0);
+"""
+    snapshot = {
+        "status": "unavailable", "observed_utc": None, "top_public_dti": None,
+        "max_age_seconds": 86400,
+        "direct_page_observation": {
+            "status": "observed", "observed_utc": "2026-10-31",
+            "top_rank": 1, "top_participant": "xiaofanhu", "top_public_dti": .4544,
+        },
+    }
+    root = Path(__file__).resolve().parents[1]
+    fresh = subprocess.run(
+        ["node", "-e", script], cwd=root,
+        env={**os.environ, "NOW": "2026-10-31T12:00:00Z", "FEED_JSON": json.dumps(snapshot)},
+        capture_output=True, text=True, check=True)
+    stale = subprocess.run(
+        ["node", "-e", script], cwd=root,
+        env={**os.environ, "NOW": "2026-11-01T02:00:00Z", "FEED_JSON": json.dumps(snapshot)},
+        capture_output=True, text=True, check=True)
+
+    assert "Direct official leaderboard page read: 0.4544" in fresh.stdout
+    assert "Scheduled feed refresh is unavailable" in fresh.stdout
+    assert "not a file-level submission receipt" in fresh.stdout
+    assert "unavailable or stale" in stale.stdout
+    assert "0.4544" not in stale.stdout
 
 
 def test_fetch_uses_public_html_fragment_not_empty_page_shell(tmp_path, monkeypatch, capsys):
