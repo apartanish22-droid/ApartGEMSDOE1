@@ -57,3 +57,7 @@ No model experiment, fold-honest holdout evaluation, or new submission-candidate
 * `evidence/repo_review_2026-10-30_overlap.md` and `evidence/focus_overlap_review_2026-10-30.json`: independent overlap/metric review.
 * `evidence/official_rules_check.json`: verbatim official rule excerpts, direct leaderboard observation, feed failure, and source gaps.
 * `evidence/run_card.json`: current negative run card with current branch, raster hash, witness metrics, validator output, and zero-experiment/zero-slot status.
+
+## Continuation review — 2026-10-31 UTC
+
+The full current review is [`evidence/repository_review_2026-10-31.md`](repository_review_2026-10-31.md). Three passes were completed: repository/evidence inventory; dependency setup plus automated tests, format preflight and syntax/data-integrity checks; and adversarial release-gate review. Results: 37 tests passed (16 Rasterio deprecation warnings); archived TIFF local format/range/grid preflight passed but `ok_to_submit=false`; current candidate remains blocked by 99.6787% overlap against one witness, absent complete registry, no v3 holdout, no selector approval, and unresolved official outside-footprint acceptance. No new experiment, candidate TIFF, slot, or upload was performed. Branch metadata in all current run-card copies now matches `arena/7b1e19fc-apartgemsdoe1`.
