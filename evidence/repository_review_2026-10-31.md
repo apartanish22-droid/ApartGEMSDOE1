@@ -58,9 +58,9 @@ The user-specified single-lane stop rule precludes switching to a different hypo
 
 - Confirmed the dated official leaderboard record and scheduled-feed status are separate evidence sources; kept 0.4544 labelled a team public standing, not a file score or forecast.
 - Reconciled claims in the README, dashboard, run card, validation report, focus audit, and negative pipeline outcome. The historical candidate is labelled research-only; all nine named site files are marked do-not-resubmit; score estimates remain unavailable. Added a freshness-limited dashboard fallback that displays the dated direct leaderboard page observation only while fresh and explicitly distinguishes it from the unavailable scheduled feed. A post-merge Actions run showed the scheduled-page parser still failed closed and would overwrite the fallback snapshot; updated the refresh script to preserve a source-identified direct observation only while it remains within 24 hours, while keeping scheduled-feed status/value unavailable. Stale, malformed, or wrong-source observations are discarded.
-- Full suite after post-merge feed hardening: **41 passed**, 16 Rasterio/Affine pending-deprecation warnings. `compileall`, `node --check docs/feed.js`, strict parsing of all evidence/docs JSON, and `git diff --check` passed on this review's run. The canonical run card and both public run-card copies are byte-identical and carry the active branch name. The current report itself was checked for the main stated hashes, site names, and decisions against the run cards and focus audit.
+- Full suite after post-merge feed hardening: **41 passed**, 16 Rasterio/Affine pending-deprecation warnings. `compileall`, `node --check docs/feed.js`, strict parsing of all evidence/docs JSON, and `git diff --check` passed on this review's run. At that earlier checkpoint, the then-current run card and its two public mirrors were byte-identical and branch-matched. The follow-up below supersedes those public mirrors with the dated card for the current Arena branch. The current report itself was checked for the main stated hashes, site names, and decisions against the run cards and focus audit.
 
-## Current run card essentials
+## Run card essentials from the prior checkpoint
 
 - **Hypothesis:** inherited MAW-GSI candidate lane, stopped on literal duplicate witness.
 - **Mechanism:** geophysical/topographic aligned lineaments are a fault-discovery hypothesis, not demonstrated here.
@@ -81,4 +81,28 @@ The user-specified single-lane stop rule precludes switching to a different hypo
 5. Keep a separate selector for any real weekly submission slot. Record the exact upload receipt before using `ORGANIZER-CONFIRMED` for a file score; check the live competition rules/quota and provide the required AI-use narrative disclosure.
 6. Restore scheduled leaderboard feed freshness without publishing stale values when refresh fails.
 
-**Download instruction:** the archived TIFF is present for audit reproducibility only. It is **not OK to download and submit**. No new unique TIFF was generated because the governing protocol's duplicate stop is active and no separately authorized, validated lane can pass the required gates in this checkout.
+**Download instruction at that prior checkpoint:** the archived MAW-GSI TIFF was present for audit reproducibility only and was **not OK to submit**. At that checkpoint no new TIFF had been made in this branch. The later follow-up below separately reviews a geometry-only TIFF merged from another branch; it too is blocked and not safe to submit.
+
+## Follow-up review — Arena branch `arena/056c9d8d-apartgemsdoe1` (2026-10-31 UTC)
+
+This continuation integrates the prior same-date review on the current branch. It does not refresh external competition pages, alter the recorded leaderboard observation, select a method lane, or authorize a submission.
+
+### Pass 1 — targeted audit of shared release gates
+
+- Reproduced a false-positive in `find_priors([Path("data")])`: known competition input rasters under `data/` were being classified as prior submissions. That distinction affects duplicate-prior discovery, not competition-score evidence.
+- Re-ran the pinned historical-focus audit: all nine named focus files were fetched and checked, with zero errors. The GEMSDOE32/GEMSDOE25 two-pixel-collar support identity and GEMSDOE25/GEMSDOE30 support identity remain geometric observations; no score causality follows.
+- Re-ran the pinned literal-witness audit: 37,533/37,654 archived-candidate dots (99.678652998%) remain within 3 px of one witness, above the 70% protocol stop. The witness inventory is incomplete, so this rejects the archived file but cannot certify uniqueness of another.
+- After `origin/main` advanced, reviewed the already-merged step-over/relay-ramp artifact from PR #43 (not generated in this branch follow-up). Automated audit reproduced SHA-256 `581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece` and 2,765/2,767 dots within 3 px of the pinned witness (99.927719552%, over 70%); final-dot Spearman is 0.000478, but the pre-placement surface is untested and the registry is incomplete. It is a protocol duplicate and not safe to submit.
+- That artifact's recorded `HOLDOUT-DTI` is 0.059894 [0.051412, 0.068674], evaluator `gems57-pooled-hide-v3`, 11,360 withheld positives, 95% CI. This is a fixed-mask replay on catalogue-proxy truth with features not rebuilt per fold; it is not fold-honest and not a leaderboard estimate. Its local format checks pass, but zeros outside footprint conflict with the published null/NaN text; the full preflight is false.
+
+### Pass 2 — repair and publication
+
+- Updated `src/gems57/gates.py` to exclude reserved competition-input directories and known input files from prior discovery; added `tests/test_gates.py` regression coverage. No method lane or experiment was started.
+- Updated the fail-closed page/README builder to publish the dated 2026-10-31 run card at the stable docs JSON URLs, copy this review into `docs/`, and synchronize the focus and witness audit JSON mirrors. The dated run card records the active branch, zero experiments/slots, no new holdout for this branch, and a negative verdict; it separately records the already-merged candidate's blocked audit and fixed-mask catalogue-proxy holdout.
+- The official-rule/leaderboard record was not freshly fetched in this follow-up. The already-dated 2026-10-31 direct team leaderboard observation remains separate from the scheduled feed, which is still recorded as unavailable; neither is a file receipt or future-score estimate.
+
+### Pass 3 — release decision and validation
+
+- This branch follow-up produced no new TIFF, experiment, or holdout run and used no upload, organizer receipt, selector approval, or weekly slot. The separate upstream step-over artifact has the fixed-mask catalogue-proxy `HOLDOUT-DTI` described above, but its uniqueness failure and official outside-bounds mismatch keep it research-only and not safe to submit; full preflight remains negative.
+- Integrated validation passed: **42 tests**, 16 Rasterio/Affine pending-deprecation warnings; `compileall`, `node --check docs/feed.js`, and strict parsing of all **51** evidence/docs JSON files passed. The builder regenerated the pages and synchronized dated run-card/review copies. Successful repository checks do not clear the scientific, registry, holdout, portal, or selector gates.
+- Current run card: [`run_card_2026-10-31.json`](run_card_2026-10-31.json). It supersedes older run-card wording for this follow-up; prior evidence remains retained rather than relabelled as a new experiment.

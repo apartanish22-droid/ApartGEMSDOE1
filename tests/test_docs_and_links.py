@@ -45,6 +45,13 @@ def test_html_pages_are_negative_have_local_links_and_no_localhost():
     for site in (24, 25, 27, 28, 30, 31, 32, 33, 36):
         assert f'GEMSDOE{site}' in index
     assert '0.2778' in index and 'user-reported; unconfirmed' in index
+    assert 'Latest negative run card · 2026-10-31' in index
+    assert 'Latest repository review · 2026-10-31' in index
+    assert 'apartgems1-stepover-relay-dots-20261031.tif' in index
+    assert 'Existing geometry-only candidate — duplicate stop' in index
+    assert 'New unique candidate generated this session' not in index
+    assert '99.93%' in index and 'fixed-mask catalogue-proxy' in index
+    assert 'do not submit' in index.lower() and 'null/NaN' in index
     assert 'Highest reported claim in this nine-site set: GEMSDOE32 · 0.2778' in index
     assert 'Unique among focus nine? (closest peer)' in index
     assert 'Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test' in index
@@ -96,11 +103,17 @@ def test_readme_standing_protocol_and_links():
     card = json.loads((ROOT / 'evidence/run_card.json').read_text())
     assert card['raster_sha256'] in text
     assert 'Future-session start-up: read before every run' in text
+    assert 'Latest repository review 2026-10-31' in text
+    assert 'run_card_2026-10-31.json' in text
     assert 'Current lane status — stop' in text and 'single method' in text
     assert 'AUC >0.90 is leakage' in text and 'three experiments or two hours' in text
     assert 'Unique among focus nine? (closest peer)' in text
     assert 'Prior candidate overlap (diagnostic)' in text
     assert 'GEMSDOE32' in text and '0.2778' in text and 'no linked organizer receipt' in text
+    assert 'apartgems1-stepover-relay-dots-20261031.tif' in text
+    assert '2,765/2,767' in text and '99.93%' in text
+    assert 'not fold-honest and not a leaderboard estimate' in text
+    assert 'does not demonstrate an improvement over the unverified 0.2778 claim' in text
     assert 'The highest reported claim among these nine is **GEMSDOE32 · 0.2778**' in text
     assert 'HOLDOUT-DTI' in text and '11,360' in text and '95% CI' in text
     for m in re.finditer(r'\]\(([^)]+)\)', text):
@@ -111,11 +124,17 @@ def test_readme_standing_protocol_and_links():
 
 
 def test_public_run_card_mirrors_match_canonical_evidence():
-    canonical = (ROOT / 'evidence/run_card.json').read_bytes()
+    canonical = (ROOT / 'evidence/run_card_2026-10-31.json').read_bytes()
     card = json.loads(canonical)
-    assert card['current_review']['branch'] == card['branch']
-    assert card['current_review']['repository_review']['branch'] == card['branch']
-    for name in ('run_card.json', 'current-run-card.json'):
+    assert card['verdict'] == 'negative'
+    assert card['branch'].startswith('arena/')
+    assert card['hypothesis']['status'] == 'NOT TESTED'
+    other = card['additional_repository_candidate_review']
+    assert other['verdict'] == 'negative' and other['ok_to_download_and_submit'] is False
+    assert other['registry_comparison']['forward_overlap_3px'] > .70
+    assert other['holdout_dti']['evidence_class'] == 'HOLDOUT-DTI'
+    assert json.loads((ROOT / 'evidence/run_card.json').read_text())['verdict'] == 'negative'
+    for name in ('run_card.json', 'current-run-card.json', 'run_card_2026-10-31.json'):
         assert (ROOT / 'docs/data' / name).read_bytes() == canonical
 
 
@@ -135,8 +154,14 @@ def test_all_evidence_json_strict_and_unsafe_receipts_not_promoted():
         for path in folder.rglob('*.json'):
             obj = json.loads(path.read_text(), parse_constant=lambda c: (_ for _ in ()).throw(ValueError(c)))
             assert obj is not None, path
-    for p in (ROOT / 'docs/data/run_card.json', ROOT / 'docs/data/current-run-card.json'):
+    latest_text = (ROOT / 'evidence/run_card_2026-10-31.json').read_text()
+    for p in (ROOT / 'docs/data/run_card.json', ROOT / 'docs/data/current-run-card.json',
+              ROOT / 'docs/data/run_card_2026-10-31.json'):
         assert json.loads(p.read_text())['verdict'] == 'negative'
+        assert p.read_text() == latest_text
+    for name in ('focus9_reaudit.json', 'literal_witness_audit.json'):
+        assert json.loads((ROOT / 'docs/data' / name).read_text()) == json.loads((ROOT / 'evidence' / name).read_text())
+    assert (ROOT / 'docs/repository-review-2026-10-31.md').read_text() == (ROOT / 'evidence/repository_review_2026-10-31.md').read_text()
     assert 'DO_NOT_SUBMIT' in json.loads((ROOT / 'docs/data/validation_receipt.json').read_text())['ready_to_submit_verdict']
     sidecar = next((ROOT / 'docs/downloads').glob('*maw-gsi*.json'))
     assert json.loads(sidecar.read_text())['approved_for_weekly_slot'] is False
@@ -146,7 +171,16 @@ def test_regenerators_and_preflight_cannot_promote(tmp_path):
     builder = subprocess.run([sys.executable, str(ROOT / 'scripts/build_pages_and_readme.py')],
                              cwd=ROOT, capture_output=True, text=True)
     assert builder.returncode == 0, builder.stderr
-    assert 'No file is ready to submit' in (ROOT / 'docs/index.html').read_text()
+    generated_index = (ROOT / 'docs/index.html').read_text()
+    assert 'No file is ready to submit' in generated_index
+    assert '99.93%' in generated_index and 'research only' in generated_index.lower()
+    generated_readme = (ROOT / 'README.md').read_text()
+    assert 'apartgems1-stepover-relay-dots-20261031.tif' in generated_readme
+    assert 'not safe to submit' in generated_readme.lower()
+    current_card = (ROOT / 'evidence/run_card_2026-10-31.json').read_bytes()
+    for name in ('run_card_2026-10-31.json', 'run_card.json', 'current-run-card.json'):
+        assert (ROOT / 'docs/data' / name).read_bytes() == current_card
+    assert (ROOT / 'docs/repository-review-2026-10-31.md').read_bytes() == (ROOT / 'evidence/repository_review_2026-10-31.md').read_bytes()
     figures = subprocess.run([sys.executable, str(ROOT / 'scripts/generate_figures.py')], capture_output=True, text=True)
     assert figures.returncode != 0 and 'stopped' in figures.stderr.lower()
     assert not (ROOT / 'src/apartgems/uniqueness.py').exists()
