@@ -36,7 +36,7 @@ This review selects **no lane** and runs **zero experiments**. These four candid
 
 ### Why none can currently be promoted
 
-The user-specified single-lane stop rule precludes switching to a different hypothesis after a duplicate stop. Also, `data/` contains the small bridge/official label/template/fault rasters but not `training_features.tif` or a cached feature stack. The manifest identifies owner-mirror data and cannot establish official provenance. A complete synchronized registry is not present. Consequently the feature-only leakage canaries, the surface rank-correlation checks, and a fold-honest v3 holdout with a 95% CI cannot be run honestly here. No `HOLDOUT-DTI` result exists for a new candidate, and a score estimate is unavailable.
+The user-specified single-lane stop rule precludes switching to a different hypothesis after a duplicate stop. Also, `data/` contains the small bridge/official label/template/fault rasters but not `training_features.tif` or a cached feature stack. Independently re-hashed `data/official/labels.tif` and `data/official/existing_faults.tif`: both are byte-identical at SHA-256 `7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093`. Treat this as a mirror irregularity: these files are not independent evidence of concealed labels. The manifest identifies owner-mirror data and cannot establish official provenance. A complete synchronized registry is not present. Consequently the feature-only leakage canaries, the surface rank-correlation checks, and a fold-honest v3 holdout with a 95% CI cannot be run honestly here. No `HOLDOUT-DTI` result exists for a new candidate, and a score estimate is unavailable.
 
 ## Three review passes and verification
 
@@ -58,7 +58,7 @@ The user-specified single-lane stop rule precludes switching to a different hypo
 
 - Confirmed the dated official leaderboard record and scheduled-feed status are separate evidence sources; kept 0.4544 labelled a team public standing, not a file score or forecast.
 - Reconciled claims in the README, dashboard, run card, validation report, focus audit, and negative pipeline outcome. The historical candidate is labelled research-only; all nine named site files are marked do-not-resubmit; score estimates remain unavailable. Added a freshness-limited dashboard fallback that displays the dated direct leaderboard page observation only while fresh and explicitly distinguishes it from the unavailable scheduled feed.
-- Full suite: **39 passed**, 16 Rasterio/Affine pending-deprecation warnings. `compileall`, `node --check docs/feed.js`, and `git diff --check` passed on this review's run. The current report itself was checked for the main stated hashes, site names, and decisions against the run cards and focus audit.
+- Full suite: **40 passed**, 16 Rasterio/Affine pending-deprecation warnings. `compileall`, `node --check docs/feed.js`, strict parsing of all evidence/docs JSON, and `git diff --check` passed on this review's run. The canonical run card and both public run-card copies are byte-identical and carry the active branch name. The current report itself was checked for the main stated hashes, site names, and decisions against the run cards and focus audit.
 
 ## Current run card essentials
 

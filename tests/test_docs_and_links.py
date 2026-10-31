@@ -110,6 +110,15 @@ def test_readme_standing_protocol_and_links():
         assert (ROOT / ref).resolve().exists(), f'broken README link: {ref}'
 
 
+def test_public_run_card_mirrors_match_canonical_evidence():
+    canonical = (ROOT / 'evidence/run_card.json').read_bytes()
+    card = json.loads(canonical)
+    assert card['current_review']['branch'] == card['branch']
+    assert card['current_review']['repository_review']['branch'] == card['branch']
+    for name in ('run_card.json', 'current-run-card.json'):
+        assert (ROOT / 'docs/data' / name).read_bytes() == canonical
+
+
 def test_direct_leaderboard_read_is_dated_and_distinct_from_failed_feed():
     observed = json.loads((ROOT / 'evidence/official_rules_check.json').read_text())['leaderboard_observed']
     feed = json.loads((ROOT / 'docs/data/public_feed.json').read_text())

@@ -141,6 +141,20 @@
       "outside_bounds": "null/NaN required by public official rule",
       "local_writer_policy": "zeros outside the bridge footprint",
       "portal_behavior": "not tested"
+    },
+    "branch": "arena/cd4f4205-apartgemsdoe1",
+    "repository_review": {
+      "result": "negative / blocked",
+      "tests": "40 passed, 16 Rasterio pending-deprecation warnings",
+      "format_only_validator": "PASS for local format/range/grid only; ok_to_submit=false",
+      "pipeline": "retired duplicate lane refuses execution",
+      "new_experiments": 0,
+      "new_prediction_rasters": 0,
+      "submission_slots_used": 0,
+      "submission_receipts": 0,
+      "leaderboard_live_refresh": "scheduled feed unavailable; direct official-page observation dated 2026-10-31 recorded separately",
+      "note": "This review verifies repository state and regression behavior only; it is not a new HOLDOUT-DTI, leaderboard score, completeness certificate, or authorization to submit.",
+      "branch": "arena/cd4f4205-apartgemsdoe1"
     }
   }
 }
