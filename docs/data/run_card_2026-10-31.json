@@ -1,0 +1,70 @@
+{
+  "protocol": "GEMS Parallel-Run Protocol; review-only, no experiment",
+  "generated_utc": "2026-10-31T04:47:49Z",
+  "branch": "arena/056c9d8d-apartgemsdoe1",
+  "hypothesis": {
+    "status": "NOT TESTED",
+    "statement": "No new method was tested. The request refers to a single assigned method paragraph, but none is identifiable in this prompt; the inherited lanes are stopped by the literal duplicate witness."
+  },
+  "mechanism": "Not applicable: no experiment or new prediction surface was created. The GEMSDOE32 geometry supports a redundancy-pruning explanation, but not a causal score explanation.",
+  "named_non_fault_mimic_process": "Alluvial-fan channels, erosional scarps, and lithologic contacts can mimic topographic or potential-field lineaments; no candidate was evaluated against these mimics.",
+  "experiments": {
+    "started": 0,
+    "maximum_allowed": 3,
+    "submission_slots_used": 0
+  },
+  "holdout_dti": {
+    "evidence_class": "NOT-MEASURED",
+    "label": null,
+    "evaluator_version": "gems57-pooled-hide-v3",
+    "withheld_positive_pixels": null,
+    "dti": null,
+    "ci95": null,
+    "reason": "No fold-honest model evaluation was run. The assigned lane is unresolved, the duplicate stop remains active, and the cached feature stack is absent from this checkout."
+  },
+  "correlation_overlap_vs_registry": {
+    "evidence_class": "REGISTRY-MEASUREMENT",
+    "scope": "One immutable, hash-pinned public owner-repository witness plus the nine focus files; not a complete organizer registry.",
+    "reviewed_prior_file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+    "final_dots": {
+      "candidate_dots": 37654,
+      "dots_within_3px_of_witness": 37533,
+      "forward_overlap_3px": 0.9967865299835342,
+      "spearman_full_footprint": 0.000445460069555539,
+      "overlap_stop_threshold": 0.7,
+      "rank_correlation_stop_threshold": 0.9,
+      "duplicate": true
+    },
+    "pre_placement_surface_tested": false,
+    "complete_registry_checked": false,
+    "verdict": "STOP; this inherited raster is not unique under the protocol."
+  },
+  "raster_sha256": {
+    "new_candidate": null,
+    "reviewed_prior_research_only": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f"
+  },
+  "validator_output": {
+    "evidence_class": "LOCAL-FORMAT-PREFLIGHT; not organizer acceptance",
+    "reviewed_file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+    "no_nan_inside_footprint": true,
+    "values_in_0_1_inside_footprint": true,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform_matches_sample_submission": true,
+    "format_only_pass": true,
+    "outside_footprint_values": "zero; conflicts with the published problem-page instruction that out-of-bounds data be null/NaN",
+    "portal_acceptance_tested": false,
+    "full_preflight_ok_to_submit": false
+  },
+  "submission": {
+    "name": null,
+    "note": "Review only; no new candidate was produced. Do not submit the archived file.",
+    "note_chars": 76,
+    "ok_to_download_and_submit": false
+  },
+  "verdict": "negative",
+  "reason": "No candidate was generated or promoted. The inherited candidate fails the literal 3-pixel overlap limit; the full registry, original pre-placement surface, v3 model holdout, and portal acceptance remain unverified."
+}

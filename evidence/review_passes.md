@@ -56,7 +56,8 @@ No model experiment, fold-honest holdout evaluation, or new submission-candidate
 * `evidence/repo_review_2026-10-30.md` and `evidence/repository_review_2026-10-30.md`: parallel full-repository reviews.
 * `evidence/repo_review_2026-10-30_overlap.md` and `evidence/focus_overlap_review_2026-10-30.json`: independent overlap/metric review.
 * `evidence/official_rules_check.json`: verbatim official rule excerpts, direct leaderboard observation, feed failure, and source gaps.
-* `evidence/run_card.json`: current negative run card with current branch, raster hash, witness metrics, validator output, and zero-experiment/zero-slot status.
+* `evidence/run_card_2026-10-31.json`: dated branch-specific follow-up card for this session; no experiment or slot was used, and the verdict is negative.
+* `evidence/run_card.json`: prior run card retained as historical context, not the current branch's follow-up card.
 
 ## Continuation review — 2026-10-31 UTC
 
@@ -85,3 +86,7 @@ No model experiment, candidate prediction raster, weekly slot, or competition up
 * Release verdict: **negative**. The only locally downloadable TIFF is marked audit/research only and **not OK to download and submit**. The explicit protocol stop precludes producing a unique TIFF in this lane; no alternative lane was silently substituted.
 
 See `evidence/repository_review_2026-10-31.md` for the complete current executive summary, nine-site decision, evidence-linked hypotheses, validator interpretation, run-card summary, and remaining work.
+
+## Follow-up review — shared gate repair and docs builder — 2026-10-31 UTC
+
+No experiment, new raster, upload, or slot was used. Reproduced and fixed `find_priors([Path("data")])` incorrectly classifying known competition inputs as prior submissions; added regression coverage. Re-ran the nine-file focus audit (9 checked, 0 errors) and pinned literal-witness audit (37,533/37,654 = 99.6787%, still above the 70% stop). Updated the builder so dated current run-card and review Markdown copies are generated under `docs/`, with relevant evidence JSON synchronized. The recorded official leaderboard observation was not refreshed by this follow-up; the scheduled feed remains unavailable. The archived TIFF remains research-only/not safe to submit, and no new holdout or score estimate exists. Integrated validation passed: **42 tests**, 16 Rasterio/Affine pending-deprecation warnings; `compileall`, `node --check docs/feed.js`, and strict parsing of all **48** evidence/docs JSON files passed. The generated docs copies are synchronized with the dated run card and review.
