@@ -1,0 +1,251 @@
+{
+  "hypothesis": "H-SC1 lidar-only convex-crest scarp traces (no catalogue in score map)",
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v3",
+  "holdout_draw": {
+    "function": "gems57.holdout.buffered_component_draw",
+    "seed": 2026,
+    "hide_frac": 0.2,
+    "buffer_px": 3,
+    "folds": 4
+  },
+  "score_map_sha256": "f706db0b901e8f892fac390949c30798628158ed75828712ccba12cbf23211b9",
+  "min_sep_px": 3.0,
+  "leakage_canary_auc": {
+    "S_crest": 0.5691632739876761,
+    "ex_max": 0.5661601958767418,
+    "ex_mean": 0.5592862332567968,
+    "step_max": 0.5693618958576426,
+    "lapneg_max": 0.5754780495689814,
+    "lappos_max": 0.577904703026991,
+    "downface_max": 0.5612237625474087,
+    "upface_max": 0.5698595925781745,
+    "cross_max": 0.5585820512170916,
+    "relief": 0.5651532343287833,
+    "coh100": 0.46524600482331385,
+    "strike": 0.5246244655769696,
+    "valid": 0.49974549265455
+  },
+  "leakage_canary_max": 0.577904703026991,
+  "canary_verdict": "PASS: all channel AUCs below 0.90",
+  "variants": {
+    "q0.97": {
+      "random_matched_control_dti": 0.04232431560622292,
+      "random_matched_control_ci95": [
+        0.03685363995668761,
+        0.04788890233374297
+      ],
+      "quantile": 0.97,
+      "threshold_score": 0.4849080741405487,
+      "dots_global": 32286,
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v3",
+      "dti": 0.04935934284800751,
+      "ci95": [
+        0.038594790207567,
+        0.05929676945403715
+      ],
+      "withheld_positive_pixels": 11360,
+      "paired_vs_zero": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v3",
+        "delta": 0.04935934284800751,
+        "ci95": [
+          0.038594790207567,
+          0.05929676945403715
+        ],
+        "withheld_positive_pixels": 11360
+      },
+      "submitted_policy": {
+        "dots": 31864,
+        "dti": 0.03590657307250813,
+        "ci95": [
+          0.02776506879152628,
+          0.043540868268466475
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Same folds; drops ALL mapped-catalogue cells, as the submitted file does. Pessimistic by construction because withheld truth lies on the catalogue."
+      },
+      "per_fold": {
+        "NW": {
+          "dti": 0.055439490205771415,
+          "tpw": 132.49437604788028,
+          "fpw": 4052.9639934382762,
+          "fnw": 1808.5056239521198,
+          "n_truth": 1941,
+          "emitted": 4108
+        },
+        "NE": {
+          "dti": 0.017761465312146837,
+          "tpw": 54.30036289304937,
+          "fpw": 5735.702773321738,
+          "fnw": 2319.699637106951,
+          "n_truth": 2374,
+          "emitted": 5758
+        },
+        "SW": {
+          "dti": 0.03634207749389317,
+          "tpw": 169.15071953937482,
+          "fpw": 7930.870475148577,
+          "fnw": 3623.8492804606253,
+          "n_truth": 3793,
+          "emitted": 8004
+        },
+        "SE": {
+          "dti": 0.07765699978614339,
+          "tpw": 391.4944136274897,
+          "fpw": 11807.14598618263,
+          "fnw": 2860.50558637251,
+          "n_truth": 3252,
+          "emitted": 11963
+        }
+      }
+    },
+    "q0.99": {
+      "random_matched_control_dti": 0.02881708974836969,
+      "random_matched_control_ci95": [
+        0.023903574251759638,
+        0.03390878004086637
+      ],
+      "quantile": 0.99,
+      "threshold_score": 0.6163111925125122,
+      "dots_global": 15606,
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v3",
+      "dti": 0.03068934829492738,
+      "ci95": [
+        0.02252292700135055,
+        0.03914116792872205
+      ],
+      "withheld_positive_pixels": 11360,
+      "paired_vs_zero": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v3",
+        "delta": 0.03068934829492738,
+        "ci95": [
+          0.02252292700135055,
+          0.03914116792872205
+        ],
+        "withheld_positive_pixels": 11360
+      },
+      "submitted_policy": {
+        "dots": 15403,
+        "dti": 0.022353626595071452,
+        "ci95": [
+          0.01611412154204552,
+          0.02919068837799162
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Same folds; drops ALL mapped-catalogue cells, as the submitted file does. Pessimistic by construction because withheld truth lies on the catalogue."
+      },
+      "per_fold": {
+        "NW": {
+          "dti": 0.037673458972921514,
+          "tpw": 71.94041795167915,
+          "fpw": 1711.9508446196187,
+          "fnw": 1869.0595820483209,
+          "n_truth": 1941,
+          "emitted": 1741
+        },
+        "NE": {
+          "dti": 0.008668156497450065,
+          "tpw": 21.384265552852376,
+          "fpw": 2817.57159221404,
+          "fnw": 2352.6157344471476,
+          "n_truth": 2374,
+          "emitted": 2826
+        },
+        "SW": {
+          "dti": 0.019153595884711737,
+          "tpw": 71.57901354131099,
+          "fpw": 3441.9497958152706,
+          "fnw": 3721.420986458689,
+          "n_truth": 3793,
+          "emitted": 3471
+        },
+        "SE": {
+          "dti": 0.05230932497713636,
+          "tpw": 203.47842887408876,
+          "fpw": 6238.058433150623,
+          "fnw": 3048.521571125911,
+          "n_truth": 3252,
+          "emitted": 6317
+        }
+      }
+    },
+    "q0.995": {
+      "random_matched_control_dti": 0.016221734904059242,
+      "random_matched_control_ci95": [
+        0.013030353331571274,
+        0.019524395762091275
+      ],
+      "quantile": 0.995,
+      "threshold_score": 0.6889764070510864,
+      "dots_global": 9429,
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v3",
+      "dti": 0.018366545677033795,
+      "ci95": [
+        0.012410318121350301,
+        0.024667513923076187
+      ],
+      "withheld_positive_pixels": 11360,
+      "paired_vs_zero": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v3",
+        "delta": 0.018366545677033795,
+        "ci95": [
+          0.012410318121350301,
+          0.024667513923076187
+        ],
+        "withheld_positive_pixels": 11360
+      },
+      "submitted_policy": {
+        "dots": 9311,
+        "dti": 0.013828583056756301,
+        "ci95": [
+          0.009153380148385359,
+          0.01899744098366873
+        ],
+        "withheld_positive_pixels": 11360,
+        "note": "Same folds; drops ALL mapped-catalogue cells, as the submitted file does. Pessimistic by construction because withheld truth lies on the catalogue."
+      },
+      "per_fold": {
+        "NW": {
+          "dti": 0.024749532005367548,
+          "tpw": 43.30369929453322,
+          "fpw": 941.0838025664548,
+          "fnw": 1897.6963007054667,
+          "n_truth": 1941,
+          "emitted": 957
+        },
+        "NE": {
+          "dti": 0.004117345672979389,
+          "tpw": 9.3179936114687,
+          "fpw": 1810.2167605132909,
+          "fnw": 2364.682006388531,
+          "n_truth": 2374,
+          "emitted": 1814
+        },
+        "SW": {
+          "dti": 0.009921000699838022,
+          "tpw": 33.89533040699021,
+          "fpw": 1876.7213493517381,
+          "fnw": 3759.10466959301,
+          "n_truth": 3793,
+          "emitted": 1890
+        },
+        "SE": {
+          "dti": 0.032975204116501865,
+          "tpw": 112.7121887649387,
+          "fpw": 3969.7337667361876,
+          "fnw": 3139.2878112350613,
+          "n_truth": 3252,
+          "emitted": 4013
+        }
+      }
+    }
+  },
+  "note": "Holdout is conditional on the fixed fold draw. Not a leaderboard estimate. Organizer scoring uses new faults not in the catalogue (rules excerpt R4).",
+  "generated_utc": "2026-10-31T05:05:40Z"
+}

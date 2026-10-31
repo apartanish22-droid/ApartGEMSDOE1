@@ -84,6 +84,27 @@ def render_research_markdown(markdown: str) -> str:
 DECISION_PATH = ROOT / 'evidence/submission_decision_2026-10-31.json'
 
 
+H_SC1_BLOCK = ROOT / 'evidence' / 'h_sc1_status_block.md'
+
+
+def h_sc1_block_md() -> str:
+    """H-SC1 lane status, written by scripts/build_submission_hub.py. Empty if absent."""
+    if not H_SC1_BLOCK.exists():
+        return ''
+    return H_SC1_BLOCK.read_text(encoding='utf-8').rstrip('\n') + '\n\n'
+
+
+def h_sc1_block_html() -> str:
+    """Dashboard version of the H-SC1 block; paths are relative to docs/."""
+    if not H_SC1_BLOCK.exists():
+        return ''
+    text = H_SC1_BLOCK.read_text(encoding='utf-8').strip().lstrip('> ').strip()
+    text = text.replace('](docs/', '](').replace('](evidence/', '](../evidence/')
+    text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', lambda m: '<a href="' + m.group(2) + '">' + m.group(1) + '</a>', text)
+    return ('<section class="panel" id="h-sc1"><p class="eyebrow">H-SC1 lane · 2026-10-31</p><p>'
+            + text + '</p></section>')
+
+
 def decision_banner_html() -> str:
     """Top-of-site decision block, read from the decision record (never hand-typed)."""
     d = json.loads(DECISION_PATH.read_text(encoding='utf-8'))
@@ -354,7 +375,7 @@ def main() -> int:
     shutil.copyfile(ROOT/'evidence/repository_review_2026-10-31.md',
                     DOCS/'repository-review-2026-10-31.md')
     shutil.copyfile(DECISION_PATH, DOCS/'data'/DECISION_PATH.name)
-    index = decision_banner_html() + index
+    index = decision_banner_html() + h_sc1_block_html() + index
     guide = decision_banner_html() + guide
     (DOCS/'index.html').write_text(page('Overview', 'overview', index), encoding='utf-8')
     (DOCS/'executive-summary.html').write_text(page('Submission guide', 'guide', guide), encoding='utf-8')
@@ -563,7 +584,7 @@ as a score. Commit, open a PR from the working branch, and merge to main.
 
 '''
     title_line = '# ApartGEMSDOE1 · Geothermal fault discovery\n\n'
-    readme = readme.replace(title_line, title_line + decision_banner_md(), 1)
+    readme = readme.replace(title_line, title_line + decision_banner_md() + h_sc1_block_md(), 1)
     readme = readme.replace('## Executive summary · nine requested sites', decision_details_md() + '## Executive summary · nine requested sites', 1)
     readme = readme.replace('## Future-session start-up: read before every run',
                             '## Future-session start-up: read before every run\n\nRead the condensed standing brief first: [`docs/PROJECT_BRIEF.md`](docs/PROJECT_BRIEF.md).', 1)
