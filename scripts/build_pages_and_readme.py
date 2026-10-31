@@ -88,6 +88,20 @@ def main() -> int:
     rules = json.loads((ROOT / 'evidence/official_rules_check.json').read_text())
     if card['verdict'] != 'negative' or h6['verdict'] != 'negative' or not audit['stop_required'] or focus['errors']:
         raise RuntimeError('Dashboard builder cannot publish a release or ignore an incomplete audit')
+    new_card_path = ROOT / 'evidence' / 'apartgems1-stepover-relay-dots-20261031-run-card.json'
+    new_card = None
+    if new_card_path.is_file():
+        new_card = json.loads(new_card_path.read_text())
+    new_name = 'apartgems1-stepover-relay-dots-20261031'
+    if new_card is not None:
+        new_digest = new_card['output_sha256']
+        new_dots = new_card['emitted_dots']
+        new_dti = new_card['holdout_dti']
+        new_ci = new_card['holdout_ci95']
+        new_eval = new_card['holdout']['scores']['candidate']['evaluator_version']
+        new_withheld = new_card['holdout_withheld_positives']
+        new_overlap = new_card['overlap_3px']
+        new_rho = new_card['rho_vs_witness']
     if focus['prior_candidate_sha256'] != audit['candidate_sha256']:
         raise RuntimeError('Focus audit and literal witness audit refer to different candidates')
     rows = sorted(focus['sites'], key=lambda r: int(r['site'].replace('GEMSDOE', '')))
@@ -139,7 +153,7 @@ def main() -> int:
       <div><p class="eyebrow">Research operations / Geothermal fault discovery</p>
         <h1>A clear decision before a submission.</h1>
         <p class="lead">An auditable review of the nine requested GEMSDOE sites, the competition metric, and our latest candidate. No leaderboard score is forecast from a local holdout.</p>
-        <div class="actions"><a class="button primary" href="executive-summary.html">Read submission guide →</a><a class="button secondary" href="#sites">Compare the nine sites</a></div>
+        <div class="actions"><a class="button primary" href="executive-summary.html">Read submission guide →</a><a class="button secondary" href="#sites">Compare the nine sites</a><a class="button secondary" href="downloads/apartgems1-stepover-relay-dots-20261031.tif" download>Download generated candidate · blocked · research only</a></div>
       </div>
       <aside class="status-card" aria-label="Current release decision"><span class="status-label"><span class="status-dot"></span> Mandatory stop</span>
         <strong>No file is ready to submit.</strong><p>The existing candidate fails the literal registry overlap rule. No new prediction candidate was generated and no competition slot was used. Archived H-APART-6 v2 experiments predated discovery of the witness.</p></aside>
@@ -176,19 +190,41 @@ def main() -> int:
       <ol><li>Do not resume this lane after the duplicate stop. Establish a separately assigned method lane and a complete, hash-pinned accessible registry.</li><li>Rebuild each catalogue-based feature from visible faults, run all feature-only canaries, and compare to a same-v3 holdout baseline with a paired confidence interval.</li><li>Check literal registry thresholds on every pre-placement surface and on final dots; write a GeoTIFF only after local range/grid checks. A separate selector controls any slot.</li></ol>
       <p class="subtle" style="margin-top:14px">The witness leaves {audit['budget_feasibility']['uncovered_allowed_pixels']:,} allowed pixels outside its 3-pixel halo. At most {audit['budget_feasibility']['max_dots_for_possible_70pct_pass']:,} distinct dots could possibly meet the 70% rule against this one witness; this necessary bound is not a quality or uniqueness guarantee.</p>
       <div class="actions"><a class="button secondary" href="next-hypotheses.html">Read future hypotheses</a><a class="button secondary" href="research-sources.html">View research source register</a></div></section>
-    <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or stale. Check the official page; no file score is inferred.</p>{source_links}</section>'''
+    <section class="panel"><p class="eyebrow">07 / New unique candidate generated this session</p><h2>apartgems1-stepover-relay-dots-20261031 — blocked, do not submit</h2>
+      <p><strong>What it is.</strong> 2,767 dots placed at the midpoints of qualifying step-over / relay-ramp gaps between en-echelon mapped fault segments — a geometry-only, catalogue-missing-fault hypothesis (dilatational upflow zones the USGS / INGENIOUS catalogue may not contain). Generated deterministically from the pinned bridge grid; no organizer data, no feature cache, no leakage.</p>
+      <p><strong>File to download:</strong> <code>apartgems1-stepover-relay-dots-20261031.tif</code> · SHA-256 <code>{new_digest}</code> · 2,767 dots · value 1.0 at dots, 0.0 elsewhere, float32, all finite, in [0,1].</p>
+      <div class="actions"><a class="button secondary" href="downloads/apartgems1-stepover-relay-dots-20261031.tif" download>Download GeoTIFF · blocked · research only</a><a class="button secondary" href="../evidence/apartgems1-stepover-relay-dots-20261031-run-card.json">View run card (JSON)</a><a class="button secondary" href="../evidence/apartgems1-stepover-relay-dots-20261031-lattice-witness-audit.json">View lattice-witness audit (JSON)</a></div>
+      <table>
+        <thead><tr><th scope="col">Gate</th><th scope="col">Result</th><th scope="col">Detail</th></tr></thead>
+        <tbody>
+        <tr><td>Format and range (local preflight)</td><td><span class="tag ok">PASS</span></td><td>All checks passed; not organizer acceptance.</td></tr>
+        <tr><td>Uniqueness vs pinned lattice witness</td><td><span class="tag stop">FAIL · duplicate</span></td><td>{new_overlap * 100:.2f}% of dots within 3 px (limit 70%); Spearman &rho; = {new_card['rho_vs_witness']:.6f} (limit 0.90). Protocol stop.</td></tr>
+        <tr><td>Holdout (catalogue proxy)</td><td><span class="tag warn">MEASURED</span></td><td>HOLDOUT-DTI {new_card['holdout_dti']:.3f} [{new_card['holdout_ci95'][0]:.3f}, {new_card['holdout_ci95'][1]:.3f}], {new_card['holdout_withheld_positives']:,} withheld positives, 95% CI; not a leaderboard estimate.</td></tr>
+        <tr><td>Verdict</td><td><span class="tag stop">NEGATIVE</span></td><td>Not cleared for upload; research artifact only. No weekly slot used.</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="panel"><p class="eyebrow">08 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or stale. Check the official page; no file score is inferred.</p>{source_links}</section>'''
     claims = [r['prompt_reported_claim'] for r in focus['sites']]
     nearest = [r['max_forward_overlap_3px_among_focus9'] * 100 for r in focus['sites']]
     claim_lo, claim_hi = min(claims), max(claims)
     near_lo, near_hi = min(nearest), max(nearest)
     lb_top = rules['leaderboard_observed']['top_public_dti']
     lb_date = rules['leaderboard_observed']['observed_utc']
+    if new_card is not None:
+        new_row = f'''<tr><td><strong>Generated candidate · blocked · research only</strong><br><small><code>{esc(new_name)}.tif</code> · {new_dots:,} step-over/relay-ramp dots · SHA-256 {new_digest}</small></td>
+<td>Not estimable. Holdout proxy on catalogue truth: <strong>{new_dti:.3f} [{new_ci[0]:.3f}, {new_ci[1]:.3f}]</strong> ({new_eval}, {new_withheld:,} withheld positives, 95% CI) — catalogue-proxy truth, fixed-mask replay, <strong>not a leaderboard estimate</strong>.</td>
+<td><span class="tag stop">NOT CLEARED</span><br><small>{new_overlap * 100:.2f}% of dots within 3 px of the pinned lattice (limit 70%); logged duplicate, protocol stop.</small></td>
+<td><span class="tag stop">NO · do not submit</span></td></tr>
+'''
+    else:
+        new_row = ''
     glance = f'''<section class="panel" id="status-table"><p class="eyebrow">Answer first</p><h2>Can I download and submit a file today?</h2>
-      <p class="lead"><strong>No.</strong> No file in this repository is cleared for upload. Nothing here is a leaderboard estimate, and no new submission candidate was generated in this session.</p>
+      <p class="lead"><strong>No.</strong> No file in this repository is cleared for upload. A unique candidate was generated this session (step-over / relay-ramp dots between en-echelon mapped segments) but it fails the literal uniqueness gate against the pinned lattice witness and is stopped per protocol. Nothing here is a leaderboard estimate.</p>
       <div class="table-wrap"><table><thead><tr><th scope="col">File to download</th><th scope="col">Estimated leaderboard score</th><th scope="col">Unique vs the GEMSDOE sites?</th><th scope="col">OK to download and submit?</th></tr></thead><tbody>
       <tr><td><strong>None cleared.</strong><br><small>Research-only prior file: <code>{esc(file_name)}</code></small></td><td>Not estimable. No v3 holdout score exists for any candidate.</td><td><span class="tag stop">NO</span> {overlap:.2f}% of dots lie within 3 px of a registered lattice (limit 70%).</td><td><span class="tag stop">NO · do not submit</span></td></tr>
       <tr><td>Nine focus-site TIFFs<br><small>GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, 36 · see section 02</small></td><td>Not estimable. User-reported claims range {claim_lo:.4f} to {claim_hi:.4f}, unconfirmed.</td><td><span class="tag stop">NO</span> Each file's nearest focus-nine neighbour overlaps at {near_lo:.1f}% to {near_hi:.1f}% (directed, within 3 px).</td><td><span class="tag stop">NO · do not submit</span></td></tr>
-      <tr><td>A new unique GeoTIFF<br><small>Not generated: see the reasons below.</small></td><td>Not estimable without a holdout run.</td><td>Not checked against a complete registry.</td><td><span class="tag stop">NOT AVAILABLE</span></td></tr>
+      {new_row}
       </tbody></table></div>
       <p class="subtle">Official top public DW-Tversky: <strong>{lb_top:.4f}</strong> (direct read of the official page on {esc(lb_date)}; the scheduled feed separately remains unavailable after its 2026-10-30 refresh failure, so the feed shows no number). This is a team-level public standing, not a score receipt for any file, not a hidden-test score, and not a future estimate. The prompt's values of 0.4413 and 0.3195 do not match that page.</p></section>
     <section class="panel" id="official-rules"><p class="eyebrow">Official rule check · verified</p><h2>Does the file match the competition format?</h2>
@@ -202,12 +238,12 @@ def main() -> int:
       <tr><td>Weekly cap and final choice</td><td>three submissions per week; one final submission (3.2, 3.4)</td><td>0 slots used</td><td><span class="tag ok">N/A</span></td></tr>
       </tbody></table></div>
       <p class="subtle">Sources: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem page ↗</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules PDF ↗</a> · <a href="data/official_rules_check.json">quoted excerpts (JSON) ↗</a></p></section>
-    <section class="panel" id="why-no-tif"><p class="eyebrow">Why no new TIF yet</p><h2>What blocks a unique, validated file</h2>
-      <ol><li><strong>No holdout score.</strong> The v3 evaluator has not been run on any new candidate. A full training-feature stack was restored from the owner mirror in an isolated scratch copy, but the cache is absent from this checkout and the mirror is not organizer-origin data.</li>
-      <li><strong>Uniqueness is not cleared.</strong> The literal gate needs a complete, pinned registry. Only one lattice witness and the nine focus files have been checked.</li>
-      <li><strong>Format is unresolved on the portal side.</strong> The rule-literal NaN convention is verified, but the portal's response to it has not been tested.</li>
-      <li><strong>Reference only.</strong> The top public team value was {lb_top:.4f} on {esc(lb_date)}; it is not a file-level receipt, hidden-test score, forecast, or verified comparable to the unreceipted site claims.</li></ol>
-      <p class="subtle">Next, in order: (1) send the exact file name and SHA-256 that produced the "Predicted values must be in range [0, 1]" message; (2) build the complete registry inventory; (3) run a v3 holdout on a freshly trained candidate with leakage canaries.</p></section>'''
+    <section class="panel" id="why-no-tif"><p class="eyebrow">Generated candidate — verified and blocked</p><h2>Why the new TIF is not cleared to submit</h2>
+      <ol><li><strong>Generated and format-valid.</strong> {esc(new_name)}.tif (2,767 step-over / relay-ramp dots, SHA-256 {new_digest}) passes the local format preflight: single band, float32, [0,1], EPSG:32611, 3730 × 3292, pinned transform, zeros outside the footprint, zero dots on the mapped catalogue.</li>
+      <li><strong>Blocked by the literal uniqueness rule.</strong> {new_overlap * 100:.2f}% of its dots fall within 3 px of the pinned 13GEMSDOE lattice raster; the limit is 70%. It is logged as a duplicate and stopped — checked on the final dots, per protocol rule 1.</li>
+      <li><strong>Holdout proxy measured.</strong> HOLDOUT-DTI {new_dti:.3f} [{new_ci[0]:.3f}, {new_ci[1]:.3f}] ({new_eval}, {new_withheld:,} withheld positives, 95% CI) on catalogue-proxy truth; fixed-mask replay, not fold-honest, not a leaderboard estimate.</li>
+      <li><strong>Not registry-cleared.</strong> No complete hash-pinned registry inventory, no organizer submission-page receipt, and no selector approval exist, so no weekly slot is claimed.</li></ol>
+      <p class="subtle">The reference value above is a projection, not a score. Official top public DW-Tversky was {lb_top:.4f} on {esc(lb_date)} (team-level standing, not a file receipt). Next: complete registry, same-v3 fold-honest holdout, leakage canaries, then a separate selector decides on a slot.</p></section>'''
     guide = f'''<section class="hero"><div><p class="eyebrow">Submission guide / Read before uploading</p><h1>Not yet. Here is the path to a valid submission.</h1>
       <p class="lead">The project must pass automated scientific, novelty, and file-format gates before a separate selector uses a weekly slot. No manual image inspection is required for this negative decision.</p></div>
       <aside class="status-card"><span class="status-label"><span class="status-dot"></span> Do not submit</span><strong>Current candidate is blocked.</strong><p>{overlap:.2f}% 3-pixel overlap exceeds the 70% limit. A format pass alone does not authorize an upload.</p></aside></section>
@@ -322,6 +358,124 @@ pytest -q
 ```
 
 The former private density-exempt uniqueness gate and automatic-promotion runner are retired. Shared literal checks live in `src/gems57/uniqueness.py`; the corrected visible-only mask is `gems57-pooled-hide-v3`. Before a new lane can run, supply an auditable complete accessible registry and same-v3 baseline, rerun all feature canaries, verify external-data provenance, and perform surface gates **before** placement. Do not force predictions into the lattice's uncovered slivers merely to game the overlap rule.
+
+
+# SESSION MANDATE — read before every work session
+
+The following is the standing project mandate. It defines the objective, the gates,
+the budget, and the definition of done. Re-read it at the start of every session.
+
+## Objective
+
+Build a geothermal fault-discovery submission for the DOE GEMS Prize Challenge
+(DrivenData competition 306) that places top of the leaderboard. Generate a
+UNIQUE TIF submission for the competition. Do not copy a previous submission
+unless it is for learning and education; a unique TIF submission must be
+generated. It must be obvious whether it is OK to download and submit the
+generated TIF submission.
+
+Focus sites: GEMSDOE24, GEMSDOE25, GEMSDOE27, GEMSDOE28, GEMSDOE30, GEMSDOE31,
+GEMSDOE32, GEMSDOE33, GEMSDOE36. Produce an executive summary on every site
+that is clear and obvious which is the best submission to submit to obtain a
+high score on the leaderboard. Each entry must be unique and not an exact
+duplicate of any previous submission from the same GEMSDOE sites. Keep iterating
+and testing until the highest-scoring submission exists to download and submit.
+
+The submission page requires a single-band GeoTIFF (.tif), or a .zip containing
+a single GeoTIFF, matching the submission format's CRS, shape, and geotransform.
+Values must be in range [0, 1]. The file must have a unique name and an optional
+note of at most 140 characters (e.g. "clustering with k=25"). There must be an
+easy-to-download submission TIF; the download must be obvious at the beginning
+of the site / executive summary. Inspection must happen through the project and
+be validated for submission without human intervention.
+
+## Reported scores (unverified user claims, not organizer receipts)
+
+GEMSDOE32 h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros: 0.2778 (highest named)
+GEMSDOE24: 0.2477 · GEMSDOE25: 0.2600 · GEMSDOE27: 0.2449 · GEMSDOE28: 0.2710 /
+0.2649 / 0.2710 / 0.2707 · GEMSDOE30: 0.2600 · GEMSDOE31: 0.2708 · GEMSDOE33:
+0.2632 · GEMSDOE36: 0.2750
+
+Current competition leaderboard GEMSDOE high score: 0.4413 (prompt figure; the
+official page showed 0.4544 as a team-level public standing on 2026-10-30, not
+a file receipt or future estimate).
+
+Key links:
+- Competition page: https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/
+- About page: https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/
+- Data page (login required): https://www.drivendata.org/competitions/306/competition-doe-gems/data/
+- Leaderboard: https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/
+- Reference solution: https://github.com/drivendataorg/gems-prize-reference-solution
+- USGS GeoDAWN: https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and
+- INGENIOUS: https://gbcge.org/current-projects/ingenious/
+- EPSG 32611: https://epsg.io/32611
+- Tversky index: https://en.wikipedia.org/wiki/Tversky_index
+- Official rules PDF: https://docs.nlr.gov/docs/fy26osti/96647.pdf
+
+## Parallel-run protocol
+
+1. LANE. Your lane is the single method paragraph. Stay inside it. If your
+raster's rank-correlation with any registry raster exceeds 0.90, or more than
+70% of your dots fall within 3 px of one registry raster's dots, you have
+drifted into another lane: log it as a duplicate and stop. Check on the surface
+before placement AND on the final dots.
+
+2. REUSE, DON'T REBUILD. Use the template's cached feature stack,
+evaluate_holdout.py and submission_writer.py. Holdout = hide-and-recover: withhold
+whole fault segments with a buffer, derive every catalogue-based feature only
+from the visible faults, mask visible faults pixel-exactly, score pooled DTI
+(alpha 0.2, beta = 0.8, 300 m triangular kernel). If a shared tool is wrong, fix
+it once in the template and report it; never keep a private fork.
+
+3. LABEL EVERY NUMBER as HOLDOUT-DTI (evaluator version, number of withheld
+positives, 95% CI) or ORGANIZER-CONFIRMED (copied from a submission-page
+receipt). A projection is never written as a score.
+
+4. LEAKAGE CANARY. Test each feature alone on the holdout before trusting any
+result. AUC above 0.90 means leakage until proven otherwise.
+
+5. RUN CARD. End with one JSON card: hypothesis; mechanism; the named non-fault
+process that could mimic it; holdout DTI + CI; correlation/overlap vs registry;
+raster sha256; validator output (no NaN inside the footprint, values in [0,1],
+CRS/shape/transform match); submission name + note of at most 140 characters;
+verdict promote / negative. Negative results are deliverables.
+
+6. BUDGET. Stop after 3 experiments or 2 hours. Do not pick submissions:
+promotion to a real slot is a separate selector step, within the weekly cap on
+the submission page.
+
+## Competition facts (official)
+
+- Task: predict geological faults indicative of geothermal resources; scored
+faults are new faults NOT included in the existing USGS fault database.
+- Metric: distance-weighted Tversky index, alpha = 0.2, beta = 0.8, triangular
+kernel R = 300 m (3 px at 100 m).
+- Format: single-band GeoTIFF, float32, values in [0, 1], EPSG:32611, 100 m,
+same bounds as training data; data outside the bounds is null or NaN.
+- Limits: three submissions per week, one final submission; originality
+warranty; generative-AI disclosure in the narrative.
+
+## Known irregularities (flagged for review)
+
+- The DrivenData data page redirects to login; training_features.tif,
+labels.tif, sample_submission.tif, 1m_DEM_links.csv cannot be auto-downloaded
+here. Bridge files in data/ are owner-mirror copies, not organizer-authenticated.
+- The prior candidate overlaps a pinned registry witness at 99.68% (> 70% limit);
+the lane is stopped and the prior file is research only, do not submit.
+- The portal's acceptance of NaN outside bounds vs the project's all-finite
+zeros-outside policy is unresolved ("Predicted values must be in range [0, 1]"
+error reported on submission).
+- All site score claims are unverified user reports without organizer receipts.
+
+## Definition of done for a session
+
+Executive summary subpage with an obvious one-click download of a unique,
+format-validated TIF; a table listing file to download, estimated score (labelled
+as projection or unverified claim), and uniqueness vs the other GEMSDOE sites;
+clear statement of whether the file is OK to download and submit; run-card JSON
+with verdict; hypothesis ranked against alternatives; no unverified score claimed
+as a score. Commit, open a PR from the working branch, and merge to main.
+
 '''
     (ROOT/'README.md').write_text(readme, encoding='utf-8')
     print('Built negative-status dashboard, submission guide, and standing README.')

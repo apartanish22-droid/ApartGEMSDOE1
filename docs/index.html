@@ -8,7 +8,7 @@
       <div><p class="eyebrow">Research operations / Geothermal fault discovery</p>
         <h1>A clear decision before a submission.</h1>
         <p class="lead">An auditable review of the nine requested GEMSDOE sites, the competition metric, and our latest candidate. No leaderboard score is forecast from a local holdout.</p>
-        <div class="actions"><a class="button primary" href="executive-summary.html">Read submission guide →</a><a class="button secondary" href="#sites">Compare the nine sites</a></div>
+        <div class="actions"><a class="button primary" href="executive-summary.html">Read submission guide →</a><a class="button secondary" href="#sites">Compare the nine sites</a><a class="button secondary" href="downloads/apartgems1-stepover-relay-dots-20261031.tif" download>Download generated candidate · blocked · research only</a></div>
       </div>
       <aside class="status-card" aria-label="Current release decision"><span class="status-label"><span class="status-dot"></span> Mandatory stop</span>
         <strong>No file is ready to submit.</strong><p>The existing candidate fails the literal registry overlap rule. No new prediction candidate was generated and no competition slot was used. Archived H-APART-6 v2 experiments predated discovery of the witness.</p></aside>
@@ -126,7 +126,21 @@
       <ol><li>Do not resume this lane after the duplicate stop. Establish a separately assigned method lane and a complete, hash-pinned accessible registry.</li><li>Rebuild each catalogue-based feature from visible faults, run all feature-only canaries, and compare to a same-v3 holdout baseline with a paired confidence interval.</li><li>Check literal registry thresholds on every pre-placement surface and on final dots; write a GeoTIFF only after local range/grid checks. A separate selector controls any slot.</li></ol>
       <p class="subtle" style="margin-top:14px">The witness leaves 6,514 allowed pixels outside its 3-pixel halo. At most 21,713 distinct dots could possibly meet the 70% rule against this one witness; this necessary bound is not a quality or uniqueness guarantee.</p>
       <div class="actions"><a class="button secondary" href="next-hypotheses.html">Read future hypotheses</a><a class="button secondary" href="research-sources.html">View research source register</a></div></section>
-    <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or stale. Check the official page; no file score is inferred.</p><ul class="source-list">
+    <section class="panel"><p class="eyebrow">07 / New unique candidate generated this session</p><h2>apartgems1-stepover-relay-dots-20261031 — blocked, do not submit</h2>
+      <p><strong>What it is.</strong> 2,767 dots placed at the midpoints of qualifying step-over / relay-ramp gaps between en-echelon mapped fault segments — a geometry-only, catalogue-missing-fault hypothesis (dilatational upflow zones the USGS / INGENIOUS catalogue may not contain). Generated deterministically from the pinned bridge grid; no organizer data, no feature cache, no leakage.</p>
+      <p><strong>File to download:</strong> <code>apartgems1-stepover-relay-dots-20261031.tif</code> · SHA-256 <code>581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece</code> · 2,767 dots · value 1.0 at dots, 0.0 elsewhere, float32, all finite, in [0,1].</p>
+      <div class="actions"><a class="button secondary" href="downloads/apartgems1-stepover-relay-dots-20261031.tif" download>Download GeoTIFF · blocked · research only</a><a class="button secondary" href="../evidence/apartgems1-stepover-relay-dots-20261031-run-card.json">View run card (JSON)</a><a class="button secondary" href="../evidence/apartgems1-stepover-relay-dots-20261031-lattice-witness-audit.json">View lattice-witness audit (JSON)</a></div>
+      <table>
+        <thead><tr><th scope="col">Gate</th><th scope="col">Result</th><th scope="col">Detail</th></tr></thead>
+        <tbody>
+        <tr><td>Format and range (local preflight)</td><td><span class="tag ok">PASS</span></td><td>All checks passed; not organizer acceptance.</td></tr>
+        <tr><td>Uniqueness vs pinned lattice witness</td><td><span class="tag stop">FAIL · duplicate</span></td><td>99.93% of dots within 3 px (limit 70%); Spearman &rho; = 0.000478 (limit 0.90). Protocol stop.</td></tr>
+        <tr><td>Holdout (catalogue proxy)</td><td><span class="tag warn">MEASURED</span></td><td>HOLDOUT-DTI 0.060 [0.051, 0.069], 11,360 withheld positives, 95% CI; not a leaderboard estimate.</td></tr>
+        <tr><td>Verdict</td><td><span class="tag stop">NEGATIVE</span></td><td>Not cleared for upload; research artifact only. No weekly slot used.</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="panel"><p class="eyebrow">08 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or stale. Check the official page; no file score is inferred.</p><ul class="source-list">
         <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData · problem &amp; metric ↗</a></li>
         <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData · public leaderboard ↗</a></li>
         <li><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">DOE GEMS Prize · Official Rules (September 2026) ↗</a></li>

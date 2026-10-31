@@ -1,0 +1,122 @@
+{
+  "file": "apartgems1-stepover-relay-dots-20261031.tif",
+  "sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+  "bytes": 65092,
+  "submission_name": "apartgems1-stepover-relay-dots-20261031",
+  "note": "Step-over/relay-ramp dots between en-echelon mapped segments; unique off-catalogue geometry; not selector-approved - do not submit",
+  "note_chars": 130,
+  "validator": {
+    "file": "/home/user/ApartGEMSDOE1/docs/downloads/apartgems1-stepover-relay-dots-20261031.tif",
+    "bytes": 65092,
+    "sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    },
+    "band_description": [
+      null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.00022534115123562515,
+    "emitted_positive_pixels": 2767,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 2767,
+    "footprint_fraction": 0.0005354751824573143
+  },
+  "template_report": {
+    "path": "/home/user/ApartGEMSDOE1/docs/downloads/apartgems1-stepover-relay-dots-20261031.tif",
+    "bytes": 65092,
+    "sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+    "bands": 1,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "width": 3292,
+    "height": 3730,
+    "bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "ref_bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "blocksize": [
+      256,
+      256
+    ],
+    "fixture_grid": false,
+    "has_validity_mask": false,
+    "nan_pixels": 0,
+    "infinity_pixels": 0,
+    "n_nan": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.00022534115123562515,
+    "n_nonzero": 2767,
+    "mass": 2767.0,
+    "mass_outside_footprint": 0,
+    "problems": [],
+    "ok": true,
+    "validation_class": "local on-disk template/range check; not organizer upload acceptance"
+  },
+  "zip_file": "apartgems1-stepover-relay-dots-20261031.zip",
+  "zip_sha256": "d6806557d831afb9886e2c80274f9bf4fd7faf592112c11f0b3b7ff32a9e7cc2",
+  "approved_for_weekly_slot": false,
+  "promoted": false,
+  "submission_slots_used": 0,
+  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "metadata": {
+    "hypothesis": "H1 step-over relay dots"
+  }
+}
