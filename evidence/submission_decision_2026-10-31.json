@@ -38,7 +38,13 @@
     "summary": "Exact-copy check clean (0 of 3,273 blobs). Spatial gate fails: 186 flagged at >70% forward 3-px overlap; the correlation and Jaccard tests flag none. 24 rasters not comparable. Scope: docs/downloads only (1,817 TIFs); 1,456 other GeoTIFF blobs were not spatially compared.",
     "scan_report": "evidence/registry/uniqueness_geo_paired_static_dots.json",
     "scan_tool": "scripts/registry_scan.py + gems57.uniqueness.compare_array_to_registry",
-    "blobs_listed_count": 3273
+    "blobs_listed_count": 3273,
+    "local_repo_docs_downloads_check": {
+      "report": "evidence/registry/local_docs_downloads_check.json",
+      "files_compared": 4,
+      "duplicate_count": 0,
+      "max_forward_overlap": 0.37602251161573197
+    }
   },
   "holdout": {
     "measured_surface": "E3 geo+paired-static, per-cell greedy allocation over 16 withheld cells (281,318 dots)",
@@ -74,13 +80,48 @@
       ],
       "label": "HOLDOUT-DTI \u00b7 INVALID (catalogue-proximity leakage; canary flags d, d_perp)"
     },
-    "leakage_audit": "evidence/leakage_audit_2026-10-31.md"
+    "leakage_audit": "evidence/leakage_audit_2026-10-31.md",
+    "table": [
+      {
+        "run": "E1",
+        "features": "base (catalogue-proximity features)",
+        "holdout_dti": 0.3323,
+        "ci95": [
+          0.2966,
+          0.3681
+        ],
+        "canary": "flags d, d_perp",
+        "status": "INVALID (leakage)"
+      },
+      {
+        "run": "E2",
+        "features": "geo-static (no catalogue column)",
+        "holdout_dti": 0.0635,
+        "ci95": [
+          0.0514,
+          0.0757
+        ],
+        "canary": "none (max single-feature AUC 0.609)",
+        "status": "leak-free baseline"
+      },
+      {
+        "run": "E3",
+        "features": "geo + paired-static",
+        "holdout_dti": 0.0704,
+        "ci95": [
+          0.0595,
+          0.0813
+        ],
+        "canary": "none (max AUC 0.620)",
+        "status": "leak-free; +0.0069 over E2 pooled; eight paired cells (weak); NOT the score of the emitted file"
+      }
+    ]
   },
   "verdict": {
     "ok_to_download": true,
     "ok_to_download_note": "Download for inspection and records only. The file is valid in format.",
     "ok_to_submit": false,
-    "one_line": "Do not submit. It fails the project's uniqueness gate, and its own score is unmeasured.",
+    "one_line": "It fails the project's uniqueness gate, and its own score is unmeasured.",
     "download_note": "Valid format, but it fails the uniqueness gate and has no measured score.",
     "reasons": [
       "Uniqueness gate fails: 186 registry rasters exceed 70% forward 3-px overlap (137 sparse dot sets, 49 dense surfaces).",
@@ -240,5 +281,22 @@
       "url": "https://gdr.openei.org/submissions/1391",
       "label": "DOE GDR \u00b7 INGENIOUS data"
     }
+  ],
+  "remaining_work": [
+    "Obtain organizer-confirmed scores (submission-page receipts) for any historical file; none exist in this repository.",
+    "Assign a lane. Run the top hypothesis (signed paired-flank agreement) on the leak-free holdout, with a per-cell allocation that matches the emitted surface, before any weekly slot is used. Budget is spent for this lane.",
+    "Scan the remaining 1,456 owner-repo GeoTIFF blobs spatially; resolve the 24 rasters that could not be compared (CRS/grid mismatch, NaN inside footprint, corrupt header).",
+    "Decide how the 3-px forward-overlap gate treats dense surfaces. It is currently applied as written.",
+    "Confirm with the organizers how the portal treats NaN outside bounds, and what produces 'Predicted values must be in range [0, 1]'.",
+    "Verify the GitHub Pages URL for this repository; page links are relative.",
+    "Draft the generative-AI disclosure required by the rules (\u00a73.2) before any submission."
+  ],
+  "limitations": [
+    "The holdout uses the USGS catalogue, while the scored test faults are new faults outside it (official problem page). It is a proxy.",
+    "The E3 vs E2 gain rests on eight paired cells. Treat it as weak evidence.",
+    "The emitted file's score is unmeasured: the holdout allocates dots per cell (281,318 dots); the file uses one full-footprint allocation (30,562 dots).",
+    "Owner-mirror data (6GEMSDOE) are not organizer downloads; hashes verify mirror equality only.",
+    "The owner-repo scan covers docs/downloads only (1,817 of 3,273 GeoTIFF blobs); the exact-copy check covers all 3,273.",
+    "This repository's local TIFs (top level and archive/) were compared separately: no duplicates (evidence/registry/local_docs_downloads_check.json)."
   ]
 }

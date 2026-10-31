@@ -1,8 +1,7 @@
-"""Build the download-and-submit page from evidence/submission_decision_2026-10-31.json.
+"""Build docs/download-and-submit.html from evidence/submission_decision_2026-10-31.json.
 
-This replaces the stop banner of the older build_pages_and_readme.py for the
-submission path. The page only restates the decision record; it never adds a
-score. Run:  python scripts/build_submit_page.py
+Called by build_pages_and_readme.py, which owns docs/index.html, the README and
+the executive summary. The page only restates the decision record; it adds no score.
 """
 from __future__ import annotations
 
@@ -13,8 +12,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DECISION = ROOT / 'evidence/submission_decision_2026-10-31.json'
 OUT = ROOT / 'docs/download-and-submit.html'
-HOME = ROOT / 'docs/index.html'
-SUMMARY = ROOT / 'docs/executive-summary.html'
 
 
 def esc(value) -> str:
@@ -124,14 +121,7 @@ small{{color:#57606a}}
 </body></html>
 """
     OUT.write_text(page, encoding='utf-8')
-    HOME.write_text(page, encoding='utf-8')  # Pages home shows the submission path first
-    SUMMARY.write_text(
-        '<!doctype html><html lang="en"><head><meta charset="utf-8">'
-        '<meta http-equiv="refresh" content="0; url=download-and-submit.html#sites">'
-        '<title>Executive summary moved</title></head><body>'
-        '<p>The executive summary now lives on <a href="download-and-submit.html#sites">'
-        'download-and-submit.html</a>.</p></body></html>\n', encoding='utf-8')
-    print(f'wrote {OUT.relative_to(ROOT)}, docs/index.html · ok_to_submit={ok_submit}')
+    print(f'wrote {OUT.relative_to(ROOT)} · ok_to_submit={ok_submit}')
     return 0
 
 
