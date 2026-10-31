@@ -79,7 +79,8 @@ No model experiment, candidate prediction raster, weekly slot, or competition up
 
 ### Pass 3 — full regression and release decision
 
-* Final checks: **40 passed**, 16 Rasterio/Affine pending-deprecation warnings; `compileall`, `node --check docs/feed.js`, strict evidence/docs JSON parsing, and `git diff --check` passed. Test suite includes output-link checks, byte-identical canonical/public run-card checks, strict JSON parsing, and fresh/stale browser rendering checks for the direct page fallback.
+* Final checks: **41 passed**, 16 Rasterio/Affine pending-deprecation warnings; `compileall`, `node --check docs/feed.js`, strict evidence/docs JSON parsing, and `git diff --check` passed. Test suite includes output-link checks, byte-identical canonical/public run-card checks, strict JSON parsing, and fresh/stale browser rendering checks for the direct page fallback.
+* Post-merge workflow review surfaced a scheduled leaderboard parse failure that caused the publisher to drop the direct-page fallback even though it was still fresh. Hardened the shared feed updater to carry forward only a same-source, verified, ≤24-hour direct-page observation after a failed scheduled refresh; scheduled status and score fields remain `unavailable`/null. Stale or invalid direct observations are cleared. Added unit coverage.
 * Reported 0.2778 and the direct public 0.4544 remain separated by evidence class. The prior v2 `HOLDOUT-DTI` remains explicitly historical/non-comparable and no new estimate is asserted.
 * Release verdict: **negative**. The only locally downloadable TIFF is marked audit/research only and **not OK to download and submit**. The explicit protocol stop precludes producing a unique TIFF in this lane; no alternative lane was silently substituted.
 
