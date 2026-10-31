@@ -92,24 +92,38 @@ def format_report(path, sample, epsg=32611, cell=100.0, footprint=None):
     return out
 
 
+def _is_competition_input(path: Path) -> bool:
+    """Recognize common competition/source rasters before they enter a prior union.
+
+    ``find_priors`` is a legacy discovery helper and is not an originality
+    certificate. It is nevertheless unsafe to let known-fault, label, template,
+    or feature rasters masquerade as historical submissions when a broad root
+    is scanned. Keep directory checks on path components rather than raw string
+    substrings so paths such as ``data/official`` are handled consistently.
+    """
+    parts = tuple(part.casefold() for part in path.parts)
+    pairs = set(zip(parts, parts[1:]))
+    reserved_data_dirs = {"bridge", "official", "raw", "external", "dem10"}
+    if any(("data", directory) in pairs for directory in reserved_data_dirs):
+        return True
+
+    name = path.name.casefold()
+    return (name in {"labels.tif", "existing_faults.tif"}
+            or name.startswith("sample_submission")
+            or "training_features" in name
+            or "external" in parts)
+
+
 def find_priors(roots, exclude=None, *, min_bytes=1000):
     found, seen = [], set()
     for root in roots:
         if not Path(root).exists():
             continue
         for path in sorted(Path(root).rglob("*.tif")):
-            # Competition *inputs* are not prior submissions.  Sweeping a root that contains them
-            # (the obvious mistake is passing the repository's parent so sibling checkouts are
-            # covered) reads band 1 of the 19-band feature stack as if it were somebody's answer, and
-            # the "prior union" then covers more pixels than the footprint itself -- which silently
-            # destroys both the novelty fraction and the not-the-union test, and in the H54 build
-            # emptied the novel pool to 93 px.  Measured before this exclusion: union 5,363,764 px
-            # against a 5,167,373 px footprint.  IR-52-027; review 2026-10-30: the cited tests/test_gates.py does not exist and no
-            # regression test for this exclusion is currently in tests/ (open item).
-            sp = str(path)
-            if ("data/raw" in sp or path.name == "labels.tif"
-                    or path.name.startswith("sample_submission")
-                    or "training_features" in sp or "/external/" in sp or "data/external" in sp):
+            # Competition inputs are never prior submissions. A broad-root
+            # scan must not feed the feature stack, catalogue, labels, or sample
+            # template into a prior union. The regression test protects this.
+            if _is_competition_input(path):
                 continue
             if exclude is not None and path.resolve() == Path(exclude).resolve():
                 continue

@@ -181,8 +181,8 @@ def main() -> int:
     <section class="panel" id="sources"><p class="eyebrow">Sources</p><h2>Links for manual verification</h2><ul class="source-list">{sources_html}</ul></section>
     """
 
-    (DOCS / "executive-summary.html").write_text(
-        page("Executive summary", "guide", exec_html), encoding="utf-8")
+    (DOCS / "h-sc1-summary.html").write_text(
+        page("H-SC1 summary", "guide", exec_html), encoding="utf-8")
 
     focus_index_rows = []
     for repo in FOCUS:
@@ -210,7 +210,7 @@ def main() -> int:
       <li><a href="research-sources.html">Research sources</a></li>
       <li><a href="next-hypotheses.html">Ranked hypotheses</a></li>
       <li><a href="data/{esc(sel['run_card'])}">Run card (JSON)</a></li></ul></section>"""
-    (DOCS / "index.html").write_text(page("Overview", "overview", index_html), encoding="utf-8")
+    # docs/index.html and the root index.html belong to build_pages_and_readme.py on main; this hub does not write them.
 
     data_dir = DOCS / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
@@ -219,12 +219,6 @@ def main() -> int:
                 sel["uniqueness_file"], sel["run_card"]):
         (data_dir / src).write_bytes((EV / src).read_bytes())
 
-    (ROOT / "index.html").write_text(
-        '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" '
-        'content="0; url=docs/executive-summary.html"><title>GEMS submission hub</title></head>'
-        '<body><a href="docs/executive-summary.html">Open the submission hub</a></body></html>\n',
-        encoding="utf-8")
-
     (EV / "focus_nine_table.md").write_text(
         "| Site | Historical file | Claimed score | Estimated score | Unique? | Submit? |\n"
         "| --- | --- | --- | --- | --- | --- |\n" + "\n".join(focus_md) + "\n", encoding="utf-8")
@@ -232,9 +226,13 @@ def main() -> int:
     focus_md_rows = [f"| {repo} | `{focus['sites'][repo]['file']}` | {focus['sites'][repo]['claimed_score']:.4f} (user claim) | not estimable | "
                      f"no: {focus['sites'][repo]['max_overlap']*100:.2f}% to {focus['sites'][repo]['closest_peer']} | NO |"
                      for repo in FOCUS]
-    (ROOT / "README.md").write_text(build_readme(sel, uq, card, rec, paired, hv, pol, safe_dl, slot_ok,
-                                                 prior_sha, prior_overlap, overlap_limit, rules, focus_md_rows),
-                                    encoding="utf-8")
+    block = (f"> **H-SC1 lane (2026-10-31, branch arena/ff2aae12-apartgemsdoe1): {'DOWNLOAD SAFE' if safe_dl else 'NOT CLEARED'} — no file cleared to submit.** "
+             f"Candidate `{name}` (SHA-256 `{rec['sha256']}`) is not in docs/downloads. "
+             f"Literal uniqueness: FAIL (worst 3-px overlap {gate['worst_dot_overlap']*100:.2f}%). "
+             f"HOLDOUT-DTI (submitted policy) {hv['submitted_policy']['dti']:.4f} [95% CI {hv['submitted_policy']['ci95'][0]:.4f}, {hv['submitted_policy']['ci95'][1]:.4f}], "
+             f"evaluator `{hv['evaluator_version']}`, {hv['withheld_positive_pixels']:,} withheld positives. Proxy only; ORGANIZER-CONFIRMED: none. "
+             f"Details: [H-SC1 summary](docs/h-sc1-summary.html) · [run card](evidence/{sel['run_card']}) · [candidate selection](evidence/candidate_selection.json).\n")
+    (EV / "h_sc1_status_block.md").write_text(block, encoding="utf-8")
     print(f"hub built for {tif}: download={'SAFE' if safe_dl else 'BLOCKED'} slot={'promote' if slot_ok else 'not promoted'}")
     return 0
 

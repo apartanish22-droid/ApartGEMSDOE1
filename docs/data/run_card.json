@@ -1,145 +1,125 @@
 {
-  "protocol": "GEMS Parallel-Run Protocol; literal uniqueness stop",
-  "branch": "arena/90d7c5d0-apartgemsdoe1",
-  "generated_utc": "2026-10-30T02:07:33.972862+00:00",
-  "hypothesis": "H-APART-2 / MAW-GSI (inherited prior lane): multi-azimuth terrain, potential-field and geothermal structural intersections may indicate unmapped fault traces.",
-  "mechanism": "Hypothesis, not a demonstrated discovery: aligned topographic lineaments and potential-field changes near possible structural intersections could indicate concealed faults; sparse allocation attempts to reduce redundant kernel coverage.",
-  "named_non_fault_mimic_process": "Alluvial-fan channels and erosional scarps can make linear topographic breaks; lithologic contacts can generate magnetic and gravity edges.",
+  "protocol": "GEMS Parallel-Run Protocol; review-only, no experiment",
+  "generated_utc": "2026-10-31T05:03:55Z",
+  "branch": "arena/056c9d8d-apartgemsdoe1",
+  "hypothesis": {
+    "status": "NOT TESTED",
+    "statement": "No new method was tested. The request refers to a single assigned method paragraph, but none is identifiable in this prompt; the inherited lanes are stopped by the literal duplicate witness."
+  },
+  "mechanism": "Not applicable: no experiment or new prediction surface was created. The GEMSDOE32 geometry supports a redundancy-pruning explanation, but not a causal score explanation.",
+  "named_non_fault_mimic_process": "Alluvial-fan channels, erosional scarps, and lithologic contacts can mimic topographic or potential-field lineaments; no candidate was evaluated against these mimics.",
+  "experiments": {
+    "started": 0,
+    "maximum_allowed": 3,
+    "submission_slots_used": 0
+  },
   "holdout_dti": {
-    "label": "HOLDOUT-DTI",
+    "evidence_class": "NOT-MEASURED",
+    "label": null,
     "evaluator_version": "gems57-pooled-hide-v3",
-    "withheld_positive_pixels": 11360,
+    "withheld_positive_pixels": null,
     "dti": null,
     "ci95": null,
-    "status": "No v3 model run: mandatory duplicate stop; not an estimated leaderboard score.",
-    "historical_noncomparable": {
-      "label": "HOLDOUT-DTI",
-      "evaluator_version": "gems57-pooled-hide-v2",
-      "withheld_positive_pixels": 11360,
-      "dti": 0.117438,
-      "ci95": [
-        0.099365,
-        0.136129
-      ],
-      "warning": "Previous run, not independently reproduced here. v2 masked non-visible buffer catalogue pixels; it cannot establish a v3 win or a future organizer score."
-    },
-    "mask_regression_receipt": "evidence/v3_mask_regression.json"
+    "reason": "No fold-honest model evaluation was run. The assigned lane is unresolved, the duplicate stop remains active, and the cached feature stack is absent from this checkout."
   },
   "correlation_overlap_vs_registry": {
-    "scope": "One independently fetched, hash-pinned registry witness; incomplete inventory can prove a failure but cannot certify uniqueness.",
-    "surface": {
-      "tested": false,
-      "reason": "Original pre-placement surface is not persisted; prior sampled/density-exempt audit cannot clear it."
-    },
+    "evidence_class": "REGISTRY-MEASUREMENT",
+    "scope": "One immutable, hash-pinned public owner-repository witness plus the nine focus files; not a complete organizer registry.",
+    "reviewed_prior_file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
     "final_dots": {
       "candidate_dots": 37654,
-      "candidate_dots_within_3px": 37533,
+      "dots_within_3px_of_witness": 37533,
       "forward_overlap_3px": 0.9967865299835342,
       "spearman_full_footprint": 0.000445460069555539,
-      "limits": {
-        "forward_overlap": 0.7,
-        "spearman": 0.9
-      },
+      "overlap_stop_threshold": 0.7,
+      "rank_correlation_stop_threshold": 0.9,
       "duplicate": true
     },
-    "witness": {
-      "repository": "buffedlizard55-lab/13GEMSDOE",
-      "commit": "92ee6f074323f161eed837b80ec3ee5b662e26f5",
-      "path": "docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
-      "url": "https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
-      "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2"
-    },
-    "complete_registry_checked": false
+    "pre_placement_surface_tested": false,
+    "complete_registry_checked": false,
+    "verdict": "STOP; this inherited raster is not unique under the protocol."
   },
-  "raster_sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
-  "raster_provenance": "Existing file from prior session, not a newly generated candidate.",
+  "raster_sha256": {
+    "new_candidate": null,
+    "reviewed_prior_research_only": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f"
+  },
   "validator_output": {
-    "file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
-    "bytes": 145748,
-    "sha256": "09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f",
-    "meta": {
+    "evidence_class": "LOCAL-FORMAT-PREFLIGHT; not organizer acceptance",
+    "reviewed_file": "docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+    "no_nan_inside_footprint": true,
+    "values_in_0_1_inside_footprint": true,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform_matches_sample_submission": true,
+    "format_only_pass": true,
+    "outside_footprint_values": "zero; conflicts with the published problem-page instruction that out-of-bounds data be null/NaN",
+    "portal_acceptance_tested": false,
+    "full_preflight_ok_to_submit": false
+  },
+  "submission": {
+    "name": null,
+    "note": "Review only; no new candidate was produced. Do not submit the archived file.",
+    "note_chars": 76,
+    "ok_to_download_and_submit": false
+  },
+  "verdict": "negative",
+  "reason": "No candidate was generated or promoted. The inherited candidate fails the literal 3-pixel overlap limit; the full registry, original pre-placement surface, v3 model holdout, and portal acceptance remain unverified.",
+  "additional_repository_candidate_review": {
+    "provenance": "Existing artifact merged to origin/main in PR #43 before this branch follow-up; not generated or promoted in this review.",
+    "source_pr": "https://github.com/apartanish22-droid/ApartGEMSDOE1/pull/43",
+    "file": "docs/downloads/apartgems1-stepover-relay-dots-20261031.tif",
+    "sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+    "submission_name": "apartgems1-stepover-relay-dots-20261031",
+    "submission_note": "Step-over/relay-ramp dots between en-echelon mapped segments; unique off-catalogue geometry; not selector-approved - do not submit",
+    "submission_note_chars": 130,
+    "format_validation": {
+      "format_only_pass": true,
+      "dtype": "float32",
+      "bands": 1,
       "crs": "EPSG:32611",
       "shape": [
         3730,
         3292
       ],
-      "dtype": "float32",
-      "count": 1,
-      "nodata": null,
-      "transform": [
-        100.0,
+      "transform_matches_sample": true,
+      "range": [
         0.0,
-        243350.0,
-        0.0,
-        -100.0,
-        4508550.0
+        1.0
       ],
-      "profile_compress": "deflate"
+      "outside_footprint_values": "zero; conflicts with official null/NaN instruction",
+      "full_preflight_ok_to_submit": false,
+      "organizer_acceptance_tested": false
     },
-    "band_description": [
-      null
-    ],
-    "n_finite": 12279160,
-    "n_nan": 0,
-    "n_infinite": 0,
-    "min": 0.0,
-    "max": 1.0,
-    "mean": 0.0030664964579045773,
-    "emitted_positive_pixels": 37654,
-    "checks": {
-      "single_band": true,
-      "dtype_float32": true,
-      "dimensions_3730x3292": true,
-      "crs_epsg_32611": true,
-      "transform_matches_sample_submission": true,
-      "no_nan_anywhere": true,
-      "no_inf_anywhere": true,
-      "no_sentinel_values": true,
-      "range_0_1_guaranteed": true,
-      "min_ge_0": true,
-      "max_le_1": true,
-      "in_footprint_all_finite": true,
-      "in_footprint_range_0_1": true,
-      "outside_footprint_zero": true,
-      "zero_dots_on_mapped_catalogue": true
+    "registry_comparison": {
+      "evidence_class": "REGISTRY-MEASUREMENT; one pinned witness plus focus-site evidence, not a complete registry",
+      "candidate_dots": 2767,
+      "dots_within_3px_of_witness": 2765,
+      "forward_overlap_3px": 0.9992771955186122,
+      "overlap_stop_threshold": 0.7,
+      "spearman_full_footprint": 0.0004784387586015276,
+      "rank_correlation_stop_threshold": 0.9,
+      "pre_placement_surface_tested": false,
+      "complete_registry_checked": false,
+      "duplicate": true,
+      "verdict": "STOP; do not submit"
     },
-    "all_checks_passed": true,
-    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
-    "on_catalogue_positive_pixels": 0,
-    "in_footprint_positive_pixels": 37654,
-    "footprint_fraction": 0.007286874781441169
-  },
-  "submission_name": "apartgems1-maw-gsi-e3-20261028-87f83db9",
-  "submission_note": "Historical MAW-GSI E3; audit only; literal 3px overlap duplicate; DO NOT SUBMIT.",
-  "submission_note_chars": 80,
-  "experiments_started_this_session": 0,
-  "submission_slots_used_this_session": 0,
-  "verdict": "negative",
-  "reason": "Re-audited 2026-10-30: literal 3px overlap exceeds 70%; stop. Incomplete registry, no v3 model holdout, no selector approval, and no organizer receipt. Local format PASS is not submission clearance.",
-  "current_review": {
-    "review_date_utc": "2026-10-30",
-    "focus_nine_files_refetched_and_hashed": 9,
-    "focus_nine_errors": [],
-    "official_public_leaderboard_observation": {
-      "date_utc": "2026-10-30",
-      "rank": 1,
-      "team_level_dti": 0.4544,
-      "evidence_class": "Official public standings; not a file receipt or future estimate.",
-      "method": "fetch_page direct read of the official public leaderboard; not the scheduled feed",
-      "scheduled_feed_status": "unavailable",
-      "scheduled_feed_failure": "TLS/SSL EOF recorded in docs/data/public_feed.json",
-      "is_feed_value": false,
-      "is_file_receipt": false
+    "holdout_dti": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v3",
+      "dti": 0.05989416791352869,
+      "ci95": [
+        0.051412300099158474,
+        0.06867429242390286
+      ],
+      "withheld_positive_pixels": 11360,
+      "scope": "Fixed-mask replay on label-blind buffered-component folds; catalogue-proxy truth; features not rebuilt per fold; not fold-honest and not a leaderboard estimate."
     },
-    "model_experiments_started": 0,
-    "v3_holdout_model_evaluated": false,
-    "new_prediction_raster_written": false,
-    "submission_slots_used": 0,
-    "submission_receipt_obtained": false,
-    "official_format_rule": {
-      "outside_bounds": "null/NaN required by public official rule",
-      "local_writer_policy": "zeros outside the bridge footprint",
-      "portal_behavior": "not tested"
-    }
+    "approved_for_weekly_slot": false,
+    "organizer_receipt": false,
+    "ok_to_download_and_submit": false,
+    "verdict": "negative"
   }
 }
