@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import html
 import json
+import sys
 from pathlib import Path
 import re
 import shutil
@@ -78,6 +79,56 @@ def render_research_markdown(markdown: str) -> str:
             out.append('<p>' + inline(line) + '</p>')
             i += 1
     return '\n'.join(out)
+
+
+DECISION_PATH = ROOT / 'evidence/submission_decision_2026-10-31.json'
+
+
+def decision_banner_html() -> str:
+    """Top-of-site decision block, read from the decision record (never hand-typed)."""
+    d = json.loads(DECISION_PATH.read_text(encoding='utf-8'))
+    ok = d['verdict']['ok_to_submit']
+    kind = 'ok' if ok else 'stop'
+    head = 'Yes, you may submit it.' if ok else 'No. Do not submit the new GeoTIFF.'
+    return (f'<section class="panel decision-banner {kind}" id="decision">'
+            f'<p class="eyebrow">Decision · {esc(d["record"])}</p>'
+            f'<h2>{esc(head)}</h2><p>{esc(d["verdict"]["one_line"])}</p>'
+            f'<div class="actions"><a class="button primary" href="download-and-submit.html">Download and submit page →</a>'
+            f'<a class="button secondary" href="data/submission_decision_2026-10-31.json">Decision record (JSON)</a>'
+            f'<a class="button secondary" href="../docs/PROJECT_BRIEF.md">Standing brief</a></div></section>')
+
+
+def decision_banner_md() -> str:
+    d = json.loads(DECISION_PATH.read_text(encoding='utf-8'))
+    ok = d['verdict']['ok_to_submit']
+    head = 'Yes, you may submit it.' if ok else 'No. Do not submit the new GeoTIFF.'
+    c = d['candidate']
+    u = d['uniqueness']
+    return (f"> **Decision (2026-10-31): {head}** {d['verdict']['one_line']}\n>\n"
+            f"> New file: [`{c['filename']}`]({c['repo_path'].replace('docs/', 'docs/', 1)}) · SHA-256 `{c['sha256']}` · "
+            f"exact copy: none among {u['blobs_listed_count']:,} GeoTIFF blobs · spatial gate: **{u['status_label']}** "
+            f"({u['spatial_duplicate_flags']} registry rasters flagged at >70% forward 3-px overlap) · "
+            f"holdout score for this file: **not measured**.\n>\n"
+            f"> Full decision and automated checks: [Download and submit](docs/download-and-submit.html) · "
+            f"Standing brief: [`docs/PROJECT_BRIEF.md`](docs/PROJECT_BRIEF.md)\n\n")
+
+
+def decision_details_md() -> str:
+    """Holdout table, remaining work and limitations from the decision record."""
+    d = json.loads(DECISION_PATH.read_text(encoding='utf-8'))
+    rows = '\n'.join(
+        f"| {r['run']} | {r['features']} | {r['holdout_dti']:.4f} | [{r['ci95'][0]:.4f}, {r['ci95'][1]:.4f}] | {r['canary']} | {r['status']} |"
+        for r in d['holdout']['table'])
+    work = '\n'.join(f'{i}. {x}' for i, x in enumerate(d['remaining_work'], 1))
+    lim = '\n'.join(f'* {x}' for x in d['limitations'])
+    return (f"## New candidate · holdout, remaining work, limitations\n\n"
+            f"Labels: `HOLDOUT-DTI` (evaluator `gems57-pooled-hide-v3`, 22,641 withheld positives, 95% quadrant-jackknife CI). "
+            f"Nothing here is a leaderboard estimate.\n\n"
+            f"| Run | Features | HOLDOUT-DTI | 95% CI | Leakage canary | Status |\n| --- | --- | --- | --- | --- | --- |\n{rows}\n\n"
+            f"Details: [`evidence/leakage_audit_2026-10-31.md`](evidence/leakage_audit_2026-10-31.md). "
+            f"Top hypothesis and the other ranked candidates: [`evidence/next_hypotheses.md`](evidence/next_hypotheses.md) "
+            f"(none validated here; the top one was not run because the experiment budget is spent).\n\n"
+            f"### Remaining work\n\n{work}\n\n### Limitations\n\n{lim}\n\n")
 
 
 def main() -> int:
@@ -302,6 +353,9 @@ def main() -> int:
         shutil.copyfile(latest_card_path, DOCS/'data'/run_card_name)
     shutil.copyfile(ROOT/'evidence/repository_review_2026-10-31.md',
                     DOCS/'repository-review-2026-10-31.md')
+    shutil.copyfile(DECISION_PATH, DOCS/'data'/DECISION_PATH.name)
+    index = decision_banner_html() + index
+    guide = decision_banner_html() + guide
     (DOCS/'index.html').write_text(page('Overview', 'overview', index), encoding='utf-8')
     (DOCS/'executive-summary.html').write_text(page('Submission guide', 'guide', guide), encoding='utf-8')
     for name in ('research_sources.md', 'next_hypotheses.md'):
@@ -508,7 +562,16 @@ with verdict; hypothesis ranked against alternatives; no unverified score claime
 as a score. Commit, open a PR from the working branch, and merge to main.
 
 '''
+    title_line = '# ApartGEMSDOE1 · Geothermal fault discovery\n\n'
+    readme = readme.replace(title_line, title_line + decision_banner_md(), 1)
+    readme = readme.replace('## Executive summary · nine requested sites', decision_details_md() + '## Executive summary · nine requested sites', 1)
+    readme = readme.replace('## Future-session start-up: read before every run',
+                            '## Future-session start-up: read before every run\n\nRead the condensed standing brief first: [`docs/PROJECT_BRIEF.md`](docs/PROJECT_BRIEF.md).', 1)
     (ROOT/'README.md').write_text(readme, encoding='utf-8')
+    # The download-and-submit page is built from the same decision record.
+    sys.path.insert(0, str(ROOT / 'scripts'))
+    import build_submit_page
+    build_submit_page.main()
     print('Built negative-status dashboard, submission guide, and standing README.')
     return 0
 

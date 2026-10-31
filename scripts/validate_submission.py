@@ -20,7 +20,19 @@ import numpy as np
 import rasterio
 from gems57 import load_grid
 from gems57.uniqueness import compare_array_to_registry
-from gems57.validate import validate
+from gems57.validate import validate_template
+from gems57.grid import DATA_DIR
+
+
+def _jsonable(obj):
+    """Replace NaN/inf with strings so the report is strict JSON (NaN nodata is official)."""
+    if isinstance(obj, dict):
+        return {k: _jsonable(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_jsonable(v) for v in obj]
+    if isinstance(obj, float) and not np.isfinite(obj):
+        return str(obj)
+    return obj
 
 
 def main() -> int:
@@ -43,7 +55,10 @@ def main() -> int:
               'note': 'A local format pass is neither organizer acceptance nor selector approval.'}
     try:
         grid = load_grid()
-        result['format'] = validate(args.tif, footprint=grid.footprint, catalogue=grid.catalogue)
+        # Official-template convention (NaN outside bounds, as the rules state),
+        # checked against the official sample's own NaN mask.
+        result['format'] = validate_template(
+            args.tif, grid.footprint, grid.catalogue, sample=DATA_DIR / 'sample_submission.tif')
         if args.registry:
             with rasterio.open(args.tif) as src:
                 array = src.read(1)
@@ -67,7 +82,7 @@ def main() -> int:
     except (OSError, ValueError, KeyError, rasterio.errors.RasterioError) as exc:
         result['error'] = str(exc)
         result['registry_gate'] = 'BLOCKED: preflight could not complete; see error'
-    text = json.dumps(result, indent=2, allow_nan=False)
+    text = json.dumps(_jsonable(result), indent=2, allow_nan=False)
     if args.json_out:
         args.json_out.parent.mkdir(parents=True, exist_ok=True)
         args.json_out.write_text(text + '\n')

@@ -118,7 +118,8 @@ def _density(visible: np.ndarray, radius_px: int = 5) -> np.ndarray:
 def fold_geometry(grid: Grid, visible: np.ndarray, hidden: np.ndarray,
                   domain: np.ndarray, key: str,
                   geo: dict | None = None,
-                  sense_src: np.ndarray | None = None) -> FoldGeometry:
+                  sense_src: np.ndarray | None = None,
+                  static_only: bool = False) -> FoldGeometry:
     """Build the feature matrix for one fold cell using **visible faults only**.
 
     Two opt-in blocks may be appended after :data:`FEATURES`, in this order:
@@ -141,6 +142,20 @@ def fold_geometry(grid: Grid, visible: np.ndarray, hidden: np.ndarray,
 
     d, iy, ix = nearest_frame(visible)
     active = domain & ~visible
+    if static_only:
+        # Leakage-free control (2026-10-31): the feature row is ONLY the static
+        # raster planes in ``geo``. No column reads the visible catalogue, so the
+        # withholding geometry (proximity to visible traces) cannot enter the model.
+        # The scored domain and labels are identical to the catalogue-feature run.
+        if not geo:
+            raise ValueError("static_only requires geo planes")
+        names = tuple(geo)
+        ys, xs = np.nonzero(active)
+        X = (np.stack([geo[k][ys, xs] for k in names], axis=1).astype(np.float32)
+             if ys.size else np.zeros((0, len(names)), np.float32))
+        y = hidden[ys, xs].astype(np.int8)
+        return FoldGeometry(key=key, rows=ys, cols=xs, X=X, y=y, visible=visible,
+                            n_hidden=int(y.sum()), seg=tab, feature_names=names)
     names = (tuple(FEATURES)
              + (SENSE_FEATURES if sense_src is not None else ())
              + (tuple(geo) if geo else ()))

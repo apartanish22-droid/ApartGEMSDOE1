@@ -1,0 +1,47 @@
+{
+  "evidence_class": "REGISTRY-MEASUREMENT",
+  "scope": "All TIFs under docs/downloads/ of this repository (top level and archive/), excluding the candidate itself. Not the owner-repo inventory.",
+  "candidate": "docs/downloads/apartgems-e3-geo-paired-static-30562dots-NOT-CLEARED-20261031.tif",
+  "candidate_sha256": "c4d504b8a09f94a6f0b2a757eda60bc69095b21bc95cfae0a626dfd4bf76468e",
+  "files_compared": 4,
+  "duplicate_count": 0,
+  "max_forward_overlap": 0.37602251161573197,
+  "rows": [
+    {
+      "file": "/home/user/ApartGEMSDOE1/docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+      "my_dots_within_3px_of_theirs": 0.3310974412669328,
+      "their_dots_within_3px_of_mine": 0.05707228979656876,
+      "spearman_full_footprint": 0.020751161131640643,
+      "their_dots": 37654,
+      "jaccard_dot_sets": 0.013701072903973608,
+      "error": null
+    },
+    {
+      "file": "/home/user/ApartGEMSDOE1/docs/downloads/apartgems1-stepover-relay-dots-20261031.tif",
+      "my_dots_within_3px_of_theirs": 0.1520515673058046,
+      "their_dots_within_3px_of_mine": 0.1633538127936393,
+      "spearman_full_footprint": 0.019379252655108446,
+      "their_dots": 2767,
+      "jaccard_dot_sets": 0.005854836275841256,
+      "error": null
+    },
+    {
+      "file": "/home/user/ApartGEMSDOE1/docs/downloads/archive/apartgems1-plkc-dualoof-e3-20261028-4499e12f-zeros.tif",
+      "my_dots_within_3px_of_theirs": 0.37602251161573197,
+      "their_dots_within_3px_of_mine": 0.05330111010782387,
+      "spearman_full_footprint": 0.014044780101347607,
+      "their_dots": 37654,
+      "jaccard_dot_sets": 0.010308056872037915,
+      "error": null
+    },
+    {
+      "file": "/home/user/ApartGEMSDOE1/docs/downloads/archive/apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif",
+      "my_dots_within_3px_of_theirs": 0.15551992670636738,
+      "their_dots_within_3px_of_mine": 0.09841558441558441,
+      "spearman_full_footprint": 0.02683348679619501,
+      "their_dots": 38500,
+      "jaccard_dot_sets": 0.01681389870435807,
+      "error": null
+    }
+  ]
+}

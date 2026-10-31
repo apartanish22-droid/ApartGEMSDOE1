@@ -142,3 +142,112 @@ def write_submission(path, prediction, sample, footprint, *, note, name,
                 temporary.unlink()
             except FileNotFoundError:
                 pass
+
+
+def write_template_submission(path, prediction, footprint, catalogue, *, name, note,
+                              sample=None, metadata=None):
+    """Write the OFFICIAL-TEMPLATE convention: NaN outside the bounds, finite [0,1] inside.
+
+    Differs from :func:`write_submission` (all-finite, zeros outside) on purpose:
+    the published format says data outside the bounds is null or NaN, and the
+    organiser's sample template uses NaN exactly outside the footprint. ``prediction``
+    is a 2-D float array; only its footprint cells are used, and every value there
+    must already be finite and in [0,1]. Nothing is clipped or repaired.
+    The output is written to private temporaries, re-read from disk, validated by
+    :func:`validate.validate_template` against the sample's NaN mask, and then
+    committed atomically together with a one-TIFF ZIP and a JSON receipt.
+    """
+    from pathlib import Path as _P
+    import rasterio
+    from .grid import SHAPE, CRS_EPSG, TRANSFORM
+    from .validate import validate_template
+
+    if not isinstance(name, str) or not name.strip() or len(name) > 140:
+        raise ValueError('name must contain 1..140 non-whitespace characters')
+    if not isinstance(note, str) or not note.strip() or len(note) > 140:
+        raise ValueError('note must contain 1..140 non-whitespace characters')
+    p = np.asarray(prediction)
+    fp = np.asarray(footprint, dtype=bool)
+    cat = np.asarray(catalogue, dtype=bool)
+    if p.shape != SHAPE or fp.shape != SHAPE or cat.shape != SHAPE:
+        raise ValueError(f'prediction, footprint and catalogue must be {SHAPE}')
+    if not np.issubdtype(p.dtype, np.number):
+        raise ValueError('prediction must be numeric')
+    inside = p[fp].astype(np.float64)
+    if not np.isfinite(inside).all() or (inside < 0.0).any() or (inside > 1.0).any():
+        raise ValueError('footprint values must be finite and in [0,1]; no silent repair')
+    if np.any((inside > 0) & cat[fp]):
+        raise ValueError('positive prediction mass on the mapped catalogue')
+
+    out = np.full(SHAPE, np.nan, dtype=np.float32)
+    out[fp] = p[fp].astype(np.float32)
+
+    path = _P(path)
+    if path.suffix.lower() not in {'.tif', '.tiff'}:
+        raise ValueError('submission path must end in .tif or .tiff')
+    path.parent.mkdir(parents=True, exist_ok=True)
+    zip_path = path.with_suffix('.zip')
+    receipt_path = path.with_suffix('.json')
+    existing = [c for c in (path, zip_path, receipt_path) if c.exists()]
+    if existing:
+        raise FileExistsError(f'refusing to overwrite existing submission outputs: {existing}')
+    from . import grid as _grid
+    sample_path = _P(sample) if sample is not None else _grid.DATA_DIR / 'sample_submission.tif'
+
+    tmp_tif = tmp_zip = tmp_receipt = None
+    committed = []
+    try:
+        tmp_tif = _temp_path(path.parent, path.stem, path.suffix)
+        tmp_zip = _temp_path(path.parent, path.stem, '.zip')
+        tmp_receipt = _temp_path(path.parent, path.stem, '.json')
+        profile = dict(driver='GTiff', height=SHAPE[0], width=SHAPE[1], count=1, dtype='float32',
+                       crs=CRS_EPSG, transform=TRANSFORM, nodata=float('nan'),
+                       compress='lzw', tiled=False)
+        with rasterio.open(tmp_tif, 'w', **profile) as dst:
+            dst.write(out, 1)
+            dst.set_band_description(1, 'predicted_new_fault_probability')
+        check = validate_template(tmp_tif, fp, cat, sample=sample_path)
+        check['file'] = str(path)  # report the committed name, not the temporary file
+        if not check['all_checks_passed']:
+            failed = [k for k, v in check['checks'].items() if not v]
+            raise ValueError(f'on-disk template validator rejected output: {failed}')
+
+        with zipfile.ZipFile(tmp_zip, 'w', compression=zipfile.ZIP_DEFLATED) as z:
+            info = zipfile.ZipInfo(path.name, date_time=(2026, 10, 31, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            z.writestr(info, tmp_tif.read_bytes())
+        with zipfile.ZipFile(tmp_zip) as z:
+            if z.namelist() != [path.name] or z.read(path.name) != tmp_tif.read_bytes():
+                raise IOError('single-TIFF ZIP roundtrip failed')
+
+        receipt = dict(
+            file=path.name, sha256=check['sha256'], bytes=check['bytes'],
+            submission_name=name, note=note, note_chars=len(note),
+            validator=check, zip_file=zip_path.name,
+            zip_sha256=hashlib.sha256(tmp_zip.read_bytes()).hexdigest(),
+            policy='official-template NaN outside bounds',
+            approved_for_weekly_slot=False, promoted=False, submission_slots_used=0,
+            status='locally validated template-format file; not organizer acceptance',
+            metadata=metadata or {},
+        )
+        tmp_receipt.write_text(json.dumps(receipt, indent=2, allow_nan=False) + '\n', encoding='utf-8')
+        for source, destination in ((tmp_zip, zip_path), (tmp_receipt, receipt_path), (tmp_tif, path)):
+            os.chmod(source, 0o644)
+            os.replace(source, destination)
+            committed.append(destination)
+        return receipt
+    except Exception:
+        for destination in committed:
+            try:
+                destination.unlink()
+            except FileNotFoundError:
+                pass
+        raise
+    finally:
+        for temporary in (tmp_tif, tmp_zip, tmp_receipt):
+            if temporary is None:
+                continue
+            try:
+                temporary.unlink()
+            except FileNotFoundError:
+                pass
