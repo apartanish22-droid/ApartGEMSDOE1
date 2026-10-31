@@ -104,6 +104,25 @@ def main() -> int:
         new_withheld = new_card['holdout_withheld_positives']
         new_overlap = new_card['overlap_3px']
         new_rho = new_card['rho_vs_witness']
+        new_dots_within = new_card['witness_audit']['final_dot_gate']['candidate_dots_within_3px']
+        candidate_summary = (
+            f"> **Additional research-only candidate — DO NOT SUBMIT:** [`{new_name}.tif`](docs/downloads/{new_name}.tif), "
+            f"SHA-256 `{new_digest}`; {new_dots:,} dots. It fails literal uniqueness: "
+            f"{new_dots_within:,}/{new_dots:,} ({new_overlap:.2%}) lie within 3 px of the pinned witness "
+            f"(70% limit; final-dot Spearman {new_rho:.6f}; the original surface gate was not tested). "
+            f"Local format checks pass, but its zeros outside the footprint conflict with the official null/NaN instruction. "
+            f"Its fixed-mask catalogue-proxy `HOLDOUT-DTI` is {new_dti:.4f} [{new_ci[0]:.4f}, {new_ci[1]:.4f}] "
+            f"(`{new_eval}`, {new_withheld:,} withheld positives, 95% CI); this is not fold-honest, not a leaderboard estimate, and does not demonstrate an improvement over the unverified 0.2778 claim. "
+            f"See the [run card](evidence/apartgems1-stepover-relay-dots-20261031-run-card.json) and [witness audit](evidence/apartgems1-stepover-relay-dots-20261031-lattice-witness-audit.json)."
+        )
+        holdout_metric = (
+            f'<div class="metric"><span class="label">Candidate HOLDOUT-DTI</span>'
+            f'<strong>{new_dti:.4f} [{new_ci[0]:.4f}, {new_ci[1]:.4f}]</strong>'
+            f'<small>{esc(new_eval)} · {new_withheld:,} withheld positives · fixed-mask catalogue proxy; not fold-honest or a leaderboard estimate.</small></div>'
+        )
+    else:
+        candidate_summary = ''
+        holdout_metric = '<div class="metric"><span class="label">Model holdout</span><strong>Not run</strong><small>No current v3 result.</small></div>'
     if focus['prior_candidate_sha256'] != audit['candidate_sha256']:
         raise RuntimeError('Focus audit and literal witness audit refer to different candidates')
     rows = sorted(focus['sites'], key=lambda r: int(r['site'].replace('GEMSDOE', '')))
@@ -160,12 +179,12 @@ def main() -> int:
         <div class="actions"><a class="button primary" href="executive-summary.html">Read submission guide →</a><a class="button secondary" href="#sites">Compare the nine sites</a><a class="button secondary" href="downloads/apartgems1-stepover-relay-dots-20261031.tif" download>Download generated candidate · blocked · research only</a></div>
       </div>
       <aside class="status-card" aria-label="Current release decision"><span class="status-label"><span class="status-dot"></span> Mandatory stop</span>
-        <strong>No file is ready to submit.</strong><p>The existing candidate fails the literal registry overlap rule. No new prediction candidate was generated and no competition slot was used. Archived H-APART-6 v2 experiments predated discovery of the witness.</p></aside>
+        <strong>No file is ready to submit.</strong><p>The inherited MAW-GSI candidate and the separate step-over/relay-ramp artifact both fail release gates. The latter is marked research-only below. No competition slot or upload was used in this review.</p></aside>
     </section>
     <div class="metric-grid" aria-label="Release gates">
       <div class="metric"><span class="label">Format · local policy</span><strong class="success-text">PASS</strong><small>Single band; float32; [0,1]; zeros outside footprint. Official rule: null/NaN outside bounds, so this file does NOT match the rule.</small></div>
       <div class="metric"><span class="label">Literal uniqueness</span><strong class="danger-text">FAIL · {overlap:.2f}%</strong><small>Forward 3-pixel overlap; limit 70%.</small></div>
-      <div class="metric"><span class="label">Current holdout</span><strong>Not run</strong><small>v3 proxy score unavailable after stop.</small></div>
+      {holdout_metric}
       <div class="metric"><span class="label">Weekly slot</span><strong>Not selected</strong><small>Separate selector approval required.</small></div>
     </div>
     <section class="panel" id="decision"><div class="section-heading"><div><p class="eyebrow">01 / Executive decision</p><h2>What can I download?</h2></div></div>
@@ -194,8 +213,8 @@ def main() -> int:
       <ol><li>Do not resume this lane after the duplicate stop. Establish a separately assigned method lane and a complete, hash-pinned accessible registry.</li><li>Rebuild each catalogue-based feature from visible faults, run all feature-only canaries, and compare to a same-v3 holdout baseline with a paired confidence interval.</li><li>Check literal registry thresholds on every pre-placement surface and on final dots; write a GeoTIFF only after local range/grid checks. A separate selector controls any slot.</li></ol>
       <p class="subtle" style="margin-top:14px">The witness leaves {audit['budget_feasibility']['uncovered_allowed_pixels']:,} allowed pixels outside its 3-pixel halo. At most {audit['budget_feasibility']['max_dots_for_possible_70pct_pass']:,} distinct dots could possibly meet the 70% rule against this one witness; this necessary bound is not a quality or uniqueness guarantee.</p>
       <div class="actions"><a class="button secondary" href="next-hypotheses.html">Read future hypotheses</a><a class="button secondary" href="research-sources.html">View research source register</a></div></section>
-    <section class="panel"><p class="eyebrow">07 / New unique candidate generated this session</p><h2>apartgems1-stepover-relay-dots-20261031 — blocked, do not submit</h2>
-      <p><strong>What it is.</strong> 2,767 dots placed at the midpoints of qualifying step-over / relay-ramp gaps between en-echelon mapped fault segments — a geometry-only, catalogue-missing-fault hypothesis (dilatational upflow zones the USGS / INGENIOUS catalogue may not contain). Generated deterministically from the pinned bridge grid; no organizer data, no feature cache, no leakage.</p>
+    <section class="panel"><p class="eyebrow">07 / Existing geometry-only candidate — duplicate stop</p><h2>apartgems1-stepover-relay-dots-20261031 — blocked, do not submit</h2>
+      <p><strong>What it is.</strong> 2,767 dots placed at midpoints of qualifying step-over / relay-ramp gaps between en-echelon mapped fault segments — a geometry-only hypothesis about catalogue-missing faults. This artifact came from a prior branch/session; it was not generated in this review. No organizer-origin training labels were available for its generation.</p>
       <p><strong>File to download:</strong> <code>apartgems1-stepover-relay-dots-20261031.tif</code> · SHA-256 <code>{new_digest}</code> · 2,767 dots · value 1.0 at dots, 0.0 elsewhere, float32, all finite, in [0,1].</p>
       <div class="actions"><a class="button secondary" href="downloads/apartgems1-stepover-relay-dots-20261031.tif" download>Download GeoTIFF · blocked · research only</a><a class="button secondary" href="../evidence/apartgems1-stepover-relay-dots-20261031-run-card.json">View run card (JSON)</a><a class="button secondary" href="../evidence/apartgems1-stepover-relay-dots-20261031-lattice-witness-audit.json">View lattice-witness audit (JSON)</a></div>
       <table>
@@ -203,7 +222,8 @@ def main() -> int:
         <tbody>
         <tr><td>Format and range (local preflight)</td><td><span class="tag ok">PASS</span></td><td>All checks passed; not organizer acceptance.</td></tr>
         <tr><td>Uniqueness vs pinned lattice witness</td><td><span class="tag stop">FAIL · duplicate</span></td><td>{new_overlap * 100:.2f}% of dots within 3 px (limit 70%); Spearman &rho; = {new_card['rho_vs_witness']:.6f} (limit 0.90). Protocol stop.</td></tr>
-        <tr><td>Holdout (catalogue proxy)</td><td><span class="tag warn">MEASURED</span></td><td>HOLDOUT-DTI {new_card['holdout_dti']:.3f} [{new_card['holdout_ci95'][0]:.3f}, {new_card['holdout_ci95'][1]:.3f}], {new_card['holdout_withheld_positives']:,} withheld positives, 95% CI; not a leaderboard estimate.</td></tr>
+        <tr><td>Published outside-bounds rule</td><td><span class="tag stop">MISMATCH</span></td><td>Candidate writes zeros outside the footprint; the official problem-page text says null/NaN. Portal acceptance is untested.</td></tr>
+        <tr><td>Holdout (catalogue proxy)</td><td><span class="tag warn">MEASURED REPLAY</span></td><td>HOLDOUT-DTI {new_card['holdout_dti']:.4f} [{new_card['holdout_ci95'][0]:.4f}, {new_card['holdout_ci95'][1]:.4f}], {new_card['holdout_withheld_positives']:,} withheld positives, 95% CI; fixed-mask catalogue-proxy replay, not fold-honest or a leaderboard estimate.</td></tr>
         <tr><td>Verdict</td><td><span class="tag stop">NEGATIVE</span></td><td>Not cleared for upload; research artifact only. No weekly slot used.</td></tr>
         </tbody>
       </table>
@@ -224,9 +244,9 @@ def main() -> int:
     else:
         new_row = ''
     glance = f'''<section class="panel" id="status-table"><p class="eyebrow">Answer first</p><h2>Can I download and submit a file today?</h2>
-      <p class="lead"><strong>No.</strong> No file in this repository is cleared for upload. A unique candidate was generated this session (step-over / relay-ramp dots between en-echelon mapped segments) but it fails the literal uniqueness gate against the pinned lattice witness and is stopped per protocol. Nothing here is a leaderboard estimate.</p>
+      <p class="lead"><strong>No.</strong> No file in this repository is cleared for upload. A step-over/relay-ramp candidate from a prior branch is present as research evidence, but fails the literal uniqueness stop. Its catalogue-proxy HOLDOUT-DTI is not a leaderboard estimate.</p>
       <div class="table-wrap"><table><thead><tr><th scope="col">File to download</th><th scope="col">Estimated leaderboard score</th><th scope="col">Unique vs the GEMSDOE sites?</th><th scope="col">OK to download and submit?</th></tr></thead><tbody>
-      <tr><td><strong>None cleared.</strong><br><small>Research-only prior file: <code>{esc(file_name)}</code></small></td><td>Not estimable. No v3 holdout score exists for any candidate.</td><td><span class="tag stop">NO</span> {overlap:.2f}% of dots lie within 3 px of a registered lattice (limit 70%).</td><td><span class="tag stop">NO · do not submit</span></td></tr>
+      <tr><td><strong>None cleared.</strong><br><small>Prior MAW-GSI and the blocked step-over artifact are research-only.</small></td><td>No leaderboard estimate. The step-over artifact has a fixed-mask catalogue-proxy HOLDOUT-DTI, not a fold-honest model score.</td><td><span class="tag stop">NO</span> Both listed artifacts exceed the 70% dot-overlap stop.</td><td><span class="tag stop">NO · do not submit</span></td></tr>
       <tr><td>Nine focus-site TIFFs<br><small>GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, 36 · see section 02</small></td><td>Not estimable. User-reported claims range {claim_lo:.4f} to {claim_hi:.4f}, unconfirmed.</td><td><span class="tag stop">NO</span> Each file's nearest focus-nine neighbour overlaps at {near_lo:.1f}% to {near_hi:.1f}% (directed, within 3 px).</td><td><span class="tag stop">NO · do not submit</span></td></tr>
       {new_row}
       </tbody></table></div>
@@ -295,7 +315,9 @@ def main() -> int:
     (ROOT/'index.html').write_text('''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0; url=docs/index.html"><title>GEMS Field Notes</title></head><body><p><strong>DO NOT SUBMIT:</strong> the prior file failed the literal uniqueness gate. <a href="docs/index.html">Open the project dashboard</a>.</p></body></html>\n''')
     readme = f'''# ApartGEMSDOE1 · Geothermal fault discovery
 
-> **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF passes the local finite/range/grid preflight against owner-mirror files, but its zero-outside policy conflicts with the official null/NaN requirement and {overlap:.2f}% of its dots overlap a registered lattice within three pixels, exceeding the 70% internal protocol limit. The surface gate is unverified. No new submission-candidate GeoTIFF or competition submission was made; disposable format-test files were not candidates. Archived H-APART-6 v2 experiments predated discovery of the witness.
+> **STOP — NO FILE IS READY TO SUBMIT.** The archived MAW-GSI TIFF passes local range/grid checks but writes zeros outside the footprint despite the official null/NaN instruction; {overlap:.2f}% of its dots also fall within 3 px of the pinned witness (70% limit). No file is cleared to submit; no competition upload or slot was used. The surface gate and complete registry remain unavailable. Archived H-APART-6 v2 experiments predated the witness.
+>
+{candidate_summary}
 >
 > [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card_2026-10-31.json) · [Prior run card](evidence/run_card.json) · [Official rule excerpts](evidence/official_rules_check.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Latest repository review 2026-10-31](evidence/repository_review_2026-10-31.md) · [Review history](evidence/review_passes.md) · [Overlap and metric verification 2026-10-30](evidence/repo_review_2026-10-30_overlap.md)
 >
@@ -305,7 +327,7 @@ def main() -> int:
 
 **Objective.** Build an evidence-led, original fault-prediction GeoTIFF for geothermal exploration, and say plainly whether any file is safe to download or submit. The nine focus sites are GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, and 36. Their historical scores are user-reported claims, not submission receipts; the reported GEMSDOE32 value 0.2778 is not explained by geometry alone. Its support matches GEMSDOE25 after a two-pixel catalogue collar is removed, which suggests—but does not prove—a redundancy-pruning mechanism under max-kernel DTI. Do not turn this into a causal claim, score estimate, or promotion without hidden-label evidence.
 
-**Current lane status — stop.** The “single method” paragraph in the supplied request was not unambiguously identified. Repo context records an inherited H-APART-6 OTSP lane, three archived v2 experiments, and a later mandatory duplicate stop. The existing candidate overlaps one pinned lattice witness by 37,533/37,654 dots (99.6787%, over the 70% limit); the pre-placement surface and complete registry are unavailable, and the training-feature cache was absent from the earlier checkout. On 2026-10-31 `python scripts/prepare_data.py --fetch` restored and hash-verified all 19 bands (owner-mirror integrity only). A leakage canary on the v3 folds (`scripts/feature_canary_v3.py`) found no single-band leakage (symmetric AUC 0.505–0.568) and single-band top-K HOLDOUT-DTI ≤0.0122; no model or submission was produced. See [the 2026-10-31 review](evidence/review_2026-10-31.md). Do not choose a replacement method, run experiments, generate a new TIFF, or use a slot until a new lane is explicitly assigned and its prerequisites are met. See the [ranked future hypotheses](evidence/next_hypotheses.md) for design candidates, not permission to run them.
+**Current lane status — stop.** The “single method” paragraph in the supplied request was not unambiguously identified. Repo context records an inherited H-APART-6 OTSP lane, three archived v2 experiments, and a later mandatory duplicate stop. The inherited MAW-GSI candidate overlaps one pinned lattice witness by 37,533/37,654 dots (99.6787%, over the 70% limit); its pre-placement surface and a complete registry are unavailable. On 2026-10-31 the feature cache was restored from owner mirrors and a single-band leakage canary found no AUC above 0.90; this did not test a multi-feature model. A separate step-over/relay-ramp TIFF exists from a prior branch, but 2,765/2,767 dots overlap the same witness within 3 px (99.9277%); it is research-only and not safe to submit. Its fixed-mask catalogue-proxy HOLDOUT-DTI is 0.0599 [0.0514, 0.0687] (`gems57-pooled-hide-v3`, 11,360 withheld positives, 95% CI), not fold-honest and not a leaderboard estimate. See the [candidate run card](evidence/apartgems1-stepover-relay-dots-20261031-run-card.json) and [witness audit](evidence/apartgems1-stepover-relay-dots-20261031-lattice-witness-audit.json). Do not choose a replacement method, run experiments, generate a new TIFF, or use a slot until a new lane is explicitly assigned and its prerequisites are met. See the [ranked future hypotheses](evidence/next_hypotheses.md) for design candidates, not permission to run them.
 
 ### Mandatory gates
 

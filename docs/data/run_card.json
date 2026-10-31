@@ -1,6 +1,6 @@
 {
   "protocol": "GEMS Parallel-Run Protocol; review-only, no experiment",
-  "generated_utc": "2026-10-31T04:47:49Z",
+  "generated_utc": "2026-10-31T05:03:55Z",
   "branch": "arena/056c9d8d-apartgemsdoe1",
   "hypothesis": {
     "status": "NOT TESTED",
@@ -66,5 +66,60 @@
     "ok_to_download_and_submit": false
   },
   "verdict": "negative",
-  "reason": "No candidate was generated or promoted. The inherited candidate fails the literal 3-pixel overlap limit; the full registry, original pre-placement surface, v3 model holdout, and portal acceptance remain unverified."
+  "reason": "No candidate was generated or promoted. The inherited candidate fails the literal 3-pixel overlap limit; the full registry, original pre-placement surface, v3 model holdout, and portal acceptance remain unverified.",
+  "additional_repository_candidate_review": {
+    "provenance": "Existing artifact merged to origin/main in PR #43 before this branch follow-up; not generated or promoted in this review.",
+    "source_pr": "https://github.com/apartanish22-droid/ApartGEMSDOE1/pull/43",
+    "file": "docs/downloads/apartgems1-stepover-relay-dots-20261031.tif",
+    "sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+    "submission_name": "apartgems1-stepover-relay-dots-20261031",
+    "submission_note": "Step-over/relay-ramp dots between en-echelon mapped segments; unique off-catalogue geometry; not selector-approved - do not submit",
+    "submission_note_chars": 130,
+    "format_validation": {
+      "format_only_pass": true,
+      "dtype": "float32",
+      "bands": 1,
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform_matches_sample": true,
+      "range": [
+        0.0,
+        1.0
+      ],
+      "outside_footprint_values": "zero; conflicts with official null/NaN instruction",
+      "full_preflight_ok_to_submit": false,
+      "organizer_acceptance_tested": false
+    },
+    "registry_comparison": {
+      "evidence_class": "REGISTRY-MEASUREMENT; one pinned witness plus focus-site evidence, not a complete registry",
+      "candidate_dots": 2767,
+      "dots_within_3px_of_witness": 2765,
+      "forward_overlap_3px": 0.9992771955186122,
+      "overlap_stop_threshold": 0.7,
+      "spearman_full_footprint": 0.0004784387586015276,
+      "rank_correlation_stop_threshold": 0.9,
+      "pre_placement_surface_tested": false,
+      "complete_registry_checked": false,
+      "duplicate": true,
+      "verdict": "STOP; do not submit"
+    },
+    "holdout_dti": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v3",
+      "dti": 0.05989416791352869,
+      "ci95": [
+        0.051412300099158474,
+        0.06867429242390286
+      ],
+      "withheld_positive_pixels": 11360,
+      "scope": "Fixed-mask replay on label-blind buffered-component folds; catalogue-proxy truth; features not rebuilt per fold; not fold-honest and not a leaderboard estimate."
+    },
+    "approved_for_weekly_slot": false,
+    "organizer_receipt": false,
+    "ok_to_download_and_submit": false,
+    "verdict": "negative"
+  }
 }

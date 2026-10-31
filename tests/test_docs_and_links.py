@@ -47,6 +47,11 @@ def test_html_pages_are_negative_have_local_links_and_no_localhost():
     assert '0.2778' in index and 'user-reported; unconfirmed' in index
     assert 'Latest negative run card · 2026-10-31' in index
     assert 'Latest repository review · 2026-10-31' in index
+    assert 'apartgems1-stepover-relay-dots-20261031.tif' in index
+    assert 'Existing geometry-only candidate — duplicate stop' in index
+    assert 'New unique candidate generated this session' not in index
+    assert '99.93%' in index and 'fixed-mask catalogue-proxy' in index
+    assert 'do not submit' in index.lower() and 'null/NaN' in index
     assert 'Highest reported claim in this nine-site set: GEMSDOE32 · 0.2778' in index
     assert 'Unique among focus nine? (closest peer)' in index
     assert 'Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test' in index
@@ -105,6 +110,10 @@ def test_readme_standing_protocol_and_links():
     assert 'Unique among focus nine? (closest peer)' in text
     assert 'Prior candidate overlap (diagnostic)' in text
     assert 'GEMSDOE32' in text and '0.2778' in text and 'no linked organizer receipt' in text
+    assert 'apartgems1-stepover-relay-dots-20261031.tif' in text
+    assert '2,765/2,767' in text and '99.93%' in text
+    assert 'not fold-honest and not a leaderboard estimate' in text
+    assert 'does not demonstrate an improvement over the unverified 0.2778 claim' in text
     assert 'The highest reported claim among these nine is **GEMSDOE32 · 0.2778**' in text
     assert 'HOLDOUT-DTI' in text and '11,360' in text and '95% CI' in text
     for m in re.finditer(r'\]\(([^)]+)\)', text):
@@ -120,6 +129,10 @@ def test_public_run_card_mirrors_match_canonical_evidence():
     assert card['verdict'] == 'negative'
     assert card['branch'].startswith('arena/')
     assert card['hypothesis']['status'] == 'NOT TESTED'
+    other = card['additional_repository_candidate_review']
+    assert other['verdict'] == 'negative' and other['ok_to_download_and_submit'] is False
+    assert other['registry_comparison']['forward_overlap_3px'] > .70
+    assert other['holdout_dti']['evidence_class'] == 'HOLDOUT-DTI'
     assert json.loads((ROOT / 'evidence/run_card.json').read_text())['verdict'] == 'negative'
     for name in ('run_card.json', 'current-run-card.json', 'run_card_2026-10-31.json'):
         assert (ROOT / 'docs/data' / name).read_bytes() == canonical
@@ -158,7 +171,12 @@ def test_regenerators_and_preflight_cannot_promote(tmp_path):
     builder = subprocess.run([sys.executable, str(ROOT / 'scripts/build_pages_and_readme.py')],
                              cwd=ROOT, capture_output=True, text=True)
     assert builder.returncode == 0, builder.stderr
-    assert 'No file is ready to submit' in (ROOT / 'docs/index.html').read_text()
+    generated_index = (ROOT / 'docs/index.html').read_text()
+    assert 'No file is ready to submit' in generated_index
+    assert '99.93%' in generated_index and 'research only' in generated_index.lower()
+    generated_readme = (ROOT / 'README.md').read_text()
+    assert 'apartgems1-stepover-relay-dots-20261031.tif' in generated_readme
+    assert 'not safe to submit' in generated_readme.lower()
     current_card = (ROOT / 'evidence/run_card_2026-10-31.json').read_bytes()
     for name in ('run_card_2026-10-31.json', 'run_card.json', 'current-run-card.json'):
         assert (ROOT / 'docs/data' / name).read_bytes() == current_card
