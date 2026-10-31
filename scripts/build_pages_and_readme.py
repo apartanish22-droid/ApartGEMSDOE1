@@ -232,6 +232,10 @@ def main() -> int:
     DOCS.mkdir(exist_ok=True)
     (DOCS/'data').mkdir(exist_ok=True)
     shutil.copyfile(ROOT/'evidence/official_rules_check.json', DOCS/'data/official_rules_check.json')
+    # Keep both public run-card URLs byte-for-byte synchronized with the
+    # canonical evidence record rather than allowing stale hand-copied JSON.
+    for run_card_name in ('run_card.json', 'current-run-card.json'):
+        shutil.copyfile(ROOT/'evidence/run_card.json', DOCS/'data'/run_card_name)
     (DOCS/'index.html').write_text(page('Overview', 'overview', index), encoding='utf-8')
     (DOCS/'executive-summary.html').write_text(page('Submission guide', 'guide', guide), encoding='utf-8')
     for name in ('research_sources.md', 'next_hypotheses.md'):
@@ -247,7 +251,7 @@ def main() -> int:
 
 > **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF passes the local finite/range/grid preflight against owner-mirror files, but its zero-outside policy conflicts with the official null/NaN requirement and {overlap:.2f}% of its dots overlap a registered lattice within three pixels, exceeding the 70% internal protocol limit. The surface gate is unverified. No new submission-candidate GeoTIFF or competition submission was made; disposable format-test files were not candidates. Archived H-APART-6 v2 experiments predated discovery of the witness.
 >
-> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Official rule excerpts](evidence/official_rules_check.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Prior three-pass review](evidence/review_passes.md) · [2026-10-30 repo review](evidence/repository_review_2026-10-30.md) · [Overlap and metric verification 2026-10-30](evidence/repo_review_2026-10-30_overlap.md)
+> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Official rule excerpts](evidence/official_rules_check.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Prior three-pass review](evidence/review_passes.md) · [2026-10-31 repo review](evidence/repository_review_2026-10-31.md) · [Overlap and metric verification 2026-10-30](evidence/repo_review_2026-10-30_overlap.md)
 >
 > [Download the **prior TIFF for research only — do not submit**](docs/downloads/{file_name}) · SHA-256 `{digest}`
 
