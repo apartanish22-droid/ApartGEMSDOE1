@@ -1,7 +1,7 @@
 {
   "record": "Official rule and metric excerpts used by this repository",
-  "checked_utc": "2026-10-30",
-  "verification_method": "fetch_page tool read of the official pages listed below; excerpts copied verbatim from the returned text. The sandbox network allowlist does not include drivendata.org or docs.nlr.gov, so these excerpts were not re-fetched by a repository script.",
+  "checked_utc": "2026-10-31",
+  "verification_method": "Problem/rules excerpts were previously read with fetch_page on 2026-10-30. The official leaderboard was directly re-read with fetch_page on 2026-10-31. These are source-page observations, not organizer submission receipts; the sandbox repository-script allowlist does not include drivendata.org or docs.nlr.gov.",
   "evidence_class": "OFFICIAL RULES / PUBLIC PAGE TEXT; NOT A SUBMISSION RECEIPT",
   "claims": [
     {
@@ -83,19 +83,21 @@
     "notebook_cell_19_excerpt": "new_dataset = rasterio.open(fname_out, \"w\", driver=\"GTiff\", height=y_final.shape[0], width=y_final.shape[1], count=1, dtype=y_final.dtype, crs=fault_dataset.crs, transform=fault_dataset.transform)"
   },
   "leaderboard_observed": {
-    "observed_utc": "2026-10-30",
-    "method": "fetch_page tool read of the public leaderboard page (first chunk; ranks 1-22 with scores visible; rank 23 truncated in the read)",
+    "observed_utc": "2026-10-31",
+    "method": "fetch_page direct read of the official public leaderboard; first page, observed 2026-10-31 UTC; not the scheduled feed",
     "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
     "top_public_dti": 0.4544,
-    "note": "Direct read by the fetch tool. It is NOT the scheduled feed. On 2026-10-30 the scheduled script (scripts/update_public_feed.py) failed with a TLS EOF, and docs/data/public_feed.json now reads status=unavailable. Do not treat 0.4544 as the feed's value; it is a dated, sourced observation.",
-    "rows_1_to_22_range": [
-      0.4544,
-      0.3334
-    ]
+    "note": "Direct official page read on 2026-10-31 showed rank 1 xiaofanhu at 0.4544. This is NOT the scheduled feed, a file receipt, hidden-test score, or future estimate. The scheduled refresh failure occurred separately on 2026-10-30 and the feed remains unavailable.",
+    "top_participant": "xiaofanhu",
+    "top_rank": 1,
+    "prior_observation_2026-10-30": {
+      "top_public_dti": 0.4544,
+      "note": "Historical direct observation from 2026-10-30; retained to document previous comparison only."
+    }
   },
   "user_claims_not_on_leaderboard": {
-    "0.4413": "User prompt calls 0.4413 the current GEMSDOE leaderboard high. The official top is 0.4544. 0.4413 does not appear in ranks 1-22 read here.",
-    "0.3195": "User prompt calls 0.3195 the highest score right now. Ranks 1-22 already run from 0.4544 down to 0.3334, so 0.3195 is not the top of the public board."
+    "0.4413": "User prompt calls 0.4413 the current GEMSDOE leaderboard high. It did not appear among ranks 1-22 in the direct leaderboard read on 2026-10-30; the separately re-read page on 2026-10-31 showed rank 1 at 0.4544.",
+    "0.3195": "User prompt calls 0.3195 the highest score right now. It was below all ranks 1-22 in the 2026-10-30 direct read; the separately re-read page on 2026-10-31 showed rank 1 at 0.4544."
   },
   "gaps_not_verified": [
     "Whether the portal accepts NaN outside the footprint versus zeros outside the footprint. The rule text supports NaN; portal behaviour was not tested.",

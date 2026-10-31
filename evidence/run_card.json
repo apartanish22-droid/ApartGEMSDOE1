@@ -1,6 +1,6 @@
 {
   "protocol": "GEMS Parallel-Run Protocol; literal uniqueness stop",
-  "branch": "arena/90d7c5d0-apartgemsdoe1",
+  "branch": "arena/cd4f4205-apartgemsdoe1",
   "generated_utc": "2026-10-30T02:07:33.972862+00:00",
   "hypothesis": "H-APART-2 / MAW-GSI (inherited prior lane): multi-azimuth terrain, potential-field and geothermal structural intersections may indicate unmapped fault traces.",
   "mechanism": "Hypothesis, not a demonstrated discovery: aligned topographic lineaments and potential-field changes near possible structural intersections could indicate concealed faults; sparse allocation attempts to reduce redundant kernel coverage.",
@@ -115,19 +115,20 @@
   "experiments_started_this_session": 0,
   "submission_slots_used_this_session": 0,
   "verdict": "negative",
-  "reason": "Re-audited 2026-10-30: literal 3px overlap exceeds 70%; stop. Incomplete registry, no v3 model holdout, no selector approval, and no organizer receipt. Local format PASS is not submission clearance.",
+  "reason": "Reviewed 2026-10-31: literal 3px overlap exceeds 70%; stop. Incomplete registry, no v3 model holdout, no selector approval, and no organizer receipt. Local format PASS is not submission clearance.",
   "current_review": {
-    "review_date_utc": "2026-10-30",
+    "review_date_utc": "2026-10-31",
     "focus_nine_files_refetched_and_hashed": 9,
     "focus_nine_errors": [],
     "official_public_leaderboard_observation": {
-      "date_utc": "2026-10-30",
+      "date_utc": "2026-10-31",
       "rank": 1,
+      "participant": "xiaofanhu",
       "team_level_dti": 0.4544,
       "evidence_class": "Official public standings; not a file receipt or future estimate.",
-      "method": "fetch_page direct read of the official public leaderboard; not the scheduled feed",
+      "method": "fetch_page direct read of the official public leaderboard; first page",
       "scheduled_feed_status": "unavailable",
-      "scheduled_feed_failure": "TLS/SSL EOF recorded in docs/data/public_feed.json",
+      "scheduled_feed_failure": "TLS/SSL EOF recorded in docs/data/public_feed.json on 2026-10-30; no successful scheduled refresh is recorded",
       "is_feed_value": false,
       "is_file_receipt": false
     },

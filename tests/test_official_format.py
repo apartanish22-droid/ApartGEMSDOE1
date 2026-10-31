@@ -71,8 +71,8 @@ def test_gated_writer_still_refuses_nan_so_policy_is_not_silently_changed(tmp_pa
 
 def test_official_rules_record_contains_verified_quotes_and_sources():
     rec = json.loads((ROOT / 'evidence/official_rules_check.json').read_text())
-    assert rec['verification_method'].startswith('fetch_page tool')
-    assert rec['checked_utc'].startswith('2026-10-30')
+    assert 'fetch_page' in rec['verification_method'] and '2026-10-31' in rec['verification_method']
+    assert rec['checked_utc'].startswith('2026-10-31')
     quotes = ' '.join(c['quote'] for c in rec['claims'])
     assert 'data outside the bounds is null or nan' in quotes
     assert 'values between 0 and 1' in quotes
@@ -89,7 +89,7 @@ def test_official_rules_record_contains_verified_quotes_and_sources():
     else:
         assert 'NOT A SUBMISSION RECEIPT' in feed['evidence_class']
     guide = (ROOT / 'docs/executive-summary.html').read_text().lower()
-    assert 'direct read' in guide and 'scheduled feed script returned unavailable' in guide
+    assert 'direct read' in guide and 'scheduled feed separately remains unavailable' in guide
     assert 'team-level public standing' in guide and 'not a score receipt for any file' in guide
     assert feed['status'] == 'unavailable' and feed['top_public_dti'] is None
 

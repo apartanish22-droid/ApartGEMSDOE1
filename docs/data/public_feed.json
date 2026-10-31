@@ -13,6 +13,18 @@
     "top_public_dti": 0.4544,
     "status": "historical scheduled-feed snapshot only; stale as of 2026-10-30"
   },
-  "reason": "The scheduled refresh attempt failed on 2026-10-30 with a TLS/SSL EOF. The separate direct official-page read is documented in evidence/official_rules_check.json; it is not a successful feed refresh.",
-  "caveat": "No current value is published by this feed. The direct public-page observation recorded separately for 2026-10-30 is not a score receipt for any file. Check the official leaderboard for the current standings."
+  "reason": "The scheduled refresh attempt failed on 2026-10-30 with a TLS/SSL EOF. A separate direct official-page observation is recorded for 2026-10-31 below; this is not a successful feed refresh.",
+  "caveat": "The scheduled feed has no current value. The dated direct-page observation is shown separately while fresh, clearly labelled as an official page read and team-level standing, not a score receipt for any file. Check the official leaderboard for current standings.",
+  "direct_page_observation": {
+    "status": "observed",
+    "observed_utc": "2026-10-31",
+    "timestamp_precision": "date",
+    "top_rank": 1,
+    "top_participant": "xiaofanhu",
+    "top_public_dti": 0.4544,
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "method": "Direct fetch_page read of the official leaderboard page on 2026-10-31; not the scheduled feed endpoint.",
+    "evidence_class": "OFFICIAL PUBLIC TEAM-LEVEL STANDING; NOT A SUBMISSION RECEIPT",
+    "caveat": "A dated public leaderboard observation, not a file score, hidden-test score, or prediction of future performance."
+  }
 }

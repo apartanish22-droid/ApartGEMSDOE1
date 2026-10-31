@@ -91,6 +91,7 @@ def main() -> int:
     if focus['prior_candidate_sha256'] != audit['candidate_sha256']:
         raise RuntimeError('Focus audit and literal witness audit refer to different candidates')
     rows = sorted(focus['sites'], key=lambda r: int(r['site'].replace('GEMSDOE', '')))
+    best_reported = max(rows, key=lambda r: r['prompt_reported_claim'])
     table = []
     md_rows = []
     for r in rows:
@@ -155,7 +156,7 @@ def main() -> int:
       <div class="actions"><a class="button secondary" href="{esc(research_path)}" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a><a class="button secondary" href="executive-summary.html#official-rules">Official rule check</a></div>
       <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> {audit['final_dot_gate']['candidate_dots_within_3px']:,} of {audit['final_dot_gate']['candidate_dots']:,} dots lie within three pixels of the <a href="{esc(witness['url'])}">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
     </section>
-    <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest file named for each site in your prompt. Reported values are unconfirmed user claims, not organizer receipts. All estimates for future submissions are unavailable.</p></div></div>
+    <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p><strong>Highest reported claim in this nine-site set: {esc(best_reported['site'])} · {best_reported['prompt_reported_claim']:.4f}.</strong> This is unconfirmed and is not a recommendation to submit. The file is a previously submitted historical artifact, and all future leaderboard estimates are unavailable.</p><p>Highest file named for each site in your prompt. Reported values are unconfirmed user claims, not organizer receipts.</p></div></div>
       <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt claim</th><th scope="col">Future score estimate</th><th scope="col">Unique among focus nine? (closest peer)</th><th scope="col">Overlap with prior candidate (diagnostic)</th><th scope="col">Decision</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
       <p class="subtle" style="margin-top:14px">The focus-nine percentage is directed from each historical file's positive pixels to the 3-pixel halo of its closest peer; all nine exceed the 70% cap (97.5781%–100.0000%). The separate prior-candidate overlap is diagnostic and does not define focus-nine uniqueness. This nine-file audit is not a complete registry; the current candidate also fails against an additional pinned lattice witness.</p>
     </section>
@@ -189,7 +190,7 @@ def main() -> int:
       <tr><td>Nine focus-site TIFFs<br><small>GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, 36 · see section 02</small></td><td>Not estimable. User-reported claims range {claim_lo:.4f} to {claim_hi:.4f}, unconfirmed.</td><td><span class="tag stop">NO</span> Each file's nearest focus-nine neighbour overlaps at {near_lo:.1f}% to {near_hi:.1f}% (directed, within 3 px).</td><td><span class="tag stop">NO · do not submit</span></td></tr>
       <tr><td>A new unique GeoTIFF<br><small>Not generated: see the reasons below.</small></td><td>Not estimable without a holdout run.</td><td>Not checked against a complete registry.</td><td><span class="tag stop">NOT AVAILABLE</span></td></tr>
       </tbody></table></div>
-      <p class="subtle">Official top public DW-Tversky: <strong>{lb_top:.4f}</strong> (direct read of the official page on {esc(lb_date)}; the scheduled feed script returned unavailable the same day, so the feed shows no number). This is a team-level public standing, not a score receipt for any file, not a hidden-test score, and not a future estimate. The prompt's values of 0.4413 and 0.3195 do not match that page.</p></section>
+      <p class="subtle">Official top public DW-Tversky: <strong>{lb_top:.4f}</strong> (direct read of the official page on {esc(lb_date)}; the scheduled feed separately remains unavailable after its 2026-10-30 refresh failure, so the feed shows no number). This is a team-level public standing, not a score receipt for any file, not a hidden-test score, and not a future estimate. The prompt's values of 0.4413 and 0.3195 do not match that page.</p></section>
     <section class="panel" id="official-rules"><p class="eyebrow">Official rule check · verified</p><h2>Does the file match the competition format?</h2>
       <div class="table-wrap"><table><thead><tr><th scope="col">Requirement</th><th scope="col">Official requirement (verbatim quotes in the JSON)</th><th scope="col">Prior file in this repo</th><th scope="col">Match?</th></tr></thead><tbody>
       <tr><td>CRS, resolution, bounds</td><td>EPSG 32611; 100 m; same bounds as the training data</td><td>EPSG:32611; 100 m; 3730 × 3292</td><td><span class="tag ok">YES</span></td></tr>
@@ -247,7 +248,7 @@ def main() -> int:
 
 > **STOP — NO FILE IS READY TO SUBMIT.** The prior MAW-GSI GeoTIFF passes the local finite/range/grid preflight against owner-mirror files, but its zero-outside policy conflicts with the official null/NaN requirement and {overlap:.2f}% of its dots overlap a registered lattice within three pixels, exceeding the 70% internal protocol limit. The surface gate is unverified. No new submission-candidate GeoTIFF or competition submission was made; disposable format-test files were not candidates. Archived H-APART-6 v2 experiments predated discovery of the witness.
 >
-> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Official rule excerpts](evidence/official_rules_check.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Prior three-pass review](evidence/review_passes.md) · [2026-10-30 repo review](evidence/repository_review_2026-10-30.md) · [Overlap and metric verification 2026-10-30](evidence/repo_review_2026-10-30_overlap.md)
+> [Open the dashboard](docs/index.html) · [Executive summary and submission guide](docs/executive-summary.html) · [Current negative run card](evidence/run_card.json) · [Official rule excerpts](evidence/official_rules_check.json) · [Reproducible witness audit](evidence/literal_witness_audit.json) · [Latest repo review 2026-10-31](evidence/repository_review_2026-10-31.md) · [Review history](evidence/review_passes.md) · [Prior overlap/metric verification 2026-10-30](evidence/repo_review_2026-10-30_overlap.md)
 >
 > [Download the **prior TIFF for research only — do not submit**](docs/downloads/{file_name}) · SHA-256 `{digest}`
 
@@ -271,7 +272,7 @@ def main() -> int:
 
 ## Executive summary · nine requested sites
 
-These are the highest historical files **named in the user prompt**, not a complete census. Prompt values are unverified user reports; no submission-page receipts were found. The future leaderboard estimate is unavailable for every row. The focus-nine column reports each file's maximum directed 3-pixel overlap with its closest peer; all nine exceed the 70% cap. The separate prior-candidate overlap is diagnostic only and does not define focus-nine uniqueness. Do not resubmit these historical files as new.
+The highest reported claim among these nine is **{esc(best_reported['site'])} · {best_reported['prompt_reported_claim']:.4f}**, but this is an unverified user report tied to a historical file—not a submission recommendation, organizer receipt, or estimated score. No file is cleared to submit. These are the highest historical files **named in the user prompt**, not a complete census. No submission-page receipts were found. A future leaderboard estimate is unavailable for every row. The focus-nine column reports each file's maximum directed 3-pixel overlap with its closest peer; all nine exceed the 70% cap. The separate prior-candidate overlap is diagnostic only and does not define focus-nine uniqueness. Do not resubmit these historical files as new.
 
 | Site | Historical file (research only) | Method (owner-described) | Prompt claim | Future estimate | Unique among focus nine? (closest peer) | Prior candidate overlap (diagnostic) | Decision |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -279,7 +280,7 @@ These are the highest historical files **named in the user prompt**, not a compl
 
 The re-audit confirms GEMSDOE32 B2's support equals GEMSDOE25's support outside a two-pixel catalogue collar; GEMSDOE25 and GEMSDOE30 have identical footprint values. The user-reported GEMSDOE32 value of 0.2778 has no linked organizer receipt. The official max-kernel DTI makes reduced redundancy a plausible explanation, not proof; hidden labels are unavailable. No result here establishes that a new method will exceed it.
 
-## Official rule check (verified 2026-10-30)
+## Official rule check (verified 2026-10-31)
 
 Quoted excerpts and sources are in [`evidence/official_rules_check.json`](evidence/official_rules_check.json).
 
@@ -288,7 +289,7 @@ Quoted excerpts and sources are in [`evidence/official_rules_check.json`](eviden
 * **Test labels:** same page — the scored faults are new faults "not included in the existing USGS fault database". The repository's holdout uses the existing catalogue, so it is only a proxy.
 * **Limits and originality:** [official rules PDF](https://docs.nlr.gov/docs/fy26osti/96647.pdf) — three submissions per week (§3.2), one final submission (§3.4), originality warranty (A.5 item 1), and a generative-AI disclosure in the narrative (§3.2).
 * **Reference solution:** [drivendataorg/gems-prize-reference-solution](https://github.com/drivendataorg/gems-prize-reference-solution) writes raw float predictions with no NaN step, georeferenced from the labels raster.
-* **Leaderboard:** [official public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) showed a top public DW-Tversky of **0.4544** (direct read on 2026-10-30; the scheduled feed script failed the same day, see `docs/data/public_feed.json`). This is a team-level public standing—not a file receipt, hidden-test score, or future estimate. The prompt's 0.4413 and 0.3195 do not match that page, and the prompt's site claims (0.2449–0.2778) are unconfirmed.
+* **Leaderboard:** [official public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) showed rank 1 at **0.4544** for xiaofanhu (direct page read on 2026-10-31; the scheduled feed remains unavailable, see `docs/data/public_feed.json`). This is a team-level public standing—not a file receipt, hidden-test score, or future estimate. The prompt's 0.4413 and 0.3195 do not match this dated observation, and the prompt's site claims (0.2449–0.2778) are unconfirmed.
 * **Unresolved:** whether the portal accepts NaN outside the footprint, and which file produced the reported "Predicted values must be in range [0, 1]" error. A NaN-outside variant with identical in-footprint values reproduces the sample template's NaN mask exactly (verified locally, not uploaded).
 
 ## Current result and limitations
