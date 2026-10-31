@@ -121,10 +121,16 @@ def test_all_evidence_json_strict_and_unsafe_receipts_not_promoted():
 
 
 def test_regenerators_and_preflight_cannot_promote(tmp_path):
+    # The old negative-state builder is retired: it must refuse to run and must not overwrite the hub.
     builder = subprocess.run([sys.executable, str(ROOT / 'scripts/build_pages_and_readme.py')],
                              cwd=ROOT, capture_output=True, text=True)
-    assert builder.returncode == 0, builder.stderr
-    assert 'No file is ready to submit' in (ROOT / 'docs/index.html').read_text()
+    assert builder.returncode != 0 and 'retired' in builder.stderr
+    # The published hub must state the verdict from the evidence (no file is cleared).
+    card = json.loads((ROOT / 'evidence/candidate_selection.json').read_text())
+    hub = (ROOT / 'docs/executive-summary.html').read_text()
+    if not card['cleared']:
+        assert 'NOT CLEARED' in hub and 'not published' in hub
+        assert not any(p.name == card['file'] for p in (ROOT / 'docs/downloads').iterdir())
     figures = subprocess.run([sys.executable, str(ROOT / 'scripts/generate_figures.py')], capture_output=True, text=True)
     assert figures.returncode != 0 and 'stopped' in figures.stderr.lower()
     assert not (ROOT / 'src/apartgems/uniqueness.py').exists()

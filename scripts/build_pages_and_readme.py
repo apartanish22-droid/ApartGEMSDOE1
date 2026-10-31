@@ -81,6 +81,10 @@ def render_research_markdown(markdown: str) -> str:
 
 
 def main() -> int:
+    # RETIRED 2026-10-31. This builder overwrote README and docs/ with the old negative state.
+    # Its page helpers (page/header/esc) are still imported by scripts/build_submission_hub.py.
+    # Use scripts/build_submission_hub.py. Re-enable only by deleting this guard after review.
+    raise SystemExit('build_pages_and_readme.py is retired (2026-10-31); use scripts/build_submission_hub.py')
     card = json.loads((ROOT / 'evidence/run_card.json').read_text())
     audit = json.loads((ROOT / 'evidence/literal_witness_audit.json').read_text())
     focus = json.loads((ROOT / 'evidence/focus9_reaudit.json').read_text())

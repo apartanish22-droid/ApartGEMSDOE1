@@ -4,137 +4,25 @@
 <body><header class="site-header"><div class="header-inner">
       <a class="brand" href="index.html"><span class="brand-mark">G</span><span>GEMS / Field Notes<small>ApartGEMSDOE1 research</small></span></a>
       <nav aria-label="Primary"><a href="index.html" aria-current="page">Overview</a><a href="index.html#sites">Nine-site review</a><a href="executive-summary.html">Submission guide</a><a href="research-sources.html">Sources</a></nav>
-    </div></header><main class="shell"><section class="hero">
-      <div><p class="eyebrow">Research operations / Geothermal fault discovery</p>
-        <h1>A clear decision before a submission.</h1>
-        <p class="lead">An auditable review of the nine requested GEMSDOE sites, the competition metric, and our latest candidate. No leaderboard score is forecast from a local holdout.</p>
-        <div class="actions"><a class="button primary" href="executive-summary.html">Read submission guide →</a><a class="button secondary" href="#sites">Compare the nine sites</a></div>
-      </div>
-      <aside class="status-card" aria-label="Current release decision"><span class="status-label"><span class="status-dot"></span> Mandatory stop</span>
-        <strong>No file is ready to submit.</strong><p>The existing candidate fails the literal registry overlap rule. No new prediction candidate was generated and no competition slot was used. Archived H-APART-6 v2 experiments predated discovery of the witness.</p></aside>
-    </section>
-    <div class="metric-grid" aria-label="Release gates">
-      <div class="metric"><span class="label">Format · local policy</span><strong class="success-text">PASS</strong><small>Single band; float32; [0,1]; zeros outside footprint. Official rule: null/NaN outside bounds, so this file does NOT match the rule.</small></div>
-      <div class="metric"><span class="label">Literal uniqueness</span><strong class="danger-text">FAIL · 99.68%</strong><small>Forward 3-pixel overlap; limit 70%.</small></div>
-      <div class="metric"><span class="label">Current holdout</span><strong>Not run</strong><small>v3 proxy score unavailable after stop.</small></div>
-      <div class="metric"><span class="label">Weekly slot</span><strong>Not selected</strong><small>Separate selector approval required.</small></div>
-    </div>
-    <section class="panel" id="decision"><div class="section-heading"><div><p class="eyebrow">01 / Executive decision</p><h2>What can I download?</h2></div></div>
-      <p><strong>No competition-ready file is available.</strong> The previous MAW-GSI TIFF remains accessible only to reproduce the negative audit. Do not upload it or any already-submitted historical file as a new entry.</p>
-      <p class="subtle"><strong>Audit-only file:</strong> <code>apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif</code> · SHA-256 <code>09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f</code></p>
-      <div class="actions"><a class="button secondary" href="downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif" download>Download prior TIFF · research only</a><a class="button secondary" href="data/literal_witness_audit.json">View audit evidence</a><a class="button secondary" href="executive-summary.html#official-rules">Official rule check</a></div>
-      <div class="callout" style="margin-top:20px"><strong>Why stop?</strong> 37,533 of 37,654 dots lie within three pixels of the <a href="https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif">registered 13GEMSDOE lattice</a>. This is a protocol duplicate, not proof that the two rasters are byte-identical.</div>
-    </section>
-    <section class="panel" id="sites"><div class="section-heading"><div><p class="eyebrow">02 / The focus nine</p><h2>Historical file comparison</h2><p>Highest file named for each site in your prompt. Reported values are unconfirmed user claims, not organizer receipts. All estimates for future submissions are unavailable.</p></div></div>
-      <div class="table-wrap"><table><thead><tr><th scope="col">Site</th><th scope="col">Historical TIFF · research only</th><th scope="col">Method · owner-described</th><th scope="col">Prompt claim</th><th scope="col">Future score estimate</th><th scope="col">Unique among focus nine? (closest peer)</th><th scope="col">Overlap with prior candidate (diagnostic)</th><th scope="col">Decision</th></tr></thead><tbody><tr>
-          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE24/">GEMSDOE24</a></strong></td>
-          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE24/blob/9e185929eeaa6244f96c3022cf3462faa8ca4de0/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif?raw=1">gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif</a><br><small>Historical file · research only</small></td>
-          <td>Owner-described 1.5-pixel thinning of H19-5 ridges.</td>
-          <td><strong>0.2477</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE25.</small></td>
-          <td>49.94%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
-        </tr><tr>
-          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE25/">GEMSDOE25</a></strong></td>
-          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE25/blob/fb1db37274776a29dbc48abe55b2e531f2ba6aad/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif?raw=1">gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</a><br><small>Historical file · research only</small></td>
-          <td>Owner-described 2.8-pixel thinning of H19-5 ridges.</td>
-          <td><strong>0.2600</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>48.56%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
-        </tr><tr>
-          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE27/">GEMSDOE27</a></strong></td>
-          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE27/blob/6704fa2a5133e751df2516feb2e32565ad5fc1df/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif?raw=1">gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif</a><br><small>Historical file · research only</small></td>
-          <td>Owner-described topographic gap closure added to a D1.5 dotted map.</td>
-          <td><strong>0.2449</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>98.02% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>50.85%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
-        </tr><tr>
-          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE28/">GEMSDOE28</a></strong></td>
-          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE28/blob/9509b73eaf35f66d0b23fce63b2540ceff2a88e0/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif?raw=1">gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif</a><br><small>Historical file · research only</small></td>
-          <td>Owner-described one-pixel collar prune plus blind step-over rungs on D2.8.</td>
-          <td><strong>0.2710</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>47.36%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
-        </tr><tr>
-          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE30/">GEMSDOE30</a></strong></td>
-          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE30/blob/31696c6541cfc54620ff850a748c51625461f27f/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif?raw=1">gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif</a><br><small>Historical file · research only</small></td>
-          <td>Owner-described D2.8 Poisson-disk baseline; footprint values equal GEMSDOE25.</td>
-          <td><strong>0.2600</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>48.56%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
-        </tr><tr>
-          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE31/">GEMSDOE31</a></strong></td>
-          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE31/blob/06930b9d03473a9313094a4f2312c4fc6efd4fbb/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif?raw=1">gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif</a><br><small>Historical file · research only</small></td>
-          <td>Owner-described solo / one-pixel catalogue-collar pruning on D2.8.</td>
-          <td><strong>0.2708</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>47.88%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
-        </tr><tr>
-          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/">GEMSDOE32</a></strong></td>
-          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/97597a066d1c61d2c226fdba349716f41b30c1c6/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif?raw=1">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a><br><small>Historical file · research only</small></td>
-          <td>D2.8 set minus points at distance ≤2 pixels from mapped catalogue (verified support identity).</td>
-          <td><strong>0.2778</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>100.00% of this file's positive pixels are within 3 px of GEMSDOE24.</small></td>
-          <td>46.71%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
-        </tr><tr>
-          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE33/">GEMSDOE33</a></strong></td>
-          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE33/blob/3eaf85efb49f364b84f8be04e8b084b12d0303b9/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif?raw=1">GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif</a><br><small>Historical file · research only</small></td>
-          <td>Owner-described analog fault-tip and step-over additions on D2.8.</td>
-          <td><strong>0.2632</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>99.71% of this file's positive pixels are within 3 px of GEMSDOE27.</small></td>
-          <td>48.36%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
-        </tr><tr>
-          <td><strong><a href="https://buffedlizard55-lab.github.io/GEMSDOE36/">GEMSDOE36</a></strong></td>
-          <td><a class="file" href="https://github.com/buffedlizard55-lab/GEMSDOE36/blob/e280188adbbe762e6b7ac6f3b8e105e8e7915026/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif?raw=1">gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif</a><br><small>Historical file · research only</small></td>
-          <td>Owner-described Andersonian geothermal PINN additions to the B2 base.</td>
-          <td><strong>0.2750</strong><br><small>user-reported; unconfirmed</small></td>
-          <td>Unavailable</td>
-          <td><span class="tag stop">NO · focus-nine overlap exceeds 70%</span><br><small>97.58% of this file's positive pixels are within 3 px of GEMSDOE27.</small></td>
-          <td>47.41%<br><small>Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test.</small></td>
-          <td><span class="tag stop">DO NOT RESUBMIT</span></td>
-        </tr></tbody></table></div>
-      <p class="subtle" style="margin-top:14px">The focus-nine percentage is directed from each historical file's positive pixels to the 3-pixel halo of its closest peer; all nine exceed the 70% cap (97.5781%–100.0000%). The separate prior-candidate overlap is diagnostic and does not define focus-nine uniqueness. This nine-file audit is not a complete registry; the current candidate also fails against an additional pinned lattice witness.</p>
-    </section>
-    <div class="two-col"><section class="panel"><p class="eyebrow">03 / Mechanism, not proof</p><h2>Why did GEMSDOE32 stand out?</h2>
-      <p>The user reports <strong>0.2778</strong> for B2, but no submission-page receipt is present. Our pixel audit shows B2's dots equal the GEMSDOE25 dot set after removing points within two pixels of the mapped-fault catalogue.</p>
-      <p>The official metric credits each truth pixel by its best nearby prediction. Pruning redundant dots <em>may</em> reduce false-positive mass while retaining that credit, but it can also lose useful coverage. Hidden labels prevent a causal conclusion or a justified claim of improvement.</p>
-      <p class="subtle">GEMSDOE25 and GEMSDOE30 also have identical footprint values despite different file encodings. <a href="data/focus9_reaudit.json">Inspect the pixel audit →</a></p></section>
-    <section class="panel"><p class="eyebrow">04 / Holdout correction</p><h2>Local evidence is not a leaderboard score.</h2>
-      <p>The previous run recorded <strong>HOLDOUT-DTI 0.1174 [0.0994, 0.1361]</strong> (gems57-pooled-hide-v2, 11,360 withheld positives, 95% CI). That historical result is <strong>not comparable</strong> to the corrected evaluator and has not been rerun here.</p>
-      <p>The previous mask also excluded catalogue cells removed from the model’s visible context by the buffer. The shared v3 evaluator now masks only visible catalogue pixels; buffer-removed cells remain unlabelled and are conservatively counted if predicted.</p>
-      <p class="subtle">The original pre-placement surface was not saved, and the older canaries did not separately cover every stage-2 feature. <a href="data/v3_mask_regression.json">View mask-only regression</a> · <a href="data/run_card.json">Open current run card →</a></p></section></div>
-    <section class="panel"><p class="eyebrow">05 / Archived negative experiment</p><h2>H-APART-6 OTSP did not clear promotion.</h2>
-      <p>Before the lattice witness was discovered, exactly three orientation-transport experiments were measured. The best was <strong>HOLDOUT-DTI 0.110930 [0.094184, 0.128997]</strong> (gems57-pooled-hide-v2, 11,360 withheld positives, 95% CI), below its historical v2 comparator. Maximum feature-canary symmetric AUC was 0.672831, below the 0.90 suspicion threshold.</p>
-      <p><strong>This result is archived and non-comparable to v3.</strong> No H-APART-6 raster was written, the later literal witness mandates a stop, and zero weekly slots were used.</p>
-      <div class="actions"><a class="button secondary" href="data/run_card_h6_otsp.json">H6 run card</a><a class="button secondary" href="data/experiments_h6_otsp.json">Three-arm evidence</a></div></section>
-    <section class="panel"><p class="eyebrow">06 / Research and next steps</p><h2>Evidence before another slot</h2>
-      <ol><li>Do not resume this lane after the duplicate stop. Establish a separately assigned method lane and a complete, hash-pinned accessible registry.</li><li>Rebuild each catalogue-based feature from visible faults, run all feature-only canaries, and compare to a same-v3 holdout baseline with a paired confidence interval.</li><li>Check literal registry thresholds on every pre-placement surface and on final dots; write a GeoTIFF only after local range/grid checks. A separate selector controls any slot.</li></ol>
-      <p class="subtle" style="margin-top:14px">The witness leaves 6,514 allowed pixels outside its 3-pixel halo. At most 21,713 distinct dots could possibly meet the 70% rule against this one witness; this necessary bound is not a quality or uniqueness guarantee.</p>
-      <div class="actions"><a class="button secondary" href="next-hypotheses.html">Read future hypotheses</a><a class="button secondary" href="research-sources.html">View research source register</a></div></section>
-    <section class="panel"><p class="eyebrow">07 / Official sources</p><h2>Trace the evidence.</h2><p class="subtle" id="public-feed" aria-live="polite">Public leaderboard observation unavailable or stale. Check the official page; no file score is inferred.</p><ul class="source-list">
-        <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData · problem &amp; metric ↗</a></li>
-        <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData · public leaderboard ↗</a></li>
-        <li><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">DOE GEMS Prize · Official Rules (September 2026) ↗</a></li>
-        <li><a href="data/official_rules_check.json">Verified rule excerpts and direct leaderboard observation · JSON</a></li>
-        <li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS · GeoDAWN release ↗</a></li>
-        <li><a href="https://gdr.openei.org/submissions/1391">DOE GDR · INGENIOUS data ↗</a></li>
-        <li><a href="https://www.usgs.gov/3d-elevation-program">USGS · 3DEP elevation ↗</a></li>
-        <li><a href="https://github.com/drivendataorg/gems-prize-reference-solution">DrivenData · reference solution ↗</a></li>
-      </ul></section>
+    </div></header><main class="shell"><section class="hero"><div><p class="eyebrow">Overview</p><h1>GEMS geothermal fault prediction</h1>
+      <p class="lead">No file is cleared. The H-SC1 candidate (q0.90) fails the literal uniqueness gate: its dots lie within 3 px of registry rasters at 100% (a blanket, in the literal screen) and at 99.8% (a 206,895-dot lattice, in the sensitivity run). It also does not clear the paired comparison against random placement. Format checks pass. Nothing is promoted to a slot.</p></div>
+      <aside class="status-card"><span class="status-label"><span class="status-dot"></span>
+      <span class="tag stop">NOT CLEARED: DO NOT SUBMIT</span></span><strong>apartgems1-hsc1-q090</strong>
+      <p><a href="executive-summary.html#table">Summary table</a> · <a href="executive-summary.html#focus">Nine focus sites</a> · <a href="executive-summary.html#flags">Flags</a></p></aside></section>
+    <section class="panel"><p class="eyebrow">Nine focus sites</p><h2>Unique among focus nine? (closest peer)</h2>
+      <div class="table-wrap"><table><thead><tr><th>Site</th><th>Claimed score</th><th>Estimated score</th><th>Unique among focus nine? (closest peer)</th></tr></thead>
+      <tbody><tr><td>GEMSDOE24</td><td>0.2477 <small>user-reported; unconfirmed</small></td><td>Not estimable</td><td>No: 100.00% to GEMSDOE25</td></tr><tr><td>GEMSDOE25</td><td>0.2600 <small>user-reported; unconfirmed</small></td><td>Not estimable</td><td>No: 100.00% to GEMSDOE24</td></tr><tr><td>GEMSDOE27</td><td>0.2449 <small>user-reported; unconfirmed</small></td><td>Not estimable</td><td>No: 98.02% to GEMSDOE24</td></tr><tr><td>GEMSDOE28</td><td>0.2710 <small>user-reported; unconfirmed</small></td><td>Not estimable</td><td>No: 100.00% to GEMSDOE24</td></tr><tr><td>GEMSDOE30</td><td>0.2600 <small>user-reported; unconfirmed</small></td><td>Not estimable</td><td>No: 100.00% to GEMSDOE24</td></tr><tr><td>GEMSDOE31</td><td>0.2708 <small>user-reported; unconfirmed</small></td><td>Not estimable</td><td>No: 100.00% to GEMSDOE24</td></tr><tr><td>GEMSDOE32</td><td>0.2778 <small>user-reported; unconfirmed</small></td><td>Not estimable</td><td>No: 100.00% to GEMSDOE24</td></tr><tr><td>GEMSDOE33</td><td>0.2632 <small>user-reported; unconfirmed</small></td><td>Not estimable</td><td>No: 99.71% to GEMSDOE27</td></tr><tr><td>GEMSDOE36</td><td>0.2750 <small>user-reported; unconfirmed</small></td><td>Not estimable</td><td>No: 97.58% to GEMSDOE27</td></tr></tbody></table></div>
+      <p class="subtle">Overlap with the prior ApartGEMSDOE1 candidate; not the focus-nine test. Pairwise 3-px overlap among the nine is in <code>evidence/focus_pairwise_overlap.json</code>.</p></section>
+    <section class="panel"><p class="eyebrow">Holdout</p><h2>Proxy score for the candidate</h2>
+      <p>HOLDOUT-DTI 0.0508 · 95% CI [0.0407, 0.0613] · evaluator <code>gems57-pooled-hide-v3</code> · 11,360 withheld positives. Earlier v2 holdout numbers are not comparable to this v3 evaluator. This is a proxy, not an organizer score.</p>
+      <p class="subtle">Format note: for outside bounds, the official rule text says null or nan (quoted from the rules record). This project's file writes zeros outside the footprint, the same convention as the DrivenData reference output. The portal's behaviour on either convention is untested (see flags).</p>
+      <p class="subtle">Matched random placement (mean of 5 draws): 0.0423. The paired lower bound is above zero in 2 of 5 draws.</p></section>
+    <section class="panel"><p class="eyebrow">Prior file</p><h2>Earlier research file: do not submit</h2>
+      <p>SHA-256 <code>09fa04bd481d896a4dcbb808e4ef8136f8e6d0e0d88cebe9afd957db2779d62f</code> · research only · DO NOT SUBMIT · lattice-witness overlap 99.68% (limit 70%) · zeros outside the footprint.</p></section>
+    <section class="panel"><p class="eyebrow">Pages</p><h2>Where to go next</h2><ul>
+      <li><a href="executive-summary.html">Executive summary and download</a></li>
+      <li><a href="research-sources.html">Research sources</a></li>
+      <li><a href="next-hypotheses.html">Ranked hypotheses</a></li>
+      <li><a href="data/run_card_h-sc1-hsc1_q090.json">Run card (JSON)</a></li></ul></section>
 <footer>Research decisions are automated; a local preflight is not an organizer receipt. <a href="data/run_card.json">Current run card</a> · <a href="research-sources.html">Source register</a></footer>
 </main><script src="feed.js" defer></script></body></html>

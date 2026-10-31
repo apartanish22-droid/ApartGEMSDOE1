@@ -1,0 +1,63 @@
+{
+ "cleared": false,
+ "status_text": "No file is cleared. The H-SC1 candidate (q0.90) fails the literal uniqueness gate: its dots lie within 3 px of registry rasters at 100% (a blanket, in the literal screen) and at 99.8% (a 206,895-dot lattice, in the sensitivity run). It also does not clear the paired comparison against random placement. Format checks pass.",
+ "name": "apartgems1-hsc1-q090",
+ "note": "H-SC1 lidar convex-crest dots (q0.90), 3px spacing, catalogue cells removed. Holdout proxy only; not cleared.",
+ "file": "hsc1_q090.tif",
+ "receipt": ".cache/candidates/hsc1_q090.json",
+ "quantile": 0.9,
+ "quantile_key": "q0.9",
+ "uniqueness_file": "uniqueness_hsc1_q090.json",
+ "uniqueness_mode": "literal gate, screening stopped at the first duplicate (sensitivity run also FAIL)",
+ "run_card": "run_card_h-sc1-hsc1_q090.json",
+ "flags": [
+  "LITERAL UNIQUENESS FAIL at q0.90, q0.95 and q0.97. The screen stopped at registry raster 27: apartanish22-droid/ApartGEMSDOE2 docs/downloads/gemsdoe32-h-depth-cond-conductive-under-thin-cover-top37654-20261028T224836Z-e34db98d-nan.tif. Overlap 100%; rank correlation 0.014.",
+  "That raster is a BLANKET, not a dot set: 5,106,385 positive cells (98.8% of the footprint), 1.0 everywhere except the 60,988 catalogue cells. A 3-px dot overlap is degenerate against it, so the FAIL measures the definition, not a true duplicate. A gate-definition decision is needed before any file can be cleared.",
+  "SENSITIVITY (blankets excluded, evidence/uniqueness_hsc1_q090_sensitivity_noblanket.json; zip-member exclusion added after this run): still FAIL. Genuine dot-set overlaps remain: 13gems r13 lattice (206,895 dots) 99.79%; gems77 h82 ternary-entropy 99.75%; GEMSDOE50 scarpstep 92.4%; GEMSDOE23 habitat 92.1%. Excluding blankets does not clear this candidate.",
+  "IRREGULARITY: the file name says top37654 (37,654 dots), but this ApartGEMSDOE2 raster and its sibling copies do not contain 37,654 dots. The GEMSDOE32 focus file does (37,654 dots).",
+  "The mirror holds 120 blanket rasters (positive over more than 50% of the footprint). Most are continuous or diagnostic outputs, not dot submissions.",
+  "Zeros outside the footprint. Official rule text R1 (evidence/official_rules_check.json) says data outside the bounds is 'null or nan'. The DrivenData reference notebook writes zeros with no NaN step. sample_submission.tif uses NaN. Portal behaviour on either was not tested.",
+  "Earlier research already on record (evidence/research_sources.md): the strict all-finite, zeros-outside writer is NOT cleared for submission. A NaN-outside diagnostic variant reproduces the sample's NaN mask but was never uploaded. This H-SC1 file uses the strict writer.",
+  "Unexplained portal error 'Predicted values must be in range [0, 1]'. The file that triggered it has not been identified. The H-SC1 file's values are all 0 or 1.",
+  "data/official/labels.tif is byte-identical to data/official/existing_faults.tif (SHA-256 7ba308cc...). Consistent with R5 (labels are the existing-fault catalogue).",
+  "Leaderboard conflict: the prompt cites 0.4413 as the current high and 0.3195 as the highest. The leaderboard read on 2026-10-30 shows 0.4544 at the top and no 0.4413 or 0.3195 in ranks 1-22.",
+  "Nine focus files: pairwise 3-px overlap 97.6% to 100% (evidence/focus_pairwise_overlap.json). All are above the 70% limit. Only a nine-by-nine check was run.",
+  "Holdout uses the global dot set (63,101 at q0.90); the file contains 62,206 (catalogue cells removed). The submitted-policy column is the one that describes the file.",
+  "Paired comparison vs matched random placement (5 draws per quantile): candidate minus random is positive in every draw, but the lower 95% bound clears zero in only 2 of 15 draw-quantile pairs. The advantage over random density is not established.",
+  "Registry scan: the first full attempt was incomplete (GitHub rate limit, 101 errors). Rerun completed: 113 sites, 0 site errors, 5,384 rasters. 25 per-file errors are excluded with reasons: 24 git symlinks whose blobs are path text, and one 110-byte truncated TIFF header (GEMSDOE63 smoke.tif).",
+  "The lane exceeded its 2-hour budget (uniqueness scans are CPU-bound on 2 cores). The third holdout experiment slot was not used.",
+  "The full DrivenData prompt is not stored verbatim in this repository. The README carries a condensed brief only."
+ ],
+ "sources": [
+  [
+   "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+   "DrivenData problem page (format, DTI parameters)",
+   "Cited from repo record; not reachable from this sandbox"
+  ],
+  [
+   "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+   "Official rules PDF",
+   "Cited from repo record; not reachable from this sandbox"
+  ],
+  [
+   "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+   "Leaderboard (read 2026-10-30)",
+   "Top 0.4544; not reachable from this sandbox today"
+  ],
+  [
+   "https://github.com/drivendataorg/gems-prize-reference-solution",
+   "DrivenData reference solution",
+   "Reference notebook writes zeros outside the footprint (read 2026-10-30)"
+  ],
+  [
+   "https://github.com/apartanish22-droid/ApartGEMSDOE2/blob/f95fa770839ed639a58bd4fdce32f3feb2129fe9/docs/downloads/gemsdoe32-h-depth-cond-conductive-under-thin-cover-top37654-20261028T224836Z-e34db98d-nan.tif",
+   "Registry raster that triggered the literal FAIL (blanket)",
+   "Manual review"
+  ],
+  [
+   "https://github.com/buffedlizard55-lab/GEMSDOE32",
+   "GEMSDOE32 focus site repository",
+   "Reachable on 2026-10-31 (HTTP 200); historical file 37,654 dots"
+  ]
+ ]
+}

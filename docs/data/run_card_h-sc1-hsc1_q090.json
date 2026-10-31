@@ -1,0 +1,99 @@
+{
+  "run_id": "h-sc1-hsc1_q090",
+  "date_utc": "2026-10-31",
+  "hypothesis": "H-SC1: concealed fault traces express as a convex crest with a coherent 10-m-scale step in 2 m USGS 3DEP-derived lidar; a catalogue-free score map places one dot per 3-px-spaced crest maximum above a quantile threshold.",
+  "mechanism": "Scarp-crest geometry (step_max, convex lapneg_max) gated by 100-m coherence coh100. Score = coh100 * sqrt(clip(step/P99) * clip(lap/P99)); P99 over lidar-valid footprint cells.",
+  "named_non_fault_mimic": "Road cut-banks, canal and channel banks, terrace risers and field edges: steep steps with convex crests that are not faults (not separated by the score).",
+  "quantile": 0.9,
+  "threshold_score": 0.32134485244750977,
+  "dots_submitted": 62206,
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v3",
+    "holdout_draw": "seed 2026, hide 20%, buffer 3 px (gems57.holdout.buffered_component_draw)",
+    "withheld_positive_pixels": 11360,
+    "dti_policy_submitted": 0.05084026646695174,
+    "ci95_policy_submitted": [
+      0.04068314800188888,
+      0.061347770194681676
+    ],
+    "dti_global_dots_before_catalogue_policy": 0.07012898817613344,
+    "ci95_global_dots": [
+      0.0570488453316137,
+      0.08393838023702492
+    ],
+    "note": "The global-dot DTI keeps dots on the mapped catalogue, which is not what the file contains. The submitted-policy DTI is the number that describes this file, and it is pessimistic by construction because withheld truth lies on the catalogue."
+  },
+  "paired_vs_matched_random": {
+    "evidence_class": "HOLDOUT-DTI",
+    "random_draws": 5,
+    "random_dti_mean": 0.04229758988588468,
+    "delta_candidate_minus_random_per_draw": [
+      0.008951578411539582,
+      0.007207712796403733,
+      0.009918452878112001,
+      0.008554181472975424,
+      0.008081457346304576
+    ],
+    "paired_ci95_lower_per_draw": [
+      7.011076918238237e-05,
+      -0.001203060859657231,
+      0.0026718030164634313,
+      -0.0001266297555165085,
+      -0.00023650880559736035
+    ],
+    "clears_zero_in_all_draws": false
+  },
+  "correlation_and_overlap": {
+    "registry_rasters_checked": 27,
+    "registry_complete_accessible_scan": true,
+    "worst_spearman_full_footprint": 0.013534702945761413,
+    "worst_rho_submission": "https://github.com/apartanish22-droid/ApartGEMSDOE1/blob/63b71233d8e6c7273b71810ef6ff0082c75ca4d7/docs/downloads/apartgems1-maw-gsi-e3-20261028-87f83db9-zeros.tif",
+    "worst_dot_overlap_3px": 1.0,
+    "worst_overlap_submission": "https://github.com/apartanish22-droid/ApartGEMSDOE2/blob/f95fa770839ed639a58bd4fdce32f3feb2129fe9/docs/downloads/gemsdoe32-h-depth-cond-conductive-under-thin-cover-top37654-20261028T224836Z-e34db98d-nan.tif",
+    "duplicate_count": 1,
+    "missing_or_invalid": 0,
+    "rho_limit": 0.9,
+    "overlap_limit": 0.7,
+    "uniqueness_file": "evidence/uniqueness_hsc1_q090.json"
+  },
+  "raster": {
+    "file": "hsc1_q090.tif",
+    "sha256": "f36bf98e18cd31d8147a65cf1af377092231551dfed8df6286874167e69d3029",
+    "bytes": 186497,
+    "zip_sha256": "560e05c1d7413b5f5d2be7b925c4a151c8bad59f1f7b9b2de9aedfe52198b429"
+  },
+  "validator_output": {
+    "all_checks_passed": true,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "min": 0.0,
+    "max": 1.0,
+    "n_nan": 0,
+    "emitted_positive_pixels": 62206,
+    "template_report_ok": true
+  },
+  "submission_name": "apartgems1-hsc1-q090",
+  "submission_note": "H-SC1 lidar convex-crest dots, 3px spacing, catalogue cells removed; holdout proxy only.",
+  "submission_note_chars": 88,
+  "verdict": "negative",
+  "verdict_rule": "promote only if uniqueness PASS (complete scan), format PASS, and the paired CI vs matched random clears zero in every draw; otherwise negative",
+  "slots_used": 0,
+  "organizer_receipt": null,
+  "status": "Local format and registry checks only. No organizer score exists."
+}
