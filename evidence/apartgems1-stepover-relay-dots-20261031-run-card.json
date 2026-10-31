@@ -1,0 +1,419 @@
+{
+  "generated_utc": "2026-10-31T04:48:24.403035+00:00",
+  "script": "scripts/generate_unique_submission.py",
+  "hypothesis": "H1: dilatational step-over / relay-ramp zones between en-echelon mapped fault segments host concealed geothermal upflow traces missing from the USGS / INGENIOUS catalogue",
+  "mechanism": "Releasing (dilatational) step-overs and relay ramps between offset, sub-parallel normal fault segments dilate the crust and focus geothermal upflow; the through-going trace in the gap center is often unmapped, so dots placed at gap midpoints target catalogue-missing faults, which is what the competition scores.",
+  "named_non_fault_mimic_process": "Alluvial-fan distributary channels and erosional scarps cutting between fault traces can produce linear gaps in topography that look like structural step-overs; lithologic contacts can produce parallel geophysical lineaments with no fault.",
+  "evidence_class": "UNIQUE-CANDIDATE-GENERATION",
+  "grid": {
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ]
+  },
+  "generation_diagnostics": {
+    "catalogue_pixels": 60988,
+    "skeleton_pixels": 59209,
+    "raw_step_over_candidates": 118642,
+    "dots_after_snap": 2767,
+    "dots_on_catalogue": 0,
+    "dots_outside_footprint": 0
+  },
+  "emitted_dots": 2767,
+  "dot_value": 1.0,
+  "name": "apartgems1-stepover-relay-dots-20261031",
+  "note": "Step-over/relay-ramp dots between en-echelon mapped segments; unique off-catalogue geometry; not selector-approved - do not submit",
+  "note_chars": 130,
+  "writer_receipt": {
+    "file": "apartgems1-stepover-relay-dots-20261031.tif",
+    "sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+    "bytes": 65092,
+    "submission_name": "apartgems1-stepover-relay-dots-20261031",
+    "note": "Step-over/relay-ramp dots between en-echelon mapped segments; unique off-catalogue geometry; not selector-approved - do not submit",
+    "note_chars": 130,
+    "validator": {
+      "file": "/home/user/ApartGEMSDOE1/docs/downloads/apartgems1-stepover-relay-dots-20261031.tif",
+      "bytes": 65092,
+      "sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+      "meta": {
+        "crs": "EPSG:32611",
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "count": 1,
+        "nodata": null,
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "profile_compress": "deflate"
+      },
+      "band_description": [
+        null
+      ],
+      "n_finite": 12279160,
+      "n_nan": 0,
+      "n_infinite": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.00022534115123562515,
+      "emitted_positive_pixels": 2767,
+      "checks": {
+        "single_band": true,
+        "dtype_float32": true,
+        "dimensions_3730x3292": true,
+        "crs_epsg_32611": true,
+        "transform_matches_sample_submission": true,
+        "no_nan_anywhere": true,
+        "no_inf_anywhere": true,
+        "no_sentinel_values": true,
+        "range_0_1_guaranteed": true,
+        "min_ge_0": true,
+        "max_le_1": true,
+        "in_footprint_all_finite": true,
+        "in_footprint_range_0_1": true,
+        "outside_footprint_zero": true,
+        "zero_dots_on_mapped_catalogue": true
+      },
+      "all_checks_passed": true,
+      "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+      "on_catalogue_positive_pixels": 0,
+      "in_footprint_positive_pixels": 2767,
+      "footprint_fraction": 0.0005354751824573143
+    },
+    "template_report": {
+      "path": "/home/user/ApartGEMSDOE1/docs/downloads/apartgems1-stepover-relay-dots-20261031.tif",
+      "bytes": 65092,
+      "sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+      "bands": 1,
+      "dtype": "float32",
+      "crs": "EPSG:32611",
+      "width": 3292,
+      "height": 3730,
+      "bounds": [
+        243350.0,
+        4135550.0,
+        572550.0,
+        4508550.0
+      ],
+      "ref_bounds": [
+        243350.0,
+        4135550.0,
+        572550.0,
+        4508550.0
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": null,
+      "blocksize": [
+        256,
+        256
+      ],
+      "fixture_grid": false,
+      "has_validity_mask": false,
+      "nan_pixels": 0,
+      "infinity_pixels": 0,
+      "n_nan": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.00022534115123562515,
+      "n_nonzero": 2767,
+      "mass": 2767.0,
+      "mass_outside_footprint": 0,
+      "problems": [],
+      "ok": true,
+      "validation_class": "local on-disk template/range check; not organizer upload acceptance"
+    },
+    "zip_file": "apartgems1-stepover-relay-dots-20261031.zip",
+    "zip_sha256": "d6806557d831afb9886e2c80274f9bf4fd7faf592112c11f0b3b7ff32a9e7cc2",
+    "approved_for_weekly_slot": false,
+    "promoted": false,
+    "submission_slots_used": 0,
+    "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+    "metadata": {
+      "hypothesis": "H1 step-over relay dots"
+    }
+  },
+  "output_file": "docs/downloads/apartgems1-stepover-relay-dots-20261031.tif",
+  "output_sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+  "format_validation": {
+    "file": "/home/user/ApartGEMSDOE1/docs/downloads/apartgems1-stepover-relay-dots-20261031.tif",
+    "bytes": 65092,
+    "sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    },
+    "band_description": [
+      null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.00022534115123562515,
+    "emitted_positive_pixels": 2767,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 2767,
+    "footprint_fraction": 0.0005354751824573143
+  },
+  "witness_audit": {
+    "generated_utc": "2026-10-31T04:48:27.631148+00:00",
+    "evidence_class": "REGISTRY-MEASUREMENT; witness-only duplicate proof",
+    "candidate_file": "docs/downloads/apartgems1-stepover-relay-dots-20261031.tif",
+    "candidate_sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+    "witness": {
+      "repository": "buffedlizard55-lab/13GEMSDOE",
+      "commit": "92ee6f074323f161eed837b80ec3ee5b662e26f5",
+      "path": "docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "url": "https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2"
+    },
+    "format_validation": {
+      "file": "docs/downloads/apartgems1-stepover-relay-dots-20261031.tif",
+      "bytes": 65092,
+      "sha256": "581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece",
+      "meta": {
+        "crs": "EPSG:32611",
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "count": 1,
+        "nodata": null,
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "profile_compress": "deflate"
+      },
+      "band_description": [
+        null
+      ],
+      "n_finite": 12279160,
+      "n_nan": 0,
+      "n_infinite": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.00022534115123562515,
+      "emitted_positive_pixels": 2767,
+      "checks": {
+        "single_band": true,
+        "dtype_float32": true,
+        "dimensions_3730x3292": true,
+        "crs_epsg_32611": true,
+        "transform_matches_sample_submission": true,
+        "no_nan_anywhere": true,
+        "no_inf_anywhere": true,
+        "no_sentinel_values": true,
+        "range_0_1_guaranteed": true,
+        "min_ge_0": true,
+        "max_le_1": true,
+        "in_footprint_all_finite": true,
+        "in_footprint_range_0_1": true,
+        "outside_footprint_zero": true,
+        "zero_dots_on_mapped_catalogue": true
+      },
+      "all_checks_passed": true,
+      "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+      "on_catalogue_positive_pixels": 0,
+      "in_footprint_positive_pixels": 2767,
+      "footprint_fraction": 0.0005354751824573143
+    },
+    "final_dot_gate": {
+      "candidate_dots": 2767,
+      "candidate_dots_within_3px": 2765,
+      "forward_overlap_3px": 0.9992771955186122,
+      "spearman_full_footprint": 0.0004784387586015276,
+      "limits": {
+        "forward_overlap": 0.7,
+        "spearman": 0.9
+      },
+      "duplicate": true
+    },
+    "surface_gate": {
+      "tested": false,
+      "reason": "Original pre-placement surface is not persisted; prior sampled/density-exempt audit cannot clear it."
+    },
+    "budget_feasibility": {
+      "evidence_class": "REGISTRY-MEASUREMENT",
+      "witness_file": "docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "witness_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+      "positive_pixels": 206895,
+      "allowed_pixels": 5106385,
+      "uncovered_allowed_pixels": 6514,
+      "covered_allowed_fraction": 0.9987243421716145,
+      "universal_overlap_blocker": false,
+      "overlap_limit": 0.7,
+      "support_definition": "finite prediction > 0 (inherited literal support rule)",
+      "implication": "No universal blockage established.",
+      "max_dots_for_possible_70pct_pass": 21713,
+      "requested_previous_budget": 2767,
+      "lower_bound_overlap_for_that_budget": 0.0,
+      "explanation": "At most U distinct allowed pixels lie outside the witness halo; 0.3*N <= U is necessary, not sufficient."
+    },
+    "complete_registry_checked": false,
+    "verdict": "negative",
+    "stop_required": true,
+    "note": "The existing candidate was generated in a prior session; no new raster or experiment was created in this audit."
+  },
+  "witness_audit_stdout": "{\n  \"file\": \"docs/downloads/apartgems1-stepover-relay-dots-20261031.tif\",\n  \"sha256\": \"581e5cb11a7c5b3731cb802360a6ad7c0d8f5f8a04c55873a92dee396d513ece\",\n  \"format_ok\": true,\n  \"overlap\": 0.9992771955186122,\n  \"duplicate\": true,\n  \"max_budget_necessary\": 21713,\n  \"verdict\": \"negative\"\n}\n",
+  "unique_vs_pinned_witness": false,
+  "overlap_3px": 0.9992771955186122,
+  "rho_vs_witness": 0.0004784387586015276,
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v3",
+    "alpha": 0.2,
+    "beta": 0.8,
+    "triangular_radius_m": 300.0,
+    "pooled": true,
+    "scores": {
+      "candidate": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v3",
+        "dti": 0.05989416791352869,
+        "ci95": [
+          0.051412300099158474,
+          0.06867429242390286
+        ],
+        "withheld_positive_pixels": 11360,
+        "tpw": 579.5245232919009,
+        "fpw": 2359.520004764728,
+        "fnw": 10780.475476708096
+      },
+      "zero_control": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v3",
+        "dti": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "withheld_positive_pixels": 11360,
+        "tpw": 0.0,
+        "fpw": 0.0,
+        "fnw": 11360.0
+      }
+    },
+    "best_comparable_control": "zero_control",
+    "paired_differences": {
+      "zero_control": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v3",
+        "delta": 0.05989416791352869,
+        "ci95": [
+          0.051412300099158474,
+          0.06867429242390286
+        ],
+        "withheld_positive_pixels": 11360
+      }
+    },
+    "bootstrap": {
+      "method": "paired physical spatial-cluster percentile",
+      "clusters": 145,
+      "draws": 1000,
+      "seed": 520810,
+      "confidence": 0.95,
+      "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
+    },
+    "implementation_sha256": {
+      "evaluate_holdout.py": "e2df86349b7612af6e93588729c92a51f38b993a8d08c864821908853b536620",
+      "holdout.py": "7afc84bca991892c0bc56fbb5078986837f72d7fb5232b5b07260d83d614cbb1",
+      "metric.py": "f1f9fcd05bd2bc8998f25ba36b776e4086cdca6fa8955d3fdd341ffbc139f438",
+      "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+    },
+    "per_fold_dti": {
+      "candidate": {
+        "NW": 0.05096890321315588,
+        "NE": 0.053527913973256395,
+        "SW": 0.06945571051221547,
+        "SE": 0.05856695138541012
+      },
+      "zero_control": {
+        "NW": 0.0,
+        "NE": 0.0,
+        "SW": 0.0,
+        "SE": 0.0
+      }
+    },
+    "scope": "Fixed binary mask replayed on label-blind buffered-component folds; catalogue-proxy truth, not organizer-held labels; features not rebuilt per fold; not a leaderboard estimate."
+  },
+  "holdout_dti": 0.05989416791352869,
+  "holdout_ci95": [
+    0.051412300099158474,
+    0.06867429242390286
+  ],
+  "holdout_withheld_positives": 11360,
+  "gates": {
+    "format_and_range_local": true,
+    "uniqueness_vs_pinned_witness": false,
+    "holdout_evaluated": true,
+    "complete_registry_checked": false,
+    "organizer_receipt": false,
+    "selector_approval": false
+  },
+  "verdict": "negative",
+  "verdict_reason": "Not all gates pass (see gates); file is a research artifact and is NOT cleared for upload."
+}

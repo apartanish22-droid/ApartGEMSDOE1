@@ -80,3 +80,121 @@ pytest -q
 ```
 
 The former private density-exempt uniqueness gate and automatic-promotion runner are retired. Shared literal checks live in `src/gems57/uniqueness.py`; the corrected visible-only mask is `gems57-pooled-hide-v3`. Before a new lane can run, supply an auditable complete accessible registry and same-v3 baseline, rerun all feature canaries, verify external-data provenance, and perform surface gates **before** placement. Do not force predictions into the lattice's uncovered slivers merely to game the overlap rule.
+
+
+# SESSION MANDATE — read before every work session
+
+The following is the standing project mandate. It defines the objective, the gates,
+the budget, and the definition of done. Re-read it at the start of every session.
+
+## Objective
+
+Build a geothermal fault-discovery submission for the DOE GEMS Prize Challenge
+(DrivenData competition 306) that places top of the leaderboard. Generate a
+UNIQUE TIF submission for the competition. Do not copy a previous submission
+unless it is for learning and education; a unique TIF submission must be
+generated. It must be obvious whether it is OK to download and submit the
+generated TIF submission.
+
+Focus sites: GEMSDOE24, GEMSDOE25, GEMSDOE27, GEMSDOE28, GEMSDOE30, GEMSDOE31,
+GEMSDOE32, GEMSDOE33, GEMSDOE36. Produce an executive summary on every site
+that is clear and obvious which is the best submission to submit to obtain a
+high score on the leaderboard. Each entry must be unique and not an exact
+duplicate of any previous submission from the same GEMSDOE sites. Keep iterating
+and testing until the highest-scoring submission exists to download and submit.
+
+The submission page requires a single-band GeoTIFF (.tif), or a .zip containing
+a single GeoTIFF, matching the submission format's CRS, shape, and geotransform.
+Values must be in range [0, 1]. The file must have a unique name and an optional
+note of at most 140 characters (e.g. "clustering with k=25"). There must be an
+easy-to-download submission TIF; the download must be obvious at the beginning
+of the site / executive summary. Inspection must happen through the project and
+be validated for submission without human intervention.
+
+## Reported scores (unverified user claims, not organizer receipts)
+
+GEMSDOE32 h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros: 0.2778 (highest named)
+GEMSDOE24: 0.2477 · GEMSDOE25: 0.2600 · GEMSDOE27: 0.2449 · GEMSDOE28: 0.2710 /
+0.2649 / 0.2710 / 0.2707 · GEMSDOE30: 0.2600 · GEMSDOE31: 0.2708 · GEMSDOE33:
+0.2632 · GEMSDOE36: 0.2750
+
+Current competition leaderboard GEMSDOE high score: 0.4413 (prompt figure; the
+official page showed 0.4544 as a team-level public standing on 2026-10-30, not
+a file receipt or future estimate).
+
+Key links:
+- Competition page: https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/
+- About page: https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/
+- Data page (login required): https://www.drivendata.org/competitions/306/competition-doe-gems/data/
+- Leaderboard: https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/
+- Reference solution: https://github.com/drivendataorg/gems-prize-reference-solution
+- USGS GeoDAWN: https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and
+- INGENIOUS: https://gbcge.org/current-projects/ingenious/
+- EPSG 32611: https://epsg.io/32611
+- Tversky index: https://en.wikipedia.org/wiki/Tversky_index
+- Official rules PDF: https://docs.nlr.gov/docs/fy26osti/96647.pdf
+
+## Parallel-run protocol
+
+1. LANE. Your lane is the single method paragraph. Stay inside it. If your
+raster's rank-correlation with any registry raster exceeds 0.90, or more than
+70% of your dots fall within 3 px of one registry raster's dots, you have
+drifted into another lane: log it as a duplicate and stop. Check on the surface
+before placement AND on the final dots.
+
+2. REUSE, DON'T REBUILD. Use the template's cached feature stack,
+evaluate_holdout.py and submission_writer.py. Holdout = hide-and-recover: withhold
+whole fault segments with a buffer, derive every catalogue-based feature only
+from the visible faults, mask visible faults pixel-exactly, score pooled DTI
+(alpha 0.2, beta = 0.8, 300 m triangular kernel). If a shared tool is wrong, fix
+it once in the template and report it; never keep a private fork.
+
+3. LABEL EVERY NUMBER as HOLDOUT-DTI (evaluator version, number of withheld
+positives, 95% CI) or ORGANIZER-CONFIRMED (copied from a submission-page
+receipt). A projection is never written as a score.
+
+4. LEAKAGE CANARY. Test each feature alone on the holdout before trusting any
+result. AUC above 0.90 means leakage until proven otherwise.
+
+5. RUN CARD. End with one JSON card: hypothesis; mechanism; the named non-fault
+process that could mimic it; holdout DTI + CI; correlation/overlap vs registry;
+raster sha256; validator output (no NaN inside the footprint, values in [0,1],
+CRS/shape/transform match); submission name + note of at most 140 characters;
+verdict promote / negative. Negative results are deliverables.
+
+6. BUDGET. Stop after 3 experiments or 2 hours. Do not pick submissions:
+promotion to a real slot is a separate selector step, within the weekly cap on
+the submission page.
+
+## Competition facts (official)
+
+- Task: predict geological faults indicative of geothermal resources; scored
+faults are new faults NOT included in the existing USGS fault database.
+- Metric: distance-weighted Tversky index, alpha = 0.2, beta = 0.8, triangular
+kernel R = 300 m (3 px at 100 m).
+- Format: single-band GeoTIFF, float32, values in [0, 1], EPSG:32611, 100 m,
+same bounds as training data; data outside the bounds is null or NaN.
+- Limits: three submissions per week, one final submission; originality
+warranty; generative-AI disclosure in the narrative.
+
+## Known irregularities (flagged for review)
+
+- The DrivenData data page redirects to login; training_features.tif,
+labels.tif, sample_submission.tif, 1m_DEM_links.csv cannot be auto-downloaded
+here. Bridge files in data/ are owner-mirror copies, not organizer-authenticated.
+- The prior candidate overlaps a pinned registry witness at 99.68% (> 70% limit);
+the lane is stopped and the prior file is research only, do not submit.
+- The portal's acceptance of NaN outside bounds vs the project's all-finite
+zeros-outside policy is unresolved ("Predicted values must be in range [0, 1]"
+error reported on submission).
+- All site score claims are unverified user reports without organizer receipts.
+
+## Definition of done for a session
+
+Executive summary subpage with an obvious one-click download of a unique,
+format-validated TIF; a table listing file to download, estimated score (labelled
+as projection or unverified claim), and uniqueness vs the other GEMSDOE sites;
+clear statement of whether the file is OK to download and submit; run-card JSON
+with verdict; hypothesis ranked against alternatives; no unverified score claimed
+as a score. Commit, open a PR from the working branch, and merge to main.
+
