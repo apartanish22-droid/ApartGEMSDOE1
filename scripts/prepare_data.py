@@ -402,8 +402,12 @@ def cache_bands(root: Path) -> dict:
         'source_sha256': source_hash,
         'band_sha256': {str(b['band']): b['sha256'] for b in bands},
     }, indent=2, allow_nan=False) + '\n')
-    (root / "evidence").mkdir(exist_ok=True)
-    (root / "evidence/feature_cache.json").write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
+    # Regenerated receipts go to git-ignored .cache/receipts/. The tracked
+    # evidence/feature_cache.json is audited and carries historical-only warnings
+    # that a regeneration would silently drop, so it is never overwritten here.
+    receipts = root / ".cache" / "receipts"
+    receipts.mkdir(parents=True, exist_ok=True)
+    (receipts / "feature_cache.json").write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
     return report
 
 
@@ -511,9 +515,12 @@ def main() -> int:
     )
     if not receipt["all_pins_verified"]:
         raise RuntimeError('incomplete mirror verification; refusing a success receipt')
-    (ROOT / "evidence").mkdir(exist_ok=True)
-    (ROOT / "evidence/data_preparation.json").write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")
-    (ROOT / "data/manifest.json").write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")
+    # Written to git-ignored .cache/receipts/ only; tracked audited evidence and the
+    # tracked data/manifest.json are not overwritten by a fetch (see review 2026-10-31, I-6).
+    receipts = ROOT / ".cache" / "receipts"
+    receipts.mkdir(parents=True, exist_ok=True)
+    (receipts / "data_preparation.json").write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")
+    (receipts / "manifest.json").write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")
 
     if args.cache_bands:
         band_report = cache_bands(ROOT)
