@@ -2,7 +2,7 @@
  "cleared": false,
  "status_text": "No file is cleared. The H-SC1 candidate (q0.90) fails the literal uniqueness gate: its dots lie within 3 px of registry rasters at 100% (a blanket, in the literal screen) and at 99.8% (a 206,895-dot lattice, in the sensitivity run). It also does not clear the paired comparison against random placement. Format checks pass.",
  "name": "apartgems1-hsc1-q090",
- "note": "H-SC1 lidar convex-crest dots (q0.90), 3px spacing, catalogue cells removed. Holdout proxy only; not cleared.",
+ "note": "H-SC1 lidar convex-crest dots, 3px spacing, catalogue cells removed; holdout proxy only.",
  "file": "hsc1_q090.tif",
  "receipt": ".cache/candidates/hsc1_q090.json",
  "quantile": 0.9,
@@ -59,5 +59,6 @@
    "GEMSDOE32 focus site repository",
    "Reachable on 2026-10-31 (HTTP 200); historical file 37,654 dots"
   ]
- ]
+ ],
+ "note_chars": 88
 }
